@@ -1,0 +1,47 @@
+services:
+
+  imssight-web:
+    build: .
+    container_name: imssight-web
+
+    ports:
+      - "8080:80"
+
+    volumes:
+      - ./app:/var/www/html
+
+    restart: unless-stopped
+
+  imssight-db:
+    image: mariadb:10.11
+    container_name: imssight-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: imssight
+      MYSQL_USER: imssight_user
+      MYSQL_PASSWORD: MiPasswordSegura123!
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: imssight-phpmyadmin
+
+    environment:
+      PMA_HOST: imssight-db
+      MYSQL_ROOT_PASSWORD: rootpass
+
+    ports:
+      - "8081:80"
+
+    restart: unless-stopped
+
+volumes:
+  mariadb_data:

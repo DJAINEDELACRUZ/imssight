@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Videos pesados
+video/
+
+# Credenciales
+app/php/conn.php
+
+# Docker
+mariadb_data/
+
+# Logs
+*.log

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Admin Especialidades
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1>
+                Especialidades
+            </h1>
+
+            <p class="text-muted">
+                Administración IMSSight
+            </p>
+
+        </div>
+
+        <a
+            href="profile.html"
+            class="btn btn-dark">
+
+            Volver
+
+        </a>
+
+    </div>
+
+    <!-- NUEVA ESPECIALIDAD -->
+
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                Nueva especialidad
+            </h4>
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label>
+                        Nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label>
+                        Icono
+                    </label>
+
+                    <input
+                        type="text"
+                        id="icono"
+                        class="form-control"
+                        placeholder="emergency">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label>
+                        Color
+                    </label>
+
+                    <input
+                        type="color"
+                        id="color"
+                        class="form-control form-control-color">
+
+                </div>
+
+                <div class="col-md-2 d-grid">
+
+                    <label style="opacity:0;">
+                        guardar
+                    </label>
+
+                    <button
+                        class="btn btn-success"
+                        onclick="guardarEspecialidad()">
+
+                        Guardar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                Especialidades registradas
+            </h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Icono</th>
+                            <th>Color</th>
+                            <th>Activo</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaEspecialidades">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+async function cargarEspecialidades() {
+
+    const response =
+        await fetch('../php/get_especialidades.php');
+
+    const especialidades =
+        await response.json();
+
+    const tabla =
+        document.getElementById('tablaEspecialidades');
+
+    tabla.innerHTML = '';
+
+    especialidades.forEach(e => {
+
+        tabla.innerHTML += `
+
+<tr>
+
+    <td>
+
+        ${e.id}
+
+    </td>
+
+    <td>
+
+        <input
+            type="text"
+            id="nombre_${e.id}"
+            class="form-control"
+            value="${e.nombre}">
+
+    </td>
+
+    <td>
+
+        <input
+            type="text"
+            id="icono_${e.id}"
+            class="form-control"
+            value="${e.icono}">
+
+    </td>
+
+    <td>
+
+        <input
+            type="color"
+            id="color_${e.id}"
+            class="form-control form-control-color"
+            value="${e.color}">
+
+    </td>
+
+    <td>
+
+        <select
+            id="activo_${e.id}"
+            class="form-select">
+
+            <option
+                value="1"
+                ${e.activo == 1 ? 'selected' : ''}>
+
+                Activo
+
+            </option>
+
+            <option
+                value="0"
+                ${e.activo == 0 ? 'selected' : ''}>
+
+                Inactivo
+
+            </option>
+
+        </select>
+
+    </td>
+
+    <td>
+
+        <button
+            class="btn btn-primary btn-sm"
+            onclick="actualizarEspecialidad(${e.id})">
+
+            Guardar
+
+        </button>
+
+    </td>
+
+</tr>
+
+`;
+
+    });
+
+}
+
+async function guardarEspecialidad() {
+
+    const nombre =
+        document.getElementById('nombre').value;
+
+    const icono =
+        document.getElementById('icono').value;
+
+    const color =
+        document.getElementById('color').value;
+
+    const response = await fetch(
+        '../php/guardar_especialidad.php',
+        {
+
+            method: 'POST',
+
+            headers: {
+                'Content-Type':
+                'application/json'
+            },
+
+            body: JSON.stringify({
+
+                nombre,
+                icono,
+                color
+
+            })
+
+        }
+    );
+
+    const resultado =
+        await response.json();
+
+    alert(resultado.mensaje);
+
+    cargarEspecialidades();
+
+}
+
+async function actualizarEspecialidad(id) {
+
+    const nombre =
+        document.getElementById(`nombre_${id}`).value;
+
+    const icono =
+        document.getElementById(`icono_${id}`).value;
+
+    const color =
+        document.getElementById(`color_${id}`).value;
+
+    const activo =
+        document.getElementById(`activo_${id}`).value;
+
+    const response = await fetch(
+
+        '../php/update_especialidad.php',
+
+        {
+
+            method: 'POST',
+
+            headers: {
+                'Content-Type':
+                'application/json'
+            },
+
+            body: JSON.stringify({
+
+                id,
+                nombre,
+                icono,
+                color,
+                activo
+
+            })
+
+        }
+
+    );
+
+    const resultado =
+        await response.json();
+
+    alert(resultado.mensaje);
+
+    cargarEspecialidades();
+
+}
+
+cargarEspecialidades();
+
+</script>
+
+</body>
+</html>

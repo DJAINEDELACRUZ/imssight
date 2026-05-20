@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Admin Preguntas
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1>
+                Preguntas del examen
+            </h1>
+
+            <p class="text-muted">
+                Administración IMSSight
+            </p>
+
+        </div>
+
+        <a
+            href="admin_examenes.html"
+            class="btn btn-dark">
+
+            Volver
+
+        </a>
+
+    </div>
+
+    <!-- NUEVA PREGUNTA -->
+
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                Nueva pregunta
+            </h4>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+
+                    <label>
+                        Pregunta
+                    </label>
+
+                    <textarea
+                        id="pregunta"
+                        class="form-control"
+                        rows="3"></textarea>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label>
+                        Opción A
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_a"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label>
+                        Opción B
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_b"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label>
+                        Opción C
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_c"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label>
+                        Opción D
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_d"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label>
+                        Respuesta correcta
+                    </label>
+
+                    <select
+                        id="respuesta_correcta"
+                        class="form-select">
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                        <option value="D">
+                            D
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-8">
+
+                    <label>
+                        Explicación clínica
+                    </label>
+
+                    <input
+                        type="text"
+                        id="explicacion"
+                        class="form-control">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label>
+                        Dificultad
+                    </label>
+
+                    <select
+                        id="dificultad"
+                        class="form-select">
+
+                        <option value="basica">
+                            Básica
+                        </option>
+
+                        <option value="media">
+                            Media
+                        </option>
+
+                        <option value="avanzada">
+                            Avanzada
+                        </option>
+
+                    </select>
+
+                </div>
+
+                
+
+                <div class="col-12 d-grid mt-4">
+
+                    <button
+                        class="btn btn-success"
+                        onclick="guardarPregunta()">
+
+                        Guardar pregunta
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                Preguntas registradas
+            </h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Pregunta</th>
+                            <th>Correcta</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaPreguntas">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const idExamen =
+    params.get('id');
+
+/*
+|--------------------------------------------------------------------------
+| CARGAR PREGUNTAS
+|--------------------------------------------------------------------------
+*/
+
+async function cargarPreguntas(){
+
+    const response =
+        await fetch(
+            `../php/preguntas.php?id=${idExamen}`
+        );
+
+    const preguntas =
+        await response.json();
+
+    const tabla =
+        document.getElementById(
+            'tablaPreguntas'
+        );
+
+    tabla.innerHTML = '';
+
+    preguntas.forEach(p => {
+
+        tabla.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    ${p.id}
+
+                </td>
+
+                <td style="min-width:400px;">
+
+                    <textarea
+                        id="pregunta_${p.id}"
+                        class="form-control"
+                        rows="3">${p.pregunta}</textarea>
+
+                    <div class="mt-2">
+
+                        <input
+                            type="text"
+                            id="a_${p.id}"
+                            class="form-control mb-2"
+                            value="${p.opcion_a}">
+
+                        <input
+                            type="text"
+                            id="b_${p.id}"
+                            class="form-control mb-2"
+                            value="${p.opcion_b}">
+
+                        <input
+                            type="text"
+                            id="c_${p.id}"
+                            class="form-control mb-2"
+                            value="${p.opcion_c}">
+
+                        <input
+                            type="text"
+                            id="d_${p.id}"
+                            class="form-control"
+                            value="${p.opcion_d}">
+
+                    </div>
+
+                    <div class="mt-2">
+
+                        <input
+                            type="text"
+                            id="explicacion_${p.id}"
+                            class="form-control"
+                            value="${p.explicacion ?? ''}">
+
+                    </div>
+
+                </td>
+
+                <td style="width:150px;">
+
+                    <select
+                        id="correcta_${p.id}"
+                        class="form-select">
+
+                        <option
+                            value="A"
+                            ${p.respuesta_correcta == 'A' ? 'selected' : ''}>
+                            A
+                        </option>
+
+                        <option
+                            value="B"
+                            ${p.respuesta_correcta == 'B' ? 'selected' : ''}>
+                            B
+                        </option>
+
+                        <option
+                            value="C"
+                            ${p.respuesta_correcta == 'C' ? 'selected' : ''}>
+                            C
+                        </option>
+
+                        <option
+                            value="D"
+                            ${p.respuesta_correcta == 'D' ? 'selected' : ''}>
+                            D
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-primary btn-sm"
+                        onclick="actualizarPregunta(${p.id})">
+
+                        Guardar
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| GUARDAR
+|--------------------------------------------------------------------------
+*/
+
+async function guardarPregunta(){
+
+    const response = await fetch(
+
+        '../php/preguntas.php',
+
+        {
+
+            method:'POST',
+
+            headers:{
+                'Content-Type':'application/json'
+            },
+
+            body:JSON.stringify({
+
+                id_examen:idExamen,
+
+                pregunta:
+                    document.getElementById(
+                        'pregunta'
+                    ).value,
+
+                opcion_a:
+                    document.getElementById(
+                        'opcion_a'
+                    ).value,
+
+                opcion_b:
+                    document.getElementById(
+                        'opcion_b'
+                    ).value,
+
+                opcion_c:
+                    document.getElementById(
+                        'opcion_c'
+                    ).value,
+
+                opcion_d:
+                    document.getElementById(
+                        'opcion_d'
+                    ).value,
+
+                respuesta_correcta:
+                    document.getElementById(
+                        'respuesta_correcta'
+                    ).value,
+
+                explicacion:
+                    document.getElementById(
+                        'explicacion'
+                    ).value,
+
+                dificultad:
+                    document.getElementById(
+                        'dificultad'
+                    ).value,
+
+               
+
+            })
+
+        }
+
+    );
+
+    const resultado =
+        await response.json();
+
+    alert(resultado.mensaje);
+
+    cargarPreguntas();
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| ACTUALIZAR
+|--------------------------------------------------------------------------
+*/
+
+async function actualizarPregunta(id){
+
+    const response = await fetch(
+
+        '../php/preguntas.php',
+
+        {
+
+            method:'POST',
+
+            headers:{
+                'Content-Type':'application/json'
+            },
+
+            body:JSON.stringify({
+
+                id:id,
+
+                pregunta:
+                    document.getElementById(
+                        `pregunta_${id}`
+                    ).value,
+
+                opcion_a:
+                    document.getElementById(
+                        `a_${id}`
+                    ).value,
+
+                opcion_b:
+                    document.getElementById(
+                        `b_${id}`
+                    ).value,
+
+                opcion_c:
+                    document.getElementById(
+                        `c_${id}`
+                    ).value,
+
+                opcion_d:
+                    document.getElementById(
+                        `d_${id}`
+                    ).value,
+
+                respuesta_correcta:
+                    document.getElementById(
+                        `correcta_${id}`
+                    ).value,
+
+                explicacion:
+                    document.getElementById(
+                        `explicacion_${id}`
+                    ).value,
+                
+                dificultad:
+                    document.getElementById(
+                        'dificultad'
+                    ).value,
+
+                
+
+            })
+
+        }
+
+    );
+
+    const resultado =
+        await response.json();
+
+    alert(resultado.mensaje);
+
+    cargarPreguntas();
+
+}
+
+cargarPreguntas();
+
+</script>
+
+</body>
+</html>

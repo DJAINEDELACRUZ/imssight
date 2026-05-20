@@ -1,0 +1,1678 @@
+<!--
+=========================================================
+* Material Dashboard 3 - v3.2.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2024 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+    CASOS CLINICOS
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <!-- jQuery primero (requerido por jsTree) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Hace visibles y gorditas las flechas del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6); /* fondo oscuro */
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  background-size: 60% 60%;  /* que no se vea mini */
+  background-position: center;
+}
+
+/* Opcional: mover un poco hacia dentro para que no queden tan pegadas al borde */
+.carousel-control-prev {
+  left: 1rem;
+}
+
+.carousel-control-next {
+  right: 1rem;
+}
+    </style>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <div id="menu-lateral"></div>
+   <script>
+    fetch('componentes/menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-lateral').innerHTML = data;
+
+        // Detectar el archivo actual
+        const paginaActual = 'medicina-urgencias.html';
+
+        // Buscar todos los enlaces
+        document.querySelectorAll('#sidenav-main .nav-link').forEach(link => {
+          if(link.getAttribute('href').includes(paginaActual)) {
+            link.classList.add('active', 'bg-gradient-warning', 'text-white');
+          } else {
+            link.classList.remove('active', 'bg-gradient-warning', 'text-white');
+          }
+        });
+      });
+  </script>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="index.html">Inicio</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="medicina-urgencias.html">Medicina de Urgencias</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="medicina-urgencias_subtemas.html">Apendicitis Aguda</a></li>
+            <!--<li class="breadcrumb-item text-sm text-dark active" aria-current="page" id="temanav"></li>-->
+          </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Buscar...</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center  justify-content-end">
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">notifications</i>
+              </a>
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New message</span> from Laur
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          13 minutes ago
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New album</span> by Travis Scott
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          1 day
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <title>credit-card</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                              <g transform="translate(1716.000000, 291.000000)">
+                                <g transform="translate(453.000000, 454.000000)">
+                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          Payment successfully completed
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          2 days
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                <i class="material-symbols-rounded">account_circle</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="ms-3">
+          <h3 id="" class="mb-0 h4 font-weight-bolder">Apendicitis Aguda</h3>
+          
+          <p class="mb-4">
+            IMSSight - Conocimiento clínico a primera vista
+          </p>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        
+        <!----perlas clinicas-->
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h6>Perlas Clinicas:</h6>
+                  <div id="carouselExampleInterval" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../img/apendicitis.png" class="d-block mx-auto w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                               <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                        <i class="bi bi-journal-medical me-2"></i>
+                                        Definiciones nosológicas / etiológicas
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <p class="text-muted">
+                                        La <strong>apendicitis aguda</strong> se define como la inflamación aguda del
+                                        <em>apéndice vermiforme</em>. Suele originarse por la
+                                        <span class="badge bg-secondary">obstrucción luminal</span>
+                                        (fecalito o hipertrofia del tejido linfoide asociado a mucosa),
+                                        lo que provoca aumento de presión intraluminal, isquemia, necrosis
+                                        y, finalmente, riesgo de perforación.
+                                        </p>
+
+                                        <hr>
+
+                                        <dl class="row mb-0">
+
+                                        <dt class="col-sm-4">
+                                            <span class="badge bg-success me-1">Apendicitis aguda</span>
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            Infiltración de leucocitos a la membrana basal del apéndice cecal,
+                                            con inflamación aguda de la pared.
+                                        </dd>
+
+                                        <dt class="col-sm-4 mt-3">
+                                            <span class="badge bg-info text-dark me-1">Apendicitis no complicada</span>
+                                        </dt>
+                                        <dd class="col-sm-8 mt-3">
+                                            Apendicitis aguda <strong>sin datos de perforación</strong>, sin absceso
+                                            ni peritonitis purulenta.
+                                        </dd>
+
+                                        <dt class="col-sm-4 mt-3">
+                                            <span class="badge bg-danger me-1">Apendicitis complicada</span>
+                                        </dt>
+                                        <dd class="col-sm-8 mt-3">
+                                            Apendicitis aguda <strong>perforada</strong>, con o sin absceso localizado
+                                            y/o presencia de <strong>peritonitis purulenta</strong>.
+                                        </dd>
+
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        Otras causas y microbiología asociada
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <h6 class="fw-bold text-primary">
+                                        Otras causas conocidas de apendicitis
+                                        </h6>
+
+                                        <ul class="list-group mb-3">
+                                        <li class="list-group-item">
+                                            <i class="bi bi-dot text-primary"></i>
+                                            Torsión o sección de la arteria apendicular
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-dot text-primary"></i>
+                                            Tumores que obstruyen la luz apendicular
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-dot text-primary"></i>
+                                            Obstrucción por parásitos
+                                        </li>
+                                        </ul>
+
+                                        <h6 class="fw-bold text-success">
+                                        Agentes bacterianos más frecuentemente aislados
+                                        </h6>
+
+                                        <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span class="badge bg-success me-2">E. coli</span>
+                                            Escherichia coli
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="badge bg-success me-2">S. viridans</span>
+                                            Streptococcus viridans
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="badge bg-success me-2">Bacteroides</span>
+                                            Bacteroides spp.
+                                        </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                        <i class="bi bi-clipboard2-pulse me-2"></i>
+                                        Fases de la Apendicitis Aguda
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- FASE 1 -->
+                                        <div class="mb-4">
+                                        <h6 class="fw-bold">
+                                            <span class="badge bg-primary me-2">1</span>
+                                            Apendicitis congestiva o catarral
+                                        </h6>
+                                        <p class="text-muted">
+                                            Presencia de secreción y acumulación de moco, con o sin aumento de la presión endoluminal.
+                                            Inicia la proliferación bacteriana con respuesta linfoide, lo que genera exudado de plasma
+                                            y leucocitos que afecta capas superficiales.
+                                            <br>
+                                            <strong>Macroscópicamente:</strong> apéndice edematizado y congestivo.
+                                        </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <!-- FASE 2 -->
+                                        <div class="mb-4">
+                                        <h6 class="fw-bold">
+                                            <span class="badge bg-warning text-dark me-2">2</span>
+                                            Apendicitis flegmonosa o supurada
+                                        </h6>
+                                        <p class="text-muted">
+                                            Presencia de úlceras, invasión bacteriana y polimorfonucleares en todas las capas,
+                                            incluyendo la serosa. Se observa engrosamiento y tumefacción progresiva.
+                                            <br>
+                                            <strong>Macroscópicamente:</strong> tejido enrojecido, friable y fácilmente desprendible.
+                                        </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <!-- FASE 3 -->
+                                        <div class="mb-4">
+                                        <h6 class="fw-bold">
+                                            <span class="badge bg-dark me-2">3</span>
+                                            Apendicitis gangrenosa (microperforada o necrótica)
+                                        </h6>
+                                        <p class="text-muted">
+                                            La distensión y congestión intensa producen microperforaciones transmuralmente. Puede
+                                            evidenciarse líquido libre purulento con olor tenue a heces.
+                                            <br>
+                                            <strong>Coloración:</strong> verde violáceo o verde gris oscuro.
+                                            <br>
+                                            <strong>Fisiopatología:</strong> necrosis gangrenosa del apéndice.
+                                        </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <!-- FASE 4 -->
+                                        <div class="mb-2">
+                                        <h6 class="fw-bold">
+                                            <span class="badge bg-danger me-2">4</span>
+                                            Apendicitis perforada (complicada)
+                                        </h6>
+                                        <p class="text-muted">
+                                            Zonas de necrosis supurativa con abscesos, líquido libre en cavidad abdominal y
+                                            perforación de todas las capas, permitiendo salida de contenido intestinal.
+                                        </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                        <i class="bi bi-bar-chart-line-fill me-2"></i>
+                                        Epidemiología
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <ul class="list-group list-group-flush">
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-activity text-info me-2"></i>
+                                            Es la <strong>urgencia abdominal más común</strong> en el mundo.
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-people-fill text-info me-2"></i>
+                                            Riesgo de presentar apendicitis aguda a lo largo de la vida:
+                                            <span class="badge bg-info ms-2">≈ 7%</span>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-graph-up text-info me-2"></i>
+                                            Incidencia estimada:
+                                            <strong>11 casos por cada 10,000 habitantes/año</strong>.
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-hourglass-split text-info me-2"></i>
+                                            Puede presentarse a cualquier edad, más frecuente entre
+                                            <strong>15–35 años</strong>.
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-gender-male text-primary me-1"></i>
+                                            <i class="bi bi-gender-female text-danger me-2"></i>
+                                            Tres veces más común en <strong>hombres</strong> que en mujeres.
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                                            La tasa de error diagnóstico:
+                                            <ul class="mt-2 mb-0">
+                                            <li>Hombres: <strong>12–23%</strong></li>
+                                            <li>Mujeres: <strong>24–42%</strong></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <i class="bi bi-person-pregnant text-info me-2"></i>
+                                            Se presenta en aproximadamente 
+                                            <strong>1 de cada 1700 embarazadas</strong>,
+                                            más común en el <strong>2.º trimestre</strong>.
+                                        </li>
+
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card border-0 shadow-sm mb-4">
+
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                        <i class="bi bi-diagram-3-fill me-2"></i>
+                                        Anatomía del Apéndice Cecal
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- ORIGEN -->
+                                        <h6 class="fw-bold text-primary">Origen</h6>
+                                        <p class="text-muted">
+                                        Situado en la convergencia de las <strong>tres tenias mesentéricas</strong>,
+                                        aproximadamente <strong>2 cm por debajo de la válvula ileocecal</strong>.
+                                        </p>
+
+                                        <!-- VALVULA -->
+                                        <h6 class="fw-bold text-primary mt-3">Válvula</h6>
+                                        <p class="text-muted">
+                                        La <strong>válvula de Gerlach</strong> se ubica en el extremo inferior y posteromedial
+                                        del colon ascendente del ciego.
+                                        </p>
+
+                                        <!-- TAMAÑO -->
+                                        <h6 class="fw-bold text-primary mt-3">Tamaño</h6>
+                                        <p class="text-muted mb-1">
+                                        Diámetro normal:
+                                        <span class="badge bg-secondary"> &lt; 6 mm </span>
+                                        </p>
+                                        <p class="text-muted">
+                                        Longitud: variable (gran variabilidad anatómica individual).
+                                        </p>
+
+                                        <hr>
+
+                                        <!-- POSICIONES -->
+                                        <h6 class="fw-bold text-primary">Posiciones más frecuentes</h6>
+
+                                        <ul class="list-group">
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">74%</span>
+                                            Retrocecal
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">21%</span>
+                                            Pélvica
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">2%</span>
+                                            Paracecal
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">1.5%</span>
+                                            Subcecal
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">1%</span>
+                                            Pre-ileal
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <span class="badge bg-primary me-2">0.5%</span>
+                                            Post-ileal
+                                        </li>
+
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                               <div class="row g-4">
+
+                                    <!-- IRRIGACIÓN -->
+                                    <div class="col-md-6">
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-header bg-danger text-white">
+                                                <h5 class="mb-0">
+                                                    <i class="bi bi-droplet-half me-2"></i>
+                                                    Irrigación del Apéndice
+                                                </h5>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <p class="text-muted">
+                                                    La irrigación arterial del apéndice proviene de la 
+                                                    <strong>arteria apendicular</strong>, rama terminal de la 
+                                                    <strong>arteria ileocólica</strong>, la cual es una rama directa de la 
+                                                    <strong>arteria mesentérica superior</strong>.
+                                                </p>
+
+                                                <div class="text-center mt-3">
+                                                    <img src="../img/corazon.png" 
+                                                        alt="Irrigación apendicular" 
+                                                        class="img-fluid rounded shadow-sm border">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- DRENAJE VENOSO -->
+                                    <div class="col-md-6">
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0">
+                                                    <i class="bi bi-diagram-3 me-2"></i>
+                                                    Drenaje Venoso
+                                                </h5>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <p class="text-muted">
+                                                    El drenaje venoso del apéndice se realiza a través de:
+                                                </p>
+
+                                                <ul class="list-group mb-3">
+                                                    <li class="list-group-item">Vena apendicular</li>
+                                                    <li class="list-group-item">Vena íleo cólica</li>
+                                                    <li class="list-group-item">Vena mesentérica superior</li>
+                                                    <li class="list-group-item">Vena porta hepática</li>
+                                                </ul>
+
+                                                <div class="text-center mt-3">
+                                                    <img src="../img/tripa.png" 
+                                                        alt="Drenaje venoso apendicular" 
+                                                        class="img-fluid rounded shadow-sm border">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card shadow-sm border-0 mb-4">
+
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-activity me-2"></i>
+                                            Fisiopatología de la Apendicitis Aguda
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <p class="text-muted">
+                                            La progresión fisiopatológica de la apendicitis aguda sigue una secuencia estructurada 
+                                            de cambios inflamatorios, isquémicos y finalmente necróticos si no se interviene de manera oportuna.
+                                        </p>
+
+                                        <ol class="list-group list-group-numbered mb-4">
+
+                                            <li class="list-group-item">
+                                                <strong>Obstrucción de la luz:</strong>
+                                                apendicolito, tumor o hiperplasia linfoide.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Acumulación de moco</strong> por bloqueo del drenaje natural.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Invasión de neutrófilos</strong>
+                                                que afecta la capa muscular apendicular.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Aumento de la presión intraluminal</strong>.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Proliferación bacteriana</strong>
+                                                secundaria al estasis luminal.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Trombosis vascular</strong> y estasis del drenaje linfático.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Isquemia de la pared apendicular</strong>
+                                                que afecta la capa muscular.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Perforación de la pared apendicular</strong>
+                                                secundaria a necrosis por isquemia.
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Peritonitis o formación de absceso</strong>
+                                                periapendicular.
+                                            </li>
+
+                                        </ol>
+
+                                        <!-- IMAGEN DE FISIOPATOLOGÍA -->
+                                        <div class="text-center mt-3">
+                                            <img src="../img/img1.png"
+                                                alt="Fisiopatología Apendicitis"
+                                                class="img-fluid rounded shadow-sm border">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-header bg-primary">
+                                        <h5 class="mb-0 fw-bold">
+                                        <i class="bi bi-emoji-expressionless me-2"></i>
+                                        Síntomas y signos de apendicitis aguda
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row g-4">
+
+                                        <!-- COLUMNA IZQUIERDA: LISTA DE SÍNTOMAS -->
+                                        <div class="col-md-6">
+                                            <ul class="list-group list-group-flush">
+
+                                            <li class="list-group-item">
+                                                <strong>Dolor abdominal</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Anorexia</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Náusea</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Vómito</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Migración del dolor a la fosa ilíaca derecha</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Taquicardia</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Febrícula</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Peristalsis disminuida</strong>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <strong>Signos apendiculares</strong>
+                                            </li>
+
+                                            </ul>
+                                        </div>
+
+                                        <!-- COLUMNA DERECHA: CUADROS EXPLICATIVOS -->
+                                        <div class="col-md-6 d-flex flex-column gap-3">
+
+                                            <div class="border rounded p-3">
+                                            <p class="mb-1">
+                                                Dolor abdominal <strong>periumbilical de 24–48 horas</strong>, que migra y
+                                                se localiza en la <strong>fosa ilíaca derecha</strong>.
+                                            </p>
+                                            <p class="mb-0">
+                                                Este patrón se observa en aproximadamente <strong>50% de los casos</strong>.
+                                            </p>
+                                            </div>
+
+                                            <div class="border rounded p-3">
+                                            <p class="mb-0">
+                                                El <strong>alivio súbito de los síntomas</strong> debe hacer sospechar
+                                                disminución de la presión en la pared del apéndice por
+                                                <strong>probable perforación</strong>.
+                                            </p>
+                                            </div>
+
+                                            <div class="border rounded p-3">
+                                            <p class="mb-0">
+                                                La posterior progresión a la <strong>perforación</strong> suele tomar
+                                                entre <strong>24 y 36 horas</strong>.
+                                            </p>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                               ... 
+                            </div>
+                            
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                  
+                </div>
+        <!--fin perlas clinicas-->
+
+
+      </div>
+
+      <style>
+        .btn-long {
+          min-width: 220px; /* o lo que necesites */
+        }
+      </style>
+
+      <!-------contenido casos clinicos -------->
+      <div class="row mb-4">
+        <div class="col-lg-9 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-8">
+                 
+
+                    <h2>Apendicitis Aguda <a href="../docs/Apendicitis.pdf" target="_blank" class="btn btn-info btn-sm">Algoritmo de Diagnostico</a></h2>
+                
+
+                        <section id="caso-apendicitis" style="max-width: 800px; margin: 0 auto; font-family: system-ui, -apple-system, sans-serif;">
+                        
+                        
+
+                        <!-- Perfil del usuario -->
+                        <h4>Perfil del usuario</h4>
+                        <ul>
+                            <li>Médicos generales</li>
+                            <li>Médicos internos de pregrado</li>
+                            <li>Residentes de urgencias y cirugía general</li>
+                            <li>Personal de salud en formación continua</li>
+                        </ul>
+
+                        <hr>
+
+                        <!-- Caso clínico / escenario -->
+                        <h3>CASO CLÍNICO</h3>
+
+                        <h4>Escenario clínico</h4>
+                        <p>
+                            Paciente adulto con dolor abdominal de inicio en región periumbilical, intensidad moderada (EVA 5/10),
+                            que progresa y migra hacia la fosa ilíaca derecha con aumento de intensidad (EVA 8/10).
+                            Se asocia a anorexia, náusea y fiebre subjetiva. Niega evacuaciones diarreicas, sangrado digestivo
+                            o síntomas urinarios.
+                        </p>
+
+                        <!-- Estudios / datos complementarios en texto -->
+                        <details style="margin: 1rem 0;">
+                            <summary><strong>Ver estudios de laboratorio y gabinete del caso</strong></summary>
+
+                            <h5>Estudios de laboratorio</h5>
+                            <table border="1" cellpadding="4" cellspacing="0">
+                            <tr>
+                                <th>Estudio</th>
+                                <th>Resultado</th>
+                                <th>Interpretación</th>
+                            </tr>
+                            <tr>
+                                <td>BH</td>
+                                <td>Leucocitos 14,000/mm³</td>
+                                <td>Leucocitosis</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Neutrófilos 85 %</td>
+                                <td>Desviación a la izquierda</td>
+                            </tr>
+                            <tr>
+                                <td>PCR</td>
+                                <td>9 mg/dL</td>
+                                <td>Elevada</td>
+                            </tr>
+                            <tr>
+                                <td>PFH</td>
+                                <td>Normales</td>
+                                <td>Sin datos de hepatopatía</td>
+                            </tr>
+                            <tr>
+                                <td>EGO</td>
+                                <td>Normal</td>
+                                <td>Descarta foco urinario</td>
+                            </tr>
+                            </table>
+
+                            <h5>Hallazgos en imagen</h5>
+                            <ul>
+                            <li>Apéndice con diámetro de 10 mm.</li>
+                            <li>Engrosamiento de la pared.</li>
+                            <li>Estriación de grasa peri apendicular.</li>
+                            <li>Líquido libre pericecal.</li>
+                            <li>Sin absceso organizado.</li>
+                            </ul>
+
+                            <p><strong>Conclusión radiológica:</strong> Apendicitis aguda complicada (fase III), probable apendicitis gangrenosa.</p>
+
+                            <h5>Integración diagnóstica</h5>
+                            <ul>
+                            <li>Diagnóstico clínico de abdomen agudo quirúrgico.</li>
+                            <li>Escala AIR: alto riesgo.</li>
+                            <li>TC abdominal confirmatoria.</li>
+                            </ul>
+                        </details>
+
+                        <!-- FORMULARIO -->
+                        <form id="formCasoApendicitis">
+
+                            <!-- Pregunta 1 -->
+                            <fieldset class="pregunta" data-question-id="q1" style="margin-bottom: 1.5rem;">
+                            <legend><strong>1. ¿Cuál es la presentación clínica sugestiva de apendicitis aguda en la población adulta?</strong></legend>
+
+                            <label>
+                                <input type="radio" name="q1" value="a">
+                                a) Dolor de inicio súbito en fosa ilíaca derecha.
+                            </label><br>
+                            <label>
+                                <input type="radio" name="q1" value="b">
+                                b) Dolor que inicia en región dorsal.
+                            </label><br>
+                            <label>
+                                <input type="radio" name="q1" value="c">
+                                c) Dolor abdominal periumbilical de 24–48 horas de evolución que migra y se localiza en la fosa ilíaca derecha.
+                            </label><br>
+                            <label>
+                                <input type="radio" name="q1" value="d">
+                                d) Dolor en fosa ilíaca izquierda migrante a fosa ilíaca derecha.
+                            </label>
+
+                            <div class="feedback" data-correct="c" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: C.</strong><br>
+                                El cuadro típico de dolor abdominal periumbilical de 24–48 horas de evolución que migra y se localiza
+                                en la fosa ilíaca derecha se presenta en aproximadamente 50% de los casos.
+                            </div>
+                            </fieldset>
+
+                            <!-- Pregunta 2 -->
+                            <fieldset class="pregunta" data-question-id="q2" style="margin-bottom: 1.5rem;">
+                            <legend><strong>2. ¿Cuál es el diagnóstico más probable con la información inicial?</strong></legend>
+
+                            <label><input type="radio" name="q2" value="a"> A) Gastroenteritis.</label><br>
+                            <label><input type="radio" name="q2" value="b"> B) Apendicitis aguda.</label><br>
+                            <label><input type="radio" name="q2" value="c"> C) Cólico renal.</label><br>
+                            <label><input type="radio" name="q2" value="d"> D) Obstrucción intestinal.</label>
+
+                            <div class="feedback" data-correct="b" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: B.</strong><br>
+                                La presentación clínica clásica de la apendicitis aguda es la llamada Secuencia o Tríada de Murphy:
+                                dolor periumbilical o epigástrico con anorexia, náuseas y vómitos, que posteriormente migra y se localiza en FID.
+                            </div>
+                            </fieldset>
+
+                            <!-- Pregunta 3 -->
+                            <fieldset class="pregunta" data-question-id="q3" style="margin-bottom: 1.5rem;">
+                            <legend><strong>3. ¿Cuál de las siguientes escalas incorpora proteína C reactiva (PCR) como parte de sus variables para predecir apendicitis complicada?</strong></legend>
+
+                            <label><input type="radio" name="q3" value="a"> A) Escala AIR.</label><br>
+                            <label><input type="radio" name="q3" value="b"> B) Escala Alvarado.</label><br>
+                            <label><input type="radio" name="q3" value="c"> C) Escala de Fenyo.</label><br>
+                            <label><input type="radio" name="q3" value="d"> D) Escala de Ohmann.</label>
+
+                            <div class="feedback" data-correct="a" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: A.</strong><br>
+                                La Appendicitis Inflammatory Response Score (AIR) incluye PCR, lo que mejora su capacidad para identificar
+                                apendicitis complicada. La elevación significativa de PCR se asocia con perforación, absceso o gangrena apendicular.
+                            </div>
+                            </fieldset>
+
+                            <!-- Pregunta 4 -->
+                            <fieldset class="pregunta" data-question-id="q4" style="margin-bottom: 1.5rem;">
+                            <legend><strong>4. ¿Cuál es el siguiente paso terapéutico ideal en este caso?</strong></legend>
+
+                            <label><input type="radio" name="q4" value="a"> A) Alta médica con analgésicos.</label><br>
+                            <label><input type="radio" name="q4" value="b"> B) Inicio de antibióticos y preparación quirúrgica para apendicectomía.</label><br>
+                            <label><input type="radio" name="q4" value="c"> C) Observación sin intervención.</label><br>
+                            <label><input type="radio" name="q4" value="d"> D) Solo antibióticos y alta.</label>
+
+                            <div class="feedback" data-correct="b" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: B.</strong><br>
+                                En apendicitis aguda complicada se indica tratamiento quirúrgico temprano,
+                                precedido por el inicio de antibióticos y la preparación para apendicectomía.
+                            </div>
+                            </fieldset>
+
+                            <!-- Pregunta 5 -->
+                            <fieldset class="pregunta" data-question-id="q5" style="margin-bottom: 1.5rem;">
+                            <legend><strong>5. ¿Cuál es el principal objetivo de utilizar escalas de riesgo en pacientes con sospecha de apendicitis aguda complicada?</strong></legend>
+
+                            <label><input type="radio" name="q5" value="a"> A) Sustituir estudios de imagen.</label><br>
+                            <label><input type="radio" name="q5" value="b"> B) Confirmar el diagnóstico histopatológico.</label><br>
+                            <label><input type="radio" name="q5" value="c"> C) Estratificar riesgo y guiar conducta terapéutica.</label><br>
+                            <label><input type="radio" name="q5" value="d"> D) Determinar el tipo de incisión quirúrgica.</label>
+
+                            <div class="feedback" data-correct="c" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: C.</strong><br>
+                                Las escalas permiten clasificar a los pacientes en bajo, mediano o alto riesgo y ayudan a decidir
+                                entre observación, estudios de imagen o intervención quirúrgica temprana, reduciendo complicaciones.
+                            </div>
+                            </fieldset>
+
+                            <!-- Pregunta 6 -->
+                            <fieldset class="pregunta" data-question-id="q6" style="margin-bottom: 1.5rem;">
+                            <legend><strong>6. ¿Cuál es la complicación más grave de una apendicitis no tratada?</strong></legend>
+
+                            <label><input type="radio" name="q6" value="a"> A) Pancreatitis.</label><br>
+                            <label><input type="radio" name="q6" value="b"> B) Perforación y peritonitis.</label><br>
+                            <label><input type="radio" name="q6" value="c"> C) Cirrosis hepática.</label><br>
+                            <label><input type="radio" name="q6" value="d"> D) Aneurisma aórtico.</label>
+
+                            <div class="feedback" data-correct="b" style="display:none; margin-top:0.5rem;">
+                                <strong>Respuesta correcta: B.</strong><br>
+                                La complicación más grave de una apendicitis no tratada es la perforación con peritonitis,
+                                que aumenta de forma importante la morbimortalidad.
+                            </div>
+                            </fieldset>
+
+                            <button type="submit" class="btn btn-success">Calificar respuestas</button>
+
+                            <p id="resultadoFinal" style="margin-top: 1rem; font-weight: bold;"></p>
+                        </form>
+
+                        <!-- Resumen y evolución del caso -->
+                        <hr>
+                        <h4>Tratamiento quirúrgico y evolución</h4>
+                        <p><strong>Procedimiento:</strong> Apendicectomía laparoscópica de urgencia.</p>
+                        <p><strong>Hallazgos transoperatorios:</strong></p>
+                        <ul>
+                            <li>Apéndice edematoso, congestivo, con áreas necróticas.</li>
+                            <li>Serosa opaca y friable.</li>
+                            <li>Líquido inflamatorio pericecal.</li>
+                            <li>No se identifica perforación.</li>
+                            <li>Ciego sin lesiones y sin absceso intraabdominal.</li>
+                        </ul>
+                        <p><strong>Clasificación intraoperatoria:</strong> Apendicitis gangrenosa (fase III).</p>
+
+                        <p><strong>Evolución postquirúrgica (24–48 h):</strong> evolución clínica favorable, afebril,
+                            dolor controlado, inicio de vía oral progresiva, recuento leucocitario en descenso.
+                            Se mantiene antibiótico IV por 48 h, analgesia multimodal y movilización temprana.</p>
+
+                        <p><strong>Egreso hospitalario a las 48 h:</strong> paciente hemodinámicamente estable,
+                            sin datos de infección, tolerando vía oral y con heridas quirúrgicas limpias. Se indican antibiótico VO por 5 días,
+                            analgésico a demanda, reposo relativo y cita de control en 7 días. Pronóstico bueno para la vida
+                            al tratarse oportunamente.</p>
+                        </section>
+
+                        <a class="btn btn-info" href="examenApendicitis.html" target="_blank" rel="noopener noreferrer">Examen apendicitis aguda</a>
+
+                        <!-- ===================== -->
+                        <!-- JS clásico para calificar el formulario -->
+                        <!-- ===================== -->
+                        <script type="text/javascript">
+                        (function () {
+                            var form = document.getElementById('formCasoApendicitis');
+                            var resultado = document.getElementById('resultadoFinal');
+
+                            function evaluarFormulario(event) {
+                            if (event && event.preventDefault) {
+                                event.preventDefault();
+                            } else {
+                                // IE <= 8
+                                event.returnValue = false;
+                            }
+
+                            var preguntas = form.getElementsByClassName('pregunta');
+                            var total = preguntas.length;
+                            var correctas = 0;
+
+                            // recorrer preguntas
+                            for (var i = 0; i < preguntas.length; i++) {
+                                var fieldset = preguntas[i];
+                                var nombreCampo = fieldset.getAttribute('data-question-id');
+                                var feedback = fieldset.getElementsByClassName('feedback')[0];
+                                var respuestaCorrecta = feedback.getAttribute('data-correct');
+
+                                // ocultar feedback previo y limpiar estilos
+                                feedback.style.display = 'none';
+                                fieldset.style.border = '1px solid #ddd';
+                                fieldset.style.padding = '0.5rem';
+
+                                var seleccionada = null;
+                                var inputs = fieldset.getElementsByTagName('input');
+                                for (var j = 0; j < inputs.length; j++) {
+                                if (inputs[j].checked) {
+                                    seleccionada = inputs[j].value;
+                                }
+                                }
+
+                                if (seleccionada === null) {
+                                // sin respuesta
+                                continue;
+                                }
+
+                                // mostrar feedback
+                                feedback.style.display = 'block';
+
+                                if (seleccionada === respuestaCorrecta) {
+                                correctas++;
+                                fieldset.style.borderColor = '#2e7d32'; // verde
+                                } else {
+                                fieldset.style.borderColor = '#c62828'; // rojo
+                                }
+                            }
+
+                            resultado.innerHTML = 'Puntaje: ' + correctas + ' de ' + total + ' preguntas respondidas correctamente.';
+                            }
+
+                            if (form.addEventListener) {
+                            form.addEventListener('submit', evaluarFormulario, false);
+                            } else if (form.attachEvent) {
+                            // IE antiguo
+                            form.attachEvent('onsubmit', evaluarFormulario);
+                            }
+                        })();
+                        </script>
+
+                        <style>
+                        /* Un poco de orden visual (compatible con navegadores viejos) */
+                        #caso-apendicitis h1,
+                        #caso-apendicitis h2,
+                        #caso-apendicitis h3 {
+                            margin-bottom: 0.2rem;
+                        }
+                        #caso-apendicitis fieldset {
+                            border-radius: 4px;
+                            background-color: #fafafa;
+                        }
+                        #caso-apendicitis legend {
+                            font-weight: bold;
+                        }
+                        #caso-apendicitis .feedback {
+                            background-color: #f5f5f5;
+                            border-left: 3px solid #1976d2;
+                            padding: 0.4rem 0.6rem;
+                            font-size: 0.9rem;
+                        }
+                        </style>
+
+                  
+                </div>
+                <div class="col-lg-4">
+                  <style>
+                    .burbuja-dialogo-container {
+                      position: absolute;
+                      top: -40px;       /* Súbelo más si quieres más arriba */
+                      right: 70px;     /* Ajusta más a la izquierda si quieres que “salga” del card */
+                      width: 250px;
+                      z-index: 9999;    /* Para que se sobreponga sobre otros elementos */
+                      pointer-events: none;
+                    }
+
+                    .burbuja-img {
+                      width: 70%;
+                      height: auto;
+                      display: block;
+                    }
+
+                    .burbuja-texto {
+                      position: absolute;
+                      top:15%;
+                      left: 6%;
+                      right: 39%;
+                      font-size: 12px;
+                      font-weight: bold;
+                      color: #000;
+                      text-align: center;
+                      line-height: 1.3;
+                    }
+
+                    @keyframes desaparecer {
+                      0% { opacity: 1; transform: scale(1); }
+                      80% { opacity: 1; }
+                      100% { opacity: 0; transform: scale(0.8); display: none; }
+                    }
+                  </style>
+
+                  <br><br>
+                  
+                  <div id="fraseDoctor" class="burbuja-dialogo-container d-none">
+                    <img src="../img/burbuja.png" class="burbuja-img" alt="Burbuja de texto">
+                    <div class="burbuja-texto">Responde correctamente, revisa las escalas de riesgo o da click sobre las perlas clinicas"</div>
+                  </div>
+
+                  <div id="onomatopeya" style="
+                      position: absolute;
+                      top: 20px;
+                      right: 30px;
+                      font-size: 2rem;
+                      font-weight: bold;
+                      background: #ffffffdd;
+                      padding: 0.5rem 1rem;
+                      border-radius: 12px;
+                      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+                      animation: desaparecer 2s ease-out forwards;
+                      z-index: 1;
+                  ">
+                    ¡Toc Toc!
+                  </div>
+
+                  <script>
+                    window.addEventListener('DOMContentLoaded', function() {
+                        setTimeout(() => {
+                          document.getElementById("onomatopeya").style.display = "none"; // oculta POM
+                          document.getElementById("fraseDoctor").classList.remove("d-none"); // muestra frase
+                        }, 300); // duración en milisegundos
+                    });
+                  </script>
+                  <div class="card">
+                   <img src="../img/doctora.png" alt="" style="max-height: 400px;">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!----------contenido escalas de riesgo -------->
+        <div class="col-lg-3 col-md-6">
+          <div class="card h-100">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-11">
+                  <h6>Escalas de Riesgo</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body text-center">
+
+              <div class="row">
+                <div class="col-md-4">
+                  
+                  <!-- Botón HEART Score -->
+                  <button class="btn btn-info btn-block btn-long" data-bs-toggle="modal" data-bs-target="#modalRiesgo" data-url="https://www.sasappendicitis.com/">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 24px; height: 24px; border-radius: 50%; font-weight: bold; font-size: 10px; display: flex; align-items: center; justify-content: center; font-family: Arial;">SAS</div>
+                      <span>Scoring system of Appendicitis Severity (SAS) 2.0</span>
+                    </div>
+                  </button>
+
+                  <!-- Botón GRACE Score -->
+                  <button class="btn btn-success btn-block btn-long" data-bs-toggle="modal" data-bs-target="#modalRiesgo" data-url="https://www.mdcalc.com/calc/617/alvarado-score-acute-appendicitis">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 24px; height: 24px; border-radius: 6px; background-color: #2db29c; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-plus text-white"></i>
+                      </div>
+                      <span>Alvarado Score</span>
+                    </div>
+                  </button>
+
+                  <!-- Botón TIMI SCA SEST Score -->
+                  <button class="btn btn-success btn-block btn-long" data-bs-toggle="modal" data-bs-target="#modalRiesgo" data-url="https://www.mdcalc.com/calc/3984/appendicitis-inflammatory-response-air-score">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 24px; height: 24px; border-radius: 6px; background-color: #2db29c; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-plus text-white"></i>
+                      </div>
+                      <span>Appendicitis Inflammatory Response (AIR) Score</span>
+                    </div>
+                  </button>
+
+                  <!-- Botón KILIP KIMBAL Score -->
+                  <button class="btn btn-success btn-block btn-long" data-bs-toggle="modal" data-bs-target="#modalRiesgo" data-url="https://www.mdcalc.com/calc/3166/ripasa-score-acute-appendicitis">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 24px; height: 24px; border-radius: 6px; background-color: #2db29c; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-plus text-white"></i>
+                      </div>
+                      <span>RIPASA Score for Acute Appendicitis</span>
+                    </div>
+                  </button>
+
+                 
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/0tvndvN2lrM?si=aLsBTGfNY5gIqoh0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/qGSt2owUSfg?si=tUCgdmN05Ydao_lE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    
+
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/5a9vVA2wRs0?si=P_ELolCsKhfIYUGk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/mBqfA0LadrU?si=DnQdUFKvcWw0rjyP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/z4TpsEN-ap4?si=vJlyx1YKEW1TFJRQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/UkFV02X3JC4?si=qbXA9SRwG72o8fDw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <iframe width="230" height="150" src="https://www.youtube.com/embed/ZkVHyaNyPHg?si=k1F2lyhAdyBcXlcL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  <!-- Modal único -->
+                  <div class="modal fade" id="modalRiesgo" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg"> <!-- o modal-xl si prefieres -->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Escala de Riesgo</h5>
+                          <button type="button" class="btn-close btn-close-white text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-0">
+                          <iframe id="iframeRiesgo" src="" width="100%" height="500" frameborder="0"></iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <script>
+                    const modalRiesgo = document.getElementById('modalRiesgo');
+                    const iframe = document.getElementById('iframeRiesgo');
+
+                    modalRiesgo.addEventListener('show.bs.modal', function (event) {
+                      document.getElementById("fraseDoctor").classList.add("d-none");
+                      const button = event.relatedTarget;
+                      const url = button.getAttribute('data-url');
+                      iframe.src = url;
+                    });
+
+                    modalRiesgo.addEventListener('hidden.bs.modal', function () {
+                      document.getElementById("fraseDoctor").classList.remove("d-none");
+                      iframe.src = ""; // Limpiar para evitar que siga sonando si tenía video, etc.
+                    });
+                  </script>
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer py-4">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>document.write(new Date().getFullYear())</script>,
+                desarrollado con <i class="fa fa-heart"></i> por la 
+                <strong>Unidad de Educación e Investigación (UEI)</strong>, 
+                Dirección de Prestaciones Médicas, IMSS.
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Acerca de IMSSight</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Guía de uso</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link pe-0 text-muted" target="_blank">Términos</a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-symbols-rounded py-2">settings</i>
+    </a>
+    <div class="card shadow-lg">
+      <div class="card-header pb-0 pt-3">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="material-symbols-rounded">clear</i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1">
+      <div class="card-body pt-sm-3 pt-0">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">Sidebar Colors</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-gradient-primary" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark active" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn bg-gradient-dark px-3 mb-2" data-class="bg-gradient-dark" onclick="sidebarType(this)">Dark</button>
+          <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+          <button class="btn bg-gradient-dark px-3 mb-2  active ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+        <!-- Navbar Fixed -->
+        <div class="mt-3 d-flex">
+          <h6 class="mb-0">Navbar Fixed</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+          </div>
+        </div>
+        <hr class="horizontal dark my-3">
+        <div class="mt-2 d-flex">
+          <h6 class="mb-0">Light / Dark</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+          </div>
+        </div>
+        <hr class="horizontal dark my-sm-4">
+        <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
+        <div class="w-100 text-center">
+          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Material%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        datasets: [{
+          label: "Views",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "#43A047",
+          data: [50, 45, 22, 28, 50, 60, 76],
+          barThickness: 'flex'
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+              color: "#737373"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+        datasets: [{
+          label: "Sales",
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: "#43A047",
+          pointBorderColor: "transparent",
+          borderColor: "#43A047",
+          backgroundColor: "transparent",
+          fill: true,
+          data: [120, 230, 130, 440, 250, 360, 270, 180, 90, 300, 310, 220],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                const fullMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                return fullMonths[context[0].dataIndex];
+              }
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [4, 4],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 12,
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 12,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Tasks",
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: "#43A047",
+          pointBorderColor: "transparent",
+          borderColor: "#43A047",
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [4, 4],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#737373',
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [4, 4]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+</body>
+
+</html>

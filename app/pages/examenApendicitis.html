@@ -1,0 +1,1351 @@
+<!--
+=========================================================
+* Material Dashboard 3 - v3.2.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2024 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+    CASOS CLINICOS
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <!-- jQuery primero (requerido por jsTree) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <div id="menu-lateral"></div>
+   <script>
+    fetch('componentes/menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-lateral').innerHTML = data;
+
+        // Detectar el archivo actual
+        const paginaActual = 'medicina-urgencias.html';
+
+        // Buscar todos los enlaces
+        document.querySelectorAll('#sidenav-main .nav-link').forEach(link => {
+          if(link.getAttribute('href').includes(paginaActual)) {
+            link.classList.add('active', 'bg-gradient-warning', 'text-white');
+          } else {
+            link.classList.remove('active', 'bg-gradient-warning', 'text-white');
+          }
+        });
+      });
+  </script>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="index.html">Inicio</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="medicina-urgencias.html">Medicina de Urgencias</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="medicina-urgencias_subtemas.html">Apendicitis Aguda</a></li>
+            <!--<li class="breadcrumb-item text-sm text-dark active" aria-current="page" id="temanav"></li>-->
+          </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Buscar...</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center  justify-content-end">
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">notifications</i>
+              </a>
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New message</span> from Laur
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          13 minutes ago
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New album</span> by Travis Scott
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          1 day
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <title>credit-card</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                              <g transform="translate(1716.000000, 291.000000)">
+                                <g transform="translate(453.000000, 454.000000)">
+                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          Payment successfully completed
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          2 days
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                <i class="material-symbols-rounded">account_circle</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="ms-3">
+          <h3 id="" class="mb-0 h4 font-weight-bolder">EXAMEN Apendicitis Aguda</h3>
+          
+          <p class="mb-4">
+            IMSSight - Conocimiento clínico a primera vista
+          </p>
+        </div>
+      </div>
+
+      <!-------contenido casos clinicos -------->
+      <div class="row mb-4">
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+            
+                    <div id="examen-apendicitis" class="container-fluid">
+                        <form id="formExamenApendicitis">
+
+                            <!-- RESULTADO -->
+                            <div id="examResult" class="alert alert-secondary d-none" role="alert"></div>
+
+                            <!-- ======= PREGUNTA 1 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">1. ¿Cuál es la causa más común de apendicitis aguda?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                <label class="form-check-label" for="q1a">A) Infección viral</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                <label class="form-check-label" for="q1b">B) Obstrucción luminal por fecalito</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                <label class="form-check-label" for="q1c">C) Trombosis arterial</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q1" id="q1d" value="d">
+                                <label class="form-check-label" for="q1d">D) Perforación intestinal</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                La fisiopatología clásica inicia con obstrucción luminal (fecalito en adultos), lo que genera aumento de presión, compromiso vascular, proliferación bacteriana e inflamación.
+                                <small class="d-block text-muted">Bhangu A, et al. Lancet 2015.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 2 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">2. El punto de máximo dolor abdominal en apendicitis aguda se localiza en:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                                <label class="form-check-label" for="q2a">A) Punto de Lanz</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                                <label class="form-check-label" for="q2b">B) Punto de McBurney</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                                <label class="form-check-label" for="q2c">C) Punto de Murphy</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q2" id="q2d" value="d">
+                                <label class="form-check-label" for="q2d">D) Punto de Traube</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                El punto de McBurney es la unión del tercio medio con el tercio externo de la línea EIAS derecha–ombligo, sitio clásico de dolor somático.
+                                <small class="d-block text-muted">Humes DJ, Simpson J. BMJ 2006.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 3 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">3. ¿Cuál es el síntoma inicial más común en apendicitis aguda?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                                <label class="form-check-label" for="q3a">A) Fiebre</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                                <label class="form-check-label" for="q3b">B) Dolor en fosa iliaca derecha</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                                <label class="form-check-label" for="q3c">C) Dolor periumbilical</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q3" id="q3d" value="d">
+                                <label class="form-check-label" for="q3d">D) Diarrea</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                El dolor visceral inicial se percibe en región periumbilical por estimulación de fibras T8–T10.
+                                <small class="d-block text-muted">Bhangu A, et al. Lancet 2015.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 4 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">4. Escala clínica más utilizada para el diagnóstico de apendicitis aguda:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                                <label class="form-check-label" for="q4a">A) Glasgow</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                                <label class="form-check-label" for="q4b">B) Alvarado</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                                <label class="form-check-label" for="q4c">C) SOFA</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q4" id="q4d" value="d">
+                                <label class="form-check-label" for="q4d">D) APACHE II</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                La escala de Alvarado estratifica el riesgo mediante síntomas, signos y laboratorio.
+                                <small class="d-block text-muted">Alvarado A. Ann Emerg Med 1986.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 5 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">5. Un valor &gt;7 puntos en escala de Alvarado indica:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                                <label class="form-check-label" for="q5a">A) Bajo riesgo</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                                <label class="form-check-label" for="q5b">B) Riesgo intermedio</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                                <label class="form-check-label" for="q5c">C) Alto riesgo</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q5" id="q5d" value="d">
+                                <label class="form-check-label" for="q5d">D) Diagnóstico descartado</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                Un puntaje &gt;7 se asocia con alta probabilidad de apendicitis y suele indicar manejo quirúrgico.
+                                <small class="d-block text-muted">Ohle R, et al. BMC Med 2011.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 6 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">6. ¿Cuál es el estudio de imagen de elección en adultos para escrutinio de apendicitis aguda?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                                <label class="form-check-label" for="q6a">A) Radiografía simple</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                                <label class="form-check-label" for="q6b">B) Ultrasonido abdominal</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                                <label class="form-check-label" for="q6c">C) Tomografía contrastada</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q6" id="q6d" value="d">
+                                <label class="form-check-label" for="q6d">D) Resonancia magnética</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                En adultos, la tomografía tiene sensibilidad y especificidad &gt;90% para apendicitis.
+                                <small class="d-block text-muted">Di Saverio S, et al. WSES 2020.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 7 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">7. Diámetro apendicular sugestivo de inflamación en TAC:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                                <label class="form-check-label" for="q7a">A) &gt;4 mm</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                                <label class="form-check-label" for="q7b">B) &gt;5 mm</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                                <label class="form-check-label" for="q7c">C) &gt;6 mm</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q7" id="q7d" value="d">
+                                <label class="form-check-label" for="q7d">D) &gt;10 mm</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                Un diámetro &gt;6 mm con engrosamiento parietal es sugestivo de apendicitis aguda.
+                                <small class="d-block text-muted">Sammalkorpi HE, et al. Scand J Surg 2017.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 8 ======= -->
+                            <div class="card mb-3 question-block" data-correct="d">
+                            <div class="card-body">
+                                <h5 class="card-title">8. Signo clínico de apendicitis aguda por irritación del músculo psoas:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q8" id="q8a" value="a">
+                                <label class="form-check-label" for="q8a">A) Rovsing</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q8" id="q8b" value="b">
+                                <label class="form-check-label" for="q8b">B) Blumberg</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q8" id="q8c" value="c">
+                                <label class="form-check-label" for="q8c">C) Obturador</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q8" id="q8d" value="d">
+                                <label class="form-check-label" for="q8d">D) Psoas</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: D.</strong>
+                                El signo del psoas sugiere apéndice retrocecal en contacto con este músculo.
+                                <small class="d-block text-muted">Humes DJ, Simpson J. BMJ 2006.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 9 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">9. Principal bacteria implicada en apendicitis aguda:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+                                <label class="form-check-label" for="q9a">A) Streptococcus pneumoniae</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+                                <label class="form-check-label" for="q9b">B) Escherichia coli</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+                                <label class="form-check-label" for="q9c">C) Clostridium difficile</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q9" id="q9d" value="d">
+                                <label class="form-check-label" for="q9d">D) Mycobacterium</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                E. coli es el microorganismo más frecuentemente aislado en apendicitis aguda.
+                                <small class="d-block text-muted">Brook I. J Clin Microbiol 2007.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 10 ======= -->
+                            <div class="card mb-3 question-block" data-correct="a">
+                            <div class="card-body">
+                                <h5 class="card-title">10. Complicación más frecuente de apendicitis aguda no tratada:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+                                <label class="form-check-label" for="q10a">A) Perforación</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+                                <label class="form-check-label" for="q10b">B) Sepsis</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+                                <label class="form-check-label" for="q10c">C) Obstrucción intestinal</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q10" id="q10d" value="d">
+                                <label class="form-check-label" for="q10d">D) Íleo paralítico</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: A.</strong>
+                                La perforación es la complicación más frecuente y aumenta la morbimortalidad.
+                                <small class="d-block text-muted">Drake FT, et al. JAMA Surg 2014.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 11 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">11. El signo de Rovsing evalúa:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q11" id="q11a" value="a">
+                                <label class="form-check-label" for="q11a">A) Irritación vesical</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q11" id="q11b" value="b">
+                                <label class="form-check-label" for="q11b">B) Irritación peritoneal</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q11" id="q11c" value="c">
+                                <label class="form-check-label" for="q11c">C) Inflamación hepática</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q11" id="q11d" value="d">
+                                <label class="form-check-label" for="q11d">D) Compresión renal</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                El dolor en FID al comprimir FII sugiere irritación peritoneal.
+                                <small class="d-block text-muted">Humes DJ. BMJ 2006.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 12 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">12. Según escalas de riesgo y evolución clínica, ¿a partir de qué cifra de leucocitos se sospecha apendicitis aguda?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q12" id="q12a" value="a">
+                                <label class="form-check-label" for="q12a">A) &lt;4,000</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q12" id="q12b" value="b">
+                                <label class="form-check-label" for="q12b">B) 5,000 – 7,000</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q12" id="q12c" value="c">
+                                <label class="form-check-label" for="q12c">C) &gt;10,000</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q12" id="q12d" value="d">
+                                <label class="form-check-label" for="q12d">D) &lt;2,000</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                Leucocitosis &gt;10,000 está presente en ~80% de los pacientes con apendicitis.
+                                <small class="d-block text-muted">Andersson RE. World J Surg 2004.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 13 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">13. ¿Cuál escala predice mejor apendicitis complicada?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q13" id="q13a" value="a">
+                                <label class="form-check-label" for="q13a">A) RIPASA</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q13" id="q13b" value="b">
+                                <label class="form-check-label" for="q13b">B) AIR score</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q13" id="q13c" value="c">
+                                <label class="form-check-label" for="q13c">C) APGAR</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q13" id="q13d" value="d">
+                                <label class="form-check-label" for="q13d">D) MELD</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                El AIR score tiene mejor discriminación para apendicitis complicada.
+                                <small class="d-block text-muted">Paterson HM, et al. Br J Surg 2008.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 14 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">14. Tratamiento estándar en apendicitis aguda:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q14" id="q14a" value="a">
+                                <label class="form-check-label" for="q14a">A) Antibióticos</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q14" id="q14b" value="b">
+                                <label class="form-check-label" for="q14b">B) Apendicectomía</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q14" id="q14c" value="c">
+                                <label class="form-check-label" for="q14c">C) Dieta</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q14" id="q14d" value="d">
+                                <label class="form-check-label" for="q14d">D) Observación</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                La apendicectomía sigue siendo el estándar de oro en la mayoría de los casos.
+                                <small class="d-block text-muted">Di Saverio S, et al. WJES 2020.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 15 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">15. Técnica quirúrgica de elección actual:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q15" id="q15a" value="a">
+                                <label class="form-check-label" for="q15a">A) Abierta</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q15" id="q15b" value="b">
+                                <label class="form-check-label" for="q15b">B) Laparoscópica</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q15" id="q15c" value="c">
+                                <label class="form-check-label" for="q15c">C) Endoscópica</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q15" id="q15d" value="d">
+                                <label class="form-check-label" for="q15d">D) Percutánea</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                La laparoscopía ofrece menor estancia hospitalaria y menor tasa de infección de herida.
+                                <small class="d-block text-muted">Sauerland S, et al. Cochrane 2010.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 16 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">16. Tiempo ideal de intervención quirúrgica:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q16" id="q16a" value="a">
+                                <label class="form-check-label" for="q16a">A) &gt;72 horas</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q16" id="q16b" value="b">
+                                <label class="form-check-label" for="q16b">B) 24–48 horas</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q16" id="q16c" value="c">
+                                <label class="form-check-label" for="q16c">C) &lt;24 horas</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q16" id="q16d" value="d">
+                                <label class="form-check-label" for="q16d">D) 7 días</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                La intervención temprana (&lt;24 h) reduce el riesgo de perforación.
+                                <small class="d-block text-muted">Drake FT, et al. JAMA Surg 2014.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 17 ======= -->
+                            <div class="card mb-3 question-block" data-correct="b">
+                            <div class="card-body">
+                                <h5 class="card-title">17. Hallazgo histopatológico característico:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q17" id="q17a" value="a">
+                                <label class="form-check-label" for="q17a">A) Necrosis grasa</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q17" id="q17b" value="b">
+                                <label class="form-check-label" for="q17b">B) Infiltrado neutrofílico transmural</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q17" id="q17c" value="c">
+                                <label class="form-check-label" for="q17c">C) Fibrosis</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q17" id="q17d" value="d">
+                                <label class="form-check-label" for="q17d">D) Calcificación</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: B.</strong>
+                                El diagnóstico definitivo se basa en infiltrado neutrofílico transmural.
+                                <small class="d-block text-muted">Carr NJ. Ann Diagn Pathol 2000.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 18 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">18. Factor de riesgo de perforación:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q18" id="q18a" value="a">
+                                <label class="form-check-label" for="q18a">A) Edad joven</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q18" id="q18b" value="b">
+                                <label class="form-check-label" for="q18b">B) Diagnóstico temprano</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q18" id="q18c" value="c">
+                                <label class="form-check-label" for="q18c">C) Retraso diagnóstico</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q18" id="q18d" value="d">
+                                <label class="form-check-label" for="q18d">D) Uso de antibióticos</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                El retraso &gt;48 horas incrementa el riesgo de perforación.
+                                <small class="d-block text-muted">Bickell NA, et al. J Am Coll Surg 2006.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 19 ======= -->
+                            <div class="card mb-3 question-block" data-correct="a">
+                            <div class="card-body">
+                                <h5 class="card-title">19. Marcador bioquímico de respuesta inflamatoria útil en el diagnóstico complementario de apendicitis aguda:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q19" id="q19a" value="a">
+                                <label class="form-check-label" for="q19a">A) PCR</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q19" id="q19b" value="b">
+                                <label class="form-check-label" for="q19b">B) Troponina</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q19" id="q19c" value="c">
+                                <label class="form-check-label" for="q19c">C) Bilirrubina</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q19" id="q19d" value="d">
+                                <label class="form-check-label" for="q19d">D) Creatinina</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: A.</strong>
+                                La PCR se asocia con severidad y apendicitis complicada.
+                                <small class="d-block text-muted">Yu CW, et al. Br J Surg 2013.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 20 ======= -->
+                            <div class="card mb-3 question-block" data-correct="a">
+                            <div class="card-body">
+                                <h5 class="card-title">20. ¿Cuál de las siguientes escalas incorpora PCR como variable para predecir apendicitis complicada?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q20" id="q20a" value="a">
+                                <label class="form-check-label" for="q20a">A) Escala AIR</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q20" id="q20b" value="b">
+                                <label class="form-check-label" for="q20b">B) Escala Alvarado</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q20" id="q20c" value="c">
+                                <label class="form-check-label" for="q20c">C) Escala de Fenyo</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q20" id="q20d" value="d">
+                                <label class="form-check-label" for="q20d">D) Escala de Ohmann</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: A.</strong>
+                                El AIR score incluye PCR y mejora la identificación de apendicitis complicada.
+                                <small class="d-block text-muted">Andersson M, Andersson RE. World J Surg 2008.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 21 ======= -->
+                            <div class="card mb-3 question-block" data-correct="a">
+                            <div class="card-body">
+                                <h5 class="card-title">21. ¿Qué escala clínica incluye migración del dolor, anorexia, náusea, rebote, leucocitosis y neutrofilia?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q21" id="q21a" value="a">
+                                <label class="form-check-label" for="q21a">A) Escala de Alvarado</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q21" id="q21b" value="b">
+                                <label class="form-check-label" for="q21b">B) Escala RIPASA</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q21" id="q21c" value="c">
+                                <label class="form-check-label" for="q21c">C) Escala AIR</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q21" id="q21d" value="d">
+                                <label class="form-check-label" for="q21d">D) Escala de Lintula</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: A.</strong>
+                                La escala de Alvarado (MANTRELS) integra síntomas, signos y laboratorio; puntajes ≥7 indican alta probabilidad.
+                                <small class="d-block text-muted">Di Saverio S, et al. WJES 2020.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 22 ======= -->
+                            <div class="card mb-3 question-block" data-correct="c">
+                            <div class="card-body">
+                                <h5 class="card-title">22. En la escala AIR, un puntaje mayor de 9 se interpreta como:</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q22" id="q22a" value="a">
+                                <label class="form-check-label" for="q22a">A) Riesgo bajo de apendicitis</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q22" id="q22b" value="b">
+                                <label class="form-check-label" for="q22b">B) Riesgo intermedio de apendicitis no complicada</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q22" id="q22c" value="c">
+                                <label class="form-check-label" for="q22c">C) Alta probabilidad de apendicitis complicada</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q22" id="q22d" value="d">
+                                <label class="form-check-label" for="q22d">D) Apendicitis descartada</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: C.</strong>
+                                Un puntaje alto en AIR refleja intensa respuesta inflamatoria y se asocia a formas complicadas.
+                                <small class="d-block text-muted">Andersson RE. Br J Surg 2004.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- ======= PREGUNTA 23 ======= -->
+                            <div class="card mb-3 question-block" data-correct="d">
+                            <div class="card-body">
+                                <h5 class="card-title">23. ¿Cuál es el principal objetivo de utilizar escalas de riesgo en apendicitis aguda complicada?</h5>
+
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q23" id="q23a" value="a">
+                                <label class="form-check-label" for="q23a">A) Sustituir estudios de imagen</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q23" id="q23b" value="b">
+                                <label class="form-check-label" for="q23b">B) Confirmar diagnóstico histopatológico</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q23" id="q23c" value="c">
+                                <label class="form-check-label" for="q23c">C) Determinar tipo de incisión quirúrgica</label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q23" id="q23d" value="d">
+                                <label class="form-check-label" for="q23d">D) Estratificar riesgo y guiar conducta terapéutica</label>
+                                </div>
+
+                                <div class="alert alert-info mt-2 d-none feedback">
+                                <strong>Respuesta correcta: D.</strong>
+                                Las escalas clasifican en bajo/medio/alto riesgo y ayudan a decidir observación, imagen o cirugía temprana.
+                                <small class="d-block text-muted">Atema JJ, et al. Br J Surg 2015.</small>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- BOTÓN -->
+                            <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Calificar examen
+                            </button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- ================= JS para calificar el examen ================= -->
+                    <script>
+                    (function () {
+                        function initExamenApendicitis() {
+                        var form = document.getElementById('formExamenApendicitis');
+                        if (!form) return;
+
+                        var resultBox = document.getElementById('examResult');
+
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
+
+                            var blocks = form.getElementsByClassName('question-block');
+                            var total = blocks.length;
+                            var correctas = 0;
+                            var contestadas = 0;
+
+                            // reset
+                            for (var i = 0; i < blocks.length; i++) {
+                            blocks[i].classList.remove('border-success', 'border-danger');
+                            var fb = blocks[i].getElementsByClassName('feedback')[0];
+                            fb.classList.add('d-none');
+                            }
+
+                            // evaluar
+                            for (var j = 0; j < blocks.length; j++) {
+                            var block = blocks[j];
+                            var correcta = block.getAttribute('data-correct');
+                            var inputs = block.querySelectorAll('input[type="radio"]');
+                            var seleccion = null;
+
+                            for (var k = 0; k < inputs.length; k++) {
+                                if (inputs[k].checked) {
+                                seleccion = inputs[k].value;
+                                break;
+                                }
+                            }
+
+                            if (seleccion === null) {
+                                continue; // no contestada
+                            }
+
+                            contestadas++;
+
+                            var feedback = block.getElementsByClassName('feedback')[0];
+                            feedback.classList.remove('d-none');
+
+                            if (seleccion === correcta) {
+                                correctas++;
+                                block.classList.add('border', 'border-success');
+                            } else {
+                                block.classList.add('border', 'border-danger');
+                            }
+                            }
+
+                            var porcentaje = (correctas / total * 100).toFixed(1);
+
+                            resultBox.classList.remove('d-none', 'alert-secondary', 'alert-success', 'alert-warning');
+                            var clase = 'alert-success';
+                            if (porcentaje < 70) {
+                            clase = 'alert-warning';
+                            }
+                            resultBox.classList.add(clase);
+                            resultBox.innerHTML =
+                            'Preguntas correctas: <strong>' + correctas + '</strong> de <strong>' + total +
+                            '</strong>. Contestadas: <strong>' + contestadas +
+                            '</strong>. Puntaje: <strong>' + porcentaje + '%</strong>.';
+                        });
+                        }
+
+                        if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initExamenApendicitis);
+                        } else {
+                        initExamenApendicitis();
+                        }
+                    })();
+                    </script>
+
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <footer class="footer py-4">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>document.write(new Date().getFullYear())</script>,
+                desarrollado con <i class="fa fa-heart"></i> por la 
+                <strong>Unidad de Educación e Investigación (UEI)</strong>, 
+                Dirección de Prestaciones Médicas, IMSS.
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Acerca de IMSSight</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Guía de uso</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-muted" target="_blank">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link pe-0 text-muted" target="_blank">Términos</a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-symbols-rounded py-2">settings</i>
+    </a>
+    <div class="card shadow-lg">
+      <div class="card-header pb-0 pt-3">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="material-symbols-rounded">clear</i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1">
+      <div class="card-body pt-sm-3 pt-0">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">Sidebar Colors</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-gradient-primary" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark active" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn bg-gradient-dark px-3 mb-2" data-class="bg-gradient-dark" onclick="sidebarType(this)">Dark</button>
+          <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+          <button class="btn bg-gradient-dark px-3 mb-2  active ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+        <!-- Navbar Fixed -->
+        <div class="mt-3 d-flex">
+          <h6 class="mb-0">Navbar Fixed</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+          </div>
+        </div>
+        <hr class="horizontal dark my-3">
+        <div class="mt-2 d-flex">
+          <h6 class="mb-0">Light / Dark</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+          </div>
+        </div>
+        <hr class="horizontal dark my-sm-4">
+        <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
+        <div class="w-100 text-center">
+          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Material%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        datasets: [{
+          label: "Views",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "#43A047",
+          data: [50, 45, 22, 28, 50, 60, 76],
+          barThickness: 'flex'
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+              color: "#737373"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+        datasets: [{
+          label: "Sales",
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: "#43A047",
+          pointBorderColor: "transparent",
+          borderColor: "#43A047",
+          backgroundColor: "transparent",
+          fill: true,
+          data: [120, 230, 130, 440, 250, 360, 270, 180, 90, 300, 310, 220],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                const fullMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                return fullMonths[context[0].dataIndex];
+              }
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [4, 4],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 12,
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 12,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Tasks",
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: "#43A047",
+          pointBorderColor: "transparent",
+          borderColor: "#43A047",
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [4, 4],
+              color: '#e5e5e5'
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#737373',
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [4, 4]
+            },
+            ticks: {
+              display: true,
+              color: '#737373',
+              padding: 10,
+              font: {
+                size: 14,
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+</body>
+
+</html>
