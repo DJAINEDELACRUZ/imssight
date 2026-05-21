@@ -142,6 +142,10 @@ body::before{
     color:#BC955C;
 }
 
+.danger{
+    color:#DC3545;
+}
+
 .footer{
     margin-top:40px;
     font-size:0.8rem;
@@ -228,19 +232,21 @@ body::before{
     <div class="system">
 
         <div class="line green">
-            UEI IMSSIGHT, TODOS LOS SISTEMAS FUNCIONANDO DENTRO DE LOS PARÁMETROS NORMALES, CAMPO DE CONTENCIÓN AL MÁXIMO
+            TODOS LOS SISTEMAS FUNCIONANDO DENTRO DE LOS PARÁMETROS NORMALES
         </div>
 
         <div class="line">
-            UNIDAD DE BIOCONTENCIÓN, FAVOR DE REPORTARSE A LAS CÁMARAS DE DISECCIÓN DE R&D. BRECHA EN PROGRESO.
+            CAMPO DE CONTENCIÓN AL MÁXIMO.
+        </div>
+
+        <div class="line">
+            UNIDAD DE OEI, FAVOR DE REPORTARSE A LAS CÁMARAS DE DISECCIÓN DE P-C-R-A. 
+            <br>
+            BRECHA EN PROGRESO.
         </div>
 
         <div class="line warning">
             Autorización de seguridad nivel Delta 5 aprobada.
-        </div>
-
-        <div class="line warning">
-            Escuadrón táctico, favor de reportarse a la cubierta inferior de ingeniería.
         </div>
         
         <div class="loading"></div>
