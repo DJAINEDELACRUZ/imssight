@@ -76,7 +76,7 @@ VALUES
 SELECT * FROM imssight.casos_clinicos cc;
 
 ALTER TABLE imssight.casos_clinicos
-DROP COLUMN id_tema_nuevo;
+ADD COLUMN id_tema_nuevo;
 
 
 
@@ -96,6 +96,9 @@ CREATE TABLE imssight.escenas (
 SELECT * FROM imssight.escenas e ;
 
 
+
+
+/********* creación de usuarios *******/
 CREATE TABLE imssight.usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
