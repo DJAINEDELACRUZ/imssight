@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    IMSSIGHT :: CONTENT CENTER
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="../assets/css/imssight-terminal.css">
+
+</head>
+
+<body>
+
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
+
+<div class="container">
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+
+        IMSSIGHT
+
+    </div>
+
+    <!-- DASHBOARD -->
+
+    <div class="sidebar-section">
+
+        <div class="sidebar-section-title">
+
+            DASHBOARD
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="profile.html"
+                class="sidebar-link">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            CARGAR CONTENIDO
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="admin_especialidades.html"
+                class="sidebar-link">
+
+                Especialidades
+
+            </a>
+
+            <a
+                href="admin_temas.html"
+                class="sidebar-link">
+
+                Temas
+
+            </a>
+
+            <a
+                href="admin_casos.html"
+                class="sidebar-link">
+
+                Casos
+
+            </a>
+
+            <a
+                href="admin_escenas.html"
+                class="sidebar-link">
+
+                Escenas
+
+            </a>
+
+            <a
+                href="admin_examenes.html"
+                class="sidebar-link">
+
+                Exámenes
+
+            </a>
+
+            <a
+                href="admin_multimedia.html"
+                class="sidebar-link">
+
+                Multimedia
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SISTEMA -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            SISTEMA
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="metricas.html"
+                class="sidebar-link">
+
+                Métricas
+
+            </a>
+
+            <a
+                href="admin_usuarios.html"
+                class="sidebar-link">
+
+                Usuarios
+
+            </a>
+
+            <button
+                class="sidebar-link"
+                onclick="reindexarBusqueda()">
+
+                Reindexar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+
+<div class="main-content">
+
+<!-- HEADER -->
+
+<div class="topbar">
+
+<div>
+
+    <div class="access-label">
+        IMSSIGHT :: CONTENT CENTER
+    </div>
+
+    <div class="logo">
+        CONTENIDO
+    </div>
+
+    <div
+        class="welcome-terminal"
+        id="bienvenida">
+
+        INITIALIZING...
+
+    </div>
+
+</div>
+
+<div class="status">
+
+    REPOSITORIO CLÍNICO :: ONLINE
+    <br>
+
+    MOTOR EDUCATIVO :: ACTIVO
+    <br>
+
+    INDEXACIÓN :: SINCRONIZADA
+    <br>
+
+    VALIDACIÓN DE CONTENIDO :: ACTIVA
+
+</div>
+
+</div>
+
+<!-- SYSTEM -->
+
+<div class="system">
+
+<div class="line green">
+    CENTRO DE GESTIÓN DE CONTENIDO OPERATIVO
+</div>
+
+<div class="line">
+    TODOS LOS MÓDULOS ACADÉMICOS DISPONIBLES.
+</div>
+
+<div class="line warning">
+    LOS CAMBIOS SON REGISTRADOS POR EL SISTEMA.
+</div>
+
+<div class="hud-line"></div>
+
+<!-- GRID -->
+
+<div class="grid">
+
+<!-- ESPECIALIDADES -->
+
+<div class="card">
+
+    <div class="card-title">
+        Especialidades
+    </div>
+
+    <div class="card-desc">
+        Gestión de especialidades médicas y clasificación clínica.
+    </div>
+
+    <a
+        href="admin_especialidades.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+<!-- TEMAS -->
+
+<div class="card">
+
+    <div class="card-title">
+        Temas
+    </div>
+
+    <div class="card-desc">
+        Administración de temas académicos y contenido clínico.
+    </div>
+
+    <a
+        href="admin_temas.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+<!-- CASOS -->
+
+<div class="card">
+
+    <div class="card-title">
+        Casos clínicos
+    </div>
+
+    <div class="card-desc">
+        Simulaciones clínicas interactivas y escenarios médicos.
+    </div>
+
+    <a
+        href="admin_casos.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+<!-- ESCENAS -->
+
+<div class="card">
+
+    <div class="card-title">
+        Escenas
+    </div>
+
+    <div class="card-desc">
+        Secuencias narrativas y lógica clínica.
+    </div>
+
+    <a
+        href="admin_escenas.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+<!-- EXAMENES -->
+
+<div class="card">
+
+    <div class="card-title">
+        Exámenes
+    </div>
+
+    <div class="card-desc">
+        Evaluaciones clínicas y resultados académicos.
+    </div>
+
+    <a
+        href="admin_examenes.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+<!-- MULTIMEDIA -->
+
+<div class="card">
+
+    <div class="card-title">
+        Multimedia
+    </div>
+
+    <div class="card-desc">
+        Biblioteca audiovisual y contenido visual educativo.
+    </div>
+
+    <a
+        href="admin_multimedia.html"
+        class="btn">
+
+        Acceder
+
+    </a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function verificarSesion(){
+
+    try{
+
+        const response =
+            await fetch('../php/auth.php');
+
+        const data =
+            await response.json();
+
+        if(!data.auth){
+
+            window.location.href =
+                '../pages/sign-in.html';
+
+            return;
+        }
+
+        document
+        .getElementById('bienvenida')
+        .innerHTML = `
+
+            OPERADOR:
+            <span style="color:#58f5c8;">
+            ${data.usuario.nombre.toUpperCase()}
+            </span>
+
+            <br>
+
+            CONTENT CENTER READY.
+
+        `;
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+verificarSesion();
+
+/* =========================================
+REINDEXAR
+========================================= */
+
+async function reindexarBusqueda(){
+
+    if(!confirm('¿REINDEXAR MOTOR DE BÚSQUEDA?')){
+        return;
+    }
+
+    try{
+
+        const response =
+            await fetch('../php/reindexar_busqueda.php');
+
+        const texto =
+            await response.text();
+
+        alert(texto);
+
+    }catch(error){
+
+        alert('ERROR EN REINDEXACIÓN');
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

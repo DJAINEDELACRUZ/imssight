@@ -59,3 +59,13 @@ Ejecutar únicamente si cambia:
 ```bash
 docker compose up -d --build
 ```
+
+---
+
+### Ingresar a mysql para ejecutar consultas
+
+```bash
+djaine@uei-head:~/projects/imssight$ docker exec -it imssight-db mysql -u root -p
+```
+
+contraseña en docker-compose.yml

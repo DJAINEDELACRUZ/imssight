@@ -122,7 +122,56 @@
             </li>
             <li class="nav-item dropdown pe-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="material-symbols-rounded">notifications</i>
+                <li class="nav-item dropdown pe-3 d-flex align-items-center">
+
+                    <a
+                        href="#"
+                        class="nav-link text-body p-0"
+                        id="dropdownMenuButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                        <i class="material-symbols-rounded">
+
+                            notifications
+
+                        </i>
+
+                        <span
+                            id="notificationDot"
+                            style="
+                                display:none;
+                                width:10px;
+                                height:10px;
+                                background:#f44335;
+                                border-radius:50%;
+                                position:absolute;
+                                margin-left:-10px;
+                                margin-top:3px;
+                                box-shadow:0 0 10px rgba(244,67,54,.8);
+                            ">
+
+                        </span>
+
+                    </a>
+
+                    <ul
+                        class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
+                        id="notificationMenu">
+
+                        <li>
+
+                            <div class="dropdown-item text-muted">
+
+                                Sin notificaciones
+
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </li>
               </a>
               <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                 <li class="mb-2">
@@ -1106,6 +1155,92 @@
     cargarEspecialidades();
 
   </script>
+
+  <script>
+
+/* =========================================
+NOTIFICACIONES PERFIL
+========================================= */
+
+async function verificarPerfil(){
+
+    try{
+
+        const response =
+            await fetch(
+                '../php/verificar_perfil.php'
+            );
+
+        const data =
+            await response.json();
+
+        if(!data.perfil_completo){
+
+            document
+            .getElementById(
+                'notificationDot'
+            ).style.display = 'inline-block';
+
+            document
+            .getElementById(
+                'notificationMenu'
+            ).innerHTML = `
+
+                <li>
+
+                    <a
+                        class="dropdown-item border-radius-md"
+                        href="../pages/user_profile.html">
+
+                        <div class="d-flex py-1">
+
+                            <div class="my-auto">
+
+                                <i class="material-symbols-rounded text-warning">
+
+                                    warning
+
+                                </i>
+
+                            </div>
+
+                            <div class="d-flex flex-column justify-content-center ms-3">
+
+                                <h6 class="text-sm font-weight-bold mb-1">
+
+                                    Completa tu registro
+
+                                </h6>
+
+                                <p class="text-xs text-secondary mb-0">
+
+                                    Agrega tu información académica y personal
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </li>
+
+            `;
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+verificarPerfil();
+
+</script>
 </body>
 
 </html>

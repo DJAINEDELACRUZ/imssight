@@ -331,6 +331,62 @@
 
 <script>
 
+async function validarAccesoAdmin(){
+
+    try{
+
+        const response =
+            await fetch(
+                '../php/auth.php'
+            );
+
+        const data =
+            await response.json();
+
+        /* =========================================
+        NO LOGIN
+        ========================================= */
+
+        if(!data.auth){
+
+            window.location.href =
+                '../pages/sign-in.html';
+
+            return;
+
+        }
+
+        /* =========================================
+        SI ES USUARIO NORMAL
+        ========================================= */
+
+        if(data.usuario.rol !== 'admin'){
+
+            window.location.href =
+                '../pages/user_profile.html';
+
+            return;
+
+        }
+
+        console.log(
+            'Admin autorizado'
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+validarAccesoAdmin();
+
+</script>
+
+<script>
+
 async function verificarSesion(){
 
     try{
