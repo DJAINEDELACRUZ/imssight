@@ -5,96 +5,195 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>Editor de Escenas - IMSSight</title>
+<title>
+    IMSSIGHT :: EDITOR DE ESCENAS
+</title>
 
 <link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
+    rel="stylesheet">
 
 <link
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-rel="stylesheet">
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="../assets/css/imssight-terminal.css">
 
 <style>
 
-body{
-    background:#f4f6f9;
+/* =========================================
+GRID
+========================================= */
+
+.editor-layout{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:30px;
+
+    margin-top:30px;
+
 }
 
-.card-editor{
+.form-grid{
 
-    border:none;
+    display:grid;
 
-    border-radius:20px;
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
 
-    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    gap:20px;
+
 }
 
-.titulo{
-
-    color:#235B4E;
-
-    font-weight:800;
+.mt-30{
+    margin-top:30px;
 }
 
-textarea{
+.mt-40{
+    margin-top:40px;
+}
+
+/* =========================================
+EDITOR
+========================================= */
+
+.editor-terminal{
 
     width:100%;
 
-    min-height:400px;
+    min-height:800px;
 
-    background:#1e1e1e;
+    background:#050909;
 
-    color:#00ff90;
+    border:1px solid rgba(88,245,200,.18);
 
-    border-radius:15px;
+    color:#8fffe0;
 
-    padding:20px;
+    padding:25px;
+
+    border-radius:14px;
 
     font-family:monospace;
 
-    border:none;
+    font-size:.95rem;
+
+    line-height:1.8;
 
     resize:vertical;
+
+    outline:none;
+
+    box-shadow:
+        inset 0 0 25px rgba(88,245,200,.03);
+
 }
 
-.preview{
+.editor-terminal:focus{
 
-    min-height:300px;
+    border-color:#58f5c8;
+
+    box-shadow:
+        0 0 20px rgba(88,245,200,.15);
+
+}
+
+/* =========================================
+PREVIEW
+========================================= */
+
+.preview-terminal{
 
     background:white;
 
-    border-radius:15px;
+    min-height:800px;
 
-    padding:20px;
+    border-radius:14px;
 
-    border:2px dashed #ccc;
+    padding:30px;
 
     overflow:auto;
+
+    border:2px dashed rgba(88,245,200,.18);
+
 }
 
-.bloque-pregunta{
+/* =========================================
+BLOQUE PREGUNTA
+========================================= */
 
-    background:#f8fafc;
+.question-builder{
 
-    border-radius:15px;
+    border:1px solid rgba(88,245,200,.15);
 
-    padding:20px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(5,10,10,.95),
+            rgba(8,20,20,.92)
+        );
 
-    border:1px solid #dee2e6;
+    border-radius:16px;
+
+    padding:30px;
+
+    margin-top:40px;
+
+    box-shadow:
+        0 0 25px rgba(88,245,200,.05);
+
 }
+
+.question-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.question-title i{
+
+    color:#58f5c8;
+
+    font-size:2rem;
+
+}
+
+.question-title h3{
+
+    color:#d8fff5;
+
+    margin:0;
+
+}
+
+.question-title p{
+
+    color:#7ea99a;
+
+    margin:0;
+}
+
+/* =========================================
+OCULTO
+========================================= */
 
 .oculto{
-
     display:none;
-}
-
-label{
-
-    font-weight:600;
 }
 
 </style>
@@ -103,76 +202,132 @@ label{
 
 <body>
 
-<div class="container py-5">
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
 
-    <div class="card card-editor">
+<div class="container">
 
-        <div class="card-body p-4">
+    <!-- HEADER -->
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="topbar">
 
-                <div>
+        <div>
 
-                    <h1 class="titulo mb-0">
+            <div class="access-label">
+                IMSSIGHT :: EDITOR NARRATIVO
+            </div>
 
-                        Editor de Escenas
+            <div class="logo">
+                ESCENAS
+            </div>
 
-                    </h1>
+            <div
+                class="welcome-terminal"
+                id="bienvenida">
 
-                    <small class="text-muted">
-
-                        IMSSight Engine
-
-                    </small>
-
-                </div>
-
-                <button
-                    class="btn btn-success btn-lg"
-                    onclick="guardarEscena()">
-
-                    <i class="fa fa-save me-2"></i>
-
-                    Guardar escena
-
-                </button>
+                INITIALIZING USER SESSION...
 
             </div>
 
-            <!-- DATOS GENERALES -->
+        </div>
 
-            <div class="row">
+        <div class="status">
 
-                <div class="col-md-3 mb-3">
+            MOTOR NARRATIVO :: ACTIVO
+            <br>
 
-                    <label>ID Caso</label>
+            ENTORNO HTML :: OPERATIVO
+            <br>
+
+            COMPILADOR CLÍNICO :: EN LINEA
+            <br>
+
+            VALIDACIÓN DE OPERADOR :: APROBADA
+            <br>
+
+            <a
+                href="admin_escenas.html"
+                class="return-btn">
+
+                ⬅ REGRESAR
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SISTEMA -->
+
+    <div class="system">
+
+        <div class="line green">
+            EDITOR DE ESCENAS CLÍNICAS OPERATIVO
+        </div>
+
+        <div class="line">
+            ENTORNO DE SIMULACIÓN NARRATIVA ESTABLE.
+        </div>
+
+        <div class="line warning">
+            TODA ACTIVIDAD SERÁ REGISTRADA POR LA UEI.
+        </div>
+
+        <div class="hud-line"></div>
+
+        <!-- DATOS -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Configuración de escena
+            </div>
+
+            <div class="card-desc">
+
+                Parámetros generales del nodo narrativo.
+
+            </div>
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label class="terminal-label">
+                        ID Caso
+                    </label>
 
                     <input
                         type="number"
                         id="idCaso"
-                        class="form-control">
+                        class="terminal-input">
 
                 </div>
 
-                <div class="col-md-2 mb-3">
+                <div>
 
-                    <label>Orden</label>
+                    <label class="terminal-label">
+                        Orden
+                    </label>
 
                     <input
                         type="number"
                         id="orden"
-                        class="form-control"
+                        class="terminal-input"
                         value="1">
 
                 </div>
 
-                <div class="col-md-3 mb-3">
+                <div>
 
-                    <label>Tipo</label>
+                    <label class="terminal-label">
+                        Tipo
+                    </label>
 
                     <select
                         id="tipo"
-                        class="form-select">
+                        class="terminal-select">
 
                         <option value="texto">
                             Texto
@@ -198,268 +353,242 @@ label{
 
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div>
 
-                    <label>Multimedia</label>
+                    <label class="terminal-label">
+                        Multimedia
+                    </label>
 
                     <input
                         type="text"
                         id="multimedia"
-                        class="form-control"
+                        class="terminal-input"
                         placeholder="../video/video.mp4">
 
                 </div>
 
             </div>
 
-            <!-- TITULO -->
+            <div class="mt-30">
 
-            <div class="mb-4">
-
-                <label>Título</label>
+                <label class="terminal-label">
+                    Título
+                </label>
 
                 <input
                     type="text"
                     id="titulo"
-                    class="form-control">
+                    class="terminal-input">
 
             </div>
 
-            <!--
-            |--------------------------------------------------------------------------
-            | BLOQUE GENERADOR VISUAL DE PREGUNTAS
-            |--------------------------------------------------------------------------
+        </div>
 
-            -->
+        <!-- PREGUNTAS -->
 
-            <div id="bloquePregunta" class="card border-0 shadow-sm mb-4">
+        <div
+            id="bloquePregunta"
+            class="question-builder">
 
-                <div class="card-body">
+            <div class="question-title">
 
-                    <div class="d-flex align-items-center mb-4">
+                <i class="fa-solid fa-brain"></i>
 
-                        <i class="fa fa-wand-magic-sparkles text-primary fa-2x me-3"></i>
+                <div>
 
-                        <div>
+                    <h3>
+                        Constructor Visual de Preguntas
+                    </h3>
 
-                            <h4 class="mb-0">
+                    <p>
 
-                                Constructor Visual de Preguntas
+                        Generador automático de lógica clínica interactiva.
 
-                            </h4>
-
-                            <small class="text-muted">
-
-                                Genera automáticamente HTML clínico para IMSSight
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-12 mb-3">
-
-                            <label>
-
-                                Pregunta clínica
-
-                            </label>
-
-                            <textarea
-                                id="preguntaVisual"
-                                class="form-control"
-                                style="
-                                    min-height:120px;
-                                    background:white;
-                                    color:black;
-                                    font-family:inherit;
-                                "></textarea>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>Opción A</label>
-
-                            <input
-                                type="text"
-                                id="visualA"
-                                class="form-control">
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>Opción B</label>
-
-                            <input
-                                type="text"
-                                id="visualB"
-                                class="form-control">
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>Opción C</label>
-
-                            <input
-                                type="text"
-                                id="visualC"
-                                class="form-control">
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>Opción D</label>
-
-                            <input
-                                type="text"
-                                id="visualD"
-                                class="form-control">
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>
-                                Retroalimentación correcta
-                            </label>
-
-                            <textarea
-                                id="retroCorrecta"
-                                class="form-control"
-                                rows="4"></textarea>
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label>
-                                Retroalimentación incorrecta
-                            </label>
-
-                            <textarea
-                                id="retroIncorrecta"
-                                class="form-control"
-                                rows="4"></textarea>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-    <!-- RESPUESTA CORRECTA -->
-    <div class="col-md-4 mb-3">
-
-        <label>
-
-            Respuesta correcta
-
-        </label>
-
-        <select
-            id="visualCorrecta"
-            class="form-select">
-
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-
-        </select>
-
-    </div>
-
-    <!-- EVALUABLE -->
-    <div class="col-md-4 mb-3">
-
-        <label>
-
-            ¿Escena evaluable?
-
-        </label>
-
-        <select
-            id="evaluable"
-            class="form-select">
-
-            <option value="1">
-
-                Sí
-
-            </option>
-
-            <option value="0">
-
-                No
-
-            </option>
-
-        </select>
-
-    </div>
-
-    <!-- PUNTOS -->
-    <div class="col-md-4 mb-3">
-
-        <label>
-
-            Puntos
-
-        </label>
-
-        <input
-            type="number"
-            id="puntos"
-            class="form-control"
-            value="1">
-
-    </div>
-
-    <!-- BOTON -->
-    <div class="col-md-12 d-flex align-items-end">
-
-        <button
-            class="btn btn-primary w-100"
-            onclick="generarPreguntaVisual()">
-
-            <i class="fa fa-bolt me-2"></i>
-
-            Generar pregunta visual
-
-        </button>
-
-    </div>
-
-</div>
+                    </p>
 
                 </div>
 
             </div>
 
-            <!-- EDITOR -->
+            <div class="form-grid">
 
-            <div class="row">
+                <div style="grid-column:1/-1;">
 
-                <div class="col-md-6">
+                    <label class="terminal-label">
+                        Pregunta clínica
+                    </label>
 
-                    <h5 class="mb-3">
+                    <textarea
+                        id="preguntaVisual"
+                        class="editor-terminal"
+                        style="min-height:150px;"></textarea>
 
-                        HTML / Contenido
+                </div>
 
-                    </h5>
+                <div>
 
-                    <textarea id="contenido">
+                    <label class="terminal-label">
+                        Opción A
+                    </label>
+
+                    <input
+                        type="text"
+                        id="visualA"
+                        class="terminal-input">
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        Opción B
+                    </label>
+
+                    <input
+                        type="text"
+                        id="visualB"
+                        class="terminal-input">
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        Opción C
+                    </label>
+
+                    <input
+                        type="text"
+                        id="visualC"
+                        class="terminal-input">
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        Opción D
+                    </label>
+
+                    <input
+                        type="text"
+                        id="visualD"
+                        class="terminal-input">
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        Respuesta correcta
+                    </label>
+
+                    <select
+                        id="visualCorrecta"
+                        class="terminal-select">
+
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        ¿Evaluable?
+                    </label>
+
+                    <select
+                        id="evaluable"
+                        class="terminal-select">
+
+                        <option value="1">
+                            Sí
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label class="terminal-label">
+                        Puntos
+                    </label>
+
+                    <input
+                        type="number"
+                        id="puntos"
+                        class="terminal-input"
+                        value="1">
+
+                </div>
+
+            </div>
+
+            <div class="mt-30">
+
+                <label class="terminal-label">
+                    Retroalimentación correcta
+                </label>
+
+                <textarea
+                    id="retroCorrecta"
+                    class="editor-terminal"
+                    style="min-height:140px;"></textarea>
+
+            </div>
+
+            <div class="mt-30">
+
+                <label class="terminal-label">
+                    Retroalimentación incorrecta
+                </label>
+
+                <textarea
+                    id="retroIncorrecta"
+                    class="editor-terminal"
+                    style="min-height:140px;"></textarea>
+
+            </div>
+
+            <div class="mt-30">
+
+                <button
+                    class="btn"
+                    onclick="generarPreguntaVisual()">
+
+                    GENERAR PREGUNTA VISUAL
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- EDITOR -->
+
+        <div class="editor-layout">
+
+            <!-- HTML -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    HTML / Contenido
+                </div>
+
+                <textarea
+                    id="contenido"
+                    class="editor-terminal">
 
 <div class="alert alert-primary">
 
@@ -467,37 +596,43 @@ label{
 
 </div>
 
-                    </textarea>
+                </textarea>
+
+            </div>
+
+            <!-- PREVIEW -->
+
+            <div class="card">
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        margin-bottom:25px;
+                    ">
+
+                    <div class="card-title"
+                         style="margin:0;">
+
+                        Vista previa
+
+                    </div>
+
+                    <button
+                        class="btn"
+                        style="width:auto;padding:12px 20px;"
+                        onclick="previsualizar()">
+
+                        ACTUALIZAR
+
+                    </button>
 
                 </div>
 
-                <div class="col-md-6">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-
-                        <h5 class="mb-0">
-
-                            Vista previa
-
-                        </h5>
-
-                        <button
-                            class="btn btn-primary btn-sm"
-                            onclick="previsualizar()">
-
-                            <i class="fa fa-rotate-right me-2"></i>
-
-                            Actualizar
-
-                        </button>
-
-                    </div>
-
-                    <div
-                        id="preview"
-                        class="preview">
-
-                    </div>
+                <div
+                    id="preview"
+                    class="preview-terminal">
 
                 </div>
 
@@ -505,265 +640,110 @@ label{
 
         </div>
 
+        <!-- BOTON -->
+
+        <div class="mt-40">
+
+            <button
+                class="btn"
+                onclick="guardarEscena()">
+
+                GUARDAR ESCENA
+
+            </button>
+
+        </div>
+
+        <!-- TERMINAL LOG -->
+
+        <div class="terminal-log mt-40">
+
+            <div class="terminal-line">
+                [OK] Motor narrativo sincronizado
+            </div>
+
+            <div class="terminal-line">
+                [OK] Entorno clínico compilado
+            </div>
+
+            <div class="terminal-line warning-line">
+                [WARN] Actividad monitoreada por UEI
+            </div>
+
+            <div class="terminal-line">
+                [OK] Delta-5 security bridge stable
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        IMSSIGHT NARRATIVE ENGINE ONLINE...
+
     </div>
 
 </div>
 
 <script>
 
-function generarPreguntaVisual(){
+/* =========================================
+SESIÓN
+========================================= */
 
-    const pregunta =
-        document.getElementById(
-            'preguntaVisual'
-        ).value;
+async function verificarSesion(){
 
-    const a =
-        document.getElementById(
-            'visualA'
-        ).value;
+    try{
 
-    const b =
-        document.getElementById(
-            'visualB'
-        ).value;
+        const response =
+            await fetch('../php/auth.php');
 
-    const c =
-        document.getElementById(
-            'visualC'
-        ).value;
+        const data =
+            await response.json();
 
-    const d =
-        document.getElementById(
-            'visualD'
-        ).value;
+        if(!data.auth){
 
-    const correcta =
-        document.getElementById(
-            'visualCorrecta'
-        ).value;
+            window.location.href =
+                '../pages/sign-in.html';
 
-    const retroCorrecta =
-        document.getElementById(
-            'retroCorrecta'
-        ).value;
+            return;
+        }
 
-    const retroIncorrecta =
-        document.getElementById(
-            'retroIncorrecta'
-        ).value;
+        const nombre =
+            data.usuario.nombre;
 
-    /*
-    |--------------------------------------------------------------------------
-    | VALIDAR CORRECTAS
-    |--------------------------------------------------------------------------
-    */
+        document
+        .getElementById('bienvenida')
+        .innerHTML = `
 
-    const esA =
-        correcta === 'A' ? 1 : 0;
+            BIENVENIDO, OPERADOR
+            <span style="color:#58f5c8;">
+            ${nombre.toUpperCase()}
+            </span>
 
-    const esB =
-        correcta === 'B' ? 1 : 0;
+            <br>
 
-    const esC =
-        correcta === 'C' ? 1 : 0;
+            MOTOR DE ESCENAS CLÍNICAS OPERATIVO.
+            <br>
 
-    const esD =
-        correcta === 'D' ? 1 : 0;
+            CONSTRUCTOR NARRATIVO CENTRALIZADO.
 
-    /*
-    |--------------------------------------------------------------------------
-    | HTML
-    |--------------------------------------------------------------------------
-    */
+        `;
 
-    const html = `
+    }catch(error){
 
-<div class="container my-4">
+        console.error(error);
 
-    <div class="text-center mb-4">
-
-        <p class="text-muted small mb-0">
-
-            ${pregunta}
-
-        </p>
-
-    </div>
-
-    <div id="retroalimentacion" class="mb-4"></div>
-
-    <div class="row g-3">
-
-        ${crearBotonPregunta(
-            'A',
-            a,
-            esA,
-            correcta,
-            retroCorrecta,
-            retroIncorrecta
-        )}
-
-        ${crearBotonPregunta(
-            'B',
-            b,
-            esB,
-            correcta,
-            retroCorrecta,
-            retroIncorrecta
-        )}
-
-        ${crearBotonPregunta(
-            'C',
-            c,
-            esC,
-            correcta,
-            retroCorrecta,
-            retroIncorrecta
-        )}
-
-        ${crearBotonPregunta(
-            'D',
-            d,
-            esD,
-            correcta,
-            retroCorrecta,
-            retroIncorrecta
-        )}
-
-    </div>
-
-</div>
-
-`;
-
-    /*
-    |--------------------------------------------------------------------------
-    | INSERTAR
-    |--------------------------------------------------------------------------
-    */
-
-    const editor =
-        document.getElementById(
-            'contenido'
-        );
-
-    editor.value += html;
-
-    previsualizar();
+    }
 
 }
 
-function crearBotonPregunta(
+verificarSesion();
 
-    letra,
-    texto,
-    correcta,
-    respuestaCorrecta,
-    retroCorrecta,
-    retroIncorrecta
-
-){
-
-    const tipo =
-        correcta
-        ? 'success'
-        : 'danger';
-
-    const icono =
-        correcta
-        ? 'check-circle-fill'
-        : 'x-circle-fill';
-
-    const titulo =
-        correcta
-        ? '¡Excelente!'
-        : 'Retroalimentación';
-
-    const animacion =
-        correcta
-        ? 'bounceIn'
-        : 'shakeX';
-
-    const retro =
-        correcta
-        ? retroCorrecta
-        : retroIncorrecta;
-
-    return `
-
-    <div class="col-md-6">
-
-        <button
-
-            class="btn btn-outline-primary text-start p-3 w-100 h-100 shadow-sm border-2 d-flex align-items-center"
-
-            style="border-radius:15px;"
-
-            onclick="
-
-                guardarRespuesta('${letra}',${correcta});
-
-                document.getElementById('retroalimentacion').innerHTML = \`
-
-                <div
-                    class='alert alert-${tipo} border-0 shadow animate__animated animate__${animacion}'
-                    style='border-radius:20px;'>
-
-                    <div class='d-flex align-items-center mb-2'>
-
-                        <i class='bi bi-${icono} text-${tipo} fs-4 me-2'></i>
-
-                        <h5 class='fw-bold mb-0'>
-                            ${titulo}
-                        </h5>
-
-                    </div>
-
-                    <hr>
-
-                    <p class='mb-1'>
-
-                        <strong>
-
-                            Respuesta correcta:
-                            ${respuestaCorrecta}
-
-                        </strong>
-
-                    </p>
-
-                    <p class='small mb-0 text-dark'>
-
-                        ${retro}
-
-                    </p>
-
-                </div>
-
-                \`;
-
-            ">
-
-            <span class="badge bg-dark me-3">
-
-                ${letra}
-
-            </span>
-
-            <span>
-
-                ${texto}
-
-            </span>
-
-        </button>
-
-    </div>
-
-    `;
-
-}
+/* =========================================
+PREVIEW
+========================================= */
 
 function previsualizar(){
 
@@ -780,8 +760,11 @@ function previsualizar(){
 
 previsualizar();
 
-const params =
+/* =========================================
+PARAMS
+========================================= */
 
+const params =
     new URLSearchParams(
         window.location.search
     );
@@ -799,13 +782,6 @@ if(idCaso){
     ).value = idCaso;
 
 }
-else{
-
-    alert(
-        'No se recibió ID del caso clínico'
-    );
-
-}
 
 if(orden){
 
@@ -815,11 +791,9 @@ if(orden){
 
 }
 
-/*
-|--------------------------------------------------------------------------
-| MOSTRAR / OCULTAR BLOQUE PREGUNTA
-|--------------------------------------------------------------------------
-*/
+/* =========================================
+PREGUNTAS
+========================================= */
 
 document.getElementById(
     'tipo'
@@ -859,18 +833,76 @@ function togglePregunta(){
 
 togglePregunta();
 
-/*
-|--------------------------------------------------------------------------
-| GUARDAR ESCENA
-|--------------------------------------------------------------------------
-*/
+/* =========================================
+GENERAR PREGUNTA
+========================================= */
+
+function generarPreguntaVisual(){
+
+    const pregunta =
+        document.getElementById('preguntaVisual').value;
+
+    const a =
+        document.getElementById('visualA').value;
+
+    const b =
+        document.getElementById('visualB').value;
+
+    const c =
+        document.getElementById('visualC').value;
+
+    const d =
+        document.getElementById('visualD').value;
+
+    const correcta =
+        document.getElementById('visualCorrecta').value;
+
+    const html = `
+
+<div class="card shadow border-0 p-4">
+
+<h3>${pregunta}</h3>
+
+<hr>
+
+<button class="btn btn-outline-primary w-100 mb-3">
+A) ${a}
+</button>
+
+<button class="btn btn-outline-primary w-100 mb-3">
+B) ${b}
+</button>
+
+<button class="btn btn-outline-primary w-100 mb-3">
+C) ${c}
+</button>
+
+<button class="btn btn-outline-primary w-100 mb-3">
+D) ${d}
+</button>
+
+</div>
+
+`;
+
+    document.getElementById(
+        'contenido'
+    ).value += html;
+
+    previsualizar();
+
+}
+
+/* =========================================
+GUARDAR
+========================================= */
 
 async function guardarEscena(){
 
     const tipoEscena =
-    document.getElementById(
-        'tipo'
-    ).value;
+        document.getElementById(
+            'tipo'
+        ).value;
 
     const data = {
 

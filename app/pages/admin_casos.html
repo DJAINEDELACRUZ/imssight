@@ -3,78 +3,143 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <title>
-        Admin Casos Clínicos
-    </title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+<title>
+    IMSSIGHT :: CASOS CLÍNICOS
+</title>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
+    rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="../assets/css/imssight-terminal.css">
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container py-5">
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="topbar">
 
         <div>
 
-            <h1>
-                Casos clínicos
-            </h1>
+            <div class="access-label">
+                IMSSIGHT :: ADMINISTRACIÓN DE CASOS CLÍNICOS
+            </div>
 
-            <p class="text-muted">
-                Administración IMSSight
-            </p>
+            <div class="logo">
+                CASOS
+            </div>
+
+            <div
+                class="welcome-terminal"
+                id="bienvenida">
+
+                INITIALIZING USER SESSION...
+
+            </div>
 
         </div>
 
-        <a
-            href="profile.html"
-            class="btn btn-dark">
+        <div class="status">
 
-            Volver
+            MÓDULO :: ACTIVO
+            <br>
 
-        </a>
+            ENTORNO DE SIMULACIÓN :: OPERATIVO
+            <br>
+
+            REPOSITORIO DE ESCENARIOS :: SINCRONIZADO
+            <br>
+
+            VALIDACIÓN DE OPERADOR :: APROBADA
+            <br>
+
+            <a
+                href="profile.html"
+                class="return-btn">
+
+                ⬅ REGRESAR
+
+            </a>
+
+        </div>
 
     </div>
 
-    <!-- SELECT ESPECIALIDAD -->
+    <!-- PANEL PRINCIPAL -->
 
-    <div class="card shadow border-0 mb-4">
+    <div class="system">
 
-        <div class="card-body">
+        <div class="line green">
+            REPOSITORIO DE CASOS CLÍNICOS OPERATIVO
+        </div>
 
-            <div class="row">
+        <div class="line">
+            SINCRONIZACIÓN CON CLÚSTER CENTRAL ESTABLE.
+        </div>
 
-                <div class="col-md-6">
+        <div class="line warning">
+            TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
+        </div>
 
-                    <label>
+        <div class="hud-line"></div>
+
+        <!-- SELECTORES -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Nodo académico activo
+            </div>
+
+            <div class="card-desc">
+
+                Seleccionar especialidad y tema
+                para administración de escenarios clínicos.
+
+            </div>
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label class="terminal-label">
                         Especialidad
                     </label>
 
                     <select
                         id="selectEspecialidad"
-                        class="form-select"
+                        class="terminal-select"
                         onchange="cargarTemas()">
 
                     </select>
 
                 </div>
 
-                <div class="col-md-6">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Tema
                     </label>
 
                     <select
                         id="selectTema"
-                        class="form-select"
+                        class="terminal-select"
                         onchange="cargarCasos()">
 
                     </select>
@@ -85,68 +150,72 @@
 
         </div>
 
-    </div>
+        <!-- NUEVO CASO -->
 
-    <!-- NUEVO CASO -->
+        <div class="card mt-40">
 
-    <div class="card shadow border-0 mb-5">
+            <div class="card-title">
+                Crear nuevo caso clínico
+            </div>
 
-        <div class="card-body">
+            <div class="card-desc">
 
-            <h4 class="mb-4">
-                Nuevo caso clínico
-            </h4>
+                Registrar simulaciones médicas
+                dentro del entorno académico IMSSight.
 
-            <div class="row">
+            </div>
 
-                <div class="col-md-4">
+            <div class="form-grid">
 
-                    <label>
+                <div>
+
+                    <label class="terminal-label">
                         Título
                     </label>
 
                     <input
                         type="text"
                         id="titulo"
-                        class="form-control">
+                        class="terminal-input">
 
                 </div>
 
-                <div class="col-md-4">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Descripción
                     </label>
 
                     <input
                         type="text"
                         id="descripcion"
-                        class="form-control">
+                        class="terminal-input">
 
                 </div>
 
-                <div class="col-md-2">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Portada
                     </label>
 
                     <input
                         type="text"
                         id="portada"
-                        class="form-control"
+                        class="terminal-input"
                         placeholder="../img/caso.png">
+
                 </div>
 
-                <div class="col-md-2">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Dificultad
                     </label>
 
                     <select
                         id="dificultad"
-                        class="form-select">
+                        class="terminal-select">
 
                         <option>Básico</option>
                         <option>Intermedio</option>
@@ -156,17 +225,17 @@
 
                 </div>
 
-                <div class="col-md-2 d-grid">
+                <div>
 
-                    <label style="opacity:0;">
-                        guardar
+                    <label class="terminal-label">
+                        Acción
                     </label>
 
                     <button
-                        class="btn btn-success"
+                        class="btn"
                         onclick="guardarCaso()">
 
-                        Guardar
+                        Registrar
 
                     </button>
 
@@ -176,21 +245,24 @@
 
         </div>
 
-    </div>
+        <!-- TABLA -->
 
-    <!-- TABLA -->
+        <div class="card mt-40">
 
-    <div class="card shadow border-0">
-
-        <div class="card-body">
-
-            <h4 class="mb-4">
+            <div class="card-title">
                 Casos clínicos registrados
-            </h4>
+            </div>
 
-            <div class="table-responsive">
+            <div class="card-desc">
 
-                <table class="table table-hover">
+                Escenarios clínicos disponibles
+                dentro del sistema académico central.
+
+            </div>
+
+            <div class="table-container">
+
+                <table class="terminal-table">
 
                     <thead>
 
@@ -218,9 +290,88 @@
 
         </div>
 
+        <!-- TERMINAL LOG -->
+
+        <div class="terminal-log">
+
+            <div class="terminal-line">
+                [OK] Simulaciones clínicas sincronizadas
+            </div>
+
+            <div class="terminal-line">
+                [OK] Integridad narrativa validada
+            </div>
+
+            <div class="terminal-line warning-line">
+                [WARN] Actividad administrativa monitoreada
+            </div>
+
+            <div class="terminal-line">
+                [OK] Delta-5 security bridge stable
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        IMSSIGHT CLINICAL SIMULATION ENVIRONMENT ONLINE...
+
     </div>
 
 </div>
+
+<script>
+
+async function verificarSesion(){
+
+    try{
+
+        const response =
+            await fetch('../php/auth.php');
+
+        const data =
+            await response.json();
+
+        if(!data.auth){
+
+            window.location.href =
+                '../pages/sign-in.html';
+
+            return;
+        }
+
+        const nombre =
+            data.usuario.nombre;
+
+        document
+        .getElementById('bienvenida')
+        .innerHTML = `
+
+            BIENVENIDO, OPERADOR <span style="color:#58f5c8;">
+            ${nombre.toUpperCase()}
+            </span>
+            <br>
+
+            GESTIÓN DE CASOS CLÍNICOS.
+            <br>
+
+            ENTORNO DE SIMULACIÓN CENTRALIZADO.
+
+        `;
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+verificarSesion();
+
+</script>
 
 <script>
 
@@ -244,9 +395,7 @@ async function cargarEspecialidades() {
         select.innerHTML += `
 
             <option value="${e.id}">
-
                 ${e.nombre}
-
             </option>
 
         `;
@@ -284,9 +433,7 @@ async function cargarTemas() {
         selectTema.innerHTML += `
 
             <option value="${t.id}">
-
                 ${t.titulo}
-
             </option>
 
         `;
@@ -323,102 +470,91 @@ async function cargarCasos() {
 
         tabla.innerHTML += `
 
-            <tr>
+<tr>
 
-                <td>
+<td>
+    ${c.id}
+</td>
 
-                    ${c.id}
+<td>
 
-                </td>
+    <input
+        type="text"
+        id="titulo_${c.id}"
+        class="terminal-input"
+        value="${c.titulo}">
 
-                <td>
+</td>
 
-                    <input
-                        type="text"
-                        id="titulo_${c.id}"
-                        class="form-control"
-                        value="${c.titulo}">
+<td>
 
-                </td>
+    <input
+        type="text"
+        id="descripcion_${c.id}"
+        class="terminal-input"
+        value="${c.descripcion}">
 
-                <td>
+</td>
 
-                    <input
-                        type="text"
-                        id="descripcion_${c.id}"
-                        class="form-control"
-                        value="${c.descripcion}">
+<td>
 
-                </td>
+    <input
+        type="text"
+        id="portada_${c.id}"
+        class="terminal-input"
+        value="${c.portada ?? ''}">
 
-                <td>
+</td>
 
-                    <input
-                        type="text"
-                        id="portada_${c.id}"
-                        class="form-control"
-                        value="${c.portada ?? ''}">
+<td>
 
-                </td>
+    <select
+        id="dificultad_${c.id}"
+        class="terminal-select">
 
-               <td>
+        <option ${c.dificultad == 'Básico' ? 'selected' : ''}>
+            Básico
+        </option>
 
-                    <select
-                        id="dificultad_${c.id}"
-                        class="form-select">
+        <option ${c.dificultad == 'Intermedio' ? 'selected' : ''}>
+            Intermedio
+        </option>
 
-                        <option
-                            ${c.dificultad == 'Básico' ? 'selected' : ''}>
+        <option ${c.dificultad == 'Avanzado' ? 'selected' : ''}>
+            Avanzado
+        </option>
 
-                            Básico
+    </select>
 
-                        </option>
+</td>
 
-                        <option
-                            ${c.dificultad == 'Intermedio' ? 'selected' : ''}>
+<td>
 
-                            Intermedio
+    <a
+        href="admin_escenas.html?id=${c.id}"
+        class="btn">
 
-                        </option>
+        Escenas
 
-                        <option
-                            ${c.dificultad == 'Avanzado' ? 'selected' : ''}>
+    </a>
 
-                            Avanzado
+</td>
 
-                        </option>
+<td>
 
-                    </select>
+    <button
+        class="btn"
+        onclick="actualizarCaso(${c.id})">
 
-                </td>
+        Guardar
 
-                <td>
+    </button>
 
-                    <a
-                        href="admin_escenas.html?id=${c.id}"
-                        class="btn btn-info btn-sm">
+</td>
 
-                        Escenas
+</tr>
 
-                    </a>
-
-                </td>
-
-                <td>
-
-                    <button
-                        class="btn btn-primary btn-sm"
-                        onclick="actualizarCaso(${c.id})">
-
-                        Guardar
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
+`;
 
     });
 
@@ -545,7 +681,6 @@ async function actualizarCaso(id) {
     cargarCasos();
 
 }
-
 
 cargarEspecialidades();
 

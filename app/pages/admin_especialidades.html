@@ -3,113 +3,171 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <title>
-        Admin Especialidades
-    </title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+<title>
+    IMSSIGHT :: ESPECIALIDADES
+</title>
 
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+<link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
+    rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/css/imssight-terminal.css">
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container py-5">
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="topbar">
 
         <div>
 
-            <h1>
-                Especialidades
-            </h1>
+            <div class="access-label">
+                IMSSIGHT :: ADMINISTRACIÓN DE ESPECIALIDADES
+            </div>
 
-            <p class="text-muted">
-                Administración IMSSight
-            </p>
+            <div class="logo">
+                ESPECIALIDADES
+            </div>
+
+            
+
+            <div
+              class="welcome-terminal"
+              id="bienvenida">
+
+              INITIALIZING USER SESSION...
+
+          </div>
 
         </div>
 
-        <a
-            href="profile.html"
-            class="btn btn-dark">
+        <div class="status">
 
-            Volver
+            MÓDULO :: ACTIVO
+            <br>
 
-        </a>
+            BASE DE DATOS :: EN LINEA
+            <br>
+
+            INTEGRIDAD :: VERIFICADA
+            <br>
+
+            VALIDACIÓN DE OPERADOR :: APROBADA
+            <br>
+
+            <a
+                href="profile.html"
+                class="return-btn">
+
+                ⬅ REGRESAR
+
+            </a>
+
+        </div>
 
     </div>
 
-    <!-- NUEVA ESPECIALIDAD -->
 
-    <div class="card shadow border-0 mb-5">
+    <!-- PANEL PRINCIPAL -->
 
-        <div class="card-body">
+    <div class="system">
 
-            <h4 class="mb-4">
-                Nueva especialidad
-            </h4>
+        <div class="line green">
+            REPOSITORIO DE ESPECIALIDADES OPERATIVO
+        </div>
 
-            <div class="row">
+        <div class="line">
+            SINCRONIZACIÓN CON NODO CENTRAL ESTABLE.
+        </div>
 
-                <div class="col-md-4">
+        <div class="line warning">
+            TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
+        </div>
 
-                    <label>
+        <div class="hud-line"></div>
+
+        <!-- NUEVA ESPECIALIDAD -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Crear una nueva especialidad
+            </div>
+
+            <div class="card-desc">
+
+                Registrar nuevas especialidades
+                dentro del entorno académico IMSSight.
+
+            </div>
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label class="terminal-label">
                         Nombre
                     </label>
 
                     <input
                         type="text"
                         id="nombre"
-                        class="form-control">
+                        class="terminal-input">
 
                 </div>
 
-                <div class="col-md-3">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Icono
                     </label>
 
                     <input
                         type="text"
                         id="icono"
-                        class="form-control"
+                        class="terminal-input"
                         placeholder="emergency">
 
                 </div>
 
-                <div class="col-md-3">
+                <div>
 
-                    <label>
+                    <label class="terminal-label">
                         Color
                     </label>
 
                     <input
                         type="color"
                         id="color"
-                        class="form-control form-control-color">
+                        class="terminal-color">
 
                 </div>
 
-                <div class="col-md-2 d-grid">
+                <div>
 
-                    <label style="opacity:0;">
-                        guardar
+                    <label class="terminal-label">
+                        Acción
                     </label>
 
                     <button
-                        class="btn btn-success"
+                        class="btn"
                         onclick="guardarEspecialidad()">
 
-                        Guardar
+                        Registrar
 
                     </button>
 
@@ -119,21 +177,24 @@
 
         </div>
 
-    </div>
+        <!-- TABLA -->
 
-    <!-- TABLA -->
+        <div class="card mt-40">
 
-    <div class="card shadow border-0">
-
-        <div class="card-body">
-
-            <h4 class="mb-4">
+            <div class="card-title">
                 Especialidades registradas
-            </h4>
+            </div>
 
-            <div class="table-responsive">
+            <div class="card-desc">
 
-                <table class="table table-hover">
+                Entidades clínicas disponibles
+                dentro del sistema académico.
+
+            </div>
+
+            <div class="table-container">
+
+                <table class="terminal-table">
 
                     <thead>
 
@@ -143,7 +204,8 @@
                             <th>Nombre</th>
                             <th>Icono</th>
                             <th>Color</th>
-                            <th>Activo</th>
+                            <th>Estado</th>
+                            <th>Guardar</th>
 
                         </tr>
 
@@ -159,9 +221,88 @@
 
         </div>
 
+        <!-- TERMINAL LOG -->
+
+        <div class="terminal-log">
+
+            <div class="terminal-line">
+                [OK] Repositorio biomédico sincronizado
+            </div>
+
+            <div class="terminal-line">
+                [OK] Integridad de registros verificada
+            </div>
+
+            <div class="terminal-line warning-line">
+                [WARN] Actividad administrativa monitoreada
+            </div>
+
+            <div class="terminal-line">
+                [OK] Delta-5 security bridge stable
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        IMSSIGHT SPECIALTY MANAGEMENT ENVIRONMENT ONLINE...
+
     </div>
 
 </div>
+
+<script>
+
+async function verificarSesion(){
+
+    try{
+
+        const response =
+            await fetch('../php/auth.php');
+
+        const data =
+            await response.json();
+
+        if(!data.auth){
+
+            window.location.href =
+                '../pages/sign-in.html';
+
+            return;
+        }
+
+        const nombre =
+            data.usuario.nombre;
+
+        document
+        .getElementById('bienvenida')
+        .innerHTML = `
+
+            BIENVENIDO, OPERADOR <span style="color:#58f5c8;">
+            ${nombre.toUpperCase()}
+            </span>
+            <br>
+
+            GESTIÓN DE ESPECIALIDADES MÉDICAS.
+            <br>
+
+            REPOSITORIO ACADÉMICO CENTRALIZADO.
+
+        `;
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+verificarSesion();
+
+</script>
 
 <script>
 
@@ -174,7 +315,9 @@ async function cargarEspecialidades() {
         await response.json();
 
     const tabla =
-        document.getElementById('tablaEspecialidades');
+        document.getElementById(
+            'tablaEspecialidades'
+        );
 
     tabla.innerHTML = '';
 
@@ -184,79 +327,77 @@ async function cargarEspecialidades() {
 
 <tr>
 
-    <td>
+<td>
+    ${e.id}
+</td>
 
-        ${e.id}
+<td>
 
-    </td>
+    <input
+        type="text"
+        id="nombre_${e.id}"
+        class="terminal-input"
+        value="${e.nombre}">
 
-    <td>
+</td>
 
-        <input
-            type="text"
-            id="nombre_${e.id}"
-            class="form-control"
-            value="${e.nombre}">
+<td>
 
-    </td>
+    <input
+        type="text"
+        id="icono_${e.id}"
+        class="terminal-input"
+        value="${e.icono}">
 
-    <td>
+</td>
 
-        <input
-            type="text"
-            id="icono_${e.id}"
-            class="form-control"
-            value="${e.icono}">
+<td>
 
-    </td>
+    <input
+        type="color"
+        id="color_${e.id}"
+        class="terminal-color"
+        value="${e.color}">
 
-    <td>
+</td>
 
-        <input
-            type="color"
-            id="color_${e.id}"
-            class="form-control form-control-color"
-            value="${e.color}">
+<td>
 
-    </td>
+    <select
+        id="activo_${e.id}"
+        class="terminal-select">
 
-    <td>
+        <option
+            value="1"
+            ${e.activo == 1 ? 'selected' : ''}>
 
-        <select
-            id="activo_${e.id}"
-            class="form-select">
+            Activo
 
-            <option
-                value="1"
-                ${e.activo == 1 ? 'selected' : ''}>
+        </option>
 
-                Activo
+        <option
+            value="0"
+            ${e.activo == 0 ? 'selected' : ''}>
 
-            </option>
+            Inactivo
 
-            <option
-                value="0"
-                ${e.activo == 0 ? 'selected' : ''}>
+        </option>
 
-                Inactivo
+    </select>
 
-            </option>
+</td>
 
-        </select>
+<td>
 
-    </td>
+    <button
+        class="btn"
+        onclick="actualizarEspecialidad(${e.id})">
 
-    <td>
+        Guardar
 
-        <button
-            class="btn btn-primary btn-sm"
-            onclick="actualizarEspecialidad(${e.id})">
+    </button>
 
-            Guardar
-
-        </button>
-
-    </td>
+</td>
 
 </tr>
 
@@ -277,27 +418,30 @@ async function guardarEspecialidad() {
     const color =
         document.getElementById('color').value;
 
-    const response = await fetch(
-        '../php/guardar_especialidad.php',
-        {
+    const response =
+        await fetch(
 
-            method: 'POST',
+            '../php/guardar_especialidad.php',
 
-            headers: {
-                'Content-Type':
-                'application/json'
-            },
+            {
 
-            body: JSON.stringify({
+                method:'POST',
 
-                nombre,
-                icono,
-                color
+                headers:{
+                    'Content-Type':'application/json'
+                },
 
-            })
+                body:JSON.stringify({
 
-        }
-    );
+                    nombre,
+                    icono,
+                    color
+
+                })
+
+            }
+
+        );
 
     const resultado =
         await response.json();
@@ -322,32 +466,32 @@ async function actualizarEspecialidad(id) {
     const activo =
         document.getElementById(`activo_${id}`).value;
 
-    const response = await fetch(
+    const response =
+        await fetch(
 
-        '../php/update_especialidad.php',
+            '../php/update_especialidad.php',
 
-        {
+            {
 
-            method: 'POST',
+                method:'POST',
 
-            headers: {
-                'Content-Type':
-                'application/json'
-            },
+                headers:{
+                    'Content-Type':'application/json'
+                },
 
-            body: JSON.stringify({
+                body:JSON.stringify({
 
-                id,
-                nombre,
-                icono,
-                color,
-                activo
+                    id,
+                    nombre,
+                    icono,
+                    color,
+                    activo
 
-            })
+                })
 
-        }
+            }
 
-    );
+        );
 
     const resultado =
         await response.json();
