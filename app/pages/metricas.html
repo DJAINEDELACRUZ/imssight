@@ -710,18 +710,24 @@ async function cargarMetricas(){
                         x => x.especialidad
                     ),
 
-                datasets:[{
+                    datasets:[{
 
-                    label:'Interacciones',
+                        label:'Interacciones',
 
-                    data:
-                        data.popular.map(
-                            x => x.interacciones
-                        ),
+                        data:
+                            data.popular.map(
+                                x => x.interacciones
+                            ),
 
-                    borderWidth:1
+                        backgroundColor:
+                            'rgba(88,245,200,.25)',
 
-                }]
+                        borderColor:
+                            '#58f5c8',
+
+                        borderWidth:2
+
+                    }]
 
             },
 
@@ -790,16 +796,24 @@ async function cargarMetricas(){
                         x => x.nombre
                     ),
 
-                datasets:[{
+                    datasets:[{
 
-                    label:'Actividad',
+                        label:'Interacciones',
 
-                    data:
-                        data.activos.map(
-                            x => x.actividad
-                        )
+                        data:
+                            data.popular.map(
+                                x => x.interacciones
+                            ),
 
-                }]
+                        backgroundColor:
+                            'rgba(88,245,200,.25)',
+
+                        borderColor:
+                            '#58f5c8',
+
+                        borderWidth:2
+
+                    }]
 
             },
 
@@ -858,16 +872,24 @@ async function cargarMetricas(){
                         x => x.nombre
                     ),
 
-                datasets:[{
+                    datasets:[{
 
-                    label:'Promedio',
+                        label:'Interacciones',
 
-                    data:
-                        data.dificiles.map(
-                            x => x.promedio
-                        )
+                        data:
+                            data.popular.map(
+                                x => x.interacciones
+                            ),
 
-                }]
+                        backgroundColor:
+                            'rgba(88,245,200,.25)',
+
+                        borderColor:
+                            '#58f5c8',
+
+                        borderWidth:2
+
+                    }]
 
             },
 

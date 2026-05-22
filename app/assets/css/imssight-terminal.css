@@ -942,15 +942,3 @@ SIDEBAR
     color:#8fffe0;
 
 }
-
-.sidebar{
-
-    position:sticky;
-
-    top:20px;
-
-    height:calc(100vh - 40px);
-
-    overflow-y:auto;
-
-}
