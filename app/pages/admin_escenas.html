@@ -214,191 +214,230 @@ GRID FORM
 
 <div class="container">
 
-    <!-- HEADER -->
+    <div class="layout">
 
-    <div class="topbar">
+        <aside class="sidebar">
 
-        <div>
+            <div class="sidebar-title">
 
-            <div class="access-label">
-                IMSSIGHT :: ADMINISTRADOR DE ESCENAS
-            </div>
-
-            <div class="logo">
-                ESCENAS
-            </div>
-
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING USER SESSION...
+                IMSSIGHT
 
             </div>
 
-        </div>
+            <!-- DASHBOARD -->
 
-        <div class="status">
+            <div class="sidebar-section">
 
-            EDITOR NARRATIVO :: ACTIVO
-            <br>
+                <div class="sidebar-section-title">
 
-            ENTORNO HTML :: OPERATIVO
-            <br>
-
-            REPOSITORIO DE ESCENAS :: SINCRONIZADO
-            <br>
-
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
-
-            <a
-                href="profile.html"
-                class="return-btn">
-
-                ⬅ REGRESAR
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- SISTEMA -->
-
-    <div class="system">
-
-        <div class="line green">
-            MOTOR DE ESCENAS CLÍNICAS OPERATIVO
-        </div>
-
-        <div class="line">
-            ENTORNO DE SIMULACIÓN NARRATIVA ESTABLE.
-        </div>
-
-        <div class="line warning">
-            TODA ACTIVIDAD SERÁ REGISTRADA POR LA UEI.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- SELECTORES -->
-
-        <div class="card">
-
-            <div class="card-title">
-                Nodo académico activo
-            </div>
-
-            <div class="card-desc">
-
-                Seleccionar especialidad, tema
-                y caso clínico para administrar escenas.
-
-            </div>
-
-            <div class="form-grid-2">
-
-                <div>
-
-                    <label class="terminal-label">
-                        Especialidad
-                    </label>
-
-                    <select
-                        id="especialidad"
-                        class="terminal-select"
-                        onchange="cargarTemas()">
-
-                    </select>
+                    DASHBOARD
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Tema
-                    </label>
+                    <a
+                        href="profile.html"
+                        class="sidebar-link">
 
-                    <select
-                        id="tema"
-                        class="terminal-select"
-                        onchange="cargarCasos()">
+                        Dashboard
 
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Caso clínico
-                    </label>
-
-                    <select
-                        id="caso"
-                        class="terminal-select"
-                        onchange="cargarEscenas()">
-
-                    </select>
+                    </a>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- CONTENIDO -->
+
+            <div class="sidebar-section mt-40">
+
+                <div class="sidebar-section-title">
+
+                    CARGAR CONTENIDO
+
+                </div>
+
+                <div class="sidebar-menu">
+
+                    <a
+                        href="admin_especialidades.html"
+                        class="sidebar-link">
+
+                        Especialidades
+
+                    </a>
+
+                    <a
+                        href="admin_temas.html"
+                        class="sidebar-link">
+
+                        Temas
+
+                    </a>
+
+                    <a
+                        href="admin_casos.html"
+                        class="sidebar-link">
+
+                        Casos
+
+                    </a>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="sidebar-link">
+
+                        Escenas
+
+                    </a>
+
+                    <a
+                        href="admin_examenes.html"
+                        class="sidebar-link">
+
+                        Exámenes
+
+                    </a>
+
+                    <a
+                        href="admin_multimedia.html"
+                        class="sidebar-link">
+
+                        Multimedia
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SISTEMA -->
+
+            <div class="sidebar-section mt-40">
+
+                <div class="sidebar-section-title">
+
+                    SISTEMA
+
+                </div>
+
+                <div class="sidebar-menu">
+
+                    <a
+                        href="metricas.html"
+                        class="sidebar-link">
+
+                        Métricas
+
+                    </a>
+
+                    <a
+                        href="admin_usuarios.html"
+                        class="sidebar-link">
+
+                        Usuarios
+
+                    </a>
+
+                    <button
+                        class="sidebar-link"
+                        onclick="reindexarBusqueda()">
+
+                        Reindexar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </aside>
 
         <!-- CONTENIDO -->
 
-        <div class="mt-40"
-             style="display:grid;grid-template-columns:350px 1fr;gap:30px;align-items:start;">
+        <div class="main-content">
 
-            <!-- LISTA ESCENAS -->
+            <!-- HEADER -->
 
-            <div>
+            <div class="topbar">
 
-                <div class="card">
+                <div>
 
-                    <div class="card-title">
-                        Escenas
+                    <div class="access-label">
+                        IMSSIGHT :: ADMINISTRADOR DE ESCENAS
+                    </div>
+
+                    <div class="logo">
+                        ESCENAS
                     </div>
 
                     <div
-                        id="listaEscenas"
-                        class="lista-escenas">
+                        class="welcome-terminal"
+                        id="bienvenida">
 
-                    </div>
-
-                    <div class="text-center mt-40">
-
-                        <button
-                            class="btn-circle"
-                            onclick="nuevaEscena()">
-
-                            +
-
-                        </button>
+                        INITIALIZING USER SESSION...
 
                     </div>
 
                 </div>
 
+                <div class="status">
+
+                    EDITOR NARRATIVO :: ACTIVO
+                    <br>
+
+                    ENTORNO HTML :: OPERATIVO
+                    <br>
+
+                    REPOSITORIO DE ESCENAS :: SINCRONIZADO
+                    <br>
+
+                    VALIDACIÓN DE OPERADOR :: APROBADA
+                    <br>
+
+                    <a
+                        href="profile.html"
+                        class="return-btn">
+
+                        ⬅ REGRESAR
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <!-- EDITOR -->
+            <!-- SISTEMA -->
 
-            <div>
+            <div class="system">
+
+                <div class="line green">
+                    MOTOR DE ESCENAS CLÍNICAS OPERATIVO
+                </div>
+
+                <div class="line">
+                    ENTORNO DE SIMULACIÓN NARRATIVA ESTABLE.
+                </div>
+
+                <div class="line warning">
+                    TODA ACTIVIDAD SERÁ REGISTRADA POR LA UEI.
+                </div>
+
+                <div class="hud-line"></div>
+
+                <!-- SELECTORES -->
 
                 <div class="card">
 
                     <div class="card-title">
-                        Editor narrativo
+                        Nodo académico activo
                     </div>
 
                     <div class="card-desc">
 
-                        Modificar lógica narrativa,
-                        contenido HTML y multimedia clínica.
+                        Seleccionar especialidad, tema
+                        y caso clínico para administrar escenas.
 
                     </div>
 
@@ -407,154 +446,263 @@ GRID FORM
                         <div>
 
                             <label class="terminal-label">
-                                ID Escena
+                                Especialidad
                             </label>
 
-                            <input
-                                type="text"
-                                id="idEscena"
-                                class="terminal-input"
-                                readonly>
+                            <select
+                                id="especialidad"
+                                class="terminal-select"
+                                onchange="cargarTemas()">
+
+                            </select>
 
                         </div>
 
                         <div>
 
                             <label class="terminal-label">
-                                Orden
+                                Tema
                             </label>
 
-                            <input
-                                type="number"
-                                id="orden"
-                                class="terminal-input">
+                            <select
+                                id="tema"
+                                class="terminal-select"
+                                onchange="cargarCasos()">
+
+                            </select>
 
                         </div>
 
                         <div>
 
                             <label class="terminal-label">
-                                Tipo
+                                Caso clínico
                             </label>
 
-                            <input
-                                type="text"
-                                id="tipo"
-                                class="terminal-input">
+                            <select
+                                id="caso"
+                                class="terminal-select"
+                                onchange="cargarEscenas()">
+
+                            </select>
 
                         </div>
-
-                        <div>
-
-                            <label class="terminal-label">
-                                Multimedia
-                            </label>
-
-                            <input
-                                type="text"
-                                id="multimedia"
-                                class="terminal-input">
-
-                        </div>
-
-                    </div>
-
-                    <div class="mt-40">
-
-                        <label class="terminal-label">
-                            Título
-                        </label>
-
-                        <input
-                            type="text"
-                            id="titulo"
-                            class="terminal-input">
-
-                    </div>
-
-                    <div class="mt-40">
-
-                        <label class="terminal-label">
-                            Contenido HTML
-                        </label>
-
-                        <textarea
-                            id="contenido"
-                            class="editor-terminal"></textarea>
-
-                    </div>
-
-                    <div
-                        style="display:flex;gap:20px;margin-top:30px;">
-
-                        <button
-                            class="btn"
-                            onclick="previsualizar()">
-
-                            Vista previa
-
-                        </button>
-
-                        <button
-                            class="btn"
-                            onclick="guardarCambios()">
-
-                            Guardar cambios
-
-                        </button>
 
                     </div>
 
                 </div>
 
-                <!-- PREVIEW -->
+                <!-- CONTENIDO -->
 
-                <div class="card mt-40">
+                <div class="mt-40"
+                    style="display:grid;grid-template-columns:350px 1fr;gap:30px;align-items:start;">
 
-                    <div class="card-title">
-                        Vista previa
+                    <!-- LISTA ESCENAS -->
+
+                    <div>
+
+                        <div class="card">
+
+                            <div class="card-title">
+                                Escenas
+                            </div>
+
+                            <div
+                                id="listaEscenas"
+                                class="lista-escenas">
+
+                            </div>
+
+                            <div class="text-center mt-40">
+
+                                <button
+                                    class="btn-circle"
+                                    onclick="nuevaEscena()">
+
+                                    +
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div
-                        id="preview"
-                        class="preview-terminal">
+                    <!-- EDITOR -->
 
+                    <div>
+
+                        <div class="card">
+
+                            <div class="card-title">
+                                Editor narrativo
+                            </div>
+
+                            <div class="card-desc">
+
+                                Modificar lógica narrativa,
+                                contenido HTML y multimedia clínica.
+
+                            </div>
+
+                            <div class="form-grid-2">
+
+                                <div>
+
+                                    <label class="terminal-label">
+                                        ID Escena
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="idEscena"
+                                        class="terminal-input"
+                                        readonly>
+
+                                </div>
+
+                                <div>
+
+                                    <label class="terminal-label">
+                                        Orden
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="orden"
+                                        class="terminal-input">
+
+                                </div>
+
+                                <div>
+
+                                    <label class="terminal-label">
+                                        Tipo
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="tipo"
+                                        class="terminal-input">
+
+                                </div>
+
+                                <div>
+
+                                    <label class="terminal-label">
+                                        Multimedia
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="multimedia"
+                                        class="terminal-input">
+
+                                </div>
+
+                            </div>
+
+                            <div class="mt-40">
+
+                                <label class="terminal-label">
+                                    Título
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="titulo"
+                                    class="terminal-input">
+
+                            </div>
+
+                            <div class="mt-40">
+
+                                <label class="terminal-label">
+                                    Contenido HTML
+                                </label>
+
+                                <textarea
+                                    id="contenido"
+                                    class="editor-terminal"></textarea>
+
+                            </div>
+
+                            <div
+                                style="display:flex;gap:20px;margin-top:30px;">
+
+                                <button
+                                    class="btn"
+                                    onclick="previsualizar()">
+
+                                    Vista previa
+
+                                </button>
+
+                                <button
+                                    class="btn"
+                                    onclick="guardarCambios()">
+
+                                    Guardar cambios
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- PREVIEW -->
+
+                        <div class="card mt-40">
+
+                            <div class="card-title">
+                                Vista previa
+                            </div>
+
+                            <div
+                                id="preview"
+                                class="preview-terminal">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TERMINAL LOG -->
+
+                <div class="terminal-log mt-40">
+
+                    <div class="terminal-line">
+                        [OK] Escenarios clínicos sincronizados
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Núcleo narrativo estable
+                    </div>
+
+                    <div class="terminal-line warning-line">
+                        [WARN] Modificaciones registradas por UEI
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Delta-5 security bridge stable
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <div class="footer">
 
-        <!-- TERMINAL LOG -->
+                IMSSIGHT NARRATIVE SIMULATION ENVIRONMENT ONLINE...
 
-        <div class="terminal-log mt-40">
-
-            <div class="terminal-line">
-                [OK] Escenarios clínicos sincronizados
-            </div>
-
-            <div class="terminal-line">
-                [OK] Núcleo narrativo estable
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Modificaciones registradas por UEI
-            </div>
-
-            <div class="terminal-line">
-                [OK] Delta-5 security bridge stable
             </div>
 
         </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT NARRATIVE SIMULATION ENVIRONMENT ONLINE...
-
+        
     </div>
 
 </div>

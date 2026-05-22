@@ -13,234 +13,319 @@
 
 <body>
 
+
+
 <div class="hex"></div>
 <div class="hex"></div>
 <div class="hex"></div>
 
 <div class="container">
 
-    <!-- HEADER -->
-    <div class="topbar">
+  <div class="layout">
+    
+<aside class="sidebar">
 
-      <div>
+    <div class="sidebar-title">
 
-          <div class="access-label">
-              INSTITUTO MEXICANO DEL SEGURO SOCIAL
-          </div>
+        IMSSIGHT
 
-          <div class="logo">
-              IMSSIGHT
-          </div>
+    </div>
 
-          <div
-              class="welcome-terminal"
-              id="bienvenida">
+    <!-- DASHBOARD -->
 
-              INITIALIZING USER SESSION...
+    <div class="sidebar-section">
 
-          </div>
+        <div class="sidebar-section-title">
+
+            DASHBOARD
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="profile.html"
+                class="sidebar-link">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            CARGAR CONTENIDO
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="admin_especialidades.html"
+                class="sidebar-link">
+
+                Especialidades
+
+            </a>
+
+            <a
+                href="admin_temas.html"
+                class="sidebar-link">
+
+                Temas
+
+            </a>
+
+            <a
+                href="admin_casos.html"
+                class="sidebar-link">
+
+                Casos
+
+            </a>
+
+            <a
+                href="admin_escenas.html"
+                class="sidebar-link">
+
+                Escenas
+
+            </a>
+
+            <a
+                href="admin_examenes.html"
+                class="sidebar-link">
+
+                Exámenes
+
+            </a>
+
+            <a
+                href="admin_multimedia.html"
+                class="sidebar-link">
+
+                Multimedia
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SISTEMA -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            SISTEMA
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="metricas.html"
+                class="sidebar-link">
+
+                Métricas
+
+            </a>
+
+            <a
+                href="admin_usuarios.html"
+                class="sidebar-link">
+
+                Usuarios
+
+            </a>
+
+            <button
+                class="sidebar-link"
+                onclick="reindexarBusqueda()">
+
+                Reindexar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</aside>
+
+    <!-- CONTENIDO -->
+
+    <div class="main-content">
+
+      <!-- HEADER -->
+      <div class="topbar">
+
+        <div>
+
+            <div class="access-label">
+                INSTITUTO MEXICANO DEL SEGURO SOCIAL
+            </div>
+
+            <div class="logo">
+                IMSSIGHT
+            </div>
+
+            <div
+                class="welcome-terminal"
+                id="bienvenida">
+
+                INITIALIZING USER SESSION...
+
+            </div>
+
+        </div>
+
+        <div class="status">
+
+            NIVEL DE SEGURIDAD :: DELTA-5
+            <br>
+            PROTOCOLOS CLÍNICOS :: ACTIVOS
+            <br>
+            SUPERVISIÓN DE ACTIVIDAD :: HABILITADA
+            <br>
+            VALIDACIÓN DE OPERADOR :: APROBADA
+            <br>
+            ENTORNO DE APRENDIZAJE CLÍNICO :: OPERATIVO
+            <br>
+            <a
+                href="/pages/index.html"
+                class="return-btn">
+
+                ⬅ REGRESAR AL NODO PRINCIPAL
+
+            </a>
+
+        </div>
 
       </div>
 
-      <div class="status">
+      <!-- PANEL -->
+      <div class="system">
 
-          NIVEL DE SEGURIDAD :: DELTA-5
-          <br>
-          PROTOCOLOS CLÍNICOS :: ACTIVOS
-          <br>
-          SUPERVISIÓN DE ACTIVIDAD :: HABILITADA
-          <br>
-          VALIDACIÓN DE OPERADOR :: APROBADA
-          <br>
-          ENTORNO DE APRENDIZAJE CLÍNICO :: OPERATIVO
-          <br>
-          <a
-              href="/pages/index.html"
-              class="return-btn">
+          <div class="line green">
+              TODOS LOS SISTEMAS FUNCIONANDO DENTRO DE LOS PARÁMETROS NORMALES
+          </div>
 
-              ⬅ REGRESAR AL NODO PRINCIPAL
+          <div class="line">
+              CLÚSTER CENTRAL ESTABLE.
+          </div>
 
-          </a>
+          <div class="line warning">
+              AUTORIZACIÓN DE SEGURIDAD NIVEL DELTA 5 APROBADA.
+          </div>
+
+          <div class="hud-line"></div>
+
+         <!-- DASHBOARD -->
+
+<div class="grid">
+
+    <div class="card">
+
+        <div class="card-title">
+            Actividad académica
+        </div>
+
+        <div class="card-desc">
+
+            Monitoreo de evaluaciones, usuarios y simulaciones clínicas.
+
+        </div>
+
+        <div class="terminal-log">
+
+            <div class="terminal-line">
+                [OK] Sistema académico operativo
+            </div>
+
+            <div class="terminal-line">
+                [OK] Banco de preguntas sincronizado
+            </div>
+
+            <div class="terminal-line warning-line">
+                [WARN] Actividad monitoreada por UEI
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Estado del sistema
+        </div>
+
+        <div class="card-desc">
+
+            Estado general del motor educativo y servicios internos.
+
+        </div>
+
+        <div class="terminal-log">
+
+            <div class="terminal-line">
+                [OK] Delta-5 online
+            </div>
+
+            <div class="terminal-line">
+                [OK] Index engine ready
+            </div>
+
+            <div class="terminal-line">
+                [OK] Seguridad activa
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Content Center
+        </div>
+
+        <div class="card-desc">
+
+            Acceso centralizado para gestión académica y contenido clínico.
+
+        </div>
+
+        <a
+            href="content_center.html"
+            class="btn">
+
+            Abrir módulo
+
+        </a>
+
+    </div>
+
+</div>
 
       </div>
 
-    </div>
+      <div class="footer">
+          INICIANDO AMBIENTE DE SIMULACIÓN CLINICA...
+      </div>
 
-    <!-- PANEL -->
-    <div class="system">
+    </div> <!-- main-content -->
 
-        <div class="line green">
-            TODOS LOS SISTEMAS FUNCIONANDO DENTRO DE LOS PARÁMETROS NORMALES
-        </div>
-
-        <div class="line">
-            CLÚSTER CENTRAL ESTABLE.
-        </div>
-
-        <div class="line warning">
-            AUTORIZACIÓN DE SEGURIDAD NIVEL DELTA 5 APROBADA.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- MODULOS -->
-        <div class="grid">
-
-            <!-- ESPECIALIDADES -->
-            <div class="card">
-
-                <div class="card-title">
-                    Especialidades
-                </div>
-
-                <div class="card-desc">
-                    Gestión de especialidades médicas y clasificación clínica.
-                </div>
-
-                <a
-                    href="admin_especialidades.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            <!-- TEMAS -->
-            <div class="card">
-
-                <div class="card-title">
-                    Temas
-                </div>
-
-                <div class="card-desc">
-                    Administración de temas académicos y contenido clínico.
-                </div>
-
-                <a
-                    href="admin_temas.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            <!-- CASOS -->
-            <div class="card">
-
-                <div class="card-title">
-                    Casos clínicos
-                </div>
-
-                <div class="card-desc">
-                    Simulaciones clínicas interactivas y escenarios médicos.
-                </div>
-
-                <a
-                    href="admin_casos.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            <!-- ESCENAS -->
-            <div class="card">
-
-                <div class="card-title">
-                    Escenas
-                </div>
-
-                <div class="card-desc">
-                    Secuencias narrativas, decisiones y lógica clínica.
-                </div>
-
-                <a
-                    href="admin_escenas.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            <!-- MULTIMEDIA -->
-            <div class="card">
-
-                <div class="card-title">
-                    Multimedia
-                </div>
-
-                <div class="card-desc">
-                    Biblioteca de imágenes, video y contenido audiovisual.
-                </div>
-
-                <a
-                    href="admin_multimedia.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            <!-- EXAMENES -->
-            <div class="card">
-
-                <div class="card-title">
-                    Exámenes
-                </div>
-
-                <div class="card-desc">
-                    Evaluaciones clínicas y sistema de resultados académicos.
-                </div>
-
-                <a
-                    href="admin_examenes.html"
-                    class="btn">
-
-                    Acceder
-
-                </a>
-
-            </div>
-
-            
-              <div class="terminal-log">
-
-                <div class="terminal-line">
-                    [OK] Repositorio clínico sincronizado
-                </div>
-
-                <div class="terminal-line">
-                    [OK] Integridad de archivos verificada
-                </div>
-
-                <div class="terminal-line warning-line">
-                    [WARN] Acceso no autorizado será registrado
-                </div>
-
-                <div class="terminal-line">
-                    [OK] Delta-5 security bridge stable
-                </div>
-
-              </div>
-            
-            
-        </div>
-
-    </div>
-
-    <div class="footer">
-        INICIANDO AMBIENTE DE SIMULACIÓN CLINICA...
-    </div>
+  </div> <!-- layout -->
 
 </div>
 
@@ -293,6 +378,84 @@ async function verificarSesion(){
 }
 
 verificarSesion();
+
+</script>
+
+<script>
+
+async function reindexarBusqueda(){
+
+    const boton =
+        event.target;
+
+    try{
+
+        // ESTADO INICIAL
+
+        boton.innerText =
+            'Reindexando...';
+
+        boton.disabled = true;
+
+        boton.style.opacity = '.7';
+
+        boton.style.animation =
+            'terminalPulse 1s infinite';
+
+        // EJECUTAR PHP
+
+        await fetch(
+            '../php/reindexar_busqueda.php'
+        );
+
+        // ESPERA VISUAL
+
+        await new Promise(resolve =>
+            setTimeout(resolve, 2000)
+        );
+
+        // TERMINADO
+
+        boton.innerText =
+            'Reindexar';
+
+        boton.disabled = false;
+
+        boton.style.opacity = '1';
+
+        boton.style.animation =
+            'none';
+
+    }catch(error){
+
+        console.error(error);
+
+        boton.innerText =
+            'ERROR';
+
+        boton.style.borderColor =
+            '#BC955C';
+
+        setTimeout(()=>{
+
+            boton.innerText =
+                'REINDEXAR';
+
+            boton.disabled = false;
+
+            boton.style.opacity = '1';
+
+            boton.style.animation =
+                'none';
+
+            boton.style.borderColor =
+                '';
+
+        },2000);
+
+    }
+
+}
 
 </script>
 

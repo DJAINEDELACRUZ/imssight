@@ -208,480 +208,628 @@ OCULTO
 
 <div class="container">
 
-    <!-- HEADER -->
+    <div class="layout">
 
-    <div class="topbar">
+        <aside class="sidebar">
 
-        <div>
+            <div class="sidebar-title">
 
-            <div class="access-label">
-                IMSSIGHT :: EDITOR NARRATIVO
-            </div>
-
-            <div class="logo">
-                ESCENAS
-            </div>
-
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING USER SESSION...
+                IMSSIGHT
 
             </div>
 
-        </div>
+            <!-- DASHBOARD -->
 
-        <div class="status">
+            <div class="sidebar-section">
 
-            MOTOR NARRATIVO :: ACTIVO
-            <br>
+                <div class="sidebar-section-title">
 
-            ENTORNO HTML :: OPERATIVO
-            <br>
-
-            COMPILADOR CLÍNICO :: EN LINEA
-            <br>
-
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
-
-            <a
-                href="admin_escenas.html"
-                class="return-btn">
-
-                ⬅ REGRESAR
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- SISTEMA -->
-
-    <div class="system">
-
-        <div class="line green">
-            EDITOR DE ESCENAS CLÍNICAS OPERATIVO
-        </div>
-
-        <div class="line">
-            ENTORNO DE SIMULACIÓN NARRATIVA ESTABLE.
-        </div>
-
-        <div class="line warning">
-            TODA ACTIVIDAD SERÁ REGISTRADA POR LA UEI.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- DATOS -->
-
-        <div class="card">
-
-            <div class="card-title">
-                Configuración de escena
-            </div>
-
-            <div class="card-desc">
-
-                Parámetros generales del nodo narrativo.
-
-            </div>
-
-            <div class="form-grid">
-
-                <div>
-
-                    <label class="terminal-label">
-                        ID Caso
-                    </label>
-
-                    <input
-                        type="number"
-                        id="idCaso"
-                        class="terminal-input">
+                    DASHBOARD
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Orden
-                    </label>
+                    <a
+                        href="profile.html"
+                        class="sidebar-link">
 
-                    <input
-                        type="number"
-                        id="orden"
-                        class="terminal-input"
-                        value="1">
+                        Dashboard
+
+                    </a>
 
                 </div>
 
-                <div>
+            </div>
 
-                    <label class="terminal-label">
-                        Tipo
-                    </label>
+            <!-- CONTENIDO -->
 
-                    <select
-                        id="tipo"
-                        class="terminal-select">
+            <div class="sidebar-section mt-40">
 
-                        <option value="texto">
-                            Texto
-                        </option>
+                <div class="sidebar-section-title">
 
-                        <option value="objetivos">
-                            Objetivos
-                        </option>
-
-                        <option value="video">
-                            Video
-                        </option>
-
-                        <option value="escenario">
-                            Escenario
-                        </option>
-
-                        <option value="pregunta">
-                            Pregunta
-                        </option>
-
-                    </select>
+                    CARGAR CONTENIDO
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
+                    <a
+                        href="admin_especialidades.html"
+                        class="sidebar-link">
+
+                        Especialidades
+
+                    </a>
+
+                    <a
+                        href="admin_temas.html"
+                        class="sidebar-link">
+
+                        Temas
+
+                    </a>
+
+                    <a
+                        href="admin_casos.html"
+                        class="sidebar-link">
+
+                        Casos
+
+                    </a>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="sidebar-link">
+
+                        Escenas
+
+                    </a>
+
+                    <a
+                        href="admin_examenes.html"
+                        class="sidebar-link">
+
+                        Exámenes
+
+                    </a>
+
+                    <a
+                        href="admin_multimedia.html"
+                        class="sidebar-link">
+
                         Multimedia
-                    </label>
 
-                    <input
-                        type="text"
-                        id="multimedia"
-                        class="terminal-input"
-                        placeholder="../video/video.mp4">
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="mt-30">
+            <!-- SISTEMA -->
 
-                <label class="terminal-label">
-                    Título
-                </label>
+            <div class="sidebar-section mt-40">
 
-                <input
-                    type="text"
-                    id="titulo"
-                    class="terminal-input">
+                <div class="sidebar-section-title">
 
-            </div>
-
-        </div>
-
-        <!-- PREGUNTAS -->
-
-        <div
-            id="bloquePregunta"
-            class="question-builder">
-
-            <div class="question-title">
-
-                <i class="fa-solid fa-brain"></i>
-
-                <div>
-
-                    <h3>
-                        Constructor Visual de Preguntas
-                    </h3>
-
-                    <p>
-
-                        Generador automático de lógica clínica interactiva.
-
-                    </p>
+                    SISTEMA
 
                 </div>
 
-            </div>
+                <div class="sidebar-menu">
 
-            <div class="form-grid">
+                    <a
+                        href="metricas.html"
+                        class="sidebar-link">
 
-                <div style="grid-column:1/-1;">
+                        Métricas
 
-                    <label class="terminal-label">
-                        Pregunta clínica
-                    </label>
+                    </a>
 
-                    <textarea
-                        id="preguntaVisual"
-                        class="editor-terminal"
-                        style="min-height:150px;"></textarea>
+                    <a
+                        href="admin_usuarios.html"
+                        class="sidebar-link">
 
-                </div>
+                        Usuarios
 
-                <div>
-
-                    <label class="terminal-label">
-                        Opción A
-                    </label>
-
-                    <input
-                        type="text"
-                        id="visualA"
-                        class="terminal-input">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Opción B
-                    </label>
-
-                    <input
-                        type="text"
-                        id="visualB"
-                        class="terminal-input">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Opción C
-                    </label>
-
-                    <input
-                        type="text"
-                        id="visualC"
-                        class="terminal-input">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Opción D
-                    </label>
-
-                    <input
-                        type="text"
-                        id="visualD"
-                        class="terminal-input">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Respuesta correcta
-                    </label>
-
-                    <select
-                        id="visualCorrecta"
-                        class="terminal-select">
-
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        ¿Evaluable?
-                    </label>
-
-                    <select
-                        id="evaluable"
-                        class="terminal-select">
-
-                        <option value="1">
-                            Sí
-                        </option>
-
-                        <option value="0">
-                            No
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Puntos
-                    </label>
-
-                    <input
-                        type="number"
-                        id="puntos"
-                        class="terminal-input"
-                        value="1">
-
-                </div>
-
-            </div>
-
-            <div class="mt-30">
-
-                <label class="terminal-label">
-                    Retroalimentación correcta
-                </label>
-
-                <textarea
-                    id="retroCorrecta"
-                    class="editor-terminal"
-                    style="min-height:140px;"></textarea>
-
-            </div>
-
-            <div class="mt-30">
-
-                <label class="terminal-label">
-                    Retroalimentación incorrecta
-                </label>
-
-                <textarea
-                    id="retroIncorrecta"
-                    class="editor-terminal"
-                    style="min-height:140px;"></textarea>
-
-            </div>
-
-            <div class="mt-30">
-
-                <button
-                    class="btn"
-                    onclick="generarPreguntaVisual()">
-
-                    GENERAR PREGUNTA VISUAL
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- EDITOR -->
-
-        <div class="editor-layout">
-
-            <!-- HTML -->
-
-            <div class="card">
-
-                <div class="card-title">
-                    HTML / Contenido
-                </div>
-
-                <textarea
-                    id="contenido"
-                    class="editor-terminal">
-
-<div class="alert alert-primary">
-
-    Hola IMSSight 😄
-
-</div>
-
-                </textarea>
-
-            </div>
-
-            <!-- PREVIEW -->
-
-            <div class="card">
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        margin-bottom:25px;
-                    ">
-
-                    <div class="card-title"
-                         style="margin:0;">
-
-                        Vista previa
-
-                    </div>
+                    </a>
 
                     <button
-                        class="btn"
-                        style="width:auto;padding:12px 20px;"
-                        onclick="previsualizar()">
+                        class="sidebar-link"
+                        onclick="reindexarBusqueda()">
 
-                        ACTUALIZAR
+                        Reindexar
 
                     </button>
 
                 </div>
 
-                <div
-                    id="preview"
-                    class="preview-terminal">
+            </div>
+
+        </aside>
+
+        <!-- CONTENIDO -->
+
+        <div class="main-content">
+
+            <!-- HEADER -->
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="access-label">
+                        IMSSIGHT :: EDITOR NARRATIVO
+                    </div>
+
+                    <div class="logo">
+                        ESCENAS
+                    </div>
+
+                    <div
+                        class="welcome-terminal"
+                        id="bienvenida">
+
+                        INITIALIZING USER SESSION...
+
+                    </div>
+
+                </div>
+
+                <div class="status">
+
+                    MOTOR NARRATIVO :: ACTIVO
+                    <br>
+
+                    ENTORNO HTML :: OPERATIVO
+                    <br>
+
+                    COMPILADOR CLÍNICO :: EN LINEA
+                    <br>
+
+                    VALIDACIÓN DE OPERADOR :: APROBADA
+                    <br>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="return-btn">
+
+                        ⬅ REGRESAR
+
+                    </a>
 
                 </div>
 
             </div>
 
+            <!-- SISTEMA -->
+
+            <div class="system">
+
+                <div class="line green">
+                    EDITOR DE ESCENAS CLÍNICAS OPERATIVO
+                </div>
+
+                <div class="line">
+                    ENTORNO DE SIMULACIÓN NARRATIVA ESTABLE.
+                </div>
+
+                <div class="line warning">
+                    TODA ACTIVIDAD SERÁ REGISTRADA POR LA UEI.
+                </div>
+
+                <div class="hud-line"></div>
+
+                <!-- DATOS -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Configuración de escena
+                    </div>
+
+                    <div class="card-desc">
+
+                        Parámetros generales del nodo narrativo.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                ID Caso
+                            </label>
+
+                            <input
+                                type="number"
+                                id="idCaso"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Orden
+                            </label>
+
+                            <input
+                                type="number"
+                                id="orden"
+                                class="terminal-input"
+                                value="1">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Tipo
+                            </label>
+
+                            <select
+                                id="tipo"
+                                class="terminal-select">
+
+                                <option value="texto">
+                                    Texto
+                                </option>
+
+                                <option value="objetivos">
+                                    Objetivos
+                                </option>
+
+                                <option value="video">
+                                    Video
+                                </option>
+
+                                <option value="escenario">
+                                    Escenario
+                                </option>
+
+                                <option value="pregunta">
+                                    Pregunta
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Multimedia
+                            </label>
+
+                            <input
+                                type="text"
+                                id="multimedia"
+                                class="terminal-input"
+                                placeholder="../video/video.mp4">
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-30">
+
+                        <label class="terminal-label">
+                            Título
+                        </label>
+
+                        <input
+                            type="text"
+                            id="titulo"
+                            class="terminal-input">
+
+                    </div>
+
+                </div>
+
+                <!-- PREGUNTAS -->
+
+                <div
+                    id="bloquePregunta"
+                    class="question-builder">
+
+                    <div class="question-title">
+
+                        <i class="fa-solid fa-brain"></i>
+
+                        <div>
+
+                            <h3>
+                                Constructor Visual de Preguntas
+                            </h3>
+
+                            <p>
+
+                                Generador automático de lógica clínica interactiva.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div style="grid-column:1/-1;">
+
+                            <label class="terminal-label">
+                                Pregunta clínica
+                            </label>
+
+                            <textarea
+                                id="preguntaVisual"
+                                class="editor-terminal"
+                                style="min-height:150px;"></textarea>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Opción A
+                            </label>
+
+                            <input
+                                type="text"
+                                id="visualA"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Opción B
+                            </label>
+
+                            <input
+                                type="text"
+                                id="visualB"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Opción C
+                            </label>
+
+                            <input
+                                type="text"
+                                id="visualC"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Opción D
+                            </label>
+
+                            <input
+                                type="text"
+                                id="visualD"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Respuesta correcta
+                            </label>
+
+                            <select
+                                id="visualCorrecta"
+                                class="terminal-select">
+
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                ¿Evaluable?
+                            </label>
+
+                            <select
+                                id="evaluable"
+                                class="terminal-select">
+
+                                <option value="1">
+                                    Sí
+                                </option>
+
+                                <option value="0">
+                                    No
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Puntos
+                            </label>
+
+                            <input
+                                type="number"
+                                id="puntos"
+                                class="terminal-input"
+                                value="1">
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-30">
+
+                        <label class="terminal-label">
+                            Retroalimentación correcta
+                        </label>
+
+                        <textarea
+                            id="retroCorrecta"
+                            class="editor-terminal"
+                            style="min-height:140px;"></textarea>
+
+                    </div>
+
+                    <div class="mt-30">
+
+                        <label class="terminal-label">
+                            Retroalimentación incorrecta
+                        </label>
+
+                        <textarea
+                            id="retroIncorrecta"
+                            class="editor-terminal"
+                            style="min-height:140px;"></textarea>
+
+                    </div>
+
+                    <div class="mt-30">
+
+                        <button
+                            class="btn"
+                            onclick="generarPreguntaVisual()">
+
+                            GENERAR PREGUNTA VISUAL
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- EDITOR -->
+
+                <div class="editor-layout">
+
+                    <!-- HTML -->
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            HTML / Contenido
+                        </div>
+
+                        <textarea
+                            id="contenido"
+                            class="editor-terminal">
+
+        <div class="alert alert-primary">
+
+            Hola IMSSight 😄
+
         </div>
 
-        <!-- BOTON -->
+                        </textarea>
 
-        <div class="mt-40">
+                    </div>
 
-            <button
-                class="btn"
-                onclick="guardarEscena()">
+                    <!-- PREVIEW -->
 
-                GUARDAR ESCENA
+                    <div class="card">
 
-            </button>
+                        <div
+                            style="
+                                display:flex;
+                                justify-content:space-between;
+                                align-items:center;
+                                margin-bottom:25px;
+                            ">
+
+                            <div class="card-title"
+                                style="margin:0;">
+
+                                Vista previa
+
+                            </div>
+
+                            <button
+                                class="btn"
+                                style="width:auto;padding:12px 20px;"
+                                onclick="previsualizar()">
+
+                                ACTUALIZAR
+
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="preview"
+                            class="preview-terminal">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTON -->
+
+                <div class="mt-40">
+
+                    <button
+                        class="btn"
+                        onclick="guardarEscena()">
+
+                        GUARDAR ESCENA
+
+                    </button>
+
+                </div>
+
+                <!-- TERMINAL LOG -->
+
+                <div class="terminal-log mt-40">
+
+                    <div class="terminal-line">
+                        [OK] Motor narrativo sincronizado
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Entorno clínico compilado
+                    </div>
+
+                    <div class="terminal-line warning-line">
+                        [WARN] Actividad monitoreada por UEI
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Delta-5 security bridge stable
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+
+                IMSSIGHT NARRATIVE ENGINE ONLINE...
+
+            </div>
 
         </div>
-
-        <!-- TERMINAL LOG -->
-
-        <div class="terminal-log mt-40">
-
-            <div class="terminal-line">
-                [OK] Motor narrativo sincronizado
-            </div>
-
-            <div class="terminal-line">
-                [OK] Entorno clínico compilado
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Actividad monitoreada por UEI
-            </div>
-
-            <div class="terminal-line">
-                [OK] Delta-5 security bridge stable
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT NARRATIVE ENGINE ONLINE...
-
+    
     </div>
 
 </div>

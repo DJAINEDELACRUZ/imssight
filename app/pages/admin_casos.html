@@ -31,211 +31,137 @@
 
 <div class="container">
 
-    <!-- HEADER -->
+    <div class="layout">
 
-    <div class="topbar">
+        <aside class="sidebar">
 
-        <div>
+            <div class="sidebar-title">
 
-            <div class="access-label">
-                IMSSIGHT :: ADMINISTRACIÓN DE CASOS CLÍNICOS
-            </div>
-
-            <div class="logo">
-                CASOS
-            </div>
-
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING USER SESSION...
+                IMSSIGHT
 
             </div>
 
-        </div>
+            <!-- DASHBOARD -->
 
-        <div class="status">
+            <div class="sidebar-section">
 
-            MÓDULO :: ACTIVO
-            <br>
+                <div class="sidebar-section-title">
 
-            ENTORNO DE SIMULACIÓN :: OPERATIVO
-            <br>
-
-            REPOSITORIO DE ESCENARIOS :: SINCRONIZADO
-            <br>
-
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
-
-            <a
-                href="profile.html"
-                class="return-btn">
-
-                ⬅ REGRESAR
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- PANEL PRINCIPAL -->
-
-    <div class="system">
-
-        <div class="line green">
-            REPOSITORIO DE CASOS CLÍNICOS OPERATIVO
-        </div>
-
-        <div class="line">
-            SINCRONIZACIÓN CON CLÚSTER CENTRAL ESTABLE.
-        </div>
-
-        <div class="line warning">
-            TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- SELECTORES -->
-
-        <div class="card">
-
-            <div class="card-title">
-                Nodo académico activo
-            </div>
-
-            <div class="card-desc">
-
-                Seleccionar especialidad y tema
-                para administración de escenarios clínicos.
-
-            </div>
-
-            <div class="form-grid">
-
-                <div>
-
-                    <label class="terminal-label">
-                        Especialidad
-                    </label>
-
-                    <select
-                        id="selectEspecialidad"
-                        class="terminal-select"
-                        onchange="cargarTemas()">
-
-                    </select>
+                    DASHBOARD
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Tema
-                    </label>
+                    <a
+                        href="profile.html"
+                        class="sidebar-link">
 
-                    <select
-                        id="selectTema"
-                        class="terminal-select"
-                        onchange="cargarCasos()">
+                        Dashboard
 
-                    </select>
+                    </a>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- CONTENIDO -->
 
-        <!-- NUEVO CASO -->
+            <div class="sidebar-section mt-40">
 
-        <div class="card mt-40">
+                <div class="sidebar-section-title">
 
-            <div class="card-title">
-                Crear nuevo caso clínico
+                    CARGAR CONTENIDO
+
+                </div>
+
+                <div class="sidebar-menu">
+
+                    <a
+                        href="admin_especialidades.html"
+                        class="sidebar-link">
+
+                        Especialidades
+
+                    </a>
+
+                    <a
+                        href="admin_temas.html"
+                        class="sidebar-link">
+
+                        Temas
+
+                    </a>
+
+                    <a
+                        href="admin_casos.html"
+                        class="sidebar-link">
+
+                        Casos
+
+                    </a>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="sidebar-link">
+
+                        Escenas
+
+                    </a>
+
+                    <a
+                        href="admin_examenes.html"
+                        class="sidebar-link">
+
+                        Exámenes
+
+                    </a>
+
+                    <a
+                        href="admin_multimedia.html"
+                        class="sidebar-link">
+
+                        Multimedia
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <div class="card-desc">
+            <!-- SISTEMA -->
 
-                Registrar simulaciones médicas
-                dentro del entorno académico IMSSight.
+            <div class="sidebar-section mt-40">
 
-            </div>
+                <div class="sidebar-section-title">
 
-            <div class="form-grid">
-
-                <div>
-
-                    <label class="terminal-label">
-                        Título
-                    </label>
-
-                    <input
-                        type="text"
-                        id="titulo"
-                        class="terminal-input">
+                    SISTEMA
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Descripción
-                    </label>
+                    <a
+                        href="metricas.html"
+                        class="sidebar-link">
 
-                    <input
-                        type="text"
-                        id="descripcion"
-                        class="terminal-input">
+                        Métricas
 
-                </div>
+                    </a>
 
-                <div>
+                    <a
+                        href="admin_usuarios.html"
+                        class="sidebar-link">
 
-                    <label class="terminal-label">
-                        Portada
-                    </label>
+                        Usuarios
 
-                    <input
-                        type="text"
-                        id="portada"
-                        class="terminal-input"
-                        placeholder="../img/caso.png">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Dificultad
-                    </label>
-
-                    <select
-                        id="dificultad"
-                        class="terminal-select">
-
-                        <option>Básico</option>
-                        <option>Intermedio</option>
-                        <option>Avanzado</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Acción
-                    </label>
+                    </a>
 
                     <button
-                        class="btn"
-                        onclick="guardarCaso()">
+                        class="sidebar-link"
+                        onclick="reindexarBusqueda()">
 
-                        Registrar
+                        Reindexar
 
                     </button>
 
@@ -243,81 +169,303 @@
 
             </div>
 
+        </aside>
+
+        <!-- CONTENIDO -->
+
+        <div class="main-content">
+
+            <!-- HEADER -->
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="access-label">
+                        IMSSIGHT :: ADMINISTRACIÓN DE CASOS CLÍNICOS
+                    </div>
+
+                    <div class="logo">
+                        CASOS
+                    </div>
+
+                    <div
+                        class="welcome-terminal"
+                        id="bienvenida">
+
+                        INITIALIZING USER SESSION...
+
+                    </div>
+
+                </div>
+
+                <div class="status">
+
+                    MÓDULO :: ACTIVO
+                    <br>
+
+                    ENTORNO DE SIMULACIÓN :: OPERATIVO
+                    <br>
+
+                    REPOSITORIO DE ESCENARIOS :: SINCRONIZADO
+                    <br>
+
+                    VALIDACIÓN DE OPERADOR :: APROBADA
+                    <br>
+
+                    <a
+                        href="profile.html"
+                        class="return-btn">
+
+                        ⬅ REGRESAR
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL PRINCIPAL -->
+
+            <div class="system">
+
+                <div class="line green">
+                    REPOSITORIO DE CASOS CLÍNICOS OPERATIVO
+                </div>
+
+                <div class="line">
+                    SINCRONIZACIÓN CON CLÚSTER CENTRAL ESTABLE.
+                </div>
+
+                <div class="line warning">
+                    TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
+                </div>
+
+                <div class="hud-line"></div>
+
+                <!-- SELECTORES -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Nodo académico activo
+                    </div>
+
+                    <div class="card-desc">
+
+                        Seleccionar especialidad y tema
+                        para administración de escenarios clínicos.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Especialidad
+                            </label>
+
+                            <select
+                                id="selectEspecialidad"
+                                class="terminal-select"
+                                onchange="cargarTemas()">
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Tema
+                            </label>
+
+                            <select
+                                id="selectTema"
+                                class="terminal-select"
+                                onchange="cargarCasos()">
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NUEVO CASO -->
+
+                <div class="card mt-40">
+
+                    <div class="card-title">
+                        Crear nuevo caso clínico
+                    </div>
+
+                    <div class="card-desc">
+
+                        Registrar simulaciones médicas
+                        dentro del entorno académico IMSSight.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Título
+                            </label>
+
+                            <input
+                                type="text"
+                                id="titulo"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Descripción
+                            </label>
+
+                            <input
+                                type="text"
+                                id="descripcion"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Portada
+                            </label>
+
+                            <input
+                                type="text"
+                                id="portada"
+                                class="terminal-input"
+                                placeholder="../img/caso.png">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Dificultad
+                            </label>
+
+                            <select
+                                id="dificultad"
+                                class="terminal-select">
+
+                                <option>Básico</option>
+                                <option>Intermedio</option>
+                                <option>Avanzado</option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Acción
+                            </label>
+
+                            <button
+                                class="btn"
+                                onclick="guardarCaso()">
+
+                                Registrar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TABLA -->
+
+                <div class="card mt-40">
+
+                    <div class="card-title">
+                        Casos clínicos registrados
+                    </div>
+
+                    <div class="card-desc">
+
+                        Escenarios clínicos disponibles
+                        dentro del sistema académico central.
+
+                    </div>
+
+                    <div class="table-container">
+
+                        <table class="terminal-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th>Portada</th>
+                                    <th>Dificultad</th>
+                                    <th>Escenas</th>
+                                    <th>Guardar</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="tablaCasos">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- TERMINAL LOG -->
+
+                <div class="terminal-log">
+
+                    <div class="terminal-line">
+                        [OK] Simulaciones clínicas sincronizadas
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Integridad narrativa validada
+                    </div>
+
+                    <div class="terminal-line warning-line">
+                        [WARN] Actividad administrativa monitoreada
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Delta-5 security bridge stable
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+
+                IMSSIGHT CLINICAL SIMULATION ENVIRONMENT ONLINE...
+
+            </div>
+        
         </div>
-
-        <!-- TABLA -->
-
-        <div class="card mt-40">
-
-            <div class="card-title">
-                Casos clínicos registrados
-            </div>
-
-            <div class="card-desc">
-
-                Escenarios clínicos disponibles
-                dentro del sistema académico central.
-
-            </div>
-
-            <div class="table-container">
-
-                <table class="terminal-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Descripción</th>
-                            <th>Portada</th>
-                            <th>Dificultad</th>
-                            <th>Escenas</th>
-                            <th>Guardar</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tablaCasos">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-        <!-- TERMINAL LOG -->
-
-        <div class="terminal-log">
-
-            <div class="terminal-line">
-                [OK] Simulaciones clínicas sincronizadas
-            </div>
-
-            <div class="terminal-line">
-                [OK] Integridad narrativa validada
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Actividad administrativa monitoreada
-            </div>
-
-            <div class="terminal-line">
-                [OK] Delta-5 security bridge stable
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT CLINICAL SIMULATION ENVIRONMENT ONLINE...
-
+    
     </div>
 
 </div>

@@ -28,146 +28,137 @@
 <div class="hex"></div>
 
 <div class="container">
+    <div class="layout">
 
-    <!-- HEADER -->
+        <aside class="sidebar">
 
-    <div class="topbar">
+            <div class="sidebar-title">
 
-        <div>
-
-            <div class="access-label">
-                IMSSIGHT :: ADMINISTRACIÓN DE ESPECIALIDADES
-            </div>
-
-            <div class="logo">
-                ESPECIALIDADES
-            </div>
-
-            
-
-            <div
-              class="welcome-terminal"
-              id="bienvenida">
-
-              INITIALIZING USER SESSION...
-
-          </div>
-
-        </div>
-
-        <div class="status">
-
-            MÓDULO :: ACTIVO
-            <br>
-
-            BASE DE DATOS :: EN LINEA
-            <br>
-
-            INTEGRIDAD :: VERIFICADA
-            <br>
-
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
-
-            <a
-                href="profile.html"
-                class="return-btn">
-
-                ⬅ REGRESAR
-
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- PANEL PRINCIPAL -->
-
-    <div class="system">
-
-        <div class="line green">
-            REPOSITORIO DE ESPECIALIDADES OPERATIVO
-        </div>
-
-        <div class="line">
-            SINCRONIZACIÓN CON NODO CENTRAL ESTABLE.
-        </div>
-
-        <div class="line warning">
-            TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- NUEVA ESPECIALIDAD -->
-
-        <div class="card">
-
-            <div class="card-title">
-                Crear una nueva especialidad
-            </div>
-
-            <div class="card-desc">
-
-                Registrar nuevas especialidades
-                dentro del entorno académico IMSSight.
+                IMSSIGHT
 
             </div>
 
-            <div class="form-grid">
+            <!-- DASHBOARD -->
 
-                <div>
+            <div class="sidebar-section">
 
-                    <label class="terminal-label">
-                        Nombre
-                    </label>
+                <div class="sidebar-section-title">
 
-                    <input
-                        type="text"
-                        id="nombre"
-                        class="terminal-input">
+                    DASHBOARD
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Icono
-                    </label>
+                    <a
+                        href="profile.html"
+                        class="sidebar-link">
 
-                    <input
-                        type="text"
-                        id="icono"
-                        class="terminal-input"
-                        placeholder="emergency">
+                        Dashboard
+
+                    </a>
 
                 </div>
 
-                <div>
+            </div>
 
-                    <label class="terminal-label">
-                        Color
-                    </label>
+            <!-- CONTENIDO -->
 
-                    <input
-                        type="color"
-                        id="color"
-                        class="terminal-color">
+            <div class="sidebar-section mt-40">
+
+                <div class="sidebar-section-title">
+
+                    CARGAR CONTENIDO
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Acción
-                    </label>
+                    <a
+                        href="admin_especialidades.html"
+                        class="sidebar-link">
+
+                        Especialidades
+
+                    </a>
+
+                    <a
+                        href="admin_temas.html"
+                        class="sidebar-link">
+
+                        Temas
+
+                    </a>
+
+                    <a
+                        href="admin_casos.html"
+                        class="sidebar-link">
+
+                        Casos
+
+                    </a>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="sidebar-link">
+
+                        Escenas
+
+                    </a>
+
+                    <a
+                        href="admin_examenes.html"
+                        class="sidebar-link">
+
+                        Exámenes
+
+                    </a>
+
+                    <a
+                        href="admin_multimedia.html"
+                        class="sidebar-link">
+
+                        Multimedia
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SISTEMA -->
+
+            <div class="sidebar-section mt-40">
+
+                <div class="sidebar-section-title">
+
+                    SISTEMA
+
+                </div>
+
+                <div class="sidebar-menu">
+
+                    <a
+                        href="metricas.html"
+                        class="sidebar-link">
+
+                        Métricas
+
+                    </a>
+
+                    <a
+                        href="admin_usuarios.html"
+                        class="sidebar-link">
+
+                        Usuarios
+
+                    </a>
 
                     <button
-                        class="btn"
-                        onclick="guardarEspecialidad()">
+                        class="sidebar-link"
+                        onclick="reindexarBusqueda()">
 
-                        Registrar
+                        Reindexar
 
                     </button>
 
@@ -175,79 +166,235 @@
 
             </div>
 
+        </aside>
+
+        <!-- CONTENIDO -->
+
+        <div class="main-content">
+
+            <!-- HEADER -->
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="access-label">
+                        IMSSIGHT :: ADMINISTRACIÓN DE ESPECIALIDADES
+                    </div>
+
+                    <div class="logo">
+                        ESPECIALIDADES
+                    </div>
+
+                    
+
+                    <div
+                    class="welcome-terminal"
+                    id="bienvenida">
+
+                    INITIALIZING USER SESSION...
+
+                </div>
+
+                </div>
+
+                <div class="status">
+
+                    MÓDULO :: ACTIVO
+                    <br>
+
+                    BASE DE DATOS :: EN LINEA
+                    <br>
+
+                    INTEGRIDAD :: VERIFICADA
+                    <br>
+
+                    VALIDACIÓN DE OPERADOR :: APROBADA
+                    <br>
+
+                    <a
+                        href="profile.html"
+                        class="return-btn">
+
+                        ⬅ REGRESAR
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- PANEL PRINCIPAL -->
+
+            <div class="system">
+
+                <div class="line green">
+                    REPOSITORIO DE ESPECIALIDADES OPERATIVO
+                </div>
+
+                <div class="line">
+                    SINCRONIZACIÓN CON NODO CENTRAL ESTABLE.
+                </div>
+
+                <div class="line warning">
+                    TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
+                </div>
+
+                <div class="hud-line"></div>
+
+                <!-- NUEVA ESPECIALIDAD -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Crear una nueva especialidad
+                    </div>
+
+                    <div class="card-desc">
+
+                        Registrar nuevas especialidades
+                        dentro del entorno académico IMSSight.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Icono
+                            </label>
+
+                            <input
+                                type="text"
+                                id="icono"
+                                class="terminal-input"
+                                placeholder="emergency">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Color
+                            </label>
+
+                            <input
+                                type="color"
+                                id="color"
+                                class="terminal-color">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Acción
+                            </label>
+
+                            <button
+                                class="btn"
+                                onclick="guardarEspecialidad()">
+
+                                Registrar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TABLA -->
+
+                <div class="card mt-40">
+
+                    <div class="card-title">
+                        Especialidades registradas
+                    </div>
+
+                    <div class="card-desc">
+
+                        Entidades clínicas disponibles
+                        dentro del sistema académico.
+
+                    </div>
+
+                    <div class="table-container">
+
+                        <table class="terminal-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Icono</th>
+                                    <th>Color</th>
+                                    <th>Estado</th>
+                                    <th>Guardar</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="tablaEspecialidades">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- TERMINAL LOG -->
+
+                <div class="terminal-log">
+
+                    <div class="terminal-line">
+                        [OK] Repositorio biomédico sincronizado
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Integridad de registros verificada
+                    </div>
+
+                    <div class="terminal-line warning-line">
+                        [WARN] Actividad administrativa monitoreada
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Delta-5 security bridge stable
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+
+                IMSSIGHT SPECIALTY MANAGEMENT ENVIRONMENT ONLINE...
+
+            </div>
+        
         </div>
-
-        <!-- TABLA -->
-
-        <div class="card mt-40">
-
-            <div class="card-title">
-                Especialidades registradas
-            </div>
-
-            <div class="card-desc">
-
-                Entidades clínicas disponibles
-                dentro del sistema académico.
-
-            </div>
-
-            <div class="table-container">
-
-                <table class="terminal-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Icono</th>
-                            <th>Color</th>
-                            <th>Estado</th>
-                            <th>Guardar</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tablaEspecialidades">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-        <!-- TERMINAL LOG -->
-
-        <div class="terminal-log">
-
-            <div class="terminal-line">
-                [OK] Repositorio biomédico sincronizado
-            </div>
-
-            <div class="terminal-line">
-                [OK] Integridad de registros verificada
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Actividad administrativa monitoreada
-            </div>
-
-            <div class="terminal-line">
-                [OK] Delta-5 security bridge stable
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT SPECIALTY MANAGEMENT ENVIRONMENT ONLINE...
 
     </div>
 

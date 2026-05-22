@@ -30,179 +30,137 @@
 <div class="hex"></div>
 
 <div class="container">
+    <div class="layout">
 
-    <!-- HEADER -->
+        <aside class="sidebar">
 
-    <div class="topbar">
+            <div class="sidebar-title">
 
-        <div>
-
-            <div class="access-label">
-                IMSSIGHT :: ADMINISTRACIÓN DE TEMAS
-            </div>
-
-            <div class="logo">
-                TEMAS
-            </div>
-
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING USER SESSION...
+                IMSSIGHT
 
             </div>
 
-        </div>
+            <!-- DASHBOARD -->
 
-        <div class="status">
+            <div class="sidebar-section">
 
-            MÓDULO :: ACTIVO
-            <br>
+                <div class="sidebar-section-title">
 
-            BASE DE DATOS :: EN LINEA
-            <br>
+                    DASHBOARD
 
-            REPOSITORIO ACADÉMICO :: SINCRONIZADO
-            <br>
+                </div>
 
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
+                <div class="sidebar-menu">
 
-            <a
-                href="profile.html"
-                class="return-btn">
+                    <a
+                        href="profile.html"
+                        class="sidebar-link">
 
-                ⬅ REGRESAR
+                        Dashboard
 
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- PANEL PRINCIPAL -->
-
-    <div class="system">
-
-        <div class="line green">
-            REPOSITORIO TEMÁTICO OPERATIVO
-        </div>
-
-        <div class="line">
-            SINCRONIZACIÓN CON CLÚSTER CENTRAL ESTABLE.
-        </div>
-
-        <div class="line warning">
-            TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- SELECT ESPECIALIDAD -->
-
-        <div class="card">
-
-            <div class="card-title">
-                Especialidad activa
-            </div>
-
-            <div class="card-desc">
-
-                Seleccionar nodo académico principal
-                para administración de temas clínicos.
-
-            </div>
-
-            <div class="form-grid">
-
-                <div>
-
-                    <label class="terminal-label">
-                        Especialidad
-                    </label>
-
-                    <select
-                        id="selectEspecialidad"
-                        class="terminal-select"
-                        onchange="cargarTemas()">
-
-                    </select>
+                    </a>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- CONTENIDO -->
 
-        <!-- NUEVO TEMA -->
+            <div class="sidebar-section mt-40">
 
-        <div class="card mt-40">
+                <div class="sidebar-section-title">
 
-            <div class="card-title">
-                Crear nuevo tema
+                    CARGAR CONTENIDO
+
+                </div>
+
+                <div class="sidebar-menu">
+
+                    <a
+                        href="admin_especialidades.html"
+                        class="sidebar-link">
+
+                        Especialidades
+
+                    </a>
+
+                    <a
+                        href="admin_temas.html"
+                        class="sidebar-link">
+
+                        Temas
+
+                    </a>
+
+                    <a
+                        href="admin_casos.html"
+                        class="sidebar-link">
+
+                        Casos
+
+                    </a>
+
+                    <a
+                        href="admin_escenas.html"
+                        class="sidebar-link">
+
+                        Escenas
+
+                    </a>
+
+                    <a
+                        href="admin_examenes.html"
+                        class="sidebar-link">
+
+                        Exámenes
+
+                    </a>
+
+                    <a
+                        href="admin_multimedia.html"
+                        class="sidebar-link">
+
+                        Multimedia
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <div class="card-desc">
+            <!-- SISTEMA -->
 
-                Registrar contenido académico dentro
-                del entorno clínico IMSSight.
+            <div class="sidebar-section mt-40">
 
-            </div>
+                <div class="sidebar-section-title">
 
-            <div class="form-grid">
-
-                <div>
-
-                    <label class="terminal-label">
-                        Título
-                    </label>
-
-                    <input
-                        type="text"
-                        id="titulo"
-                        class="terminal-input">
+                    SISTEMA
 
                 </div>
 
-                <div>
+                <div class="sidebar-menu">
 
-                    <label class="terminal-label">
-                        Descripción
-                    </label>
+                    <a
+                        href="metricas.html"
+                        class="sidebar-link">
 
-                    <input
-                        type="text"
-                        id="descripcion"
-                        class="terminal-input">
+                        Métricas
 
-                </div>
+                    </a>
 
-                <div>
+                    <a
+                        href="admin_usuarios.html"
+                        class="sidebar-link">
 
-                    <label class="terminal-label">
-                        Imagen
-                    </label>
+                        Usuarios
 
-                    <input
-                        type="text"
-                        id="imagen"
-                        class="terminal-input"
-                        placeholder="../img/tema.png">
-
-                </div>
-
-                <div>
-
-                    <label class="terminal-label">
-                        Acción
-                    </label>
+                    </a>
 
                     <button
-                        class="btn"
-                        onclick="guardarTema()">
+                        class="sidebar-link"
+                        onclick="reindexarBusqueda()">
 
-                        Registrar
+                        Reindexar
 
                     </button>
 
@@ -210,79 +168,269 @@
 
             </div>
 
+        </aside>
+
+        <!-- CONTENIDO -->
+
+        <div class="main-content">
+
+
+            <!-- HEADER -->
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="access-label">
+                        IMSSIGHT :: ADMINISTRACIÓN DE TEMAS
+                    </div>
+
+                    <div class="logo">
+                        TEMAS
+                    </div>
+
+                    <div
+                        class="welcome-terminal"
+                        id="bienvenida">
+
+                        INITIALIZING USER SESSION...
+
+                    </div>
+
+                </div>
+
+                <div class="status">
+
+                    MÓDULO :: ACTIVO
+                    <br>
+
+                    BASE DE DATOS :: EN LINEA
+                    <br>
+
+                    REPOSITORIO ACADÉMICO :: SINCRONIZADO
+                    <br>
+
+                    VALIDACIÓN DE OPERADOR :: APROBADA
+                    <br>
+
+                    <a
+                        href="profile.html"
+                        class="return-btn">
+
+                        ⬅ REGRESAR
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL PRINCIPAL -->
+
+            <div class="system">
+
+                <div class="line green">
+                    REPOSITORIO TEMÁTICO OPERATIVO
+                </div>
+
+                <div class="line">
+                    SINCRONIZACIÓN CON CLÚSTER CENTRAL ESTABLE.
+                </div>
+
+                <div class="line warning">
+                    TODAS LAS MODIFICACIONES SERÁN AUDITADAS POR LA UEI.
+                </div>
+
+                <div class="hud-line"></div>
+
+                <!-- SELECT ESPECIALIDAD -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Especialidad activa
+                    </div>
+
+                    <div class="card-desc">
+
+                        Seleccionar nodo académico principal
+                        para administración de temas clínicos.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Especialidad
+                            </label>
+
+                            <select
+                                id="selectEspecialidad"
+                                class="terminal-select"
+                                onchange="cargarTemas()">
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NUEVO TEMA -->
+
+                <div class="card mt-40">
+
+                    <div class="card-title">
+                        Crear nuevo tema
+                    </div>
+
+                    <div class="card-desc">
+
+                        Registrar contenido académico dentro
+                        del entorno clínico IMSSight.
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Título
+                            </label>
+
+                            <input
+                                type="text"
+                                id="titulo"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Descripción
+                            </label>
+
+                            <input
+                                type="text"
+                                id="descripcion"
+                                class="terminal-input">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Imagen
+                            </label>
+
+                            <input
+                                type="text"
+                                id="imagen"
+                                class="terminal-input"
+                                placeholder="../img/tema.png">
+
+                        </div>
+
+                        <div>
+
+                            <label class="terminal-label">
+                                Acción
+                            </label>
+
+                            <button
+                                class="btn"
+                                onclick="guardarTema()">
+
+                                Registrar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TABLA -->
+
+                <div class="card mt-40">
+
+                    <div class="card-title">
+                        Temas registrados
+                    </div>
+
+                    <div class="card-desc">
+
+                        Entidades académicas vinculadas
+                        al repositorio clínico central.
+
+                    </div>
+
+                    <div class="table-container">
+
+                        <table class="table-terminal">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th>Imagen</th>
+                                    <th>Guardar</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="tablaTemas">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- TERMINAL LOG -->
+
+                <div class="terminal-log">
+
+                    <div class="terminal-line">
+                        [OK] Repositorio temático sincronizado
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Integridad académica validada
+                    </div>
+
+                    <div class="terminal-line warning-line">
+                        [WARN] Actividad administrativa monitoreada
+                    </div>
+
+                    <div class="terminal-line">
+                        [OK] Delta-5 security bridge stable
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+
+                IMSSIGHT THEMATIC MANAGEMENT ENVIRONMENT ONLINE...
+
+            </div>
+        
         </div>
-
-        <!-- TABLA -->
-
-        <div class="card mt-40">
-
-            <div class="card-title">
-                Temas registrados
-            </div>
-
-            <div class="card-desc">
-
-                Entidades académicas vinculadas
-                al repositorio clínico central.
-
-            </div>
-
-            <div class="table-container">
-
-                <table class="table-terminal">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
-                            <th>Guardar</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tablaTemas">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-        <!-- TERMINAL LOG -->
-
-        <div class="terminal-log">
-
-            <div class="terminal-line">
-                [OK] Repositorio temático sincronizado
-            </div>
-
-            <div class="terminal-line">
-                [OK] Integridad académica validada
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Actividad administrativa monitoreada
-            </div>
-
-            <div class="terminal-line">
-                [OK] Delta-5 security bridge stable
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT THEMATIC MANAGEMENT ENVIRONMENT ONLINE...
-
+    
     </div>
 
 </div>

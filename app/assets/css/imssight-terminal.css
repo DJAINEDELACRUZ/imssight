@@ -782,3 +782,175 @@ RESPONSIVE
     }
 
 }
+
+
+/* =========================================
+LAYOUT SIDEBAR
+========================================= */
+
+.layout{
+
+    display:flex;
+
+    gap:30px;
+
+    align-items:flex-start;
+
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+.sidebar{
+
+    width:280px;
+
+    min-width:280px;
+
+    position:sticky;
+
+    top:20px;
+
+    border:1px solid rgba(88,245,200,.18);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,10,10,.95),
+            rgba(0,0,0,.92)
+        );
+
+    padding:25px;
+
+    box-shadow:
+        0 0 25px rgba(88,245,200,.08),
+        inset 0 0 20px rgba(88,245,200,.04);
+
+}
+
+/* TITLE */
+
+.sidebar-title{
+
+    font-size:1.4rem;
+
+    color:#58f5c8;
+
+    margin-bottom:25px;
+
+    letter-spacing:4px;
+
+    text-shadow:
+        0 0 10px rgba(88,245,200,.4);
+
+}
+
+/* MENU */
+
+.sidebar-menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+/* ITEMS */
+
+.sidebar-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:16px;
+
+    text-decoration:none;
+
+    color:#8fffe0;
+
+    border:1px solid rgba(88,245,200,.08);
+
+    background:rgba(0,0,0,.35);
+
+    transition:.25s;
+
+    letter-spacing:1px;
+
+}
+
+.sidebar-link:hover{
+
+    background:#0d1f1b;
+
+    border-color:#58f5c8;
+
+    transform:translateX(4px);
+
+    box-shadow:
+        0 0 20px rgba(88,245,200,.15);
+
+}
+
+/* CONTENT */
+
+.main-content{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.sidebar-section-title{
+
+    color:#58f5c8;
+
+    font-size:.8rem;
+
+    letter-spacing:3px;
+
+    margin-bottom:18px;
+
+    opacity:.8;
+
+}
+
+.sidebar-link{
+
+    width:100%;
+
+    font-family:'Orbitron', sans-serif;
+
+    font-size:.9rem;
+
+    background:rgba(0,0,0,.35);
+
+    cursor:pointer;
+
+    border:none;
+
+}
+
+.sidebar-link:visited{
+
+    color:#8fffe0;
+
+}
+
+.sidebar{
+
+    position:sticky;
+
+    top:20px;
+
+    height:calc(100vh - 40px);
+
+    overflow-y:auto;
+
+}

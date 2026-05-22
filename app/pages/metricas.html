@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    IMSSIGHT :: MÉTRICAS
+</title>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
+    rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="../assets/css/imssight-terminal.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================================
+METRICAS
+========================================= */
+
+.metric-number{
+
+    font-size:4rem;
+
+    color:#58f5c8;
+
+    font-weight:800;
+
+    margin:25px 0;
+
+    text-shadow:
+        0 0 10px rgba(88,245,200,.45),
+        0 0 25px rgba(88,245,200,.2);
+
+    animation:pulse 2s infinite;
+
+}
+
+/* =========================================
+CHART CARD
+========================================= */
+
+.chart-card{
+
+    margin-top:40px;
+
+}
+
+.chart-container{
+
+    position:relative;
+
+    width:100%;
+
+    height:450px;
+
+}
+
+/* =========================================
+LOG MINI
+========================================= */
+
+.mini-log{
+
+    margin-top:25px;
+
+    border:1px solid rgba(88,245,200,.08);
+
+    padding:20px;
+
+    background:rgba(0,0,0,.25);
+
+    line-height:2;
+
+    color:#7ea99a;
+
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:900px){
+
+    .metric-number{
+
+        font-size:2.8rem;
+
+    }
+
+}
+
+/* =========================================
+METRICS GRID
+========================================= */
+
+.metrics-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+    gap:30px;
+
+    margin-top:40px;
+
+}
+
+/* FULL WIDTH */
+
+.full-width{
+
+    grid-column:1 / -1;
+
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:1200px){
+
+    .metrics-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* =========================================
+CRITICAL TABLE
+========================================= */
+
+.critical-table-wrapper{
+
+    overflow-x:auto;
+
+    margin-top:25px;
+
+}
+
+.critical-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.critical-table th{
+
+    text-align:left;
+
+    padding:18px;
+
+    color:#58f5c8;
+
+    border-bottom:
+        1px solid rgba(88,245,200,.2);
+
+    letter-spacing:2px;
+
+    font-size:.85rem;
+
+}
+
+.critical-table td{
+
+    padding:20px;
+
+    border-bottom:
+        1px solid rgba(88,245,200,.08);
+
+    color:#d8fff5;
+
+    vertical-align:top;
+
+    line-height:1.7;
+
+}
+
+/* =========================================
+SEVERIDAD
+========================================= */
+
+.critical-high{
+
+    color:#ff5f5f;
+
+    text-shadow:
+        0 0 12px rgba(255,0,0,.35);
+
+}
+
+.critical-medium{
+
+    color:#ffb347;
+
+}
+
+.critical-low{
+
+    color:#ffe66d;
+
+}
+
+/* =========================================
+BADGE
+========================================= */
+
+.fallos-badge{
+
+    display:inline-block;
+
+    min-width:70px;
+
+    text-align:center;
+
+    padding:10px 14px;
+
+    border:1px solid rgba(88,245,200,.18);
+
+    background:rgba(0,0,0,.35);
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+
+        IMSSIGHT
+
+    </div>
+
+    <!-- DASHBOARD -->
+
+    <div class="sidebar-section">
+
+        <div class="sidebar-section-title">
+
+            DASHBOARD
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="profile.html"
+                class="sidebar-link">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CARGAR CONTENIDO -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            CARGAR CONTENIDO
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="admin_especialidades.html"
+                class="sidebar-link">
+
+                Especialidades
+
+            </a>
+
+            <a
+                href="admin_temas.html"
+                class="sidebar-link">
+
+                Temas
+
+            </a>
+
+            <a
+                href="admin_casos.html"
+                class="sidebar-link">
+
+                Casos
+
+            </a>
+
+            <a
+                href="admin_escenas.html"
+                class="sidebar-link">
+
+                Escenas
+
+            </a>
+
+            <a
+                href="admin_examenes.html"
+                class="sidebar-link">
+
+                Exámenes
+
+            </a>
+
+            <a
+                href="admin_multimedia.html"
+                class="sidebar-link">
+
+                Multimedia
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SISTEMA -->
+
+    <div class="sidebar-section mt-40">
+
+        <div class="sidebar-section-title">
+
+            SISTEMA
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="metricas.html"
+                class="sidebar-link">
+
+                Métricas
+
+            </a>
+
+            <a
+                href="admin_usuarios.html"
+                class="sidebar-link">
+
+                Usuarios
+
+            </a>
+
+            <button
+                class="sidebar-link"
+                onclick="reindexarBusqueda()">
+
+                Reindexar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- LOG -->
+
+    <div class="terminal-log mt-40">
+
+        <div class="terminal-line">
+            [OK] TELEMETRÍA ONLINE
+        </div>
+
+        <div class="terminal-line">
+            [OK] ANALYTICS READY
+        </div>
+
+        <div class="terminal-line warning-line">
+            [WARN] SYSTEM MONITORED
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- CONTENIDO -->
+
+<div class="main-content">
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="access-label">
+                INSTITUTO MEXICANO DEL SEGURO SOCIAL
+            </div>
+
+            <div class="logo">
+                MÉTRICAS
+            </div>
+
+            <div
+                class="welcome-terminal"
+                id="bienvenida">
+
+                INITIALIZING TELEMETRY...
+
+            </div>
+
+        </div>
+
+        <div class="status">
+
+            TELEMETRÍA ACADÉMICA :: ONLINE
+            <br>
+
+            INDEX ENGINE :: READY
+            <br>
+
+            ACTIVIDAD CLÍNICA :: MONITOREADA
+            <br>
+
+            ENTORNO EDUCATIVO :: ESTABLE
+            <br>
+
+            <a
+                href="profile.html"
+                class="return-btn">
+
+                ⬅ REGRESAR
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- PANEL -->
+
+    <div class="system">
+
+        <div class="line green">
+            CENTRO DE TELEMETRÍA ACADÉMICA OPERATIVO
+        </div>
+
+        <div class="line">
+            MOTOR DE ANALÍTICA CLÍNICA SINCRONIZADO.
+        </div>
+
+        <div class="line warning">
+            TODA ACTIVIDAD EDUCATIVA ES MONITOREADA.
+        </div>
+
+        <div class="hud-line"></div>
+
+        <!-- METRICAS -->
+
+        <div class="metrics-grid">
+
+
+            <div class="card mt-40">
+
+                <div class="card-title">
+                    Especialidades más populares
+                </div>
+
+                <canvas id="chartPopular"></canvas>
+
+            </div>
+
+            <div class="card mt-40">
+
+                <div class="card-title">
+                    Usuarios más activos
+                </div>
+
+                <canvas id="chartUsuarios"></canvas>
+
+            </div>
+
+            <div class="card mt-40">
+
+                <div class="card-title">
+                    Especialidades con menor promedio
+                </div>
+
+                <canvas id="chartDificiles"></canvas>
+
+            </div>
+
+        </div>
+
+        <!-- =========================================
+        ESCENAS MÁS FALLADAS
+        ========================================= -->
+
+        <div class="card mt-40">
+
+            <div class="card-title">
+                Puntos críticos de aprendizaje
+            </div>
+
+            <div class="card-desc">
+
+                Preguntas dentro del caso clínico con mayor tasa de error
+
+            </div>
+
+            <div class="critical-table-wrapper">
+
+                <table class="critical-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Especialidad</th>
+                            <th>Caso clínico</th>
+                            <th>Escena</th>
+                            <th>Fallos</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaCriticos">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        IMSSIGHT TELEMETRY ENGINE ONLINE...
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================
+SESION
+========================================= */
+
+async function verificarSesion(){
+
+    try{
+
+        const response =
+            await fetch('../php/auth.php');
+
+        const data =
+            await response.json();
+
+        if(!data.auth){
+
+            window.location.href =
+                '../pages/sign-in.html';
+
+            return;
+        }
+
+        document
+        .getElementById('bienvenida')
+        .innerHTML = `
+
+            BIENVENIDO, OPERADOR
+            <span style="color:#58f5c8;">
+            ${data.usuario.nombre.toUpperCase()}
+            </span>
+
+            <br>
+
+            MOTOR ANALÍTICO OPERATIVO.
+            <br>
+
+            TODA ACTIVIDAD ES REGISTRADA.
+
+        `;
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+verificarSesion();
+
+/* =========================================
+REINDEXAR
+========================================= */
+
+async function reindexarBusqueda(){
+
+    const boton =
+        event.target;
+
+    try{
+
+        boton.innerText =
+            'Reindexando...';
+
+        boton.disabled = true;
+
+        boton.style.opacity = '.7';
+
+        boton.style.animation =
+            'terminalPulse 1s infinite';
+
+        await fetch(
+            '../php/reindexar_busqueda.php'
+        );
+
+        await new Promise(resolve =>
+            setTimeout(resolve,2000)
+        );
+
+        boton.innerText =
+            'Reindexar';
+
+        boton.disabled = false;
+
+        boton.style.opacity = '1';
+
+        boton.style.animation =
+            'none';
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+/* =========================================
+CARGAR METRICAS
+========================================= */
+
+async function cargarMetricas(){
+
+    const response =
+        await fetch('../php/metricas.php');
+
+    const data =
+        await response.json();
+
+    /* =========================================
+    POPULARES
+    ========================================= */
+
+    new Chart(
+
+        document.getElementById('chartPopular'),
+
+        {
+
+            type:'bar',
+
+            data:{
+
+                labels:
+                    data.popular.map(
+                        x => x.especialidad
+                    ),
+
+                datasets:[{
+
+                    label:'Interacciones',
+
+                    data:
+                        data.popular.map(
+                            x => x.interacciones
+                        ),
+
+                    borderWidth:1
+
+                }]
+
+            },
+
+            options:{
+
+                indexAxis:'y',
+
+                responsive:true,
+
+                plugins:{
+
+                    legend:{
+                        labels:{
+                            color:'#8fffe0'
+                        }
+                    }
+
+                },
+
+                scales:{
+
+                    x:{
+                        ticks:{
+                            color:'#8fffe0'
+                        },
+
+                        grid:{
+                            color:'rgba(88,245,200,.08)'
+                        }
+                    },
+
+                    y:{
+                        ticks:{
+                            color:'#8fffe0'
+                        },
+
+                        grid:{
+                            color:'rgba(88,245,200,.05)'
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    /* =========================================
+    USUARIOS
+    ========================================= */
+
+    new Chart(
+
+        document.getElementById('chartUsuarios'),
+
+        {
+
+            type:'bar',
+
+            data:{
+
+                labels:
+                    data.activos.map(
+                        x => x.nombre
+                    ),
+
+                datasets:[{
+
+                    label:'Actividad',
+
+                    data:
+                        data.activos.map(
+                            x => x.actividad
+                        )
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                plugins:{
+
+                    legend:{
+                        labels:{
+                            color:'#8fffe0'
+                        }
+                    }
+
+                },
+
+                scales:{
+
+                    x:{
+                        ticks:{
+                            color:'#8fffe0'
+                        }
+                    },
+
+                    y:{
+                        ticks:{
+                            color:'#8fffe0'
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    /* =========================================
+    DIFICULTAD
+    ========================================= */
+
+    new Chart(
+
+        document.getElementById('chartDificiles'),
+
+        {
+
+            type:'bar',
+
+            data:{
+
+                labels:
+                    data.dificiles.map(
+                        x => x.nombre
+                    ),
+
+                datasets:[{
+
+                    label:'Promedio',
+
+                    data:
+                        data.dificiles.map(
+                            x => x.promedio
+                        )
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                plugins:{
+
+                    legend:{
+                        labels:{
+                            color:'#8fffe0'
+                        }
+                    }
+
+                },
+
+                scales:{
+
+                    x:{
+                        ticks:{
+                            color:'#8fffe0'
+                        }
+                    },
+
+                    y:{
+                        ticks:{
+                            color:'#8fffe0'
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    /* =========================================
+ESCENAS FALLADAS
+========================================= */
+
+const tablaCriticos =
+    document.getElementById(
+        'tablaCriticos'
+    );
+
+tablaCriticos.innerHTML = '';
+
+data.escenas_falladas.forEach(item => {
+
+    let clase = 'critical-low';
+
+    if(item.fallos >= 10){
+
+        clase = 'critical-high';
+
+    }else if(item.fallos >= 5){
+
+        clase = 'critical-medium';
+
+    }
+
+    tablaCriticos.innerHTML += `
+
+        <tr>
+
+            <td class="${clase}">
+                ${item.especialidad}
+            </td>
+
+            <td>
+                ${item.caso_clinico}
+            </td>
+
+            <td>
+                ${item.escena}
+            </td>
+
+            <td>
+
+                <span class="fallos-badge ${clase}">
+
+                    ${item.fallos}
+
+                </span>
+
+            </td>
+
+        </tr>
+
+    `;
+
+});
+
+}
+
+cargarMetricas();
+
+</script>
+
+</body>
+</html>
