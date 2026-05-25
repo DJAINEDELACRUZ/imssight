@@ -7,16 +7,14 @@ header('Content-Type: application/json');
 require 'conn.php';
 
 /* =========================================
-VALIDAR SESION
+VALIDAR SESIÓN
 ========================================= */
 
-if(!isset($_SESSION['usuario'])){
+if(!isset($_SESSION['usuario_id'])){
 
     echo json_encode([
-
-        'success' => false,
-        'auth' => false
-
+        'auth' => false,
+        'perfil' => null
     ]);
 
     exit;
@@ -28,7 +26,7 @@ USUARIO
 ========================================= */
 
 $id_usuario =
-    $_SESSION['usuario']['id'];
+    $_SESSION['usuario_id'];
 
 /* =========================================
 BUSCAR PERFIL
@@ -36,7 +34,20 @@ BUSCAR PERFIL
 
 $sql = "
 
-    SELECT *
+    SELECT
+        id,
+        id_usuario,
+        telefono,
+        correo_personal,
+        sexo,
+        DATE_FORMAT(fecha_nacimiento, '%Y-%m-%d') AS fecha_nacimiento,
+        estado,
+        universidad,
+        especialidad,
+        semestre,
+        foto,
+        biografia,
+        fecha_registro
 
     FROM imssight.usuarios_perfil
 
@@ -46,66 +57,21 @@ $sql = "
 
 ";
 
-$stmt = $pdo->prepare($sql);
+$stmt =
+    $pdo->prepare($sql);
 
-$stmt->execute([$id_usuario]);
+$stmt->execute([
+    $id_usuario
+]);
 
 $perfil =
     $stmt->fetch(PDO::FETCH_ASSOC);
-
-/* =========================================
-SIN PERFIL
-========================================= */
-
-if(!$perfil){
-
-    echo json_encode([
-
-        'success' => true,
-        'perfil' => null
-
-    ]);
-
-    exit;
-
-}
 
 /* =========================================
 RESPUESTA
 ========================================= */
 
 echo json_encode([
-
-    'success' => true,
-    'perfil' => [
-
-        'telefono' =>
-            $perfil['telefono'],
-
-        'correo_personal' =>
-            $perfil['correo_personal'],
-
-        'sexo' =>
-            $perfil['sexo'],
-
-        'fecha_nacimiento' =>
-            $perfil['fecha_nacimiento'],
-
-        'estado' =>
-            $perfil['estado'],
-
-        'universidad' =>
-            $perfil['universidad'],
-
-        'especialidad' =>
-            $perfil['especialidad'],
-
-        'semestre' =>
-            $perfil['semestre'],
-
-        'biografia' =>
-            $perfil['biografia']
-
-    ]
-
+    'auth' => true,
+    'perfil' => $perfil ?: null
 ]);

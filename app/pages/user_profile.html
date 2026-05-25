@@ -1039,6 +1039,18 @@ CALCULAR PERFIL
 
 function calcularPerfil(){
 
+    if(porcentaje === 100){
+
+    document.getElementById('tituloPerfil').innerText =
+        'Expediente académico completo';
+
+}else{
+
+    document.getElementById('tituloPerfil').innerText =
+        'Completa tu expediente académico';
+
+}
+
     const campos = [
 
         'telefono',
