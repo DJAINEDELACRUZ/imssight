@@ -271,6 +271,16 @@
                                 <div class="col-lg-6 col-5 my-auto text-end">
                                     <div class="d-flex justify-content-end gap-2 pe-4">
 
+                                        <button
+                                            class="btn btn-warning"
+                                            onclick="abrirPerlasClinicas()">
+
+                                            <i class="fas fa-gem me-1"></i>
+
+                                            Perlas clínicas
+
+                                        </button>
+
                                         <!-- Botón anterior -->
                                         <button
                                             class="btn btn-outline-secondary"
@@ -345,6 +355,56 @@
             </footer>
         </div>
     </main>
+    <div
+    class="modal fade"
+    id="modalPerlasClinicas"
+    style="z-index: 999999;"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-gradient-warning">
+
+                <h5 class="modal-title text-dark fw-bold">
+
+                    <i class="fas fa-gem me-2"></i>
+
+                    Perlas clínicas
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div
+                    class="accordion"
+                    id="accordionPerlasClinicas">
+
+                    <div class="text-center py-5 text-muted">
+
+                        Cargando perlas clínicas...
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
         <i class="material-symbols-rounded py-2">settings</i>
@@ -1240,6 +1300,150 @@ async function iniciarExamen(){
         console.error(error);
 
     }
+
+}
+
+
+
+async function abrirPerlasClinicas(){
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                'modalPerlasClinicas'
+            )
+        );
+
+    modal.show();
+
+    await cargarPerlasClinicas();
+
+}
+
+async function cargarPerlasClinicas(){
+
+    const contenedor =
+        document.getElementById(
+            'accordionPerlasClinicas'
+        );
+
+    contenedor.innerHTML = `
+
+        <div class="text-center py-5 text-muted">
+
+            Cargando perlas clínicas...
+
+        </div>
+
+    `;
+
+    try{
+
+        const response =
+            await fetch(
+                `../php/get_perlas_caso.php?id_caso=${idCaso}`
+            );
+
+        const perlas =
+            await response.json();
+
+        construirAcordeonPerlas(
+            perlas
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        contenedor.innerHTML = `
+
+            <div class="alert alert-danger">
+
+                No se pudieron cargar las perlas clínicas.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+function construirAcordeonPerlas(perlas){
+
+    const secciones = [
+
+        'Definición nosológica / Etiología',
+        'Epidemiología',
+        'Anatomía',
+        'Fisiopatología',
+        'Síntomas y Signos',
+        'Diagnóstico',
+        'Tratamiento',
+        'Pronóstico'
+
+    ];
+
+    const contenedor =
+        document.getElementById(
+            'accordionPerlasClinicas'
+        );
+
+    contenedor.innerHTML = '';
+
+    secciones.forEach((seccion, index) => {
+
+        const perla =
+            perlas.find(
+                p => p.seccion == seccion
+            );
+
+        const contenido =
+            perla
+            ? perla.contenido
+            : '<p class="text-muted mb-0">Sin información registrada.</p>';
+
+        contenedor.innerHTML += `
+
+            <div class="accordion-item">
+
+                <h2
+                    class="accordion-header"
+                    id="headingPerla${index}">
+
+                    <button
+                        class="accordion-button ${index == 0 ? '' : 'collapsed'}"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsePerla${index}">
+
+                        <strong>
+                            ${index + 1}. ${seccion}
+                        </strong>
+
+                    </button>
+
+                </h2>
+
+                <div
+                    id="collapsePerla${index}"
+                    class="accordion-collapse collapse ${index == 0 ? 'show' : ''}"
+                    data-bs-parent="#accordionPerlasClinicas">
+
+                    <div class="accordion-body">
+
+                        ${contenido}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
 
 }
 
