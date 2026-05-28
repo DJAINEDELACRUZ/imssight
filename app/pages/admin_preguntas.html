@@ -941,7 +941,53 @@ async function guardarPregunta(){
 
     alert(resultado.mensaje);
 
+    if(resultado.ok){
+
+        limpiarFormularioPregunta();
+
+    }
+
     cargarPreguntas();
+
+}
+
+function limpiarFormularioPregunta(){
+
+    document.getElementById(
+        'pregunta'
+    ).value = '';
+
+    document.getElementById(
+        'opcion_a'
+    ).value = '';
+
+    document.getElementById(
+        'opcion_b'
+    ).value = '';
+
+    document.getElementById(
+        'opcion_c'
+    ).value = '';
+
+    document.getElementById(
+        'opcion_d'
+    ).value = '';
+
+    document.getElementById(
+        'explicacion'
+    ).value = '';
+
+    document.getElementById(
+        'respuesta_correcta'
+    ).value = 'A';
+
+    document.getElementById(
+        'dificultad'
+    ).value = 'basica';
+
+    document.getElementById(
+        'pregunta'
+    ).focus();
 
 }
 
