@@ -6,7 +6,11 @@ ini_set('display_startup_errors', 1);
 
 error_reporting(E_ALL);
 
+header('Content-Type: application/json; charset=utf-8');
+
 require 'conn.php';
+
+$pdo->exec("SET NAMES utf8mb4");
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +71,7 @@ while($row = $stmt->fetch()){
         $row['nombre'],
         $row['nombre'],
         $row['id'],
-        "../pages/especialidad.html?id=".$row['id']
+        "/pages/especialidad.html?id=".$row['id']
 
     ]);
 
@@ -129,7 +133,7 @@ while($row = $stmt->fetch()){
         $row['descripcion'],
         $row['id_especialidad'],
         $row['id'],
-        "../pages/especialidad.html?id=".$row['id_especialidad']
+        "/pages/especialidad.html?id=".$row['id_especialidad']
 
     ]);
 
@@ -200,7 +204,7 @@ while($row = $stmt->fetch()){
         $row['id_especialidad'],
         $row['id_tema'],
         $row['id'],
-        "../pages/caso.html?id=".$row['id']
+        "/pages/caso.html?id=".$row['id']
 
     ]);
 
@@ -237,7 +241,13 @@ $stmt = $pdo->query($sql);
 while($row = $stmt->fetch()){
 
     $textoPlano =
-        strip_tags($row['contenido']);
+    trim(
+        preg_replace(
+            '/\s+/',
+            ' ',
+            strip_tags($row['contenido'])
+        )
+    );
 
     $insert = $pdo->prepare("
 
@@ -269,9 +279,17 @@ while($row = $stmt->fetch()){
 
         $row['titulo'],
         $textoPlano,
-        substr($textoPlano,0,300),
+        mb_substr($textoPlano, 0, 300, 'UTF-8'),
         $row['id_especialidad'],
-        "../pages/caso.html?id=".$row['id_caso']."&escena=".$row['id'].urlencode($q ?? '')
+        "/pages/caso.html?id=".$row['id_caso']."&escena=".$row['id']
     ]);
 
 }
+
+echo json_encode([
+
+    "ok" => true,
+
+    "mensaje" => "Índice reconstruido correctamente"
+
+]);

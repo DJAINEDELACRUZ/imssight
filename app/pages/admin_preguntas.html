@@ -937,15 +937,11 @@ async function guardarPregunta(){
     );
 
     const resultado =
-        await response.json();
+    await response.json();
 
     alert(resultado.mensaje);
 
-    if(resultado.ok){
-
-        limpiarFormularioPregunta();
-
-    }
+    limpiarFormularioPregunta();
 
     cargarPreguntas();
 
