@@ -23,6 +23,7 @@ Casos Clínicos
 Usuarios
     ├── Perfil de usuario
     ├── Respuestas de escenas
+    ├── Chat privado
     └── Publicaciones del muro
             ↓
         Comentarios del muro
@@ -308,6 +309,8 @@ CREATE TABLE imssight.muro_publicaciones (
 - `admin` y `docente` pueden fijar publicaciones existentes y usar tipos editoriales.
 - `usuario` publica con tipo `usuario`.
 - Los enlaces se guardan dentro de `contenido` y se renderizan como recursos visuales.
+- El autor puede editar o eliminar su publicación.
+- `admin` y `docente` pueden moderar cualquier publicación.
 
 ---
 
@@ -376,8 +379,40 @@ CREATE TABLE imssight.notificaciones (
 ## Reglas
 
 - `comentario_muro` se crea cuando alguien comenta una publicación.
+- `mensaje_privado` se crea cuando alguien envía un mensaje por chat.
 - El autor de la publicación y participantes previos reciben notificación.
-- La notificación abre `muro_publicacion.html?id=...`.
+- Las notificaciones de comentarios abren `muro_publicacion.html?id=...`.
+- Las notificaciones de chat abren `chat.html?usuario_id=...`.
+
+---
+
+# Chat Privado
+
+Para enviar mensajes privados entre usuarios.
+
+```sql
+CREATE TABLE imssight.chat_mensajes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_remitente INT NOT NULL,
+    id_destinatario INT NOT NULL,
+    contenido TEXT NOT NULL,
+    leido TINYINT DEFAULT 0,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_remitente)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_destinatario)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE CASCADE
+);
+```
+
+## Reglas
+
+- Cualquier usuario activo puede buscar y escribir a otro usuario activo.
+- `leido = 1` se marca al abrir la conversación.
 
 ---
 

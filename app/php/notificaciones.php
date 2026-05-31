@@ -111,32 +111,44 @@ try{
 
     }
 
+    $canal =
+        $_GET['canal'] ?? 'general';
+
     $notificaciones = [];
 
-    $perfilStmt =
-        $pdo->prepare("
-            SELECT id
-            FROM imssight.usuarios_perfil
-            WHERE id_usuario = ?
-            LIMIT 1
-        ");
+    if($canal !== 'mensajes'){
 
-    $perfilStmt->execute([$idUsuario]);
+        $perfilStmt =
+            $pdo->prepare("
+                SELECT id
+                FROM imssight.usuarios_perfil
+                WHERE id_usuario = ?
+                LIMIT 1
+            ");
 
-    if(!$perfilStmt->fetch(PDO::FETCH_ASSOC)){
+        $perfilStmt->execute([$idUsuario]);
 
-        $notificaciones[] = [
-            'id' => 'perfil',
-            'tipo' => 'perfil',
-            'titulo' => 'Completa tu registro',
-            'mensaje' => 'Agrega tu información académica y personal.',
-            'url' => '../pages/user_profile.html',
-            'leida' => 0,
-            'fecha' => null,
-            'icono' => 'warning'
-        ];
+        if(!$perfilStmt->fetch(PDO::FETCH_ASSOC)){
+
+            $notificaciones[] = [
+                'id' => 'perfil',
+                'tipo' => 'perfil',
+                'titulo' => 'Completa tu registro',
+                'mensaje' => 'Agrega tu información académica y personal.',
+                'url' => '../pages/user_profile.html',
+                'leida' => 0,
+                'fecha' => null,
+                'icono' => 'warning'
+            ];
+
+        }
 
     }
+
+    $tipoFiltro =
+        $canal === 'mensajes'
+            ? "AND tipo = 'mensaje_privado'"
+            : "AND tipo <> 'mensaje_privado'";
 
     $stmt =
         $pdo->prepare("
@@ -152,6 +164,7 @@ try{
                 fecha
             FROM imssight.notificaciones
             WHERE id_usuario_destino = ?
+            $tipoFiltro
             ORDER BY leida ASC, fecha DESC
             LIMIT 20
         ");
@@ -160,10 +173,15 @@ try{
 
     foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $notificacion){
 
-        $notificacion['icono'] =
-            $notificacion['tipo'] === 'comentario_muro'
-                ? 'forum'
-                : 'notifications';
+        if($notificacion['tipo'] === 'comentario_muro'){
+            $notificacion['icono'] = 'forum';
+        }
+        elseif($notificacion['tipo'] === 'mensaje_privado'){
+            $notificacion['icono'] = 'chat';
+        }
+        else{
+            $notificacion['icono'] = 'notifications';
+        }
 
         $notificaciones[] =
             $notificacion;

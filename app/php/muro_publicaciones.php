@@ -392,6 +392,16 @@ try{
 
         foreach($publicaciones as &$publicacion){
 
+            $publicacion['puede_editar'] =
+                $puedeFijar
+                || (
+                    !empty($publicacion['id_usuario'])
+                    && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
+                );
+
+            $publicacion['puede_eliminar'] =
+                $publicacion['puede_editar'];
+
             $publicacion['comentarios'] =
                 $comentariosPorPublicacion[$publicacion['id']]
                 ?? [];
@@ -423,6 +433,90 @@ try{
 
         $idComentario =
             (int)($data['id_comentario'] ?? 0);
+
+        $idPublicacionEliminar =
+            (int)($data['id_publicacion'] ?? 0);
+
+        if($idPublicacionEliminar > 0){
+
+            $stmt =
+                $pdo->prepare("
+                    SELECT id_usuario
+                    FROM imssight.muro_publicaciones
+                    WHERE id = ?
+                    AND activo = 1
+                    LIMIT 1
+                ");
+
+            $stmt->execute([$idPublicacionEliminar]);
+
+            $publicacion =
+                $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if(!$publicacion){
+
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'No se encontró la publicación.'
+                ]);
+
+                exit;
+
+            }
+
+            $puedeEliminarPublicacion =
+                $puedeFijar
+                || (
+                    !empty($publicacion['id_usuario'])
+                    && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
+                );
+
+            if(!$puedeEliminarPublicacion){
+
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'No tienes permisos para borrar esta publicación.'
+                ]);
+
+                exit;
+
+            }
+
+            $stmt =
+                $pdo->prepare("
+                    UPDATE imssight.muro_publicaciones
+                    SET activo = 0
+                    WHERE id = ?
+                ");
+
+            $stmt->execute([$idPublicacionEliminar]);
+
+            $stmt =
+                $pdo->prepare("
+                    UPDATE imssight.muro_comentarios
+                    SET activo = 0
+                    WHERE id_publicacion = ?
+                ");
+
+            $stmt->execute([$idPublicacionEliminar]);
+
+            $stmt =
+                $pdo->prepare("
+                    UPDATE imssight.notificaciones
+                    SET leida = 1
+                    WHERE id_publicacion = ?
+                ");
+
+            $stmt->execute([$idPublicacionEliminar]);
+
+            echo json_encode([
+                'ok' => true,
+                'mensaje' => 'Publicación eliminada.'
+            ]);
+
+            exit;
+
+        }
 
         if($idComentario <= 0){
 
@@ -504,6 +598,107 @@ try{
 
     if($_SERVER['REQUEST_METHOD'] === 'PATCH'){
 
+        $data =
+            json_decode(
+                file_get_contents('php://input'),
+                true
+            );
+
+        if(($data['accion'] ?? '') === 'editar_publicacion'){
+
+            $idPublicacion =
+                (int)($data['id_publicacion'] ?? 0);
+
+            $titulo =
+                trim($data['titulo'] ?? '');
+
+            $contenido =
+                trim($data['contenido'] ?? '');
+
+            if($idPublicacion <= 0 || $contenido === ''){
+
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'Publicación inválida.'
+                ]);
+
+                exit;
+
+            }
+
+            if(strlen($contenido) > 1800){
+
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'La publicación es demasiado larga.'
+                ]);
+
+                exit;
+
+            }
+
+            if(strlen($titulo) > 180){
+                $titulo = substr($titulo, 0, 180);
+            }
+
+            $stmt =
+                $pdo->prepare("
+                    SELECT id_usuario
+                    FROM imssight.muro_publicaciones
+                    WHERE id = ?
+                    AND activo = 1
+                    LIMIT 1
+                ");
+
+            $stmt->execute([$idPublicacion]);
+
+            $publicacion =
+                $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $puedeEditar =
+                $publicacion
+                && (
+                    $puedeFijar
+                    || (
+                        !empty($publicacion['id_usuario'])
+                        && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
+                    )
+                );
+
+            if(!$puedeEditar){
+
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'No tienes permisos para editar esta publicación.'
+                ]);
+
+                exit;
+
+            }
+
+            $stmt =
+                $pdo->prepare("
+                    UPDATE imssight.muro_publicaciones
+                    SET titulo = ?, contenido = ?
+                    WHERE id = ?
+                    AND activo = 1
+                ");
+
+            $stmt->execute([
+                $titulo !== '' ? $titulo : null,
+                $contenido,
+                $idPublicacion
+            ]);
+
+            echo json_encode([
+                'ok' => true,
+                'mensaje' => 'Publicación actualizada.'
+            ]);
+
+            exit;
+
+        }
+
         if(!$puedeFijar){
 
             echo json_encode([
@@ -514,12 +709,6 @@ try{
             exit;
 
         }
-
-        $data =
-            json_decode(
-                file_get_contents('php://input'),
-                true
-            );
 
         $id =
             (int)($data['id'] ?? 0);

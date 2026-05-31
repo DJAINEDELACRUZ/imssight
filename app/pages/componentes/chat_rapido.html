@@ -1,0 +1,263 @@
+<style>
+  .quick-chat-users {
+    max-height: 58vh;
+    overflow: auto;
+    padding-right: .15rem;
+  }
+
+  .quick-chat-user-btn {
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #404041;
+    display: block;
+    margin-bottom: .25rem;
+    padding: .55rem .65rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .quick-chat-user-btn:hover,
+  .quick-chat-user-btn.is-active {
+    background: #F6F6F6;
+  }
+
+  .quick-chat-user-btn strong {
+    display: block;
+    font-size: .92rem;
+    line-height: 1.1;
+  }
+
+  .quick-chat-user-btn small {
+    color: #6F7271;
+    font-size: .78rem;
+  }
+
+  .quick-chat-list-title {
+    color: #6F7271;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    margin-bottom: .45rem;
+    text-transform: uppercase;
+  }
+
+  .quick-chat-user-meta {
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+  }
+
+  .quick-chat-unread {
+    background: #9D2449;
+    border-radius: 999px;
+    color: #FFFFFF;
+    font-size: .68rem;
+    min-width: 1.25rem;
+    padding: .08rem .36rem;
+    text-align: center;
+  }
+
+  .quick-chat-preview {
+    color: #6F7271;
+    display: block;
+    font-size: .74rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .quick-chat-floating {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 14px 14px 0 0;
+    bottom: 0;
+    box-shadow: 0 -12px 34px rgba(64, 64, 65, .18);
+    display: flex;
+    flex-direction: column;
+    height: min(520px, calc(100vh - 110px));
+    overflow: hidden;
+    position: fixed;
+    right: 2rem;
+    width: min(390px, calc(100vw - 2rem));
+    z-index: 1090;
+  }
+
+  .quick-chat-floating.is-minimized {
+    height: auto;
+  }
+
+  .quick-chat-floating.is-minimized .quick-chat-floating-body,
+  .quick-chat-floating.is-minimized .quick-chat-floating-form {
+    display: none;
+  }
+
+  .quick-chat-floating-header {
+    align-items: center;
+    border-bottom: 1px solid #DDDDDD;
+    display: flex;
+    gap: .75rem;
+    justify-content: space-between;
+    padding: .75rem .9rem;
+  }
+
+  .quick-chat-floating-title strong {
+    color: #202124;
+    display: block;
+    font-size: .95rem;
+    line-height: 1.1;
+  }
+
+  .quick-chat-floating-title small {
+    color: #6F7271;
+    font-size: .76rem;
+  }
+
+  .quick-chat-floating-actions {
+    display: flex;
+    gap: .25rem;
+  }
+
+  .quick-chat-icon-btn {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #9D2449;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+  }
+
+  .quick-chat-floating-body {
+    background: #F6F6F6;
+    flex: 1;
+    overflow: auto;
+    padding: .85rem;
+  }
+
+  .quick-chat-bubble {
+    border: 1px solid #DDDDDD;
+    border-radius: 12px;
+    margin-bottom: .42rem;
+    max-width: 82%;
+    padding: .42rem .58rem;
+  }
+
+  .quick-chat-bubble.is-mine {
+    background: rgba(157, 36, 73, .1);
+    border-color: rgba(157, 36, 73, .14);
+    margin-left: auto;
+  }
+
+  .quick-chat-bubble.is-theirs {
+    background: #FFFFFF;
+  }
+
+  .quick-chat-bubble div {
+    color: #202124;
+    font-size: .86rem;
+    line-height: 1.25;
+  }
+
+  .quick-chat-bubble small {
+    color: #6F7271;
+    display: block;
+    font-size: .68rem;
+    margin-top: .18rem;
+  }
+
+  .quick-chat-link {
+    color: #9D2449;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .quick-chat-link:hover {
+    color: #285C4D;
+  }
+
+  .quick-chat-floating-form {
+    align-items: center;
+    background: #FFFFFF;
+    border-top: 1px solid #DDDDDD;
+    display: flex;
+    gap: .45rem;
+    padding: .65rem;
+  }
+
+  .quick-chat-floating-form input {
+    background: #F6F6F6;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    flex: 1;
+    font-size: .88rem;
+    padding: .65rem .85rem;
+  }
+
+  .quick-chat-floating-form input:focus {
+    border-color: rgba(157, 36, 73, .35);
+    box-shadow: none;
+    outline: 0;
+  }
+
+  .quick-chat-send {
+    align-items: center;
+    background: #9D2449;
+    border: 0;
+    border-radius: 999px;
+    color: #FFFFFF;
+    display: inline-flex;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+  }
+
+  @media (max-width: 575.98px) {
+    .quick-chat-floating {
+      left: .75rem;
+      right: .75rem;
+      width: auto;
+    }
+  }
+</style>
+
+<div class="card-header pb-0 pt-3">
+  <div class="d-flex align-items-start justify-content-between">
+    <div>
+      <h5 class="mt-3 mb-0">Chat rápido</h5>
+      <p class="text-sm mb-0">Busca personas y abre una ventana flotante.</p>
+    </div>
+    <button class="btn btn-link text-dark p-0 fixed-plugin-close-button" type="button">
+      <i class="material-symbols-rounded">clear</i>
+    </button>
+  </div>
+</div>
+<hr class="horizontal dark my-2">
+<div class="card-body pt-0">
+  <label class="form-label text-sm font-weight-bold">Buscar personas</label>
+  <input
+    class="form-control mb-3"
+    id="quickChatBuscar"
+    placeholder="Nombre, matrícula o rol">
+
+  <div class="quick-chat-list-title" id="quickChatListaTitulo">
+    Conversaciones recientes
+  </div>
+  <div class="quick-chat-users" id="quickChatUsuarios"></div>
+
+  <hr class="horizontal dark my-3">
+
+  <div class="text-muted text-sm">
+    Al elegir una persona se abrirá una conversación abajo, sin cubrir esta lista.
+  </div>
+
+  <a class="btn btn-outline-dark w-100 mt-3" href="../pages/chat.html">
+    Abrir bandeja completa
+  </a>
+</div>

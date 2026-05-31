@@ -147,6 +147,7 @@
 
     setTimeout(cargarNotificaciones, 600);
     setTimeout(cargarNotificaciones, 1500);
+    setInterval(cargarNotificaciones, 10000);
 
     document.addEventListener('click', event => {
       const link =

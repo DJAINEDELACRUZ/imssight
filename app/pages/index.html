@@ -38,28 +38,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        filter: brightness(0); /* hace que se vean negros */
-    }
-
-    .muro-welcome {
-        border-radius: 14px;
-        background: #285C4D;
-        color: #ffffff;
-        padding: 1.25rem 1.5rem;
-        box-shadow: 0 12px 28px rgba(64, 64, 65, .16);
-    }
-
-    .muro-welcome .badge {
-        color: #404041;
-        background: #FFFFFF;
-    }
-
-    .muro-welcome p {
-        color: rgba(255, 255, 255, .78);
-    }
-
     .muro-composer textarea {
         min-height: 120px;
         resize: vertical;
@@ -230,34 +208,6 @@
         flex: 0 0 auto;
     }
 
-    .muro-embed-shell {
-        border: 1px solid #DDDDDD;
-        border-radius: 12px;
-        background: #FFFFFF;
-        margin-top: .65rem;
-        overflow: hidden;
-    }
-
-    .muro-embed-shell summary {
-        cursor: pointer;
-        padding: .75rem 1rem;
-        color: var(--bs-primary);
-        font-weight: 700;
-        list-style: none;
-    }
-
-    .muro-embed-shell summary::-webkit-details-marker {
-        display: none;
-    }
-
-    .muro-embed-frame {
-        width: 100%;
-        min-height: 360px;
-        border: 0;
-        border-top: 1px solid #DDDDDD;
-        background: #F6F6F6;
-    }
-
     .muro-comments {
         border-top: 1px solid #DDDDDD;
         margin-top: 1rem;
@@ -368,7 +318,7 @@
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0">
-                <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+                <i class="material-symbols-rounded fixed-plugin-button-nav">chat</i>
               </a>
             </li>
             <li class="nav-item dropdown pe-3 d-flex align-items-center">
@@ -463,17 +413,12 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-2">
-      <div class="muro-welcome mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-          <div>
-            <span class="badge mb-2">Comunidad clínica IMSSight</span>
-            <h3 class="mb-1 h4 font-weight-bolder text-white" id="bienvenida">Bienvenido a inicio</h3>
-            <p class="mb-0">
-              Comparte hallazgos, experiencias, artículos, avisos docentes o preguntas clínicas.
-              Evita datos identificables de pacientes.
+      <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
+            <p class="mb-4">
+                IMSSight - Conocimiento clínico a primera vista
             </p>
-          </div>
-          <i class="material-symbols-rounded" style="font-size:2rem;">groups</i>
         </div>
       </div>
       <section class="muro-imssight mb-4">
@@ -632,74 +577,34 @@
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="material-symbols-rounded py-2">settings</i>
+      <i class="material-symbols-rounded py-2">chat</i>
     </a>
-    <div class="card shadow-lg">
-      <div class="card-header pb-0 pt-3">
-        <div class="float-start">
-          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
-          <p>See our dashboard options.</p>
+    <div class="card">
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalEditarPublicacionMuro" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar publicación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
-        <div class="float-end mt-4">
-          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <i class="material-symbols-rounded">clear</i>
-          </button>
-        </div>
-        <!-- End Toggle Button -->
-      </div>
-      <hr class="horizontal dark my-1">
-      <div class="card-body pt-sm-3 pt-0">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark active" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+        <div class="modal-body">
+          <input type="hidden" id="editarMuroId">
+          <div class="mb-3">
+            <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="editarMuroTitulo">Título</label>
+            <input class="form-control muro-field" id="editarMuroTitulo" maxlength="180">
           </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-dark px-3 mb-2" data-class="bg-gradient-dark" onclick="sidebarType(this)">Dark</button>
-          <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
-          <button class="btn bg-gradient-dark px-3 mb-2  active ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="mt-3 d-flex">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+          <div>
+            <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="editarMuroContenido">Contenido</label>
+            <textarea class="form-control muro-field" id="editarMuroContenido" rows="7" maxlength="1800"></textarea>
           </div>
+          <div id="editarMuroMensaje" class="mt-3"></div>
         </div>
-        <hr class="horizontal dark my-3">
-        <div class="mt-2 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
-        <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Thank you for sharing!</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Material%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-          </a>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn muro-submit" onclick="guardarEdicionPublicacionMuro()">Guardar cambios</button>
         </div>
       </div>
     </div>
@@ -817,6 +722,7 @@
   <script>
 
 let muroPuedeFijar = false;
+let muroPublicacionesActuales = [];
 
 function escaparTexto(valor){
 
@@ -937,19 +843,6 @@ function renderLinkCards(texto){
                 <small>${escaparTexto(dominioUrl(url))}</small>
             </span>
         </a>
-        <details class="muro-embed-shell">
-            <summary>
-                <i class="material-symbols-rounded align-middle me-1" style="font-size:1rem;">open_in_browser</i>
-                Vista embebida si el sitio lo permite
-            </summary>
-            <iframe
-                class="muro-embed-frame"
-                src="${escaparTexto(url)}"
-                loading="lazy"
-                referrerpolicy="no-referrer"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox">
-            </iframe>
-        </details>
     `).join('');
 
 }
@@ -1054,6 +947,32 @@ function plantillaPublicacion(publicacion){
                                     </span>
 
                                     ${
+                                        Number(publicacion.puede_editar) === 1
+                                        ? `<button
+                                            class="muro-delete-comment"
+                                            type="button"
+                                            title="Editar publicación"
+                                            aria-label="Editar publicación"
+                                            onclick="editarPublicacionMuro(${idPublicacion})">
+                                            <i class="material-symbols-rounded" style="font-size:1.05rem;">edit</i>
+                                        </button>`
+                                        : ''
+                                    }
+
+                                    ${
+                                        Number(publicacion.puede_eliminar) === 1
+                                        ? `<button
+                                            class="muro-delete-comment"
+                                            type="button"
+                                            title="Eliminar publicación"
+                                            aria-label="Eliminar publicación"
+                                            onclick="eliminarPublicacionMuro(${idPublicacion})">
+                                            <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                                        </button>`
+                                        : ''
+                                    }
+
+                                    ${
                                         muroPuedeFijar
                                         ? `<button
                                             class="btn btn-sm btn-outline-secondary mb-0 py-1 px-2"
@@ -1111,6 +1030,9 @@ function renderizarMuro(publicaciones){
     const contenedor =
         document.getElementById('muroPublicaciones');
 
+    muroPublicacionesActuales =
+        publicaciones || [];
+
     if(!publicaciones || publicaciones.length === 0){
 
         contenedor.innerHTML = `
@@ -1134,6 +1056,175 @@ function renderizarMuro(publicaciones){
     contenedor.innerHTML =
         bloquePublicaciones('Fijadas por docentes y administración', fijadas)
         + bloquePublicaciones('Comunidad', comunidad);
+
+}
+
+function buscarPublicacionLocal(idPublicacion){
+
+    return muroPublicacionesActuales.find(publicacion =>
+        Number(publicacion.id) === Number(idPublicacion)
+    );
+
+}
+
+async function editarPublicacionMuro(idPublicacion){
+
+    const publicacion =
+        buscarPublicacionLocal(idPublicacion);
+
+    if(!publicacion){
+        return;
+    }
+
+    document.getElementById('editarMuroId').value =
+        idPublicacion;
+
+    document.getElementById('editarMuroTitulo').value =
+        publicacion.titulo || '';
+
+    document.getElementById('editarMuroContenido').value =
+        publicacion.contenido || '';
+
+    document.getElementById('editarMuroMensaje').innerHTML =
+        '';
+
+    bootstrap
+        .Modal
+        .getOrCreateInstance(
+            document.getElementById('modalEditarPublicacionMuro')
+        )
+        .show();
+
+}
+
+async function guardarEdicionPublicacionMuro(){
+
+    const idPublicacion =
+        Number(document.getElementById('editarMuroId').value);
+
+    const titulo =
+        document.getElementById('editarMuroTitulo').value.trim();
+
+    const contenido =
+        document.getElementById('editarMuroContenido').value.trim();
+
+    const modalMensaje =
+        document.getElementById('editarMuroMensaje');
+
+    const mensaje =
+        document.getElementById('muroMensaje');
+
+    if(!contenido){
+        modalMensaje.innerHTML = `
+            <div class="alert alert-warning py-2 mb-0">
+                Escribe contenido para la publicación.
+            </div>
+        `;
+        return;
+    }
+
+    try{
+
+        const response =
+            await fetch('../php/muro_publicaciones.php', {
+                method:'PATCH',
+                cache:'no-store',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    accion:'editar_publicacion',
+                    id_publicacion:idPublicacion,
+                    titulo,
+                    contenido
+                })
+            });
+
+        const data =
+            await response.json();
+
+        if(!data.ok){
+            throw new Error(data.mensaje || 'No se pudo editar la publicación.');
+        }
+
+        bootstrap
+            .Modal
+            .getOrCreateInstance(
+                document.getElementById('modalEditarPublicacionMuro')
+            )
+            .hide();
+
+        mensaje.innerHTML = `
+            <div class="alert alert-success py-2 mb-0">
+                ${escaparTexto(data.mensaje)}
+            </div>
+        `;
+
+        await cargarMuro();
+
+    }catch(error){
+
+        console.error(error);
+
+        modalMensaje.innerHTML = `
+            <div class="alert alert-danger py-2 mb-0">
+                ${escaparTexto(error.message)}
+            </div>
+        `;
+
+    }
+
+}
+
+async function eliminarPublicacionMuro(idPublicacion){
+
+    const mensaje =
+        document.getElementById('muroMensaje');
+
+    if(!confirm('¿Eliminar esta publicación y sus comentarios?')){
+        return;
+    }
+
+    try{
+
+        const response =
+            await fetch('../php/muro_publicaciones.php', {
+                method:'DELETE',
+                cache:'no-store',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    id_publicacion:idPublicacion
+                })
+            });
+
+        const data =
+            await response.json();
+
+        if(!data.ok){
+            throw new Error(data.mensaje || 'No se pudo eliminar la publicación.');
+        }
+
+        mensaje.innerHTML = `
+            <div class="alert alert-success py-2 mb-0">
+                ${escaparTexto(data.mensaje)}
+            </div>
+        `;
+
+        await cargarMuro();
+
+    }catch(error){
+
+        console.error(error);
+
+        mensaje.innerHTML = `
+            <div class="alert alert-danger py-2 mb-0">
+                ${escaparTexto(error.message)}
+            </div>
+        `;
+
+    }
 
 }
 
@@ -1556,6 +1647,7 @@ async function verificarPerfil(){
 verificarPerfil();
 
 </script>
+<script src="../assets/js/imssight-quick-chat.js"></script>
 <script src="../assets/js/imssight-notifications.js"></script>
 <script src="../assets/js/imssight-profile-link.js"></script>
 </body>

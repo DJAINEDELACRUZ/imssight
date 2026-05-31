@@ -13,13 +13,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <style>
-    .muro-detail-header {
-      border-radius: 14px;
-      background: #285C4D;
-      color: #ffffff;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 12px 28px rgba(64, 64, 65, .16);
-    }
 
     .muro-post {
       border: 1px solid rgba(64, 64, 65, .1);
@@ -90,34 +83,6 @@
       flex: 0 0 auto;
     }
 
-    .muro-embed-shell {
-      border: 1px solid #DDDDDD;
-      border-radius: 12px;
-      background: #FFFFFF;
-      margin-top: .65rem;
-      overflow: hidden;
-    }
-
-    .muro-embed-shell summary {
-      cursor: pointer;
-      padding: .75rem 1rem;
-      color: var(--bs-primary);
-      font-weight: 700;
-      list-style: none;
-    }
-
-    .muro-embed-shell summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .muro-embed-frame {
-      width: 100%;
-      min-height: 420px;
-      border: 0;
-      border-top: 1px solid #DDDDDD;
-      background: #F6F6F6;
-    }
-
     .muro-comment {
       border-radius: 10px;
       background: #F6F6F6;
@@ -179,12 +144,13 @@
   </script>
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
+    <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="../pages/index.html">IMSSight</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Publicación</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">IMSSight</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Comentarios</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -227,7 +193,7 @@
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0">
-                <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+                <i class="material-symbols-rounded fixed-plugin-button-nav">chat</i>
               </a>
             </li>
             <li class="nav-item dropdown pe-3 d-flex align-items-center">
@@ -322,15 +288,12 @@
     </nav>
 
     <div class="container-fluid py-2">
-      <div class="muro-detail-header mb-4">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-          <div>
-            <h3 class="text-white mb-1">Conversación del muro</h3>
-            <p class="mb-0" style="color:rgba(255,255,255,.78);">Revisa la publicación y responde sin perder el contexto.</p>
-          </div>
-          <a class="btn btn-sm btn-light mb-0" href="../pages/index.html">
-            Volver al muro
-          </a>
+      <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
+            <p class="mb-4">
+                IMSSight - Conocimiento clínico a primera vista
+            </p>
         </div>
       </div>
 
@@ -341,6 +304,40 @@
       </div>
     </div>
   </main>
+
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-symbols-rounded py-2">chat</i>
+    </a>
+    <div class="card">
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalEditarPublicacionDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar publicación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label text-sm font-weight-bold mb-1" for="detalleEditarTitulo">Título</label>
+            <input class="form-control muro-field" id="detalleEditarTitulo" maxlength="180">
+          </div>
+          <div>
+            <label class="form-label text-sm font-weight-bold mb-1" for="detalleEditarContenido">Contenido</label>
+            <textarea class="form-control muro-field" id="detalleEditarContenido" rows="7" maxlength="1800"></textarea>
+          </div>
+          <div id="detalleEditarMensaje" class="mt-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn muro-submit" onclick="guardarEdicionPublicacion()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
 
@@ -399,6 +396,7 @@
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
   <script>
     let idPublicacionActual = Number(new URLSearchParams(window.location.search).get('id') || 0);
+    let publicacionActual = null;
 
     function escaparTexto(valor){
       return String(valor ?? '')
@@ -470,19 +468,6 @@
             <small>${escaparTexto(dominioUrl(url))}</small>
           </span>
         </a>
-        <details class="muro-embed-shell">
-          <summary>
-            <i class="material-symbols-rounded align-middle me-1" style="font-size:1rem;">open_in_browser</i>
-            Vista embebida si el sitio lo permite
-          </summary>
-          <iframe
-            class="muro-embed-frame"
-            src="${escaparTexto(url)}"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox">
-          </iframe>
-        </details>
       `).join('');
     }
 
@@ -528,7 +513,33 @@
                   <h5 class="mb-0">${escaparTexto(publicacion.autor_nombre)}</h5>
                   <small class="text-muted">${fechaMuro(publicacion.fecha)}</small>
                 </div>
-                <span class="muro-chip">${publicacion.fijado == 1 ? 'Fijado · ' : ''}${escaparTexto(publicacion.tipo)}</span>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="muro-chip">${publicacion.fijado == 1 ? 'Fijado · ' : ''}${escaparTexto(publicacion.tipo)}</span>
+                  ${
+                    Number(publicacion.puede_editar) === 1
+                      ? `<button
+                          class="muro-delete-comment"
+                          type="button"
+                          title="Editar publicación"
+                          aria-label="Editar publicación"
+                          onclick="editarPublicacion()">
+                          <i class="material-symbols-rounded" style="font-size:1.05rem;">edit</i>
+                        </button>`
+                      : ''
+                  }
+                  ${
+                    Number(publicacion.puede_eliminar) === 1
+                      ? `<button
+                          class="muro-delete-comment"
+                          type="button"
+                          title="Eliminar publicación"
+                          aria-label="Eliminar publicación"
+                          onclick="eliminarPublicacion()">
+                          <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                        </button>`
+                      : ''
+                  }
+                </div>
               </div>
 
               ${publicacion.titulo ? `<h4 class="mb-3">${escaparTexto(publicacion.titulo)}</h4>` : ''}
@@ -555,6 +566,119 @@
           </div>
         </article>
       `;
+    }
+
+    async function editarPublicacion(){
+      if(!publicacionActual){
+        return;
+      }
+
+      document.getElementById('detalleEditarTitulo').value =
+        publicacionActual.titulo || '';
+
+      document.getElementById('detalleEditarContenido').value =
+        publicacionActual.contenido || '';
+
+      document.getElementById('detalleEditarMensaje').innerHTML =
+        '';
+
+      bootstrap
+        .Modal
+        .getOrCreateInstance(
+          document.getElementById('modalEditarPublicacionDetalle')
+        )
+        .show();
+    }
+
+    async function guardarEdicionPublicacion(){
+
+      const titulo =
+        document.getElementById('detalleEditarTitulo').value.trim();
+
+      const contenido =
+        document.getElementById('detalleEditarContenido').value.trim();
+
+      const mensaje = document.getElementById('muroDetalleMensaje');
+      const modalMensaje = document.getElementById('detalleEditarMensaje');
+
+      if(!contenido){
+        modalMensaje.innerHTML = '<div class="alert alert-warning py-2 mb-0">Escribe contenido para la publicación.</div>';
+        return;
+      }
+
+      try{
+        const response = await fetch('../php/muro_publicaciones.php', {
+          method:'PATCH',
+          cache:'no-store',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            accion:'editar_publicacion',
+            id_publicacion:idPublicacionActual,
+            titulo,
+            contenido
+          })
+        });
+
+        const data = await response.json();
+
+        if(!data.ok){
+          throw new Error(data.mensaje || 'No se pudo editar la publicación.');
+        }
+
+        bootstrap
+          .Modal
+          .getOrCreateInstance(
+            document.getElementById('modalEditarPublicacionDetalle')
+          )
+          .hide();
+
+        await cargarPublicacion();
+      }
+      catch(error){
+        console.error(error);
+        if(modalMensaje){
+          modalMensaje.innerHTML = `<div class="alert alert-danger py-2 mb-0">${escaparTexto(error.message)}</div>`;
+        }
+        else if(mensaje){
+          mensaje.innerHTML = `<div class="alert alert-danger py-2 mb-0">${escaparTexto(error.message)}</div>`;
+        }
+      }
+    }
+
+    async function eliminarPublicacion(){
+      if(!confirm('¿Eliminar esta publicación y sus comentarios?')){
+        return;
+      }
+
+      try{
+        const response = await fetch('../php/muro_publicaciones.php', {
+          method:'DELETE',
+          cache:'no-store',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            id_publicacion:idPublicacionActual
+          })
+        });
+
+        const data = await response.json();
+
+        if(!data.ok){
+          throw new Error(data.mensaje || 'No se pudo eliminar la publicación.');
+        }
+
+        window.location.href = '../pages/index.html';
+      }
+      catch(error){
+        console.error(error);
+        const mensaje = document.getElementById('muroDetalleMensaje');
+        if(mensaje){
+          mensaje.innerHTML = `<div class="alert alert-danger py-2 mb-0">${escaparTexto(error.message)}</div>`;
+        }
+      }
     }
 
     async function eliminarComentario(idComentario){
@@ -628,7 +752,8 @@
           throw new Error('No se encontró la publicación.');
         }
 
-        contenedor.innerHTML = renderPublicacion(data.publicaciones[0]);
+        publicacionActual = data.publicaciones[0];
+        contenedor.innerHTML = renderPublicacion(publicacionActual);
         await marcarLeida();
 
         if(window.cargarNotificacionesImssight){
@@ -690,11 +815,20 @@
       }
 
       cargarPublicacion();
+
+      // MOSTRAR NOMBRE
+
+      document.getElementById(
+          'bienvenida'
+      ).innerHTML =
+
+          `Bienvenido ${data.usuario.nombre}`;
     }
 
     verificarSesion();
   </script>
-  <script src="../assets/js/imssight-notifications.js"></script>
+  <script src="../assets/js/imssight-quick-chat.js"></script>
+<script src="../assets/js/imssight-notifications.js"></script>
   <script src="../assets/js/imssight-profile-link.js"></script>
 </body>
 
