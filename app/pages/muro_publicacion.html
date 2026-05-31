@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>Publicación del muro | IMSSight</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <style>
+    .muro-detail-header {
+      border-radius: 14px;
+      background: #285C4D;
+      color: #ffffff;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 12px 28px rgba(64, 64, 65, .16);
+    }
+
+    .muro-post {
+      border: 1px solid rgba(64, 64, 65, .1);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 12px 32px rgba(64, 64, 65, .08);
+    }
+
+    .muro-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #285C4D, #9D2449);
+      color: #ffffff;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .muro-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      border-radius: 999px;
+      padding: .25rem .55rem;
+      font-size: .72rem;
+      font-weight: 700;
+      background: rgba(64, 64, 65, .08);
+      color: #404041;
+    }
+
+    .muro-contenido {
+      text-align: left;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .muro-inline-link {
+      color: var(--bs-primary);
+      font-weight: 700;
+      border-bottom: 1px solid rgba(var(--bs-primary-rgb), .28);
+    }
+
+    .muro-link-card {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      border: 1px solid rgba(var(--bs-primary-rgb), .24);
+      border-left: 4px solid var(--bs-primary);
+      border-radius: 12px;
+      background: rgba(var(--bs-primary-rgb), .06);
+      padding: .85rem 1rem;
+      margin-top: .75rem;
+      color: #404041;
+    }
+
+    .muro-link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      background: var(--bs-primary);
+      flex: 0 0 auto;
+    }
+
+    .muro-embed-shell {
+      border: 1px solid #DDDDDD;
+      border-radius: 12px;
+      background: #FFFFFF;
+      margin-top: .65rem;
+      overflow: hidden;
+    }
+
+    .muro-embed-shell summary {
+      cursor: pointer;
+      padding: .75rem 1rem;
+      color: var(--bs-primary);
+      font-weight: 700;
+      list-style: none;
+    }
+
+    .muro-embed-shell summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .muro-embed-frame {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-top: 1px solid #DDDDDD;
+      background: #F6F6F6;
+    }
+
+    .muro-comment {
+      border-radius: 10px;
+      background: #F6F6F6;
+      padding: .85rem 1rem;
+    }
+
+    .muro-field {
+      border: 1.5px solid #A9A8A9 !important;
+      border-radius: 12px !important;
+      background: #FFFFFF !important;
+      color: #404041 !important;
+      padding: .85rem 1rem !important;
+    }
+
+    .muro-field:focus {
+      border-color: #9D2449 !important;
+      box-shadow: 0 0 0 .18rem rgba(157, 36, 73, .14) !important;
+    }
+
+    .muro-submit {
+      background: #9D2449;
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(157, 36, 73, .2);
+    }
+
+    .muro-submit:hover,
+    .muro-submit:focus {
+      background: #285C4D;
+      color: #ffffff;
+    }
+
+    .muro-delete-comment {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid #DDDDDD;
+      background: #FFFFFF;
+      color: #9D2449;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .muro-delete-comment:hover {
+      background: rgba(157, 36, 73, .08);
+      border-color: rgba(157, 36, 73, .35);
+    }
+  </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <div id="menu-lateral"></div>
+  <script>
+    fetch('componentes/menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-lateral').innerHTML = data;
+      });
+  </script>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="../pages/index.html">IMSSight</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Publicación</li>
+          </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Buscar...</label>
+              <input
+                type="text"
+                class="form-control"
+                id="busquedaGlobal">
+            </div>
+          </div>
+          <script>
+
+            document
+            .getElementById('busquedaGlobal')
+            .addEventListener('keypress',function(e){
+
+                if(e.key === 'Enter'){
+
+                    const q = this.value;
+
+                    window.location.href =
+                        `search.html?q=${encodeURIComponent(q)}`;
+
+                }
+
+            });
+
+          </script>
+          <ul class="navbar-nav d-flex align-items-center  justify-content-end">
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+              <a
+                href="#"
+                class="nav-link text-body p-0 position-relative"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="material-symbols-rounded">notifications</i>
+                <span
+                  id="notificationDot"
+                  style="
+                    display:none;
+                    width:10px;
+                    height:10px;
+                    background:#f44336;
+                    border-radius:50%;
+                    position:absolute;
+                    right:-1px;
+                    top:1px;
+                    box-shadow:0 0 10px rgba(244,67,54,.8);
+                  ">
+                </span>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
+                id="notificationMenu"
+                aria-labelledby="dropdownMenuButton">
+                <li>
+                  <div class="dropdown-item text-muted">
+                    Sin notificaciones
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+
+                <a
+                    href="#"
+                    class="nav-link text-body font-weight-bold px-0"
+                    id="dropdownUsuario"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+                    <i class="material-symbols-rounded">
+
+                        account_circle
+
+                    </i>
+
+                </a>
+
+                <ul
+                    class="dropdown-menu dropdown-menu-end px-2 py-2"
+                    aria-labelledby="dropdownUsuario">
+
+                    <li>
+
+                        <a
+                            class="dropdown-item border-radius-md"
+                            href="../pages/user_profile.html" data-imssight-profile-link>
+
+                            <i class="fas fa-user me-2"></i>
+
+                            Perfil
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            class="dropdown-item border-radius-md text-danger"
+                            href="../php/logout.php">
+
+                            <i class="fas fa-sign-out-alt me-2"></i>
+
+                            Cerrar sesión
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid py-2">
+      <div class="muro-detail-header mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div>
+            <h3 class="text-white mb-1">Conversación del muro</h3>
+            <p class="mb-0" style="color:rgba(255,255,255,.78);">Revisa la publicación y responde sin perder el contexto.</p>
+          </div>
+          <a class="btn btn-sm btn-light mb-0" href="../pages/index.html">
+            Volver al muro
+          </a>
+        </div>
+      </div>
+
+      <div id="muroDetalleContenido">
+        <div class="card p-4 text-center text-muted">
+          Cargando publicación...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+
+    async function cargarEspecialidades() {
+
+        try {
+
+            const response = await fetch('../php/get_especialidades.php');
+
+            const especialidades = await response.json();
+
+            const contenedor = document.getElementById('menuEspecialidades');
+
+            contenedor.innerHTML = '';
+
+            especialidades.forEach(especialidad => {
+
+                contenedor.innerHTML += `
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-white"
+                          href="../pages/especialidad.html?id=${especialidad.id}">
+
+                            <i class="material-symbols-rounded opacity-5">
+                                ${especialidad.icono}
+                            </i>
+
+                            <span class="nav-link-text ms-1">
+                                ${especialidad.nombre}
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                `;
+
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+    cargarEspecialidades();
+
+  </script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script>
+    let idPublicacionActual = Number(new URLSearchParams(window.location.search).get('id') || 0);
+
+    function escaparTexto(valor){
+      return String(valor ?? '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+    }
+
+    function inicialesAutor(nombre){
+      return String(nombre ?? 'IM')
+        .trim()
+        .split(/\s+/)
+        .slice(0,2)
+        .map(parte => parte.charAt(0).toUpperCase())
+        .join('') || 'IM';
+    }
+
+    function fechaMuro(fecha){
+      if(!fecha){
+        return '';
+      }
+
+      return new Date(fecha.replace(' ', 'T'))
+        .toLocaleString('es-MX', {
+          dateStyle:'medium',
+          timeStyle:'short'
+        });
+    }
+
+    function extraerUrls(texto){
+      return [
+        ...new Set(
+          (String(texto ?? '').match(/https?:\/\/[^\s<>"']+/g) || [])
+            .map(url => url.replace(/[),.;!?]+$/,''))
+        )
+      ];
+    }
+
+    function dominioUrl(url){
+      try{
+        return new URL(url).hostname.replace(/^www\./,'');
+      }
+      catch(error){
+        return url;
+      }
+    }
+
+    function renderTextoConEnlaces(texto){
+      return escaparTexto(texto).trim().replace(
+        /(https?:\/\/[^\s<>"']+)/g,
+        url => {
+          const limpio = url.replace(/[),.;!?]+$/,'');
+          const sobrante = url.slice(limpio.length);
+          return `<a class="muro-inline-link" href="${limpio}" target="_blank" rel="noopener noreferrer">${dominioUrl(limpio)}</a>${sobrante}`;
+        }
+      );
+    }
+
+    function renderLinkCards(texto){
+      return extraerUrls(texto).map(url => `
+        <a class="muro-link-card" href="${escaparTexto(url)}" target="_blank" rel="noopener noreferrer">
+          <span class="muro-link-icon">
+            <i class="material-symbols-rounded" style="font-size:1.15rem;">link</i>
+          </span>
+          <span>
+            <strong class="d-block">Abrir recurso compartido</strong>
+            <small>${escaparTexto(dominioUrl(url))}</small>
+          </span>
+        </a>
+        <details class="muro-embed-shell">
+          <summary>
+            <i class="material-symbols-rounded align-middle me-1" style="font-size:1rem;">open_in_browser</i>
+            Vista embebida si el sitio lo permite
+          </summary>
+          <iframe
+            class="muro-embed-frame"
+            src="${escaparTexto(url)}"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox">
+          </iframe>
+        </details>
+      `).join('');
+    }
+
+    function renderComentarios(comentarios){
+      if(!comentarios || comentarios.length === 0){
+        return '<div class="text-muted text-sm">Sin comentarios todavía.</div>';
+      }
+
+      return comentarios.map(comentario => `
+        <div class="muro-comment mb-2">
+          <div class="d-flex justify-content-between gap-2 flex-wrap mb-1">
+            <div>
+              <strong class="text-sm">${escaparTexto(comentario.autor_nombre)}</strong>
+              <small class="text-muted ms-2">${fechaMuro(comentario.fecha)}</small>
+            </div>
+            ${
+              Number(comentario.puede_eliminar) === 1
+                ? `<button
+                    class="muro-delete-comment"
+                    type="button"
+                    title="Eliminar comentario"
+                    aria-label="Eliminar comentario"
+                    onclick="eliminarComentario(${Number(comentario.id)})">
+                    <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                  </button>`
+                : ''
+            }
+          </div>
+          <div class="text-sm text-dark muro-contenido">${renderTextoConEnlaces(comentario.contenido)}</div>
+          ${renderLinkCards(comentario.contenido)}
+        </div>
+      `).join('');
+    }
+
+    function renderPublicacion(publicacion){
+      return `
+        <article class="muro-post p-4">
+          <div class="d-flex align-items-start gap-3">
+            <div class="muro-avatar">${inicialesAutor(publicacion.autor_nombre)}</div>
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between gap-2 flex-wrap mb-2">
+                <div>
+                  <h5 class="mb-0">${escaparTexto(publicacion.autor_nombre)}</h5>
+                  <small class="text-muted">${fechaMuro(publicacion.fecha)}</small>
+                </div>
+                <span class="muro-chip">${publicacion.fijado == 1 ? 'Fijado · ' : ''}${escaparTexto(publicacion.tipo)}</span>
+              </div>
+
+              ${publicacion.titulo ? `<h4 class="mb-3">${escaparTexto(publicacion.titulo)}</h4>` : ''}
+              <p class="text-sm text-dark mb-2 muro-contenido">${renderTextoConEnlaces(publicacion.contenido)}</p>
+              ${renderLinkCards(publicacion.contenido)}
+
+              <hr>
+
+              <h6 class="mb-3">Comentarios</h6>
+              <div id="muroListaComentarios">
+                ${renderComentarios(publicacion.comentarios)}
+              </div>
+
+              <div class="mt-3">
+                <textarea class="form-control muro-field" id="muroRespuesta" maxlength="800" rows="3" placeholder="Responder esta conversación..."></textarea>
+                <div class="d-flex justify-content-end mt-2">
+                  <button class="btn muro-submit mb-0" type="button" onclick="publicarRespuesta()">
+                    Responder
+                  </button>
+                </div>
+                <div id="muroDetalleMensaje" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    async function eliminarComentario(idComentario){
+      if(!confirm('¿Eliminar este comentario?')){
+        return;
+      }
+
+      try{
+        const response = await fetch('../php/muro_publicaciones.php', {
+          method:'DELETE',
+          cache:'no-store',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            id_comentario:idComentario
+          })
+        });
+
+        const data = await response.json();
+
+        if(!data.ok){
+          throw new Error(data.mensaje || 'No se pudo eliminar el comentario.');
+        }
+
+        await cargarPublicacion();
+      }
+      catch(error){
+        console.error(error);
+        const mensaje = document.getElementById('muroDetalleMensaje');
+        if(mensaje){
+          mensaje.innerHTML = `<div class="alert alert-danger py-2 mb-0">${escaparTexto(error.message)}</div>`;
+        }
+      }
+    }
+
+    async function marcarLeida(){
+      if(!idPublicacionActual){
+        return;
+      }
+
+      await fetch('../php/notificaciones.php', {
+        method:'PATCH',
+        cache:'no-store',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          accion:'leer_publicacion',
+          id_publicacion:idPublicacionActual
+        })
+      });
+    }
+
+    async function cargarPublicacion(){
+      const contenedor = document.getElementById('muroDetalleContenido');
+
+      if(!idPublicacionActual){
+        contenedor.innerHTML = '<div class="alert alert-danger">Publicación inválida.</div>';
+        return;
+      }
+
+      try{
+        const response = await fetch(`../php/muro_publicaciones.php?id=${idPublicacionActual}`, {
+          cache:'no-store'
+        });
+
+        const data = await response.json();
+
+        if(!data.ok || !data.publicaciones || data.publicaciones.length === 0){
+          throw new Error('No se encontró la publicación.');
+        }
+
+        contenedor.innerHTML = renderPublicacion(data.publicaciones[0]);
+        await marcarLeida();
+
+        if(window.cargarNotificacionesImssight){
+          window.cargarNotificacionesImssight();
+        }
+      }
+      catch(error){
+        console.error(error);
+        contenedor.innerHTML = `<div class="alert alert-danger">${escaparTexto(error.message)}</div>`;
+      }
+    }
+
+    async function publicarRespuesta(){
+      const input = document.getElementById('muroRespuesta');
+      const mensaje = document.getElementById('muroDetalleMensaje');
+      const contenido = input.value.trim();
+
+      if(!contenido){
+        mensaje.innerHTML = '<div class="alert alert-warning py-2 mb-0">Escribe una respuesta.</div>';
+        return;
+      }
+
+      try{
+        const response = await fetch('../php/muro_publicaciones.php', {
+          method:'POST',
+          cache:'no-store',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            accion:'comentar',
+            id_publicacion:idPublicacionActual,
+            contenido
+          })
+        });
+
+        const data = await response.json();
+
+        if(!data.ok){
+          throw new Error(data.mensaje || 'No se pudo responder.');
+        }
+
+        input.value = '';
+        await cargarPublicacion();
+      }
+      catch(error){
+        console.error(error);
+        mensaje.innerHTML = `<div class="alert alert-danger py-2 mb-0">${escaparTexto(error.message)}</div>`;
+      }
+    }
+
+    async function verificarSesion(){
+      const response = await fetch('../php/auth.php');
+      const data = await response.json();
+
+      if(!data.auth){
+        window.location.href = '../pages/sign-in.html';
+        return;
+      }
+
+      cargarPublicacion();
+    }
+
+    verificarSesion();
+  </script>
+  <script src="../assets/js/imssight-notifications.js"></script>
+  <script src="../assets/js/imssight-profile-link.js"></script>
+</body>
+
+</html>

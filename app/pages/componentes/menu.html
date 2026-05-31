@@ -53,10 +53,185 @@
       <div class="mx-3">
         
         <i class="text-muted">Oficina de estrategia e impacto, UEI, DPM, IMSS</i>
-        <a class="btn btn-outline-light mt-4 w-100" href="#" type="button">Bibliografía</a>
+
+        <div class="imssight-biblio-widget mt-4">
+          <input
+            class="imssight-biblio-toggle"
+            type="checkbox"
+            id="imssightBiblioToggle"
+            aria-hidden="true">
+
+          <label
+            class="btn btn-outline-light w-100 imssight-biblio-button"
+            for="imssightBiblioToggle">
+            <span class="material-symbols-rounded">auto_stories</span>
+            Bibliografía
+          </label>
+
+          <div class="imssight-biblio-orb" role="note" aria-label="Aviso bibliográfico de IMSSight">
+            <div class="imssight-biblio-orb-header">
+              <span class="material-symbols-rounded">science</span>
+              Base científica
+            </div>
+
+            <p>
+              Los casos clínicos de <strong>IMSSight</strong> combinan adaptaciones educativas
+              basadas en literatura científica publicada y casos originales desarrollados por
+              médicos expertos del IMSS.
+            </p>
+
+            <p>
+              Cuando un caso deriva de una publicación, se mantiene referencia explícita a la
+              fuente original.
+            </p>
+
+            <p>
+              IMSSight no sustituye el juicio clínico, la supervisión docente ni la consulta de
+              la literatura original.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </aside>
+
+  <style>
+    .imssight-biblio-widget {
+      position: relative;
+      z-index: 1080;
+    }
+
+    .imssight-biblio-toggle {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .imssight-biblio-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      border-color: rgba(134, 239, 172, .74);
+      color: #eafff6;
+      background:
+        linear-gradient(135deg, rgba(20, 184, 166, .12), rgba(34, 197, 94, .05)),
+        rgba(255, 255, 255, .02);
+      box-shadow:
+        inset 0 0 20px rgba(94, 234, 212, .08),
+        0 0 22px rgba(20, 184, 166, .12);
+      backdrop-filter: blur(10px);
+    }
+
+    .imssight-biblio-button:hover,
+    .imssight-biblio-button:focus {
+      border-color: #8fffe0;
+      color: #071a16;
+      background: linear-gradient(135deg, #8fffe0, #c7f9d4);
+      box-shadow:
+        0 0 28px rgba(143, 255, 224, .38),
+        0 0 58px rgba(20, 184, 166, .14);
+    }
+
+    .imssight-biblio-button .material-symbols-rounded {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .imssight-biblio-orb {
+      position: fixed;
+      left: 266px;
+      bottom: 26px;
+      z-index: 99999;
+      width: min(380px, calc(100vw - 300px));
+      padding: 1.05rem;
+      color: #dffcf3;
+      border: 1px solid rgba(143, 255, 224, .55);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(143, 255, 224, .22), transparent 28%),
+        linear-gradient(145deg, rgba(5, 18, 17, .96), rgba(6, 32, 28, .92));
+      box-shadow:
+        0 28px 70px rgba(0, 0, 0, .38),
+        0 0 42px rgba(20, 184, 166, .22),
+        inset 0 0 34px rgba(143, 255, 224, .08);
+      transform: translateX(-10px) scale(.97);
+      transform-origin: left bottom;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease;
+    }
+
+    .imssight-biblio-orb::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      bottom: 34px;
+      width: 18px;
+      height: 18px;
+      border-left: 1px solid rgba(143, 255, 224, .55);
+      border-bottom: 1px solid rgba(143, 255, 224, .55);
+      background: rgba(5, 18, 17, .96);
+      transform: rotate(45deg);
+    }
+
+    .imssight-biblio-orb-header {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .75rem;
+      color: #9bffe6;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .imssight-biblio-orb-header .material-symbols-rounded {
+      font-size: 1.1rem;
+    }
+
+    .imssight-biblio-orb p {
+      margin: 0;
+      font-size: .84rem;
+      line-height: 1.48;
+    }
+
+    .imssight-biblio-orb p + p {
+      margin-top: .7rem;
+    }
+
+    .imssight-biblio-widget:hover .imssight-biblio-orb,
+    .imssight-biblio-widget:focus-within .imssight-biblio-orb,
+    .imssight-biblio-toggle:checked ~ .imssight-biblio-orb {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+
+    @media (max-width: 1199.98px) {
+      .imssight-biblio-orb {
+        left: 16px;
+        right: 16px;
+        bottom: 84px;
+        width: auto;
+        transform-origin: left bottom;
+      }
+
+      .imssight-biblio-orb::before {
+        left: 30px;
+        bottom: -9px;
+        transform: rotate(-45deg);
+      }
+    }
+  </style>
 
   <div class="modal fade" id="modalInfoImssight" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

@@ -1,18 +1,6 @@
 # IMSSight - Estructura de Base de Datos
 
-## Descripción general
-
-IMSSight utiliza MariaDB/MySQL como motor principal.
-
-La arquitectura está diseñada para:
-
-- Especialidades médicas
-- Temas clínicos
-- Casos clínicos interactivos
-- Escenas tipo simulador
-- Exámenes
-- Resultados de usuarios
-- Motor de búsqueda interno
+Documentación breve de las tablas principales de IMSSight.
 
 ---
 
@@ -24,19 +12,33 @@ Especialidades
 Temas
     ↓
 Casos Clínicos
+    ├── Escenas
+    ├── Perlas Clínicas
+    └── Exámenes
+            ↓
+        Preguntas
+            ↓
+        Resultados
+
+Usuarios
+    ├── Perfil de usuario
+    ├── Respuestas de escenas
+    └── Publicaciones del muro
+            ↓
+        Comentarios del muro
+            ↓
+        Notificaciones
+
+Motor de búsqueda
     ↓
-Escenas
-    ↓
-Exámenes
-    ↓
-Preguntas
+Search Index
 ```
 
 ---
 
-# Tabla: especialidades
+# Especialidades
 
-Catálogo principal de especialidades médicas.
+Para crear especialidades médicas.
 
 ```sql
 CREATE TABLE imssight.especialidades (
@@ -48,21 +50,11 @@ CREATE TABLE imssight.especialidades (
 );
 ```
 
-## Campos
-
-| Campo | Descripción |
-|---|---|
-| id | Identificador |
-| nombre | Nombre de especialidad |
-| icono | Material icon |
-| color | Color hexadecimal |
-| activo | Estado lógico |
-
 ---
 
-# Tabla: temas
+# Temas
 
-Temas clínicos pertenecientes a una especialidad.
+Para crear temas clínicos dentro de una especialidad.
 
 ```sql
 CREATE TABLE imssight.temas (
@@ -77,17 +69,11 @@ CREATE TABLE imssight.temas (
 );
 ```
 
-## Relación
-
-```text
-especialidades 1 ---> N temas
-```
-
 ---
 
-# Tabla: casos_clinicos
+# Casos Clínicos
 
-Casos clínicos interactivos.
+Para crear casos clínicos dentro de un tema.
 
 ```sql
 CREATE TABLE imssight.casos_clinicos (
@@ -104,25 +90,11 @@ CREATE TABLE imssight.casos_clinicos (
 );
 ```
 
-## Relación
-
-```text
-temas 1 ---> N casos_clinicos
-```
-
 ---
 
-# Tabla: escenas
+# Escenas
 
-Motor narrativo del simulador clínico.
-
-Cada escena representa:
-- texto
-- multimedia
-- preguntas
-- decisiones
-- videos
-- consecuencias
+Para crear escenas narrativas de un caso clínico.
 
 ```sql
 CREATE TABLE imssight.escenas (
@@ -135,21 +107,105 @@ CREATE TABLE imssight.escenas (
     multimedia VARCHAR(255),
 
     FOREIGN KEY (id_caso)
-    REFERENCES casos_clinicos(id)
+    REFERENCES imssight.casos_clinicos(id)
 );
-```
-
-## Relación
-
-```text
-casos_clinicos 1 ---> N escenas
 ```
 
 ---
 
-# Tabla: usuarios
+# Perlas Clínicas
 
-Usuarios del sistema.
+Para crear perlas clínicas asociadas a un caso.
+
+```sql
+CREATE TABLE imssight.perlas_clinicas_caso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_caso INT NOT NULL,
+    seccion VARCHAR(150) NOT NULL,
+    contenido TEXT,
+    orden INT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_caso)
+    REFERENCES imssight.casos_clinicos(id)
+);
+```
+
+---
+
+# Exámenes
+
+Para crear exámenes asociados a un caso clínico.
+
+```sql
+CREATE TABLE imssight.examenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_caso INT NOT NULL,
+    titulo VARCHAR(255),
+    descripcion TEXT,
+    activo TINYINT DEFAULT 1,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_caso)
+    REFERENCES imssight.casos_clinicos(id)
+);
+```
+
+---
+
+# Preguntas
+
+Para crear preguntas de un examen.
+
+```sql
+CREATE TABLE imssight.examen_preguntas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_examen INT NOT NULL,
+    pregunta TEXT,
+    opcion_a TEXT,
+    opcion_b TEXT,
+    opcion_c TEXT,
+    opcion_d TEXT,
+    respuesta_correcta ENUM('A','B','C','D'),
+    explicacion TEXT,
+    dificultad VARCHAR(50),
+    orden_pregunta INT DEFAULT 0,
+
+    FOREIGN KEY (id_examen)
+    REFERENCES imssight.examenes(id)
+);
+```
+
+---
+
+# Resultados
+
+Para guardar resultados de exámenes por usuario.
+
+```sql
+CREATE TABLE imssight.examen_resultados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_examen INT NOT NULL,
+    id_usuario INT NOT NULL,
+    calificacion DECIMAL(5,2),
+    respuestas_correctas INT,
+    total_preguntas INT,
+    intento INT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_examen)
+    REFERENCES imssight.examenes(id),
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id)
+);
+```
+
+---
+
+# Usuarios
+
+Para crear usuarios del sistema.
 
 ```sql
 CREATE TABLE imssight.usuarios (
@@ -164,16 +220,42 @@ CREATE TABLE imssight.usuarios (
 
 ## Roles previstos
 
-- administrador
-- profesor
-- alumno
-- residente
+- `admin`: administra contenido y puede fijar publicaciones del muro.
+- `docente`: publica contenido editorial y puede fijar publicaciones del muro.
+- `usuario`: publica aportaciones normales de comunidad.
 
 ---
 
-# Tabla: respuestas_usuario
+# Perfil de Usuario
 
-Historial de respuestas de escenas.
+Para guardar información complementaria del usuario.
+
+```sql
+CREATE TABLE imssight.usuarios_perfil (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL UNIQUE,
+    telefono VARCHAR(30),
+    correo_personal VARCHAR(150),
+    sexo VARCHAR(20),
+    fecha_nacimiento DATE,
+    estado VARCHAR(100),
+    universidad VARCHAR(255),
+    especialidad VARCHAR(255),
+    semestre VARCHAR(100),
+    foto VARCHAR(255),
+    biografia TEXT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id)
+);
+```
+
+---
+
+# Respuestas de Escenas
+
+Para guardar respuestas del usuario dentro de escenas.
 
 ```sql
 CREATE TABLE imssight.respuestas_usuario (
@@ -182,17 +264,126 @@ CREATE TABLE imssight.respuestas_usuario (
     id_escena INT NOT NULL,
     respuesta_usuario VARCHAR(10),
     correcta TINYINT DEFAULT 0,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id),
+
+    FOREIGN KEY (id_escena)
+    REFERENCES imssight.escenas(id)
 );
 ```
 
 ---
 
-# Motor de búsqueda
+# Publicaciones del Muro
 
-## Tabla: search_index
+Para crear publicaciones fijas, noticias y aportaciones de usuarios.
 
-Índice interno para búsqueda tipo Encarta / IA local.
+```sql
+CREATE TABLE imssight.muro_publicaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NULL,
+    autor_nombre VARCHAR(150) NOT NULL,
+    autor_rol VARCHAR(50),
+    tipo ENUM('institucional','experto','noticia','usuario') DEFAULT 'usuario',
+    titulo VARCHAR(180),
+    contenido TEXT NOT NULL,
+    fuente VARCHAR(255),
+    fijado TINYINT DEFAULT 0,
+    fecha_fijado TIMESTAMP NULL,
+    activo TINYINT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE SET NULL
+);
+```
+
+## Reglas
+
+- `fijado = 1` muestra la publicación al inicio del muro.
+- `fecha_fijado` ordena primero lo fijado más recientemente.
+- `admin` y `docente` pueden fijar publicaciones existentes y usar tipos editoriales.
+- `usuario` publica con tipo `usuario`.
+- Los enlaces se guardan dentro de `contenido` y se renderizan como recursos visuales.
+
+---
+
+# Comentarios del Muro
+
+Para crear comentarios dentro de publicaciones del muro.
+
+```sql
+CREATE TABLE imssight.muro_comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_publicacion INT NOT NULL,
+    id_usuario INT NOT NULL,
+    autor_nombre VARCHAR(150) NOT NULL,
+    autor_rol VARCHAR(50),
+    contenido TEXT NOT NULL,
+    activo TINYINT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_publicacion)
+    REFERENCES imssight.muro_publicaciones(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE CASCADE
+);
+```
+
+## Reglas
+
+- `activo = 0` oculta el comentario sin romper la conversación.
+- El autor puede borrar su comentario.
+- `admin` y `docente` pueden moderar cualquier comentario.
+
+---
+
+# Notificaciones
+
+Para avisar eventos del muro y pendientes del usuario.
+
+```sql
+CREATE TABLE imssight.notificaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario_destino INT NOT NULL,
+    id_usuario_actor INT NULL,
+    actor_nombre VARCHAR(150),
+    tipo VARCHAR(50) NOT NULL,
+    titulo VARCHAR(180) NOT NULL,
+    mensaje TEXT NOT NULL,
+    url VARCHAR(255),
+    id_publicacion INT NULL,
+    id_comentario INT NULL,
+    leida TINYINT DEFAULT 0,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario_destino)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_usuario_actor)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE SET NULL
+);
+```
+
+## Reglas
+
+- `comentario_muro` se crea cuando alguien comenta una publicación.
+- El autor de la publicación y participantes previos reciben notificación.
+- La notificación abre `muro_publicacion.html?id=...`.
+
+---
+
+# Search Index
+
+Para crear el índice interno del motor de búsqueda.
 
 ```sql
 CREATE TABLE imssight.search_index (
@@ -208,84 +399,3 @@ CREATE TABLE imssight.search_index (
     url TEXT
 );
 ```
-
----
-
-# Sistema de exámenes
-
-## Tabla: examenes
-
-Exámenes asociados a un caso clínico.
-
-```sql
-CREATE TABLE imssight.examenes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_caso INT NOT NULL,
-    titulo VARCHAR(255),
-    descripcion TEXT,
-    activo TINYINT DEFAULT 1,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
----
-
-## Tabla: examen_preguntas
-
-Banco de preguntas.
-
-```sql
-CREATE TABLE imssight.examen_preguntas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_examen INT NOT NULL,
-    pregunta TEXT,
-    opcion_a TEXT,
-    opcion_b TEXT,
-    opcion_c TEXT,
-    opcion_d TEXT,
-    respuesta_correcta ENUM('A','B','C','D'),
-    explicacion TEXT,
-    dificultad VARCHAR(50),
-    orden_pregunta INT DEFAULT 0
-);
-```
-
----
-
-## Tabla: examen_resultados
-
-Resultados de evaluaciones.
-
-```sql
-CREATE TABLE imssight.examen_resultados (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_examen INT NOT NULL,
-    id_usuario INT NOT NULL,
-    calificacion DECIMAL(5,2),
-    respuestas_correctas INT,
-    total_preguntas INT,
-    intento INT DEFAULT 1,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
----
-
-# Filosofía del sistema
-
-IMSSight busca funcionar como:
-
-- simulador clínico
-- videojuego educativo
-- plataforma de razonamiento médico
-- sistema de evaluación
-- biblioteca interactiva médica
-
-Inspirado en:
-- Encarta
-- videojuegos narrativos
-- simuladores clínicos
-- plataformas LMS
-- sistemas hospitalarios IMSS
-
----
