@@ -245,12 +245,61 @@ CREATE TABLE imssight.usuarios_perfil (
     semestre VARCHAR(100),
     foto VARCHAR(255),
     biografia TEXT,
+    hospital VARCHAR(255),
+    cumpleanos_publico VARCHAR(40),
+    puesto VARCHAR(150),
+    etapa_profesional VARCHAR(100),
+    intereses TEXT,
+    frase_perfil VARCHAR(255),
+    perfil_publico TINYINT DEFAULT 1,
+    mostrar_correo TINYINT DEFAULT 0,
+    mostrar_telefono TINYINT DEFAULT 0,
+    mostrar_estado TINYINT DEFAULT 1,
+    mostrar_biografia TINYINT DEFAULT 1,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_usuario)
     REFERENCES imssight.usuarios(id)
 );
 ```
+
+## Reglas
+
+- `perfil_publico = 1` permite que el usuario aparezca en el buscador.
+- `mostrar_correo` y `mostrar_telefono` controlan si esos datos se muestran en el perfil público.
+- `mostrar_estado` y `mostrar_biografia` controlan datos académicos visibles.
+- `hospital`, `puesto`, `etapa_profesional`, `intereses` y `frase_perfil` alimentan el perfil público y el buscador.
+- `cumpleanos_publico` guarda una fecha libre visible sin exponer fecha de nacimiento completa.
+- Sexo y fecha de nacimiento se conservan como datos privados del expediente.
+
+---
+
+# Entradas de Perfil
+
+Para publicar frases, historias, aprendizajes o reflexiones dentro del perfil.
+
+```sql
+CREATE TABLE imssight.perfil_entradas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    tipo ENUM('frase','reflexion','historia','aprendizaje') DEFAULT 'reflexion',
+    titulo VARCHAR(180),
+    contenido TEXT NOT NULL,
+    activo TINYINT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE CASCADE
+);
+```
+
+## Reglas
+
+- Cada entrada pertenece a un usuario.
+- `activo = 0` oculta la entrada sin borrarla físicamente.
+- Las entradas se muestran en el perfil público si `perfil_publico = 1`.
+- Se indexan en `search_index` como `perfil_entrada`.
 
 ---
 
@@ -310,7 +359,8 @@ CREATE TABLE imssight.muro_publicaciones (
 - `usuario` publica con tipo `usuario`.
 - Los enlaces se guardan dentro de `contenido` y se renderizan como recursos visuales.
 - El autor puede editar o eliminar su publicación.
-- `admin` y `docente` pueden moderar cualquier publicación.
+- `admin` puede moderar cualquier publicación.
+- `docente` puede moderar publicaciones propias y de usuarios comunes; no puede moderar contenido administrativo, institucional, experto o de otros docentes.
 
 ---
 
@@ -343,7 +393,8 @@ CREATE TABLE imssight.muro_comentarios (
 
 - `activo = 0` oculta el comentario sin romper la conversación.
 - El autor puede borrar su comentario.
-- `admin` y `docente` pueden moderar cualquier comentario.
+- `admin` puede moderar cualquier comentario.
+- `docente` puede moderar comentarios propios y de usuarios comunes; no puede moderar comentarios de admin u otros docentes.
 
 ---
 
@@ -434,3 +485,12 @@ CREATE TABLE imssight.search_index (
     url TEXT
 );
 ```
+
+## Tipos indexados
+
+- `especialidad`: para buscar especialidades.
+- `tema`: para buscar temas.
+- `caso`: para buscar casos clínicos.
+- `escena`: para buscar texto dentro de escenas.
+- `usuario`: para buscar perfiles públicos por nombre, matrícula, rol o datos académicos visibles.
+- `perfil_entrada`: para buscar frases, historias, aprendizajes o reflexiones de perfiles públicos.

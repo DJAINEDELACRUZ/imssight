@@ -263,6 +263,31 @@ function crearNotificacionesComentario($pdo, $idPublicacion, $idComentario, $idA
 
 }
 
+function esAdminMuro($rol){
+    return $rol === 'admin';
+}
+
+function puedeGestionarContenidoMuro($rolSesion, $idSesion, $idAutor, $rolAutor){
+
+    if(esAdminMuro($rolSesion)){
+        return true;
+    }
+
+    if(!empty($idAutor) && (int)$idAutor === (int)$idSesion){
+        return true;
+    }
+
+    if(
+        $rolSesion === 'docente'
+        && in_array($rolAutor, ['usuario',''], true)
+    ){
+        return true;
+    }
+
+    return false;
+
+}
+
 if(!isset($_SESSION['usuario_id'])){
 
     echo json_encode([
@@ -287,6 +312,9 @@ try{
             ['admin','docente'],
             true
         );
+
+    $idSesion =
+        (int)$_SESSION['usuario_id'];
 
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
 
@@ -376,8 +404,12 @@ try{
                     $comentario['id_publicacion'];
 
                 $comentario['puede_eliminar'] =
-                    $puedeFijar
-                    || (int)$comentario['id_usuario'] === (int)$_SESSION['usuario_id'];
+                    puedeGestionarContenidoMuro(
+                        $rolSesion,
+                        $idSesion,
+                        $comentario['id_usuario'],
+                        $comentario['autor_rol'] ?? 'usuario'
+                    );
 
                 if(!isset($comentariosPorPublicacion[$idPublicacion])){
                     $comentariosPorPublicacion[$idPublicacion] = [];
@@ -393,14 +425,24 @@ try{
         foreach($publicaciones as &$publicacion){
 
             $publicacion['puede_editar'] =
-                $puedeFijar
-                || (
-                    !empty($publicacion['id_usuario'])
-                    && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
+                puedeGestionarContenidoMuro(
+                    $rolSesion,
+                    $idSesion,
+                    $publicacion['id_usuario'],
+                    $publicacion['autor_rol'] ?? 'usuario'
                 );
 
             $publicacion['puede_eliminar'] =
                 $publicacion['puede_editar'];
+
+            $publicacion['puede_fijar'] =
+                $puedeFijar
+                && puedeGestionarContenidoMuro(
+                    $rolSesion,
+                    $idSesion,
+                    $publicacion['id_usuario'],
+                    $publicacion['autor_rol'] ?? 'usuario'
+                );
 
             $publicacion['comentarios'] =
                 $comentariosPorPublicacion[$publicacion['id']]
@@ -441,7 +483,7 @@ try{
 
             $stmt =
                 $pdo->prepare("
-                    SELECT id_usuario
+                    SELECT id_usuario, autor_rol
                     FROM imssight.muro_publicaciones
                     WHERE id = ?
                     AND activo = 1
@@ -465,10 +507,11 @@ try{
             }
 
             $puedeEliminarPublicacion =
-                $puedeFijar
-                || (
-                    !empty($publicacion['id_usuario'])
-                    && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
+                puedeGestionarContenidoMuro(
+                    $rolSesion,
+                    $idSesion,
+                    $publicacion['id_usuario'],
+                    $publicacion['autor_rol'] ?? 'usuario'
                 );
 
             if(!$puedeEliminarPublicacion){
@@ -531,7 +574,7 @@ try{
 
         $stmt =
             $pdo->prepare("
-                SELECT id_usuario
+                SELECT id_usuario, autor_rol
                 FROM imssight.muro_comentarios
                 WHERE id = ?
                 AND activo = 1
@@ -555,8 +598,12 @@ try{
         }
 
         $puedeEliminar =
-            $puedeFijar
-            || (int)$comentario['id_usuario'] === (int)$_SESSION['usuario_id'];
+            puedeGestionarContenidoMuro(
+                $rolSesion,
+                $idSesion,
+                $comentario['id_usuario'],
+                $comentario['autor_rol'] ?? 'usuario'
+            );
 
         if(!$puedeEliminar){
 
@@ -641,9 +688,13 @@ try{
                 $titulo = substr($titulo, 0, 180);
             }
 
+            if(!$puedeFijar){
+                $titulo = '';
+            }
+
             $stmt =
                 $pdo->prepare("
-                    SELECT id_usuario
+                    SELECT id_usuario, autor_rol
                     FROM imssight.muro_publicaciones
                     WHERE id = ?
                     AND activo = 1
@@ -657,12 +708,11 @@ try{
 
             $puedeEditar =
                 $publicacion
-                && (
-                    $puedeFijar
-                    || (
-                        !empty($publicacion['id_usuario'])
-                        && (int)$publicacion['id_usuario'] === (int)$_SESSION['usuario_id']
-                    )
+                && puedeGestionarContenidoMuro(
+                    $rolSesion,
+                    $idSesion,
+                    $publicacion['id_usuario'],
+                    $publicacion['autor_rol'] ?? 'usuario'
                 );
 
             if(!$puedeEditar){
@@ -721,6 +771,39 @@ try{
             echo json_encode([
                 'ok' => false,
                 'mensaje' => 'Publicación inválida.'
+            ]);
+
+            exit;
+
+        }
+
+        $stmt =
+            $pdo->prepare("
+                SELECT id_usuario, autor_rol
+                FROM imssight.muro_publicaciones
+                WHERE id = ?
+                AND activo = 1
+                LIMIT 1
+            ");
+
+        $stmt->execute([$id]);
+
+        $publicacion =
+            $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(
+            !$publicacion
+            || !puedeGestionarContenidoMuro(
+                $rolSesion,
+                $idSesion,
+                $publicacion['id_usuario'],
+                $publicacion['autor_rol'] ?? 'usuario'
+            )
+        ){
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'No tienes permisos para fijar esta publicación.'
             ]);
 
             exit;
@@ -875,6 +958,10 @@ try{
 
         if(strlen($titulo) > 180){
             $titulo = substr($titulo, 0, 180);
+        }
+
+        if(!$puedeFijar){
+            $titulo = '';
         }
 
         $tiposPermitidos =

@@ -437,7 +437,7 @@
                   </span>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 d-none" id="muroTituloGrupo">
                   <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="muroTitulo">Título opcional</label>
                   <input
                     type="text"
@@ -592,7 +592,7 @@
         </div>
         <div class="modal-body">
           <input type="hidden" id="editarMuroId">
-          <div class="mb-3">
+          <div class="mb-3" id="editarMuroTituloGrupo">
             <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="editarMuroTitulo">Título</label>
             <input class="form-control muro-field" id="editarMuroTitulo" maxlength="180">
           </div>
@@ -973,7 +973,7 @@ function plantillaPublicacion(publicacion){
                                     }
 
                                     ${
-                                        muroPuedeFijar
+                                        Number(publicacion.puede_fijar) === 1
                                         ? `<button
                                             class="btn btn-sm btn-outline-secondary mb-0 py-1 px-2"
                                             type="button"
@@ -1082,6 +1082,16 @@ async function editarPublicacionMuro(idPublicacion){
     document.getElementById('editarMuroTitulo').value =
         publicacion.titulo || '';
 
+    const tituloGrupo =
+        document.getElementById('editarMuroTituloGrupo');
+
+    if(tituloGrupo){
+        tituloGrupo.classList.toggle(
+            'd-none',
+            !muroPuedeFijar
+        );
+    }
+
     document.getElementById('editarMuroContenido').value =
         publicacion.contenido || '';
 
@@ -1103,7 +1113,9 @@ async function guardarEdicionPublicacionMuro(){
         Number(document.getElementById('editarMuroId').value);
 
     const titulo =
-        document.getElementById('editarMuroTitulo').value.trim();
+        muroPuedeFijar
+            ? document.getElementById('editarMuroTitulo').value.trim()
+            : '';
 
     const contenido =
         document.getElementById('editarMuroContenido').value.trim();
@@ -1420,14 +1432,22 @@ function configurarControlesMuro(permisos){
     const controles =
         document.getElementById('muroControlesEditoriales');
 
-    if(!controles){
-        return;
+    const tituloGrupo =
+        document.getElementById('muroTituloGrupo');
+
+    if(controles){
+        controles.classList.toggle(
+            'd-none',
+            !muroPuedeFijar
+        );
     }
 
-    controles.classList.toggle(
-        'd-none',
-        !muroPuedeFijar
-    );
+    if(tituloGrupo){
+        tituloGrupo.classList.toggle(
+            'd-none',
+            !muroPuedeFijar
+        );
+    }
 
 }
 
@@ -1475,7 +1495,9 @@ async function cargarMuro(){
 async function publicarEnMuro(){
 
     const titulo =
-        document.getElementById('muroTitulo').value.trim();
+        muroPuedeFijar
+            ? document.getElementById('muroTitulo').value.trim()
+            : '';
 
     const contenido =
         document.getElementById('muroContenido').value.trim();

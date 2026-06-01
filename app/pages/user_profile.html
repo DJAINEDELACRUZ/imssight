@@ -42,6 +42,143 @@
     .carousel-control-next-icon {
         filter: brightness(0); /* hace que se vean negros */
     }
+
+    .perfil-publico-hero{
+        background:#285C4D;
+        color:#FFFFFF;
+        border-radius:14px;
+        padding:2rem;
+    }
+
+    .perfil-publico-avatar{
+        width:72px;
+        height:72px;
+        border-radius:18px;
+        background:#9D2449;
+        color:#FFFFFF;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.6rem;
+        font-weight:800;
+    }
+
+    .perfil-publico-dato{
+        border:1px solid #DDDDDD;
+        border-radius:10px;
+        padding:1rem;
+        background:#FFFFFF;
+    }
+
+    .perfil-publico-card{
+        background:#FFFFFF;
+        border:1px solid #DDDDDD;
+        border-radius:14px;
+        box-shadow:0 14px 28px rgba(64,64,65,.08);
+        padding:1.25rem;
+        height:100%;
+    }
+
+    .perfil-publico-linea{
+        border-bottom:1px solid #F0F0F0;
+        padding:.75rem 0;
+    }
+
+    .perfil-publico-linea:first-child{
+        padding-top:0;
+    }
+
+    .perfil-publico-linea:last-child{
+        border-bottom:0;
+        padding-bottom:0;
+    }
+
+    .perfil-publico-linea small{
+        color:#6F7271;
+        display:block;
+        font-weight:700;
+        margin-bottom:.2rem;
+        text-transform:uppercase;
+    }
+
+    .perfil-publico-linea i{
+        color:#285C4D;
+        font-size:1.15rem;
+        margin-right:.35rem;
+        vertical-align:middle;
+    }
+
+    .perfil-frase{
+        background:#F6F6F6;
+        border-left:5px solid #9D2449;
+        border-radius:10px;
+        color:#404041;
+        font-size:1.05rem;
+        font-weight:700;
+        padding:1rem;
+    }
+
+    .perfil-edit-btn{
+        align-items:center;
+        background:#F6F6F6;
+        border:1px solid #DDDDDD;
+        border-radius:999px;
+        color:#404041;
+        display:inline-flex;
+        font-weight:700;
+        gap:.35rem;
+        padding:.35rem .8rem;
+    }
+
+    .perfil-edit-btn:hover{
+        border-color:#9D2449;
+        color:#9D2449;
+    }
+
+    .perfil-edit-field{
+        background:#FFFFFF;
+        border:1px solid #DDDDDD;
+        border-radius:10px;
+        color:#404041;
+        padding:.65rem .8rem;
+        width:100%;
+    }
+
+    .perfil-edit-field:focus{
+        border-color:#9D2449;
+        box-shadow:0 0 0 .18rem rgba(157,36,73,.08);
+        outline:0;
+    }
+
+    .perfil-entry{
+        border:1px solid #DDDDDD;
+        border-radius:12px;
+        margin-bottom:.85rem;
+        padding:1rem;
+        background:#FFFFFF;
+    }
+
+    .perfil-entry-chip{
+        background:#F6F6F6;
+        border-radius:999px;
+        color:#285C4D;
+        display:inline-flex;
+        font-size:.72rem;
+        font-weight:800;
+        padding:.18rem .6rem;
+        text-transform:uppercase;
+    }
+
+    .perfil-entry p{
+        white-space:pre-line;
+    }
+
+    .perfil-privacidad{
+        background:#F6F6F6;
+        border:1px solid #DDDDDD;
+        border-radius:12px;
+        padding:1rem;
+    }
   </style>
   
 </head>
@@ -74,7 +211,7 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">IMSSight</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Inicio</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Perfil de usuario</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -212,16 +349,46 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-2">
-      <div class="row">
-        <div class="ms-3">
-            <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
-            <p class="mb-4">
-                IMSSight - Conocimiento clínico a primera vista
-            </p>
+      <section id="perfilPublicoVista" class="d-none mb-4">
+        <div class="perfil-publico-hero shadow">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex flex-wrap align-items-center gap-3">
+            <div class="perfil-publico-avatar" id="perfilPublicoIniciales">IM</div>
+            <div>
+              <p class="text-uppercase text-white-50 text-sm mb-1">Perfil público IMSSight</p>
+              <h2 class="text-white mb-1" id="perfilPublicoNombre">Usuario</h2>
+              <p class="mb-0 text-white-50" id="perfilPublicoRol">Comunidad IMSSight</p>
+            </div>
+            </div>
+            <button
+              class="btn bg-white text-dark mb-0"
+              type="button"
+              id="perfilPublicoMensajeBtn">
+              <i class="material-symbols-rounded me-1" style="vertical-align:middle;">chat</i>
+              Enviar mensaje
+            </button>
+          </div>
         </div>
-      </div>
-      <hr>
-      <div class="row">
+
+        <div class="row mt-4" id="perfilPublicoContenido"></div>
+      </section>
+
+      <section id="perfilPropioVista" class="d-none mb-4">
+        <div class="perfil-publico-hero shadow">
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <div class="perfil-publico-avatar" id="perfilPropioIniciales">IM</div>
+            <div>
+              <p class="text-uppercase text-white-50 text-sm mb-1">Mi perfil IMSSight</p>
+              <h2 class="text-white mb-1" id="perfilPropioNombre">Usuario</h2>
+              <p class="mb-0 text-white-50" id="perfilPropioRol">Comunidad IMSSight</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4" id="perfilPropioContenido"></div>
+      </section>
+
+      <div class="row d-none" id="perfilEditorVista">
 
     <div class="col-12">
 
@@ -233,7 +400,7 @@
 
                     <div class="col-lg-8">
 
-                        <h3 class="font-weight-bolder mb-1">
+                        <h3 class="font-weight-bolder mb-1" id="tituloPerfil">
 
                             Completa tu expediente académico
 
@@ -311,6 +478,22 @@
 
                             <label class="form-label">
 
+                                Cumpleaños público
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="cumpleanos_publico"
+                                placeholder="Ej. 14 de marzo">
+
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+
+                            <label class="form-label">
+
                                 Correo personal
 
                             </label>
@@ -347,6 +530,54 @@
                                 </option>
 
                             </select>
+
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+
+                            <label class="form-label">
+
+                                Unidad / Hospital
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="hospital"
+                                placeholder="Ej. Hospital de Especialidades Siglo XXI">
+
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+
+                            <label class="form-label">
+
+                                Puesto
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="puesto"
+                                placeholder="Ej. Médico adscrito, residente, docente">
+
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+
+                            <label class="form-label">
+
+                                Etapa profesional
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="etapa_profesional"
+                                placeholder="Ej. Residente, médico, enfermería, docente">
 
                         </div>
 
@@ -449,6 +680,77 @@
 
                         </div>
 
+                        <div class="input-group input-group-outline mb-4">
+
+                            <textarea
+                                class="form-control"
+                                id="frase_perfil"
+                                rows="2"
+                                maxlength="255"
+                                placeholder="Frase personal o profesional">
+
+                            </textarea>
+
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+
+                            <textarea
+                                class="form-control"
+                                id="intereses"
+                                rows="3"
+                                placeholder="Intereses clínicos, docentes o académicos">
+
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+                        <div class="perfil-privacidad mt-2">
+                            <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-3">
+                                <div>
+                                    <h5 class="mb-1">Perfil público</h5>
+                                    <p class="text-sm text-muted mb-0">
+                                        Decide qué información puede verse al buscarte dentro de IMSSight.
+                                    </p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perfil_publico" checked>
+                                    <label class="form-check-label font-weight-bold" for="perfil_publico">
+                                        Aparecer en búsqueda
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3 col-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="mostrar_correo">
+                                        <label class="form-check-label" for="mostrar_correo">Mostrar correo</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="mostrar_telefono">
+                                        <label class="form-check-label" for="mostrar_telefono">Mostrar teléfono</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="mostrar_estado" checked>
+                                        <label class="form-check-label" for="mostrar_estado">Mostrar estado</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="mostrar_biografia" checked>
+                                        <label class="form-check-label" for="mostrar_biografia">Mostrar biografía</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -546,13 +848,13 @@
             data.usuario.nombre
         );
 
-        // MOSTRAR NOMBRE
+        const bienvenida =
+            document.getElementById('bienvenida');
 
-        document.getElementById(
-            'bienvenida'
-        ).innerHTML =
-
-            `Bienvenido ${data.usuario.nombre}`;
+        if(bienvenida){
+            bienvenida.innerHTML =
+                `Bienvenido ${data.usuario.nombre}`;
+        }
 
     }
 
@@ -722,6 +1024,658 @@ verificarPerfil();
 ACTIVAR LABELS
 ========================================= */
 
+const paramsPerfil =
+    new URLSearchParams(window.location.search);
+
+const idPerfilPublico =
+    Number(paramsPerfil.get('id') || 0);
+
+let datosPerfilActual = null;
+let editandoPersonal = false;
+let editandoTrayectoria = false;
+
+function escaparTexto(valor){
+    return String(valor ?? '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+}
+
+function iniciales(nombre){
+    return String(nombre || 'IM')
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(parte => parte.charAt(0).toUpperCase())
+        .join('') || 'IM';
+}
+
+function cumpleanosDesdeFecha(fecha){
+    if(!fecha){
+        return '';
+    }
+
+    const partes =
+        String(fecha).split('-');
+
+    if(partes.length < 3){
+        return '';
+    }
+
+    const meses = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre'
+    ];
+
+    const dia =
+        Number(partes[2]);
+
+    const mes =
+        Number(partes[1]);
+
+    if(!dia || !mes){
+        return '';
+    }
+
+    return `${dia} de ${meses[mes - 1]}`;
+}
+
+function tarjetaPublica(titulo, valor, icono = 'badge'){
+    if(!valor){
+        return '';
+    }
+
+    return `
+        <div class="mb-3">
+            <div class="perfil-publico-dato shadow-sm">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="material-symbols-rounded text-success">${icono}</i>
+                    <h6 class="mb-0">${escaparTexto(titulo)}</h6>
+                </div>
+                <p class="mb-0 text-muted">${escaparTexto(valor)}</p>
+            </div>
+        </div>
+    `;
+}
+
+function lineaPerfil(label, valor, icono){
+    if(!valor){
+        return '';
+    }
+
+    return `
+        <div class="perfil-publico-linea">
+            <small>
+                <i class="material-symbols-rounded">${icono}</i>
+                ${escaparTexto(label)}
+            </small>
+            <span>${escaparTexto(valor)}</span>
+        </div>
+    `;
+}
+
+function inputPerfil(id, label, valor, tipo = 'text', icono = 'edit'){
+    return `
+        <div class="perfil-publico-linea">
+            <small>
+                <i class="material-symbols-rounded">${icono}</i>
+                ${escaparTexto(label)}
+            </small>
+            <input
+                class="perfil-edit-field"
+                id="${id}"
+                type="${tipo}"
+                value="${escaparTexto(valor || '')}">
+        </div>
+    `;
+}
+
+function textareaPerfil(id, label, valor, rows = 3, icono = 'notes'){
+    return `
+        <div class="perfil-publico-linea">
+            <small>
+                <i class="material-symbols-rounded">${icono}</i>
+                ${escaparTexto(label)}
+            </small>
+            <textarea
+                class="perfil-edit-field"
+                id="${id}"
+                rows="${rows}">${escaparTexto(valor || '')}</textarea>
+        </div>
+    `;
+}
+
+function fechaPerfil(fecha){
+    if(!fecha){
+        return '';
+    }
+
+    return new Date(fecha.replace(' ', 'T'))
+        .toLocaleString('es-MX', {
+            dateStyle:'medium',
+            timeStyle:'short'
+        });
+}
+
+function renderEntradasPerfil(entradas, editable){
+    if(!entradas.length){
+        return `
+            <p class="text-muted mb-0">
+                Todavía no hay entradas en este perfil.
+            </p>
+        `;
+    }
+
+    return entradas.map(entrada => `
+        <article class="perfil-entry">
+            <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                <div>
+                    <span class="perfil-entry-chip">${escaparTexto(entrada.tipo)}</span>
+                    ${
+                        entrada.titulo
+                            ? `<h6 class="mb-1 mt-2">${escaparTexto(entrada.titulo)}</h6>`
+                            : ''
+                    }
+                    <small class="text-muted">${fechaPerfil(entrada.fecha)}</small>
+                </div>
+                ${
+                    editable
+                        ? `<button
+                            class="muro-delete-comment"
+                            type="button"
+                            title="Eliminar entrada"
+                            onclick="eliminarEntradaPerfil(${Number(entrada.id)})">
+                            <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                        </button>`
+                        : ''
+                }
+            </div>
+            <p class="mb-0 text-muted">${escaparTexto(entrada.contenido)}</p>
+        </article>
+    `).join('');
+}
+
+async function cargarEntradasPerfil(idUsuario, editable){
+    const contenedor =
+        document.getElementById('perfilEntradasLista');
+
+    if(!contenedor){
+        return;
+    }
+
+    const response =
+        await fetch(
+            `../php/perfil_entradas.php?id_usuario=${Number(idUsuario)}`,
+            { cache:'no-store' }
+        );
+
+    const data =
+        await response.json();
+
+    if(!data.ok){
+        return;
+    }
+
+    contenedor.innerHTML =
+        renderEntradasPerfil(data.entradas || [], editable);
+}
+
+async function publicarEntradaPerfil(){
+    const tipo =
+        document.getElementById('perfilEntradaTipo').value;
+
+    const titulo =
+        document.getElementById('perfilEntradaTitulo').value.trim();
+
+    const contenido =
+        document.getElementById('perfilEntradaContenido').value.trim();
+
+    const mensaje =
+        document.getElementById('perfilEntradaMensaje');
+
+    if(!contenido){
+        mensaje.innerHTML =
+            '<div class="alert alert-warning py-2 mb-0">Escribe una entrada para publicarla.</div>';
+        return;
+    }
+
+    const response =
+        await fetch('../php/perfil_entradas.php', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                tipo,
+                titulo,
+                contenido
+            })
+        });
+
+    const data =
+        await response.json();
+
+    if(!data.ok){
+        mensaje.innerHTML =
+            `<div class="alert alert-danger py-2 mb-0">${escaparTexto(data.mensaje || 'No se pudo publicar.')}</div>`;
+        return;
+    }
+
+    document.getElementById('perfilEntradaTitulo').value = '';
+    document.getElementById('perfilEntradaContenido').value = '';
+    mensaje.innerHTML =
+        '<div class="alert alert-success py-2 mb-0">Entrada publicada.</div>';
+
+    await cargarEntradasPerfil(datosPerfilActual.usuario.id, true);
+}
+
+async function eliminarEntradaPerfil(id){
+    if(!confirm('¿Eliminar esta entrada del perfil?')){
+        return;
+    }
+
+    await fetch('../php/perfil_entradas.php', {
+        method:'DELETE',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({ id })
+    });
+
+    await cargarEntradasPerfil(datosPerfilActual.usuario.id, true);
+}
+
+function mostrarPerfilPublico(data){
+    document
+        .getElementById('perfilEditorVista')
+        .classList
+        .add('d-none');
+
+    document
+        .getElementById('perfilPublicoVista')
+        .classList
+        .remove('d-none');
+
+    const usuario =
+        data.usuario || {};
+
+    const perfil =
+        data.perfil || {};
+
+    document.getElementById('perfilPublicoIniciales').innerText =
+        iniciales(usuario.nombre);
+
+    document.getElementById('perfilPublicoNombre').innerText =
+        usuario.nombre || 'Usuario IMSSight';
+
+    document.getElementById('perfilPublicoRol').innerText =
+        `${usuario.rol || 'usuario'} · ${usuario.matricula || 'Sin matrícula'}`;
+
+    const botonMensaje =
+        document.getElementById('perfilPublicoMensajeBtn');
+
+    if(botonMensaje){
+        botonMensaje.onclick = () => {
+            if(typeof window.abrirQuickChatUsuario === 'function'){
+                window.abrirQuickChatUsuario({
+                    id: usuario.id,
+                    nombre: usuario.nombre,
+                    rol: usuario.rol,
+                    matricula: usuario.matricula
+                });
+            }
+        };
+    }
+
+    const contenedor =
+        document.getElementById('perfilPublicoContenido');
+
+    if(data.perfil_publico === false){
+        contenedor.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-secondary">
+                    Este usuario decidió mantener su perfil fuera de la búsqueda pública.
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    const infoPersonal = [
+        ['Trabaja en', perfil.hospital, 'business_center'],
+        ['Cumpleaños', perfil.cumpleanos_publico || cumpleanosDesdeFecha(perfil.fecha_nacimiento), 'cake'],
+        ['Puesto', perfil.puesto, 'badge'],
+        ['Estudió en', perfil.universidad, 'school'],
+        ['Etapa', perfil.etapa_profesional || perfil.especialidad, 'stethoscope'],
+        ['Estado', perfil.estado, 'location_on'],
+        ['Correo', perfil.correo_personal, 'mail'],
+        ['Teléfono', perfil.telefono, 'call']
+    ].filter(item => item[1]);
+
+    contenedor.innerHTML = `
+        <div class="col-lg-4 mb-4">
+            <div class="perfil-publico-card">
+                <h5 class="mb-3">Información personal</h5>
+                ${
+                    infoPersonal.map(item =>
+                        lineaPerfil(item[0], item[1], item[2])
+                    ).join('')
+                    || '<p class="text-muted mb-0">Este usuario todavía no ha publicado información personal.</p>'
+                }
+            </div>
+        </div>
+        <div class="col-lg-8 mb-4">
+            <div class="perfil-publico-card">
+                <h5 class="mb-3">Ideas, intereses y trayectoria</h5>
+                ${
+                    perfil.frase_perfil
+                        ? `<div class="perfil-frase mb-3">${escaparTexto(perfil.frase_perfil)}</div>`
+                        : ''
+                }
+                ${
+                    perfil.intereses
+                        ? tarjetaPublica('Intereses', perfil.intereses, 'interests')
+                        : ''
+                }
+                ${
+                    perfil.especialidad
+                        ? tarjetaPublica('Especialidad', perfil.especialidad, 'medical_services')
+                        : ''
+                }
+                ${
+                    perfil.semestre
+                        ? tarjetaPublica('Semestre / Año', perfil.semestre, 'calendar_month')
+                        : ''
+                }
+                ${
+                    perfil.biografia
+                        ? `<div class="perfil-publico-dato shadow-sm">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="material-symbols-rounded text-success">notes</i>
+                                <h6 class="mb-0">Biografía</h6>
+                            </div>
+                            <p class="mb-0 text-muted">${escaparTexto(perfil.biografia)}</p>
+                        </div>`
+                        : ''
+                }
+                ${
+                    !perfil.frase_perfil
+                    && !perfil.intereses
+                    && !perfil.especialidad
+                    && !perfil.semestre
+                    && !perfil.biografia
+                        ? '<p class="text-muted mb-0">Este usuario todavía no ha publicado ideas, intereses o biografía.</p>'
+                        : ''
+                }
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="perfil-publico-card">
+                <h5 class="mb-3">Entradas del perfil</h5>
+                <div id="perfilEntradasLista"></div>
+            </div>
+        </div>
+    `;
+
+    cargarEntradasPerfil(usuario.id, false);
+
+    if(!contenedor.innerHTML.trim()){
+        contenedor.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-light border">
+                    Este usuario todavía no ha publicado información académica.
+                </div>
+            </div>
+        `;
+    }
+}
+
+function renderPerfilPropio(){
+    const data =
+        datosPerfilActual || {};
+
+    const usuario =
+        data.usuario || {};
+
+    const perfil =
+        data.perfil || {};
+
+    document.getElementById('perfilPropioIniciales').innerText =
+        iniciales(usuario.nombre);
+
+    document.getElementById('perfilPropioNombre').innerText =
+        usuario.nombre || 'Mi perfil';
+
+    document.getElementById('perfilPropioRol').innerText =
+        `${usuario.rol || 'usuario'} · ${usuario.matricula || 'Sin matrícula'}`;
+
+    const cumple =
+        perfil.cumpleanos_publico || cumpleanosDesdeFecha(perfil.fecha_nacimiento);
+
+    const personalView =
+        lineaPerfil('Trabaja en', perfil.hospital, 'business_center') +
+        lineaPerfil('Cumpleaños', cumple, 'cake') +
+        lineaPerfil('Puesto', perfil.puesto, 'badge') +
+        lineaPerfil('Estudió en', perfil.universidad, 'school') +
+        lineaPerfil('Etapa', perfil.etapa_profesional || perfil.especialidad, 'stethoscope') +
+        lineaPerfil('Estado', perfil.estado, 'location_on') +
+        lineaPerfil('Correo', perfil.correo_personal, 'mail') +
+        lineaPerfil('Teléfono', perfil.telefono, 'call');
+
+    const personalEdit =
+        inputPerfil('propio_hospital', 'Trabaja en', perfil.hospital, 'text', 'business_center') +
+        inputPerfil('propio_fecha_nacimiento', 'Fecha de nacimiento', perfil.fecha_nacimiento, 'date', 'cake') +
+        inputPerfil('propio_puesto', 'Puesto', perfil.puesto, 'text', 'badge') +
+        inputPerfil('propio_universidad', 'Estudió en', perfil.universidad, 'text', 'school') +
+        inputPerfil('propio_etapa_profesional', 'Etapa', perfil.etapa_profesional, 'text', 'stethoscope') +
+        inputPerfil('propio_estado', 'Estado', perfil.estado, 'text', 'location_on') +
+        inputPerfil('propio_correo_personal', 'Correo', perfil.correo_personal, 'email', 'mail') +
+        inputPerfil('propio_telefono', 'Teléfono', perfil.telefono, 'text', 'call');
+
+    const trayectoriaView =
+        (
+            perfil.frase_perfil
+                ? `<div class="perfil-frase mb-3">${escaparTexto(perfil.frase_perfil)}</div>`
+                : ''
+        ) +
+        (
+            perfil.intereses
+                ? tarjetaPublica('Intereses', perfil.intereses, 'interests')
+                : ''
+        ) +
+        (
+            perfil.especialidad
+                ? tarjetaPublica('Especialidad', perfil.especialidad, 'medical_services')
+                : ''
+        ) +
+        (
+            perfil.semestre
+                ? tarjetaPublica('Semestre / Año', perfil.semestre, 'calendar_month')
+                : ''
+        ) +
+        (
+            perfil.biografia
+                ? tarjetaPublica('Biografía', perfil.biografia, 'notes')
+                : ''
+        );
+
+    const trayectoriaEdit =
+        textareaPerfil('propio_frase_perfil', 'Frase o estado', perfil.frase_perfil, 2, 'format_quote') +
+        textareaPerfil('propio_intereses', 'Intereses', perfil.intereses, 3, 'interests') +
+        inputPerfil('propio_especialidad', 'Especialidad', perfil.especialidad, 'text', 'medical_services') +
+        inputPerfil('propio_semestre', 'Semestre / Año', perfil.semestre, 'text', 'calendar_month') +
+        textareaPerfil('propio_biografia', 'Biografía', perfil.biografia, 4, 'notes');
+
+    document.getElementById('perfilPropioContenido').innerHTML = `
+        <div class="col-lg-4 mb-4">
+            <div class="perfil-publico-card">
+                <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                    <h5 class="mb-0">Información personal</h5>
+                    <button class="perfil-edit-btn" type="button" onclick="alternarEdicionPerfil('personal')">
+                        <i class="material-symbols-rounded" style="font-size:1rem;">${editandoPersonal ? 'close' : 'edit'}</i>
+                        ${editandoPersonal ? 'Cancelar' : 'Editar'}
+                    </button>
+                </div>
+                ${editandoPersonal ? personalEdit : (personalView || '<p class="text-muted mb-0">Agrega tu información personal.</p>')}
+                ${
+                    editandoPersonal
+                        ? `<button class="btn bg-gradient-success w-100 mt-3" type="button" onclick="guardarPerfilDesdeCards()">Guardar información</button>`
+                        : ''
+                }
+            </div>
+        </div>
+        <div class="col-lg-8 mb-4">
+            <div class="perfil-publico-card">
+                <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                    <h5 class="mb-0">Ideas, intereses y trayectoria</h5>
+                    <button class="perfil-edit-btn" type="button" onclick="alternarEdicionPerfil('trayectoria')">
+                        <i class="material-symbols-rounded" style="font-size:1rem;">${editandoTrayectoria ? 'close' : 'edit'}</i>
+                        ${editandoTrayectoria ? 'Cancelar' : 'Editar'}
+                    </button>
+                </div>
+                ${editandoTrayectoria ? trayectoriaEdit : (trayectoriaView || '<p class="text-muted mb-0">Publica una frase, intereses o biografía.</p>')}
+                ${
+                    editandoTrayectoria
+                        ? `<button class="btn bg-gradient-success w-100 mt-3" type="button" onclick="guardarPerfilDesdeCards()">Guardar trayectoria</button>`
+                        : ''
+                }
+            </div>
+        </div>
+        <div class="col-12">
+            <div id="mensajeGuardadoCards"></div>
+        </div>
+        <div class="col-12">
+            <div class="perfil-publico-card">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <div>
+                        <h5 class="mb-1">Entradas del perfil</h5>
+                        <p class="text-sm text-muted mb-0">Frases, historias, aprendizajes o reflexiones para que otros te conozcan.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 mb-3">
+                        <select class="perfil-edit-field" id="perfilEntradaTipo">
+                            <option value="reflexion">Reflexión</option>
+                            <option value="frase">Frase</option>
+                            <option value="historia">Historia</option>
+                            <option value="aprendizaje">Aprendizaje</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-9 mb-3">
+                        <input
+                            class="perfil-edit-field"
+                            id="perfilEntradaTitulo"
+                            maxlength="180"
+                            placeholder="Título opcional">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <textarea
+                            class="perfil-edit-field"
+                            id="perfilEntradaContenido"
+                            rows="4"
+                            maxlength="2200"
+                            placeholder="Escribe algo que valga la pena leer..."></textarea>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="perfilEntradaMensaje"></div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn bg-gradient-success mb-0" type="button" onclick="publicarEntradaPerfil()">
+                            Publicar entrada
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div id="perfilEntradasLista"></div>
+            </div>
+        </div>
+    `;
+
+    cargarEntradasPerfil(usuario.id, true);
+}
+
+function mostrarPerfilPropio(data){
+    datosPerfilActual = data;
+
+    document
+        .getElementById('perfilEditorVista')
+        .classList
+        .add('d-none');
+
+    document
+        .getElementById('perfilPublicoVista')
+        .classList
+        .add('d-none');
+
+    document
+        .getElementById('perfilPropioVista')
+        .classList
+        .remove('d-none');
+
+    renderPerfilPropio();
+}
+
+function alternarEdicionPerfil(seccion){
+    if(seccion === 'personal'){
+        editandoPersonal =
+            !editandoPersonal;
+    }
+    else{
+        editandoTrayectoria =
+            !editandoTrayectoria;
+    }
+
+    renderPerfilPropio();
+}
+
+function copiarCampoOrigen(destino, origen){
+    const inputDestino =
+        document.getElementById(destino);
+
+    const inputOrigen =
+        document.getElementById(origen);
+
+    if(inputDestino && inputOrigen){
+        inputDestino.value =
+            inputOrigen.value;
+    }
+}
+
+async function guardarPerfilDesdeCards(){
+    copiarCampoOrigen('hospital', 'propio_hospital');
+    copiarCampoOrigen('fecha_nacimiento', 'propio_fecha_nacimiento');
+    copiarCampoOrigen('puesto', 'propio_puesto');
+    copiarCampoOrigen('universidad', 'propio_universidad');
+    copiarCampoOrigen('etapa_profesional', 'propio_etapa_profesional');
+    copiarCampoOrigen('estado', 'propio_estado');
+    copiarCampoOrigen('correo_personal', 'propio_correo_personal');
+    copiarCampoOrigen('telefono', 'propio_telefono');
+    copiarCampoOrigen('frase_perfil', 'propio_frase_perfil');
+    copiarCampoOrigen('intereses', 'propio_intereses');
+    copiarCampoOrigen('especialidad', 'propio_especialidad');
+    copiarCampoOrigen('semestre', 'propio_semestre');
+    copiarCampoOrigen('biografia', 'propio_biografia');
+
+    await guardarPerfil();
+
+    editandoPersonal = false;
+    editandoTrayectoria = false;
+
+    await cargarPerfil();
+}
+
 function activarLabels(){
 
     document
@@ -753,15 +1707,25 @@ async function cargarPerfil(){
 
         const response =
             await fetch(
-                '../php/obtener_perfil.php'
+                idPerfilPublico > 0
+                    ? `../php/obtener_perfil.php?id=${idPerfilPublico}`
+                    : '../php/obtener_perfil.php'
             );
 
         const data =
             await response.json();
 
+        if(data.modo === 'publico'){
+            mostrarPerfilPublico(data);
+            return;
+        }
+
         if(!data.perfil){
 
-            calcularPerfil();
+            mostrarPerfilPropio({
+                ...data,
+                perfil:{}
+            });
 
             return;
 
@@ -785,6 +1749,18 @@ async function cargarPerfil(){
         document.getElementById('estado').value =
             p.estado || '';
 
+        document.getElementById('cumpleanos_publico').value =
+            p.cumpleanos_publico || '';
+
+        document.getElementById('hospital').value =
+            p.hospital || '';
+
+        document.getElementById('puesto').value =
+            p.puesto || '';
+
+        document.getElementById('etapa_profesional').value =
+            p.etapa_profesional || '';
+
         document.getElementById('universidad').value =
             p.universidad || '';
 
@@ -797,9 +1773,32 @@ async function cargarPerfil(){
         document.getElementById('biografia').value =
             p.biografia || '';
 
+        document.getElementById('frase_perfil').value =
+            p.frase_perfil || '';
+
+        document.getElementById('intereses').value =
+            p.intereses || '';
+
+        document.getElementById('perfil_publico').checked =
+            Number(p.perfil_publico ?? 1) === 1;
+
+        document.getElementById('mostrar_correo').checked =
+            Number(p.mostrar_correo ?? 0) === 1;
+
+        document.getElementById('mostrar_telefono').checked =
+            Number(p.mostrar_telefono ?? 0) === 1;
+
+        document.getElementById('mostrar_estado').checked =
+            Number(p.mostrar_estado ?? 1) === 1;
+
+        document.getElementById('mostrar_biografia').checked =
+            Number(p.mostrar_biografia ?? 1) === 1;
+
         activarLabels();
 
         calcularPerfil();
+
+        mostrarPerfilPropio(data);
 
     }catch(error){
 
@@ -825,10 +1824,16 @@ async function guardarPerfil(){
         'sexo',
         'fecha_nacimiento',
         'estado',
+        'cumpleanos_publico',
+        'hospital',
+        'puesto',
+        'etapa_profesional',
         'universidad',
         'especialidad',
         'semestre',
-        'biografia'
+        'biografia',
+        'frase_perfil',
+        'intereses'
 
     ];
 
@@ -839,6 +1844,19 @@ async function guardarPerfil(){
             document.getElementById(id).value
         );
 
+    });
+
+    [
+        'perfil_publico',
+        'mostrar_correo',
+        'mostrar_telefono',
+        'mostrar_estado',
+        'mostrar_biografia'
+    ].forEach(id => {
+        formData.append(
+            id,
+            document.getElementById(id).checked ? '1' : ''
+        );
     });
 
     const response =
@@ -883,18 +1901,6 @@ CALCULAR PERFIL
 
 function calcularPerfil(){
 
-    if(porcentaje === 100){
-
-    document.getElementById('tituloPerfil').innerText =
-        'Expediente académico completo';
-
-}else{
-
-    document.getElementById('tituloPerfil').innerText =
-        'Completa tu expediente académico';
-
-}
-
     const campos = [
 
         'telefono',
@@ -902,10 +1908,16 @@ function calcularPerfil(){
         'sexo',
         'fecha_nacimiento',
         'estado',
+        'cumpleanos_publico',
+        'hospital',
+        'puesto',
+        'etapa_profesional',
         'universidad',
         'especialidad',
         'semestre',
-        'biografia'
+        'biografia',
+        'frase_perfil',
+        'intereses'
 
     ];
 
@@ -931,6 +1943,11 @@ function calcularPerfil(){
         Math.round(
             (completos / campos.length) * 100
         );
+
+    document.getElementById('tituloPerfil').innerText =
+        porcentaje === 100
+            ? 'Expediente académico completo'
+            : 'Completa tu expediente académico';
 
     document
     .getElementById(

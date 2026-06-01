@@ -474,6 +474,35 @@ const params =
 const q =
     params.get('q');
 
+function escaparTexto(valor){
+    return String(valor ?? '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+}
+
+function urlResultado(url){
+    const separador =
+        String(url || '').includes('?') ? '&' : '?';
+
+    return `${url}${separador}q=${encodeURIComponent(q)}`;
+}
+
+function etiquetaResultado(tipo){
+    const etiquetas = {
+        especialidad:'Especialidad',
+        tema:'Tema',
+        caso:'Caso clínico',
+        escena:'Escena',
+        usuario:'Usuario',
+        perfil_entrada:'Entrada de perfil'
+    };
+
+    return etiquetas[tipo] || tipo;
+}
+
 async function buscar(){
 
     const response = await fetch(
@@ -514,22 +543,22 @@ async function buscar(){
 
                 <div class="card-body bg-light">
 
-                    <small class="text-muted">
+                    <small class="text-muted text-uppercase font-weight-bold">
 
-                        ${r.tipo}
+                        ${etiquetaResultado(r.tipo)}
 
                     </small>
 
                     <h4>
 
-                        <a class="text-info" href="${r.url}&q=${encodeURIComponent(q)}">
-                            ${r.titulo}
+                        <a class="${r.tipo === 'usuario' ? 'text-success' : 'text-info'}" href="${urlResultado(r.url)}">
+                            ${escaparTexto(r.titulo)}
                         </a>
 
                     </h4>
 
                     <p>
-                        ${r.descripcion ?? ''}
+                        ${escaparTexto(r.descripcion ?? '')}
                     </p>
 
                 </div>

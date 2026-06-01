@@ -248,19 +248,7 @@
       }
 
       if(usuarioActual && document.getElementById('quickChatFloating')){
-        const inputMensaje =
-          document.getElementById('quickChatContenido');
-
-        const usuarioEstaEscribiendo =
-          inputMensaje
-          && (
-            document.activeElement === inputMensaje
-            || inputMensaje.value.trim() !== ''
-          );
-
-        if(!usuarioEstaEscribiendo){
-          await cargarMensajes(false);
-        }
+        await refrescarSoloMensajes();
       }
 
       totalNoLeidosAnterior =
@@ -362,9 +350,26 @@
     return ventana;
   }
 
-  async function cargarMensajes(enfocar = true){
+  function renderizarBurbujasChat(mensajes){
+    return (
+      mensajes.map(mensaje => {
+        const mio =
+          Number(mensaje.id_remitente) !== Number(usuarioActual.id);
+
+        return `
+          <div class="quick-chat-bubble ${mio ? 'is-mine' : 'is-theirs'}">
+            <div>${renderizarTextoChat(mensaje.contenido)}</div>
+            <small>${fechaChat(mensaje.fecha)}</small>
+          </div>
+        `;
+      }).join('')
+      || '<div class="text-muted text-sm text-center mt-5">Sin mensajes.</div>'
+    );
+  }
+
+  async function obtenerMensajesActuales(){
     if(!usuarioActual){
-      return;
+      return [];
     }
 
     const response =
@@ -377,11 +382,42 @@
       await response.json();
 
     if(!data.ok){
+      return [];
+    }
+
+    return data.mensajes || [];
+  }
+
+  async function refrescarSoloMensajes(){
+    const lista =
+      document.getElementById('quickChatMensajes');
+
+    if(!usuarioActual || !lista){
+      return;
+    }
+
+    const estabaAlFinal =
+      lista.scrollHeight - lista.scrollTop - lista.clientHeight < 90;
+
+    const mensajes =
+      await obtenerMensajesActuales();
+
+    lista.innerHTML =
+      renderizarBurbujasChat(mensajes);
+
+    if(estabaAlFinal){
+      lista.scrollTop =
+        lista.scrollHeight;
+    }
+  }
+
+  async function cargarMensajes(enfocar = true){
+    if(!usuarioActual){
       return;
     }
 
     const mensajes =
-      data.mensajes || [];
+      await obtenerMensajesActuales();
 
     const ventana =
       crearVentanaFlotante();
@@ -392,7 +428,11 @@
     ventana.innerHTML = `
       <div class="quick-chat-floating-header">
         <div class="quick-chat-floating-title">
-          <strong>${escapar(usuarioActual.nombre)}</strong>
+          <strong>
+            <a href="../pages/user_profile.html?id=${Number(usuarioActual.id)}">
+              ${escapar(usuarioActual.nombre)}
+            </a>
+          </strong>
           <small>${escapar(usuarioActual.rol)}</small>
         </div>
         <div class="quick-chat-floating-actions">
@@ -415,20 +455,7 @@
         </div>
       </div>
       <div class="quick-chat-floating-body" id="quickChatMensajes">
-        ${
-          mensajes.map(mensaje => {
-            const mio =
-              Number(mensaje.id_remitente) !== Number(usuarioActual.id);
-
-            return `
-              <div class="quick-chat-bubble ${mio ? 'is-mine' : 'is-theirs'}">
-                <div>${renderizarTextoChat(mensaje.contenido)}</div>
-                <small>${fechaChat(mensaje.fecha)}</small>
-              </div>
-            `;
-          }).join('')
-          || '<div class="text-muted text-sm text-center mt-5">Sin mensajes.</div>'
-        }
+        ${renderizarBurbujasChat(mensajes)}
       </div>
       <div class="quick-chat-floating-form">
         <input
@@ -481,13 +508,23 @@
     await actualizarPendientesChat();
   }
 
-  window.seleccionarQuickChat = async function(id){
-    usuarioActual =
-      usuarios.find(usuario => Number(usuario.id) === Number(id));
+  window.abrirQuickChatUsuario = async function(usuario){
+    usuarioActual = usuario;
 
     cerrarPanelLateral();
     await cargarMensajes();
     await buscarUsuarios();
+  };
+
+  window.seleccionarQuickChat = async function(id){
+    const usuario =
+      usuarios.find(usuario => Number(usuario.id) === Number(id));
+
+    if(!usuario){
+      return;
+    }
+
+    await window.abrirQuickChatUsuario(usuario);
   };
 
   window.cerrarQuickChat = function(){
@@ -542,7 +579,7 @@
     }
 
     input.value = '';
-    await cargarMensajes();
+    await refrescarSoloMensajes();
     await buscarUsuarios();
     await actualizarPendientesChat();
   };
