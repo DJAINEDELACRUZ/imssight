@@ -27,6 +27,47 @@ function asegurarTablaChat($pdo){
         );
     ");
 
+    asegurarIndiceChat(
+        $pdo,
+        'chat_mensajes',
+        'idx_chat_conversacion_fecha',
+        'id_remitente, id_destinatario, fecha'
+    );
+
+    asegurarIndiceChat(
+        $pdo,
+        'chat_mensajes',
+        'idx_chat_destinatario_leido',
+        'id_destinatario, leido, fecha'
+    );
+
+}
+
+function asegurarIndiceChat($pdo, $tabla, $indice, $columnas){
+
+    $stmt =
+        $pdo->prepare("
+            SELECT COUNT(*) AS total
+            FROM information_schema.STATISTICS
+            WHERE TABLE_SCHEMA = 'imssight'
+            AND TABLE_NAME = ?
+            AND INDEX_NAME = ?
+        ");
+
+    $stmt->execute([
+        $tabla,
+        $indice
+    ]);
+
+    if((int)$stmt->fetch()['total'] > 0){
+        return;
+    }
+
+    $pdo->exec("
+        CREATE INDEX $indice
+        ON imssight.$tabla ($columnas)
+    ");
+
 }
 
 function asegurarTablaNotificaciones($pdo){
@@ -55,6 +96,13 @@ function asegurarTablaNotificaciones($pdo){
             ON DELETE SET NULL
         );
     ");
+
+    asegurarIndiceChat(
+        $pdo,
+        'notificaciones',
+        'idx_notificaciones_usuario_estado',
+        'id_usuario_destino, leida, fecha'
+    );
 
 }
 

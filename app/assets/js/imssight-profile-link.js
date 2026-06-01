@@ -7,10 +7,6 @@
     const rol =
       sessionStorage.getItem('imssight_usuario_rol');
 
-    if(rol === 'admin'){
-      return adminUrl;
-    }
-
     if(rol){
       return fallbackUrl;
     }
@@ -25,6 +21,61 @@
         link.href = url;
         link.dataset.profileResolved =
           resolved ? 'true' : 'false';
+      });
+  }
+
+  function syncAdminLinks(rol){
+    document
+      .querySelectorAll('[data-imssight-profile-link]')
+      .forEach(link => {
+        const menu =
+          link.closest('.dropdown-menu');
+
+        if(!menu){
+          return;
+        }
+
+        const existing =
+          menu.querySelector('[data-imssight-admin-link]');
+
+        if(rol !== 'admin'){
+          existing?.remove();
+          return;
+        }
+
+        if(existing){
+          return;
+        }
+
+        const item =
+          document.createElement('li');
+
+        item.setAttribute(
+          'data-imssight-admin-link',
+          'true'
+        );
+
+        item.innerHTML = `
+          <a
+            class="dropdown-item border-radius-md"
+            href="${adminUrl}">
+            <i class="fas fa-user-shield me-2"></i>
+            Administrar
+          </a>
+        `;
+
+        const profileItem =
+          link.closest('li');
+
+        if(profileItem?.nextSibling){
+          menu.insertBefore(
+            item,
+            profileItem.nextSibling
+          );
+        }
+        else{
+          menu.appendChild(item);
+        }
       });
   }
 
@@ -44,6 +95,7 @@
         await response.json();
 
       if(!data.auth){
+        syncAdminLinks(null);
         setProfileLinks(signInUrl);
         return signInUrl;
       }
@@ -56,16 +108,13 @@
         rol
       );
 
-      const url =
-        rol === 'admin'
-          ? adminUrl
-          : fallbackUrl;
-
-      setProfileLinks(url);
-      return url;
+      syncAdminLinks(rol);
+      setProfileLinks(fallbackUrl);
+      return fallbackUrl;
     }
     catch(error){
       console.error(error);
+      syncAdminLinks(null);
       setProfileLinks(fallbackUrl);
       return fallbackUrl;
     }
@@ -80,6 +129,10 @@
       false
     );
 
+    syncAdminLinks(
+      sessionStorage.getItem('imssight_usuario_rol')
+    );
+
     resolveProfileUrl(true);
 
     document.addEventListener('click', async event => {
@@ -92,6 +145,8 @@
         sessionStorage.removeItem(
           'imssight_usuario_rol'
         );
+
+        syncAdminLinks(null);
 
         return;
       }

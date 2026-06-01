@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IMSSIGHT :: USUARIOS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/imssight-terminal.css">
+
+<style>
+    .toolbar-terminal{
+        display:flex;
+        gap:18px;
+        align-items:flex-end;
+        margin-top:25px;
+        flex-wrap:wrap;
+    }
+
+    .toolbar-terminal .search-box{
+        flex:1;
+        min-width:260px;
+    }
+
+    .role-badge{
+        display:inline-block;
+        padding:7px 12px;
+        border:1px solid rgba(88,245,200,.28);
+        color:#d8fff5;
+        background:rgba(88,245,200,.08);
+        font-size:.75rem;
+        letter-spacing:1px;
+        text-transform:uppercase;
+    }
+
+    .status-badge{
+        color:#58f5c8;
+    }
+
+    .status-badge.inactive{
+        color:#BC955C;
+    }
+
+    .action-row{
+        display:grid;
+        grid-template-columns:minmax(130px,1fr) minmax(110px,.7fr) auto;
+        gap:10px;
+        align-items:center;
+    }
+
+    .btn-small{
+        width:auto;
+        min-width:120px;
+        padding:13px 16px;
+        font-size:.75rem;
+    }
+
+    .muted-terminal{
+        color:#7ea99a;
+        line-height:1.7;
+        letter-spacing:1px;
+    }
+
+    @media(max-width:900px){
+        .action-row{
+            grid-template-columns:1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="hex"></div>
+<div class="hex"></div>
+<div class="hex"></div>
+
+<div class="container">
+  <div class="layout">
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">IMSSIGHT</div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">DASHBOARD</div>
+        <div class="sidebar-menu">
+            <a href="profile.html" class="sidebar-link">Dashboard</a>
+            <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
+        </div>
+    </div>
+
+    <div class="sidebar-section mt-40">
+        <div class="sidebar-section-title">CARGAR CONTENIDO</div>
+        <div class="sidebar-menu">
+            <a href="admin_especialidades.html" class="sidebar-link">Especialidades</a>
+            <a href="admin_temas.html" class="sidebar-link">Temas</a>
+            <a href="admin_casos.html" class="sidebar-link">Casos</a>
+            <a href="admin_escenas.html" class="sidebar-link">Escenas</a>
+            <a href="admin_examenes.html" class="sidebar-link">Exámenes</a>
+            <a href="admin_perlas.html" class="sidebar-link">Perlas clínicas</a>
+        </div>
+    </div>
+
+    <div class="sidebar-section mt-40">
+        <div class="sidebar-section-title">SISTEMA</div>
+        <div class="sidebar-menu">
+            <a href="metricas.html" class="sidebar-link">Métricas</a>
+            <a href="admin_usuarios.html" class="sidebar-link">Usuarios</a>
+            <button class="sidebar-link" onclick="reindexarBusqueda(event)">Reindexar</button>
+        </div>
+    </div>
+
+</aside>
+
+    <main class="main-content">
+
+      <div class="topbar">
+        <div>
+            <div class="access-label">INSTITUTO MEXICANO DEL SEGURO SOCIAL</div>
+            <div class="logo">USUARIOS</div>
+            <div class="welcome-terminal" id="bienvenida">
+                VERIFICANDO PERMISOS...
+            </div>
+        </div>
+
+        <div class="status">
+            ADMINISTRACIÓN DE ROLES
+            <br>
+            CONTROL DE ACCESO :: ACTIVO
+            <br>
+            <a href="/pages/index.html" class="return-btn">⬅ REGRESAR AL NODO PRINCIPAL</a>
+        </div>
+      </div>
+
+      <section class="system">
+        <div class="line green">MÓDULO DE PERMISOS DE USUARIO</div>
+        <div class="line">Administra roles sin tocar registros clínicos ni contenido académico.</div>
+        <div class="line warning">No se permite desactivar o degradar al último administrador activo.</div>
+
+        <div class="toolbar-terminal">
+            <label class="search-box">
+                <span class="terminal-label">BUSCAR USUARIO</span>
+                <input
+                    class="terminal-input"
+                    id="buscarUsuarios"
+                    type="search"
+                    placeholder="Nombre, matrícula, rol, puesto o especialidad">
+            </label>
+
+            <button class="btn btn-small" id="recargarUsuarios">
+                Recargar
+            </button>
+        </div>
+
+        <div class="terminal-log" id="estadoUsuarios">
+            <div class="terminal-line">Esperando respuesta del sistema...</div>
+        </div>
+
+        <div class="table-container">
+            <table class="table-terminal">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Rol actual</th>
+                        <th>Contexto</th>
+                        <th>Permisos</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaUsuarios"></tbody>
+            </table>
+        </div>
+      </section>
+
+      <div class="footer">
+          PERMISOS SINCRONIZADOS CON LA TABLA USUARIOS.
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+const rolesDisponibles = ['usuario','docente','admin'];
+let timerBusqueda = null;
+
+function escaparHTML(valor){
+  return String(valor ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+async function validarAccesoAdmin(){
+  const response =
+    await fetch('../php/auth.php');
+
+  const data =
+    await response.json();
+
+  if(!data.auth){
+    window.location.href = '../pages/sign-in.html';
+    return false;
+  }
+
+  if(data.usuario.rol !== 'admin'){
+    window.location.href = '../pages/user_profile.html';
+    return false;
+  }
+
+  document.getElementById('bienvenida').innerHTML = `
+    OPERADOR <span style="color:#58f5c8;">${escaparHTML(data.usuario.nombre).toUpperCase()}</span>
+    <br>
+    PERMISOS DE ADMINISTRADOR CONFIRMADOS.
+  `;
+
+  return true;
+}
+
+function renderUsuarios(usuarios){
+  const tabla =
+    document.getElementById('tablaUsuarios');
+
+  if(!usuarios.length){
+    tabla.innerHTML = `
+      <tr>
+        <td colspan="4" class="muted-terminal">Sin usuarios para mostrar.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  tabla.innerHTML =
+    usuarios.map(usuario => {
+      const opcionesRol =
+        rolesDisponibles.map(rol => `
+          <option value="${rol}" ${usuario.rol === rol ? 'selected' : ''}>
+            ${rol}
+          </option>
+        `).join('');
+
+      return `
+        <tr data-usuario-id="${usuario.id}">
+          <td>
+            <strong>${escaparHTML(usuario.nombre)}</strong>
+            <div class="muted-terminal">${escaparHTML(usuario.matricula)}</div>
+          </td>
+          <td>
+            <span class="role-badge">${escaparHTML(usuario.rol)}</span>
+            <div class="status-badge ${Number(usuario.activo) === 1 ? '' : 'inactive'}">
+              ${Number(usuario.activo) === 1 ? 'Activo' : 'Inactivo'}
+            </div>
+          </td>
+          <td class="muted-terminal">
+            ${escaparHTML(usuario.puesto || usuario.especialidad || usuario.hospital || usuario.estado || 'Sin datos públicos')}
+          </td>
+          <td>
+            <div class="action-row">
+              <select class="terminal-select" data-role-control>
+                ${opcionesRol}
+              </select>
+
+              <select class="terminal-select" data-active-control>
+                <option value="1" ${Number(usuario.activo) === 1 ? 'selected' : ''}>Activo</option>
+                <option value="0" ${Number(usuario.activo) === 0 ? 'selected' : ''}>Inactivo</option>
+              </select>
+
+              <button class="btn btn-small" data-save-user>
+                Guardar
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+}
+
+async function cargarUsuarios(){
+  const estado =
+    document.getElementById('estadoUsuarios');
+
+  estado.innerHTML = '<div class="terminal-line">Consultando usuarios...</div>';
+
+  const q =
+    encodeURIComponent(
+      document.getElementById('buscarUsuarios').value.trim()
+    );
+
+  const response =
+    await fetch(`../php/admin_usuarios.php?q=${q}`);
+
+  const data =
+    await response.json();
+
+  if(!data.ok){
+    estado.innerHTML = `<div class="terminal-line warning-line">${escaparHTML(data.mensaje || 'No fue posible cargar usuarios.')}</div>`;
+    return;
+  }
+
+  estado.innerHTML = `<div class="terminal-line">[OK] ${data.usuarios.length} usuarios cargados.</div>`;
+  renderUsuarios(data.usuarios);
+}
+
+async function guardarUsuario(row){
+  const boton =
+    row.querySelector('[data-save-user]');
+
+  boton.disabled = true;
+  boton.innerText = 'Guardando...';
+
+  const payload = {
+    id: Number(row.dataset.usuarioId),
+    rol: row.querySelector('[data-role-control]').value,
+    activo: Number(row.querySelector('[data-active-control]').value) === 1
+  };
+
+  const response =
+    await fetch('../php/admin_usuarios.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+
+  const data =
+    await response.json();
+
+  if(!data.ok){
+    alert(data.mensaje || 'No fue posible guardar.');
+  }
+
+  boton.disabled = false;
+  boton.innerText = 'Guardar';
+  await cargarUsuarios();
+}
+
+async function reindexarBusqueda(event){
+  const boton = event.target;
+  boton.innerText = 'Reindexando...';
+  boton.disabled = true;
+
+  try{
+    await fetch('../php/reindexar_busqueda.php');
+  }
+  finally{
+    boton.innerText = 'Reindexar';
+    boton.disabled = false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const autorizado =
+    await validarAccesoAdmin();
+
+  if(!autorizado){
+    return;
+  }
+
+  await cargarUsuarios();
+
+  document
+    .getElementById('recargarUsuarios')
+    .addEventListener('click', cargarUsuarios);
+
+  document
+    .getElementById('buscarUsuarios')
+    .addEventListener('input', () => {
+      clearTimeout(timerBusqueda);
+      timerBusqueda = setTimeout(cargarUsuarios, 300);
+    });
+
+  document
+    .getElementById('tablaUsuarios')
+    .addEventListener('click', event => {
+      const boton =
+        event.target.closest('[data-save-user]');
+
+      if(!boton){
+        return;
+      }
+
+      guardarUsuario(
+        boton.closest('tr')
+      );
+    });
+});
+</script>
+
+</body>
+</html>

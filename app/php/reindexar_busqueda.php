@@ -6,7 +6,23 @@ ini_set('display_startup_errors', 1);
 
 error_reporting(E_ALL);
 
+session_start();
+
 header('Content-Type: application/json; charset=utf-8');
+
+if(
+    !isset($_SESSION['usuario_id'])
+    || ($_SESSION['rol'] ?? '') !== 'admin'
+){
+    http_response_code(403);
+
+    echo json_encode([
+        'ok' => false,
+        'mensaje' => 'Solo administradores pueden reindexar la búsqueda.'
+    ]);
+
+    exit;
+}
 
 require 'conn.php';
 require 'perfil_utils.php';
@@ -14,6 +30,33 @@ require 'perfil_utils.php';
 $pdo->exec("SET NAMES utf8mb4");
 
 asegurarColumnasPerfilPublico($pdo);
+
+function asegurarIndiceBusqueda($pdo){
+
+    $stmt =
+        $pdo->prepare("
+            SELECT COUNT(*) AS total
+            FROM information_schema.STATISTICS
+            WHERE TABLE_SCHEMA = 'imssight'
+            AND TABLE_NAME = 'search_index'
+            AND INDEX_NAME = 'idx_search_fulltext'
+        ");
+
+    $stmt->execute();
+
+    if((int)$stmt->fetch()['total'] > 0){
+        return;
+    }
+
+    $pdo->exec("
+        ALTER TABLE imssight.search_index
+        ADD FULLTEXT INDEX idx_search_fulltext
+        (titulo, contenido, descripcion)
+    ");
+
+}
+
+asegurarIndiceBusqueda($pdo);
 
 /*
 |--------------------------------------------------------------------------

@@ -79,6 +79,7 @@ function asegurarTablaMuro($pdo){
         );
     ");
 
+    asegurarIndicesMuro($pdo);
     asegurarTablaNotificaciones($pdo);
 
     $stmt =
@@ -149,6 +150,58 @@ function asegurarTablaMuro($pdo){
 
 }
 
+function asegurarIndice($pdo, $tabla, $indice, $columnas){
+
+    $stmt =
+        $pdo->prepare("
+            SELECT COUNT(*) AS total
+            FROM information_schema.STATISTICS
+            WHERE TABLE_SCHEMA = 'imssight'
+            AND TABLE_NAME = ?
+            AND INDEX_NAME = ?
+        ");
+
+    $stmt->execute([
+        $tabla,
+        $indice
+    ]);
+
+    if((int)$stmt->fetch()['total'] > 0){
+        return;
+    }
+
+    $pdo->exec("
+        CREATE INDEX $indice
+        ON imssight.$tabla ($columnas)
+    ");
+
+}
+
+function asegurarIndicesMuro($pdo){
+
+    asegurarIndice(
+        $pdo,
+        'muro_publicaciones',
+        'idx_muro_publicaciones_feed',
+        'activo, fijado, fecha_fijado, fecha'
+    );
+
+    asegurarIndice(
+        $pdo,
+        'muro_publicaciones',
+        'idx_muro_publicaciones_autor',
+        'id_usuario, activo, fecha'
+    );
+
+    asegurarIndice(
+        $pdo,
+        'muro_comentarios',
+        'idx_muro_comentarios_publicacion',
+        'id_publicacion, activo, fecha'
+    );
+
+}
+
 function asegurarTablaNotificaciones($pdo){
 
     $pdo->exec("
@@ -175,6 +228,13 @@ function asegurarTablaNotificaciones($pdo){
             ON DELETE SET NULL
         );
     ");
+
+    asegurarIndice(
+        $pdo,
+        'notificaciones',
+        'idx_notificaciones_usuario_estado',
+        'id_usuario_destino, leida, fecha'
+    );
 
 }
 
@@ -321,6 +381,15 @@ try{
         $idPublicacionFiltro =
             (int)($_GET['id'] ?? 0);
 
+        $limite =
+            min(
+                max((int)($_GET['limit'] ?? 10), 1),
+                30
+            );
+
+        $offset =
+            max((int)($_GET['offset'] ?? 0), 0);
+
         $sql = "
                 SELECT
                     id,
@@ -346,12 +415,18 @@ try{
         }
 
         $sql .= "
-                ORDER BY
-                    fijado DESC,
-                    fecha_fijado DESC,
-                    fecha DESC
-                LIMIT 80
+            ORDER BY
+                fijado DESC,
+                fecha_fijado DESC,
+                fecha DESC
         ";
+
+        if($idPublicacionFiltro > 0){
+            $sql .= " LIMIT 1 ";
+        }
+        else{
+            $sql .= " LIMIT " . ($limite + 1) . " OFFSET " . $offset;
+        }
 
         $stmt =
             $pdo->prepare($sql);
@@ -360,6 +435,17 @@ try{
 
         $publicaciones =
             $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $hayMas =
+            false;
+
+        if(
+            $idPublicacionFiltro <= 0
+            && count($publicaciones) > $limite
+        ){
+            $hayMas = true;
+            array_pop($publicaciones);
+        }
 
         $comentariosPorPublicacion = [];
 
@@ -458,7 +544,13 @@ try{
                 'puede_fijar' => $puedeFijar
             ],
             'publicaciones' =>
-                $publicaciones
+                $publicaciones,
+            'paginacion' => [
+                'limit' => $limite,
+                'offset' => $offset,
+                'next_offset' => $offset + count($publicaciones),
+                'hay_mas' => $hayMas
+            ]
         ]);
 
         exit;

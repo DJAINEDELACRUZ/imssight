@@ -495,6 +495,16 @@
                 Cargando publicaciones del muro...
               </div>
             </div>
+
+            <div class="text-center mt-3">
+              <button
+                class="btn btn-outline-secondary mb-0 d-none"
+                id="muroCargarMas"
+                type="button"
+                onclick="cargarMuro(false)">
+                Cargar más publicaciones
+              </button>
+            </div>
           </div>
 
           <div class="col-lg-4">
@@ -723,6 +733,10 @@
 
 let muroPuedeFijar = false;
 let muroPublicacionesActuales = [];
+let muroOffset = 0;
+let muroHayMas = true;
+let muroCargando = false;
+const MURO_PAGE_SIZE = 10;
 
 function escaparTexto(valor){
 
@@ -1056,6 +1070,30 @@ function renderizarMuro(publicaciones){
     contenedor.innerHTML =
         bloquePublicaciones('Fijadas por docentes y administración', fijadas)
         + bloquePublicaciones('Comunidad', comunidad);
+
+}
+
+function actualizarBotonCargarMas(){
+
+    const boton =
+        document.getElementById('muroCargarMas');
+
+    if(!boton){
+        return;
+    }
+
+    boton.classList.toggle(
+        'd-none',
+        !muroHayMas || muroPublicacionesActuales.length === 0
+    );
+
+    boton.disabled =
+        muroCargando;
+
+    boton.innerHTML =
+        muroCargando
+            ? 'Cargando...'
+            : 'Cargar más publicaciones';
 
 }
 
@@ -1451,16 +1489,33 @@ function configurarControlesMuro(permisos){
 
 }
 
-async function cargarMuro(){
+async function cargarMuro(reiniciar = true){
 
     const contenedor =
         document.getElementById('muroPublicaciones');
 
+    if(muroCargando){
+        return;
+    }
+
+    muroCargando = true;
+    actualizarBotonCargarMas();
+
     try{
+
+        if(reiniciar){
+            muroOffset = 0;
+            muroHayMas = true;
+            contenedor.innerHTML = `
+                <div class="muro-empty p-4 text-center text-muted">
+                    Cargando publicaciones del muro...
+                </div>
+            `;
+        }
 
         const response =
             await fetch(
-                '../php/muro_publicaciones.php',
+                `../php/muro_publicaciones.php?limit=${MURO_PAGE_SIZE}&offset=${muroOffset}`,
                 {
                     cache:'no-store'
                 }
@@ -1474,7 +1529,43 @@ async function cargarMuro(){
         }
 
         configurarControlesMuro(data.permisos);
-        renderizarMuro(data.publicaciones);
+
+        const nuevasPublicaciones =
+            Array.isArray(data.publicaciones)
+                ? data.publicaciones
+                : [];
+
+        if(reiniciar){
+            muroPublicacionesActuales =
+                nuevasPublicaciones;
+        }
+        else{
+            const mapa =
+                new Map(
+                    muroPublicacionesActuales.map(publicacion => [
+                        Number(publicacion.id),
+                        publicacion
+                    ])
+                );
+
+            nuevasPublicaciones.forEach(publicacion => {
+                mapa.set(
+                    Number(publicacion.id),
+                    publicacion
+                );
+            });
+
+            muroPublicacionesActuales =
+                Array.from(mapa.values());
+        }
+
+        muroOffset =
+            Number(data.paginacion?.next_offset ?? muroPublicacionesActuales.length);
+
+        muroHayMas =
+            Boolean(data.paginacion?.hay_mas);
+
+        renderizarMuro(muroPublicacionesActuales);
 
     }catch(error){
 
@@ -1488,6 +1579,10 @@ async function cargarMuro(){
 
         `;
 
+    }
+    finally{
+        muroCargando = false;
+        actualizarBotonCargarMas();
     }
 
 }

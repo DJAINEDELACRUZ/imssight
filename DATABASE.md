@@ -225,6 +225,13 @@ CREATE TABLE imssight.usuarios (
 - `docente`: publica contenido editorial y puede fijar publicaciones del muro.
 - `usuario`: publica aportaciones normales de comunidad.
 
+## Administración de permisos
+
+- El módulo `admin_usuarios.html` edita `usuarios.rol` y `usuarios.activo`.
+- Solo `admin` puede cambiar permisos.
+- El sistema impide degradar o desactivar al último administrador activo.
+- `profile.html` es el panel de administración; `user_profile.html` es el perfil social del usuario.
+
 ---
 
 # Perfil de Usuario
@@ -358,6 +365,17 @@ CREATE TABLE imssight.muro_publicaciones (
 - `admin` y `docente` pueden fijar publicaciones existentes y usar tipos editoriales.
 - `usuario` publica con tipo `usuario`.
 - Los enlaces se guardan dentro de `contenido` y se renderizan como recursos visuales.
+- El feed público se carga por páginas para evitar traer todo el muro en una sola petición.
+
+## Índices recomendados
+
+```sql
+CREATE INDEX idx_muro_publicaciones_feed
+ON imssight.muro_publicaciones(activo, fijado, fecha_fijado, fecha);
+
+CREATE INDEX idx_muro_publicaciones_autor
+ON imssight.muro_publicaciones(id_usuario, activo, fecha);
+```
 - El autor puede editar o eliminar su publicación.
 - `admin` puede moderar cualquier publicación.
 - `docente` puede moderar publicaciones propias y de usuarios comunes; no puede moderar contenido administrativo, institucional, experto o de otros docentes.
@@ -395,6 +413,13 @@ CREATE TABLE imssight.muro_comentarios (
 - El autor puede borrar su comentario.
 - `admin` puede moderar cualquier comentario.
 - `docente` puede moderar comentarios propios y de usuarios comunes; no puede moderar comentarios de admin u otros docentes.
+
+## Índice recomendado
+
+```sql
+CREATE INDEX idx_muro_comentarios_publicacion
+ON imssight.muro_comentarios(id_publicacion, activo, fecha);
+```
 
 ---
 
@@ -435,6 +460,13 @@ CREATE TABLE imssight.notificaciones (
 - Las notificaciones de comentarios abren `muro_publicacion.html?id=...`.
 - Las notificaciones de chat abren `chat.html?usuario_id=...`.
 
+## Índice recomendado
+
+```sql
+CREATE INDEX idx_notificaciones_usuario_estado
+ON imssight.notificaciones(id_usuario_destino, leida, fecha);
+```
+
 ---
 
 # Chat Privado
@@ -465,6 +497,16 @@ CREATE TABLE imssight.chat_mensajes (
 - Cualquier usuario activo puede buscar y escribir a otro usuario activo.
 - `leido = 1` se marca al abrir la conversación.
 
+## Índices recomendados
+
+```sql
+CREATE INDEX idx_chat_conversacion_fecha
+ON imssight.chat_mensajes(id_remitente, id_destinatario, fecha);
+
+CREATE INDEX idx_chat_destinatario_leido
+ON imssight.chat_mensajes(id_destinatario, leido, fecha);
+```
+
 ---
 
 # Search Index
@@ -484,6 +526,13 @@ CREATE TABLE imssight.search_index (
     id_escena INT,
     url TEXT
 );
+```
+
+## Índice recomendado
+
+```sql
+ALTER TABLE imssight.search_index
+ADD FULLTEXT INDEX idx_search_fulltext(titulo, contenido, descripcion);
 ```
 
 ## Tipos indexados
