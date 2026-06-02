@@ -14,4 +14,4 @@ mariadb_data/
 *.log
 
 # Auditorias locales del servidor
-HPC_CLUSTER_AUDIT.md
+**/HPC_CLUSTER_AUDIT.md
