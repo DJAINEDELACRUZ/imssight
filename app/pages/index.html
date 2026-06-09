@@ -39,8 +39,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     .muro-composer textarea {
-        min-height: 120px;
-        resize: vertical;
+        min-height: 48px;
+        resize: none;
+        overflow: hidden;
     }
 
     .muro-composer {
@@ -73,6 +74,30 @@
         border-color: #9D2449 !important;
         background: #FFFFFF !important;
         box-shadow: 0 0 0 .18rem rgba(157, 36, 73, .14) !important;
+    }
+
+    .muro-quick-composer .card-body {
+        padding: 1rem !important;
+    }
+
+    .muro-quick-composer .muro-form-label {
+        font-size: .86rem;
+    }
+
+    .muro-quick-composer .muro-field {
+        border-radius: 14px !important;
+        padding: .72rem .85rem !important;
+        line-height: 1.35;
+    }
+
+    .muro-helper {
+        color: #6F7271;
+        font-size: .68rem;
+        line-height: 1.25;
+    }
+
+    .muro-publish-actions .muro-submit {
+        margin-left: auto;
     }
 
     .muro-post {
@@ -163,7 +188,71 @@
         border: 1px solid #DDDDDD;
         border-radius: 12px;
         background: #F6F6F6;
-        padding: 1rem;
+        padding: .55rem .65rem;
+    }
+
+    .muro-editorial-panel .form-switch {
+        display: flex;
+        align-items: center;
+        min-height: auto;
+        margin-bottom: 0;
+        padding-top: 0;
+    }
+
+    .muro-editorial-panel .form-check-label {
+        color: #404041;
+    }
+
+    .muro-editorial-compact {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+    }
+
+    .muro-editorial-select {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 320px;
+    }
+
+    .muro-editorial-select .muro-field {
+        min-height: 42px;
+        padding: .48rem .8rem !important;
+        border-radius: 13px !important;
+    }
+
+    .muro-editorial-select small {
+        display: block;
+        margin-top: .2rem;
+        color: #6F7271;
+        line-height: 1;
+    }
+
+    .muro-pin-chip {
+        min-height: 48px;
+        padding: .35rem .7rem;
+        gap: .45rem;
+    }
+
+    .muro-pin-chip .form-switch {
+        padding-left: 2.45rem;
+    }
+
+    .muro-pin-icon {
+        color: #285C4D;
+        font-size: 1.05rem;
+        transform: rotate(-24deg);
+    }
+
+    @media (max-width: 575.98px) {
+        .muro-editorial-compact {
+            align-items: stretch;
+        }
+
+        .muro-editorial-select {
+            max-width: none;
+        }
     }
 
     .muro-contenido {
@@ -242,6 +331,150 @@
     .muro-delete-comment:hover {
         background: rgba(157, 36, 73, .08);
         border-color: rgba(157, 36, 73, .35);
+    }
+
+    .imssight-hub-card {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+        min-height: 88px;
+        border: 1px solid #DDDDDD;
+        border-radius: 14px;
+        background: #FFFFFF;
+        color: #404041;
+        padding: 1rem;
+        box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
+        transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .imssight-hub-card:hover,
+    .imssight-hub-card:focus {
+        color: #404041;
+        border-color: rgba(157, 36, 73, .42);
+        box-shadow: 0 16px 34px rgba(157, 36, 73, .11);
+        transform: translateY(-2px);
+    }
+
+    .imssight-hub-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        color: #FFFFFF;
+        background: linear-gradient(135deg, #285C4D, #9D2449);
+        box-shadow: 0 10px 20px rgba(40, 92, 77, .16);
+    }
+
+    .imssight-hub-title {
+        display: block;
+        margin-bottom: .1rem;
+        font-size: .9rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .01em;
+    }
+
+    .imssight-hub-copy {
+        display: block;
+        color: #6F7271;
+        font-size: .76rem;
+        line-height: 1.25;
+    }
+
+    .muro-side-feed {
+        border-top: 1px solid #DDDDDD;
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+    }
+
+    .muro-feed-compact {
+        gap: .85rem !important;
+    }
+
+    .muro-feed-compact .muro-section-title {
+        margin: 1rem 0 .15rem;
+        font-size: .86rem;
+        letter-spacing: .01em;
+    }
+
+    .muro-feed-compact .muro-section-title::before {
+        width: 6px;
+        height: 20px;
+    }
+
+    .muro-feed-compact .muro-post {
+        padding: 1rem !important;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(64, 64, 65, .06);
+    }
+
+    .muro-feed-compact .muro-post > .d-flex {
+        gap: .75rem !important;
+    }
+
+    .muro-feed-compact .muro-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        font-size: .78rem;
+    }
+
+    .muro-feed-compact h5 {
+        font-size: .98rem;
+        line-height: 1.25;
+    }
+
+    .muro-feed-compact h6 {
+        font-size: .85rem;
+    }
+
+    .muro-feed-compact .muro-chip {
+        font-size: .64rem;
+        padding: .2rem .45rem;
+    }
+
+    .muro-feed-compact .muro-contenido,
+    .muro-feed-compact .muro-comments,
+    .muro-feed-compact .muro-comment,
+    .muro-feed-compact .muro-comment-input {
+        font-size: .78rem;
+    }
+
+    .muro-feed-compact .muro-comments {
+        margin-top: .75rem;
+        padding-top: .75rem;
+    }
+
+    .muro-feed-compact .muro-comments .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .muro-feed-compact .muro-comments .btn {
+        width: 100%;
+    }
+
+    .muro-feed-compact .muro-comment {
+        padding: .55rem .65rem;
+    }
+
+    .muro-feed-compact .muro-delete-comment {
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+    }
+
+    .muro-feed-compact .muro-link-card {
+        padding: .65rem .7rem;
+        gap: .65rem;
+    }
+
+    .muro-feed-compact .muro-link-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
     }
   </style>
   
@@ -428,125 +661,218 @@
               <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                   <div>
-                    <h5 class="mb-1">Publicar en el muro</h5>
-                    <p class="text-sm text-muted mb-0">Comparte una perla, experiencia o recurso para la comunidad.</p>
+                    <h5 class="mb-1">Contenido IMSSight</h5>
+                    <p class="text-sm text-muted mb-0">Acceso rápido a los recursos clínicos, educativos e institucionales de la plataforma.</p>
                   </div>
                   <span class="muro-chip institucional">
-                    <i class="material-symbols-rounded" style="font-size:1rem;">school</i>
-                    Docencia abierta
+                    <i class="material-symbols-rounded" style="font-size:1rem;">hub</i>
+                    Ecosistema clínico
                   </span>
                 </div>
 
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="especialidad.html">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">medical_services</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Especialidades</span>
+                        <span class="imssight-hub-copy">Rutas académicas por servicio y área clínica.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="especialidad.html">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">clinical_notes</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Casos clínicos</span>
+                        <span class="imssight-hub-copy">Simulación, escenas y decisiones clínicas guiadas.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="search.html?q=perla%20cl%C3%ADnica">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">lightbulb</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Perlas clínicas</span>
+                        <span class="imssight-hub-copy">Aprendizajes breves conectados a su caso origen.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="search.html?q=escala%20pron%C3%B3stica">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">monitoring</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Escalas pronósticas</span>
+                        <span class="imssight-hub-copy">Herramientas de riesgo y apoyo a decisiones.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="infografias.html">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">library_books</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Infografías y guías clínicas</span>
+                        <span class="imssight-hub-copy">Material visual y referencias para repaso rápido.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="search.html?q=video%20tutorial">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">smart_display</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Video tutoriales</span>
+                        <span class="imssight-hub-copy">Demostraciones para procedimientos y navegación.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="search.html?q=diagn%C3%B3stico">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">biotech</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Exámenes diagnósticos</span>
+                        <span class="imssight-hub-copy">Estudios clave vinculados al razonamiento clínico.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="mapa_demanda_medica.html">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">map</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Acceso datos institucionales</span>
+                        <span class="imssight-hub-copy">Mapa de demanda médica y lectura ejecutiva.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="podcast.html">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">mic</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Podcast</span>
+                        <span class="imssight-hub-copy">Conversaciones de formación para residentes.</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="imssight-hub-card" href="search.html?q=video">
+                      <span class="imssight-hub-icon">
+                        <i class="material-symbols-rounded">movie</i>
+                      </span>
+                      <span>
+                        <span class="imssight-hub-title">Video</span>
+                        <span class="imssight-hub-copy">Contenido audiovisual integrado al aprendizaje.</span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card muro-composer muro-quick-composer mb-4">
+              <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <div>
+                        <h5 class="mb-1">Comparte con la comunidad</h5>
+                        <p class="text-sm text-muted mb-0">Nos interesa tu aporte</p>
+                    </div>
+                </div>
+                
                 <div class="mb-3 d-none" id="muroTituloGrupo">
-                  <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="muroTitulo">Título opcional</label>
                   <input
                     type="text"
                     class="form-control muro-field"
                     id="muroTitulo"
                     maxlength="180"
-                    placeholder="Ej. Perla de triage respiratorio">
+                    aria-label="Título opcional"
+                    placeholder="Titulo opcional">
                 </div>
 
-                <div class="mb-3">
-                  <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="muroContenido">¿Qué quieres compartir?</label>
+                <div class="mb-2">
                   <textarea
                     class="form-control muro-field"
                     id="muroContenido"
+                    rows="1"
                     maxlength="1800"
-                    placeholder="Comparte una perla, experiencia, artículo, aviso o pregunta clínica."></textarea>
+                    aria-label="Comparte con la comunidad"
+                    placeholder="Qué hay de nuevo!"></textarea>
                 </div>
 
                 <div id="muroControlesEditoriales" class="muro-editorial-panel mb-3 d-none">
-                  <div class="row g-3 align-items-end">
-                    <div class="col-md-7">
-                      <label class="form-label muro-form-label text-sm font-weight-bold mb-1" for="muroTipo">Tipo editorial</label>
-                      <select class="form-control muro-field" id="muroTipo">
-                        <option value="usuario">Comunidad</option>
-                        <option value="institucional">Institucional</option>
-                        <option value="experto">Experto IMSS</option>
-                        <option value="noticia">Noticia</option>
-                      </select>
+                    <small class="form-label">Tipo editorial</small>
+                    <div class="muro-editorial-compact">
+                        <div class="muro-editorial-select">
+                            <select class="form-control muro-field" id="muroTipo" aria-label="Tipo editorial">
+                                <option value="usuario">Comunidad</option>
+                                <option value="institucional">Institucional</option>
+                                <option value="experto">Experto IMSS</option>
+                                <option value="noticia">Noticia</option>
+                            </select>
+                        </div>
+                        <div class="muro-chip institucional muro-pin-chip" title="Fijar publicación">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="muroFijado" aria-label="Fijar publicación">
+                            </div>
+                            <i class="material-symbols-rounded muro-pin-icon">push_pin</i>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                      <div class="form-check form-switch mb-1">
-                        <input class="form-check-input" type="checkbox" id="muroFijado">
-                        <label class="form-check-label text-sm font-weight-bold" for="muroFijado">
-                          Fijar publicación
-                        </label>
-                      </div>
-                      <small class="text-muted">Visible para admin y docente.</small>
-                    </div>
-                  </div>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                  <small class="text-muted">Máximo 1800 caracteres. Evita datos personales o identificables.</small>
+                <div class="muro-publish-actions d-flex align-items-center justify-content-between flex-wrap gap-2">
+                  <small class="muro-helper">Máximo 1800 caracteres. Evita datos personales o identificables.</small>
                   <button class="btn muro-submit mb-0" type="button" onclick="publicarEnMuro()">
                     <i class="material-symbols-rounded align-middle me-1" style="font-size:1rem;">send</i>
                     Publicar
                   </button>
                 </div>
                 <div id="muroMensaje" class="mt-3"></div>
-              </div>
-            </div>
 
-            <div id="muroPublicaciones" class="d-flex flex-column gap-3">
-              <div class="muro-empty p-4 text-center text-muted">
-                Cargando publicaciones del muro...
-              </div>
-            </div>
-
-            <div class="text-center mt-3">
-              <button
-                class="btn btn-outline-secondary mb-0 d-none"
-                id="muroCargarMas"
-                type="button"
-                onclick="cargarMuro(false)">
-                Cargar más publicaciones
-              </button>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="card h-100">
-              <div class="card-body p-4">
-                <h5 class="mb-3">Ideas para publicar</h5>
-
-                <div class="d-flex gap-3 mb-3">
-                  <div class="muro-avatar">1</div>
-                  <div>
-                    <h6 class="mb-1">Perlas clínicas</h6>
-                    <p class="text-sm text-muted mb-0">Un dato útil de guardia, consulta o sesión académica.</p>
+                <div class="muro-side-feed">
+                  <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                    <div>
+                      <h6 class="mb-0">Actividad del muro</h6>
+                      <small class="text-muted">Fijadas y comunidad</small>
+                    </div>
+                    <span class="muro-chip">
+                      <i class="material-symbols-rounded" style="font-size:.95rem;">forum</i>
+                      Muro
+                    </span>
                   </div>
-                </div>
 
-                <div class="d-flex gap-3 mb-3">
-                  <div class="muro-avatar">2</div>
-                  <div>
-                    <h6 class="mb-1">Artículo recomendado</h6>
-                    <p class="text-sm text-muted mb-0">Comparte PubMed, guías, revisiones o recursos institucionales.</p>
+                  <div id="muroPublicaciones" class="muro-feed-compact d-flex flex-column gap-3">
+                    <div class="muro-empty p-3 text-center text-muted">
+                      Cargando publicaciones del muro...
+                    </div>
                   </div>
-                </div>
 
-                <div class="d-flex gap-3 mb-3">
-                  <div class="muro-avatar">3</div>
-                  <div>
-                    <h6 class="mb-1">Experiencia docente</h6>
-                    <p class="text-sm text-muted mb-0">Algo que aprendiste de un profesor, rotación o caso simulado.</p>
+                  <div class="text-center mt-3">
+                    <button
+                      class="btn btn-outline-secondary btn-sm mb-0 d-none"
+                      id="muroCargarMas"
+                      type="button"
+                      onclick="cargarMuro(false)">
+                      Cargar más publicaciones
+                    </button>
                   </div>
-                </div>
-
-                <hr>
-
-                <h6 class="mb-2">Publicaciones fijas sugeridas</h6>
-                <ul class="text-sm text-muted ps-3 mb-0">
-                  <li>Noticias académicas del instituto.</li>
-                  <li>Mensajes de profesores expertos.</li>
-                  <li>Convocatorias, sesiones y recursos de la UEI.</li>
-                </ul>
-
-                <div class="alert mt-3 mb-0" style="background:#F6F6F6;color:#404041;border:1px solid #DDDDDD;">
-                  <strong>Roles:</strong> usuarios publican aportaciones normales; admin y docente pueden clasificar y fijar publicaciones.
                 </div>
               </div>
             </div>
@@ -1587,6 +1913,41 @@ async function cargarMuro(reiniciar = true){
 
 }
 
+function ajustarAlturaMuroContenido(){
+
+    const textarea =
+        document.getElementById('muroContenido');
+
+    if(!textarea){
+        return;
+    }
+
+    textarea.style.height =
+        'auto';
+
+    textarea.style.height =
+        `${Math.min(textarea.scrollHeight, 180)}px`;
+
+}
+
+function configurarTextareaMuro(){
+
+    const textarea =
+        document.getElementById('muroContenido');
+
+    if(!textarea){
+        return;
+    }
+
+    textarea.addEventListener(
+        'input',
+        ajustarAlturaMuroContenido
+    );
+
+    ajustarAlturaMuroContenido();
+
+}
+
 async function publicarEnMuro(){
 
     const titulo =
@@ -1647,6 +2008,7 @@ async function publicarEnMuro(){
 
         document.getElementById('muroTitulo').value = '';
         document.getElementById('muroContenido').value = '';
+        ajustarAlturaMuroContenido();
 
         if(muroPuedeFijar){
             document.getElementById('muroTipo').value = 'usuario';
@@ -1675,6 +2037,7 @@ async function publicarEnMuro(){
 
 }
 
+configurarTextareaMuro();
 cargarMuro();
 
   </script>

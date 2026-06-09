@@ -1,4 +1,18 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-dark my-2" id="sidenav-main">
+<style>
+  .bg-imss-verde{
+
+    background: linear-gradient(
+        135deg,
+        #1F463A 0%,
+        #235B4E 50%,
+        #4A8C77 100%
+    ) !important;
+
+  }
+</style>
+
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-imss-verde my-2" id="sidenav-main">
+  
     <div class="sidenav-header"><!--#235B4E-->
       <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand px-4 py-3 m-0" href="index.html">
@@ -6,9 +20,9 @@
         <img src="../assets/img/logo_imss_blanco.png" class="navbar-brand-img" width="22" height="24" alt="main_logo">
       </a>
     </div>
-    <div class="collapse navbar-collapse  w-auto bg-dark" id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        
+
+    <div class="collapse navbar-collapse  w-auto bg-imss-verde" id="sidenav-collapse-main">
+      <ul class="navbar-nav">  
 
         <li class="nav-item d-flex align-items-center">
           <h4 class="ps-3 ms-4 text-uppercase text-white font-weight-bolder opacity-8 mb-0">
@@ -30,25 +44,19 @@
 
         <li class="text-center">———————————</li>
 
-        <li class="nav-item mt-2">
-          <span class="nav-link-text ms-3 text-white text-xs text-uppercase font-weight-bolder opacity-6">
-            Conociendo al Instituto
-          </span>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link text-white" href="../pages/mapa_demanda_medica.html">
-            <i class="material-symbols-rounded opacity-5">map</i>
-            <span class="nav-link-text ms-1">MAPA DE DEMANDA MÉDICA</span>
+        <li>
+          <a class="nav-link text-white" href="../pages/podcast.html">
+            <i class="material-symbols-rounded opacity-5">mic</i>
+            <img src="../img/podcast-menu.png" alt="IMSSIÓN RESIDENTES" class="img-fluid rounded" loading="lazy" decoding="async" style="max-width: 100%;">
           </a>
         </li>
 
         <li class="text-center">———————————</li>
 
-        <li>
-          <a class="nav-link text-white" href="../pages/podcast.html">
-            <i class="material-symbols-rounded opacity-5">mic</i>
-            <img src="../img/podcast-menu.png" alt="IMSSIÓN RESIDENTES" class="img-fluid rounded" loading="lazy" decoding="async" style="max-width: 100%;">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="../pages/mapa_demanda_medica.html">
+            <i class="material-symbols-rounded opacity-5">map</i>
+          <span class="nav-link-text ms-1">CONOCIENDO AL INSTITUTO</span>
           </a>
         </li>
 
@@ -59,17 +67,12 @@
           </a>
         </li>
 
-
       </ul>
-     
     </div>
 
-    <div class="sidenav-footer position-absolute w-100 bottom-0 bg-dark">
-      <div class="mx-3">
-        
-        <i class="text-muted">Oficina de estrategia e impacto, UEI, DPM, IMSS</i>
-
-        <div class="imssight-biblio-widget mt-4">
+    <div class="sidenav-footer position-absolute w-100 bottom-0">
+      <div class="mx-3 mb-3">
+        <div class="imssight-biblio-widget">
           <input
             class="imssight-biblio-toggle"
             type="checkbox"
@@ -108,6 +111,7 @@
         </div>
       </div>
     </div>
+
   </aside>
 
   <style>
