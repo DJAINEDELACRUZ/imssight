@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>Mapa Nacional de Demanda Médica IMSS</title>
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800">
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet">
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+  <link href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    :root {
+      --imss-green: #006341;
+      --imss-deep-green: #235B4E;
+      --imss-gold: #BC955C;
+      --imss-wine: #9F2241;
+      --imss-deep-wine: #691C32;
+      --imss-soft: #F6F6F6;
+    }
+
+    .demanda-shell {
+      padding: 1.5rem;
+    }
+
+    .demanda-header {
+      background: var(--imss-deep-green);
+      border-radius: 12px;
+      color: #fff;
+      padding: 1.45rem 1.6rem;
+      box-shadow: 0 18px 45px rgba(35, 91, 78, .18);
+    }
+
+    .demanda-header .material-symbols-rounded {
+      color: #d8f3dc;
+      font-size: 2rem;
+    }
+
+    .demanda-toolbar,
+    .demanda-card {
+      background: #fff;
+      border: 1px solid rgba(64, 64, 65, .08);
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(64, 64, 65, .08);
+    }
+
+    .demanda-toolbar {
+      padding: 1rem;
+    }
+
+    .demanda-panel-filters {
+      position: sticky;
+      top: .5rem;
+      z-index: 4;
+      margin: -1.2rem -1.2rem 1rem;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(64, 64, 65, .08);
+      border-radius: 12px 12px 0 0;
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+    }
+
+    .demanda-panel-filter-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .75rem;
+    }
+
+    .demanda-select {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #DDDDDD;
+      border-radius: 999px;
+      padding: .58rem .85rem;
+      color: #404041;
+      background: #fff;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    .demanda-year-control {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #DDDDDD;
+      border-radius: 18px;
+      padding: .55rem .75rem .65rem;
+      background: #fff;
+    }
+
+    .demanda-year-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: #404041;
+      font-weight: 800;
+    }
+
+    .demanda-year-value {
+      color: var(--imss-wine);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .demanda-range {
+      width: 100%;
+      accent-color: var(--imss-wine);
+    }
+
+    .demanda-range-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #6F7271;
+      font-size: .74rem;
+      font-weight: 700;
+    }
+
+    .demanda-map-card {
+      overflow: hidden;
+    }
+
+    #demandaMap {
+      min-height: 650px;
+      height: calc(100vh - 280px);
+      width: 100%;
+      background: #eef2ef;
+    }
+
+    .leaflet-demandaUnitPane-pane svg {
+      pointer-events: none;
+    }
+
+    .leaflet-demandaUnitPane-pane path {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .demanda-panel {
+      padding: 1.2rem;
+      min-height: 650px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .demanda-panel-loading {
+      display: none;
+      align-items: center;
+      gap: .5rem;
+      margin-top: .8rem;
+      color: var(--imss-deep-green);
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .demanda-panel-loading.is-visible {
+      display: flex;
+    }
+
+    .demanda-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .38rem .72rem;
+      border-radius: 999px;
+      background: rgba(35, 91, 78, .1);
+      color: var(--imss-deep-green);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .demanda-total {
+      color: var(--imss-wine);
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .demanda-muted {
+      color: #6F7271;
+    }
+
+    .demanda-unit-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .7rem;
+      padding: .85rem 0;
+      border-top: 1px solid #ececec;
+    }
+
+    .demanda-unit-row:first-child {
+      border-top: 0;
+    }
+
+    .demanda-unit-name {
+      color: #404041;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .demanda-unit-meta {
+      display: block;
+      margin-top: .15rem;
+      color: #6F7271;
+      font-size: .78rem;
+    }
+
+    .demanda-unit-value {
+      color: var(--imss-deep-green);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .demanda-ooad-options {
+      display: grid;
+      gap: .55rem;
+      margin-top: .85rem;
+    }
+
+    .demanda-ooad-button {
+      border: 1px solid rgba(35, 91, 78, .22);
+      border-radius: 10px;
+      background: #fff;
+      color: #404041;
+      padding: .75rem .85rem;
+      text-align: left;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    .demanda-ooad-button:hover,
+    .demanda-ooad-button.active {
+      border-color: var(--imss-wine);
+      box-shadow: 0 10px 28px rgba(159, 34, 65, .12);
+      transform: translateY(-1px);
+    }
+
+    .demanda-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      align-items: center;
+      color: #6F7271;
+      font-size: .78rem;
+    }
+
+    .demanda-legend-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: .25rem;
+    }
+
+    .demanda-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(246, 246, 246, .58);
+      backdrop-filter: blur(8px);
+    }
+
+    .demanda-loader.is-visible {
+      display: flex;
+    }
+
+    .demanda-loader-box {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem 1rem;
+      border-radius: 14px;
+      background: #fff;
+      color: #404041;
+      box-shadow: 0 16px 44px rgba(64, 64, 65, .16);
+      font-weight: 800;
+    }
+
+    .demanda-empty {
+      border: 1px dashed #DDDDDD;
+      border-radius: 12px;
+      padding: 1rem;
+      color: #6F7271;
+      background: #F6F6F6;
+    }
+
+    .demanda-popup strong {
+      color: #404041;
+    }
+
+    .demanda-popup small {
+      color: #6F7271;
+    }
+
+    .navbar .dropdown-menu::before {
+      content: "";
+      position: absolute;
+      top: -8px !important;
+      right: 28px;
+      left: auto !important;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 3px;
+      transform: rotate(45deg);
+      box-shadow: -2px -2px 8px rgba(64, 64, 65, .04);
+    }
+
+    #modalPerfilUnidadDemanda {
+      z-index: 20010;
+    }
+
+    .modal-backdrop {
+      z-index: 20000;
+    }
+
+    .demanda-profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .8rem;
+    }
+
+    .demanda-profile-metric {
+      border: 1px solid #ececec;
+      border-radius: 12px;
+      padding: .9rem;
+      background: #F6F6F6;
+    }
+
+    .demanda-profile-metric strong {
+      display: block;
+      color: #404041;
+      font-size: .82rem;
+    }
+
+    .demanda-profile-metric span {
+      color: var(--imss-wine);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .demanda-chart-box {
+      height: 250px;
+      min-height: 250px;
+    }
+
+    .demanda-trend-chart {
+      height: 190px;
+      min-height: 190px;
+    }
+
+    .demanda-profile-link {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: #404041;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .demanda-profile-link:hover {
+      color: var(--imss-wine);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1199.98px) {
+      main.main-content {
+        margin-left: 0 !important;
+      }
+
+      .demanda-panel,
+      #demandaMap {
+        min-height: 520px;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .demanda-shell {
+        padding: 1rem;
+      }
+
+      .demanda-header {
+        padding: 1.2rem;
+      }
+
+      .demanda-toolbar {
+        align-items: stretch !important;
+      }
+
+      .demanda-panel-filters {
+        position: static;
+      }
+
+      .demanda-select {
+        width: 100%;
+      }
+
+      .demanda-year-control {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .demanda-profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #demandaMap {
+        height: 540px;
+      }
+    }
+  </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <div id="menu-lateral"></div>
+  <script>
+    fetch('componentes/menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-lateral').innerHTML = data;
+
+        const paginaActual = window.location.pathname.split('/').pop();
+
+        document.querySelectorAll('#sidenav-main .nav-link').forEach(link => {
+          const href = link.getAttribute('href') || '';
+
+          if (href.includes(paginaActual)) {
+            link.classList.add('active', 'bg-gradient-warning', 'text-white');
+          } else {
+            link.classList.remove('active', 'bg-gradient-warning', 'text-white');
+          }
+        });
+      });
+  </script>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="index.html">IMSSight</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Mapa de Demanda Médica</li>
+          </ol>
+        </nav>
+
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Buscar...</label>
+              <input type="text" class="form-control" id="busquedaGlobal">
+            </div>
+          </div>
+
+          <ul class="navbar-nav d-flex align-items-center justify-content-end">
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">chat</i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+              <a href="#" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">notifications</i>
+                <span id="notificationDot" style="display:none;width:10px;height:10px;background:#f44336;border-radius:50%;position:absolute;right:-1px;top:1px;box-shadow:0 0 10px rgba(244,67,54,.8);"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" id="notificationMenu" aria-labelledby="dropdownMenuButton">
+                <li><div class="dropdown-item text-muted">Sin notificaciones</div></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <a href="#" class="nav-link text-body font-weight-bold px-0" id="dropdownUsuario" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">account_circle</i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="dropdownUsuario">
+                <li><a class="dropdown-item border-radius-md" href="../pages/user_profile.html" data-imssight-profile-link><i class="fas fa-user me-2"></i>Perfil</a></li>
+                <li><a class="dropdown-item border-radius-md text-danger" href="../php/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="demanda-shell">
+      <div class="demanda-header mb-4">
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="material-symbols-rounded">monitoring</span>
+              <span class="text-xs text-uppercase font-weight-bolder opacity-8">Conociendo al Instituto</span>
+            </div>
+            <h1 class="h2 text-white mb-2">Mapa Nacional de Demanda Médica IMSS</h1>
+            <p class="mb-0 opacity-8">Exploración histórica de consultas médicas por OOAD y unidad médica.</p>
+          </div>
+          <div class="text-lg-end">
+            <span class="demanda-pill bg-white">
+              <i class="material-symbols-rounded" style="font-size:1rem;">database</i>
+              Datos internos IMSSight
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demanda-toolbar mb-4 d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center">
+        <div>
+          <h2 class="h5 mb-1">Demanda por año, tipo y mes</h2>
+          <p class="text-sm demanda-muted mb-0">Selecciona una entidad del mapa y ajusta los filtros desde el panel derecho para ver sus unidades.</p>
+        </div>
+        <a class="btn btn-primary mb-0" href="analisis_demanda_medica.html">
+          <i class="material-symbols-rounded me-1" style="font-size:1rem;">analytics</i>
+          Análisis ejecutivo
+        </a>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-xl-8">
+          <div class="demanda-card demanda-map-card">
+            <div id="demandaMap" aria-label="Mapa de demanda médica IMSS"></div>
+          </div>
+          <div class="demanda-legend mt-3" aria-label="Escala de color de demanda">
+            <span><span class="demanda-legend-dot" style="background:#d8f3dc;"></span>Menor</span>
+            <span><span class="demanda-legend-dot" style="background:#006341;"></span>Media</span>
+            <span><span class="demanda-legend-dot" style="background:#BC955C;"></span>Alta</span>
+            <span><span class="demanda-legend-dot" style="background:#9F2241;"></span>Muy alta</span>
+            <span><span class="demanda-legend-dot" style="background:#691C32;"></span>Máxima</span>
+          </div>
+          <div class="row g-4 mt-1">
+            <div class="col-xl-6">
+              <div class="demanda-card p-3 h-100">
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                  <div>
+                    <h3 class="h6 mb-1">Serie anual</h3>
+                    <p class="text-sm demanda-muted mb-0" id="tendenciaAnualSubtitulo">Tendencia nacional por año.</p>
+                  </div>
+                  <span class="demanda-pill">
+                    <i class="material-symbols-rounded" style="font-size:1rem;">timeline</i>
+                    2012-2024
+                  </span>
+                </div>
+                <div class="demanda-trend-chart">
+                  <canvas id="tendenciaAnualChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="demanda-card p-3 h-100">
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                  <div>
+                    <h3 class="h6 mb-1">Serie mensual</h3>
+                    <p class="text-sm demanda-muted mb-0" id="tendenciaMensualSubtitulo">Tendencia nacional enero-diciembre.</p>
+                  </div>
+                  <span class="demanda-pill">
+                    <i class="material-symbols-rounded" style="font-size:1rem;">calendar_month</i>
+                    Meses
+                  </span>
+                </div>
+                <div class="demanda-trend-chart">
+                  <canvas id="tendenciaMensualChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <aside class="demanda-card demanda-panel" id="panelDemanda">
+            <div class="demanda-panel-filters">
+              <div class="demanda-panel-filter-grid">
+               
+                <div>
+                  <label class="text-xs font-weight-bold mb-1 d-block" for="anioDemanda">Año</label>
+                  <div class="demanda-year-control">
+                    <div class="demanda-year-head">
+                      <span>Periodo</span>
+                      <output class="demanda-year-value" id="anioDemandaValor" for="anioDemanda">2024</output>
+                    </div>
+                    <input class="demanda-range mt-2" type="range" id="anioDemanda" min="2012" max="2024" step="1" value="2024" aria-label="Seleccionar año">
+                    <div class="demanda-range-labels">
+                      <span id="anioMinLabel">2012</span>
+                      <span id="anioMaxLabel">2024</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="text-xs font-weight-bold mb-1 d-block" for="tipoDemanda">Tipo</label>
+                    <select class="demanda-select" id="tipoDemanda" aria-label="Seleccionar tipo de consulta">
+                      <option value="Total">Total</option>
+                      <option value="Medicina Familiar">Medicina Familiar</option>
+                      <option value="Especialidades">Especialidades</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="text-xs font-weight-bold mb-1 d-block" for="mesDemanda">Mes</label>
+                    <select class="demanda-select" id="mesDemanda" aria-label="Seleccionar mes">
+                      <option value="0">Todo el año</option>
+                      <option value="1">Enero</option>
+                      <option value="2">Febrero</option>
+                      <option value="3">Marzo</option>
+                      <option value="4">Abril</option>
+                      <option value="5">Mayo</option>
+                      <option value="6">Junio</option>
+                      <option value="7">Julio</option>
+                      <option value="8">Agosto</option>
+                      <option value="9">Septiembre</option>
+                      <option value="10">Octubre</option>
+                      <option value="11">Noviembre</option>
+                      <option value="12">Diciembre</option>
+                    </select>
+                  </div>
+                </div>
+                  
+              </div>
+              <div class="demanda-panel-loading" id="panelDemandaLoader">
+                <div class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></div>
+                Actualizando demanda...
+              </div>
+            </div>
+            <div id="panelDemandaContent">
+              <span class="demanda-pill mb-3">
+                <i class="material-symbols-rounded" style="font-size:1rem;">touch_app</i>
+                Selecciona una OOAD
+              </span>
+              <h2 class="h4 mb-2">Demanda médica nacional</h2>
+              <p class="demanda-muted mb-4">Pasa el cursor por una entidad para ver el total. Haz click para consultar las unidades médicas con mayor demanda.</p>
+              <div class="demanda-empty">
+                El mapa está listo. Si una entidad aparece sin color, no se encontraron consultas para el año seleccionado.
+              </div>
+              <div id="crecimientoPanel" class="mt-4"></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      
+    </section>
+  </main>
+
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-symbols-rounded py-2">chat</i>
+    </a>
+    <div class="card"></div>
+  </div>
+
+  <div class="modal fade" id="modalPerfilUnidadDemanda" tabindex="-1" aria-labelledby="modalPerfilUnidadDemandaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <h5 class="modal-title" id="modalPerfilUnidadDemandaLabel">Perfil de Unidad</h5>
+            <p class="text-sm demanda-muted mb-0" id="perfilUnidadSubtitulo">Demanda médica por unidad.</p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="perfilUnidadContenido">
+          <div class="demanda-empty">Selecciona una unidad para revisar su perfil.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demanda-loader" id="demandaLoader" aria-live="polite">
+    <div class="demanda-loader-box">
+      <div class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></div>
+      <span>Cargando demanda médica...</span>
+    </div>
+  </div>
+
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script src="../assets/js/imssight-profile-link.js"></script>
+  <script src="../assets/js/imssight-quick-chat.js"></script>
+  <script src="../assets/js/imssight-notifications.js"></script>
+
+  <script>
+    const formatter = new Intl.NumberFormat('es-MX');
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const typeSelect = document.getElementById('tipoDemanda');
+    const yearSelect = document.getElementById('anioDemanda');
+    const yearOutput = document.getElementById('anioDemandaValor');
+    const yearMinLabel = document.getElementById('anioMinLabel');
+    const yearMaxLabel = document.getElementById('anioMaxLabel');
+    const monthSelect = document.getElementById('mesDemanda');
+    const panelDemanda = document.getElementById('panelDemanda');
+    const panelDemandaContent = document.getElementById('panelDemandaContent');
+    const panelDemandaLoader = document.getElementById('panelDemandaLoader');
+    const loader = document.getElementById('demandaLoader');
+    const tendenciaAnualSubtitulo = document.getElementById('tendenciaAnualSubtitulo');
+    const tendenciaMensualSubtitulo = document.getElementById('tendenciaMensualSubtitulo');
+    const perfilUnidadContenido = document.getElementById('perfilUnidadContenido');
+    const perfilUnidadSubtitulo = document.getElementById('perfilUnidadSubtitulo');
+    const perfilUnidadModalElement = document.getElementById('modalPerfilUnidadDemanda');
+    let perfilUnidadModal;
+    let map;
+    let unitRenderer;
+    const demandaState = {
+      anio: 2024,
+      tipo: 'Total',
+      mes: '0',
+      availableYears: Array.from({ length: 13 }, (_, index) => 2012 + index),
+      ooadRows: [],
+      stateDemand: new Map(),
+      geoJsonLayer: null,
+      unidadesLayer: null,
+      selectedFeatureLayer: null,
+      selectedOoad: null,
+      selectedStateKey: null,
+      selectedStateLabel: null,
+      maxDemand: 0,
+      crecimiento: [],
+      trendRequestToken: 0,
+      filterRequestTimer: null,
+      demandAbortController: null,
+      unitsAbortController: null,
+      profileCharts: {
+        mensual: null,
+        historica: null,
+      },
+      trendCharts: {
+        anual: null,
+        mensual: null,
+      },
+    };
+
+    function setLoading(isLoading, scope = 'panel') {
+      if (scope === 'screen') {
+        loader.classList.toggle('is-visible', Boolean(isLoading));
+        return;
+      }
+
+      panelDemandaLoader?.classList.toggle('is-visible', Boolean(isLoading));
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function normalizeName(value) {
+      return String(value ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/\booad\b/g, '')
+        .replace(/\bdelegacion\b/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function canonicalStateName(ooad) {
+      const normalized = normalizeName(ooad);
+      const aliases = {
+        'cdmx norte': 'ciudad de mexico',
+        'cdmx sur': 'ciudad de mexico',
+        'ciudad de mexico norte': 'ciudad de mexico',
+        'ciudad de mexico sur': 'ciudad de mexico',
+        'mexico oriente': 'estado de mexico',
+        'mexico poniente': 'estado de mexico',
+        'estado de mexico oriente': 'estado de mexico',
+        'estado de mexico poniente': 'estado de mexico',
+        'veracruz norte': 'veracruz',
+        'veracruz sur': 'veracruz',
+      };
+
+      return aliases[normalized] || normalized;
+    }
+
+    function featureName(feature) {
+      const properties = feature?.properties || {};
+      const candidates = [
+        properties.sta_name,
+        properties.NOM_ENT,
+        properties.NOMGEO,
+        properties.estado,
+        properties.Estado,
+        properties.name,
+        properties.Name,
+      ];
+
+      const value = candidates.find(item => {
+        if (Array.isArray(item)) {
+          return item.length > 0 && item[0];
+        }
+
+        return Boolean(item);
+      });
+
+      return Array.isArray(value) ? value[0] : value || 'Entidad sin nombre';
+    }
+
+    function demandColor(value) {
+      if (!value || demandaState.maxDemand <= 0) {
+        return '#DDDDDD';
+      }
+
+      const ratio = value / demandaState.maxDemand;
+
+      if (ratio >= .82) return '#691C32';
+      if (ratio >= .62) return '#9F2241';
+      if (ratio >= .42) return '#BC955C';
+      if (ratio >= .22) return '#006341';
+      return '#d8f3dc';
+    }
+
+    function unitColor(value, maxValue) {
+      if (!value || !maxValue) return '#006341';
+      const ratio = value / maxValue;
+
+      if (ratio >= .75) return '#9F2241';
+      if (ratio >= .45) return '#BC955C';
+      return '#006341';
+    }
+
+    function mesActualLabel() {
+      if (demandaState.mes === '0') {
+        return 'Todo el año';
+      }
+
+      return monthNames[Number(demandaState.mes) - 1] || 'Todo el año';
+    }
+
+    function filtrosQuery() {
+      const params = new URLSearchParams({
+        anio: String(demandaState.anio),
+        tipo: demandaState.tipo,
+      });
+
+      if (demandaState.mes !== '0') {
+        params.set('mes', demandaState.mes);
+      }
+
+      return params;
+    }
+
+    function filtrosLabel() {
+      return `${demandaState.tipo} · ${mesActualLabel()}`;
+    }
+
+    function unidadesPeriodoLabel() {
+      return demandaState.mes === '0' ? '' : ` en ${mesActualLabel()}`;
+    }
+
+    function featureStyle(feature) {
+      const key = canonicalStateName(featureName(feature));
+      const demand = demandaState.stateDemand.get(key);
+      const consultas = demand?.consultas || 0;
+
+      return {
+        color: '#FFFFFF',
+        weight: 1,
+        fillColor: demandColor(consultas),
+        fillOpacity: consultas ? .78 : .22,
+      };
+    }
+
+    function buildDemandIndex(rows) {
+      demandaState.stateDemand = new Map();
+      demandaState.maxDemand = 0;
+
+      rows.forEach(row => {
+        const key = canonicalStateName(row.ooad);
+        const current = demandaState.stateDemand.get(key) || {
+          nombreEstado: row.ooad,
+          consultas: 0,
+          ooads: [],
+        };
+
+        current.consultas += Number(row.consultas || 0);
+        current.ooads.push(row);
+        current.ooads.sort((a, b) => Number(b.consultas) - Number(a.consultas));
+
+        demandaState.stateDemand.set(key, current);
+      });
+
+      demandaState.maxDemand = Math.max(
+        0,
+        ...Array.from(demandaState.stateDemand.values()).map(item => item.consultas)
+      );
+    }
+
+    function renderDefaultPanel() {
+      panelDemandaContent.innerHTML = `
+        <span class="demanda-pill mb-3">
+          <i class="material-symbols-rounded" style="font-size:1rem;">touch_app</i>
+          Selecciona una OOAD
+        </span>
+        <h2 class="h4 mb-2">Demanda médica nacional</h2>
+        <p class="demanda-muted mb-2">Año ${demandaState.anio} · ${escapeHtml(filtrosLabel())}</p>
+        <p class="demanda-muted mb-4">Pasa el cursor por una entidad para ver el total. Haz click para consultar las unidades médicas con mayor demanda.</p>
+        <div class="demanda-empty">
+          ${demandaState.ooadRows.length ? 'El mapa está listo. Si una entidad aparece sin color, no se encontraron consultas para el año seleccionado.' : 'No se encontraron datos de demanda para este año.'}
+        </div>
+        ${renderCrecimiento()}
+      `;
+    }
+
+    function renderCrecimiento() {
+      const top = demandaState.crecimiento.slice(0, 5);
+
+      if (!top.length) {
+        return '';
+      }
+
+      return `
+        <div class="mt-4">
+          <h3 class="h6 mb-3">Mayor crecimiento 2012-2024</h3>
+          ${top.map(item => `
+            <div class="demanda-unit-row">
+              <div>
+                <span class="demanda-unit-name">${escapeHtml(item.ooad)}</span>
+                <small class="demanda-unit-meta">${formatter.format(item.diferencia)} consultas adicionales</small>
+              </div>
+              <span class="demanda-unit-value">${Number(item.crecimiento_pct).toFixed(2)}%</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderOoadOptions(demand, stateLabel) {
+      if (!demand?.ooads?.length) {
+        return '';
+      }
+
+      if (demand.ooads.length === 1) {
+        return '';
+      }
+
+      return `
+        <div class="demanda-empty mt-3">
+          El GeoJSON agrupa esta entidad como estado. Para ver unidades se usa la OOAD seleccionada.
+        </div>
+        <div class="demanda-ooad-options">
+          ${demand.ooads.map(row => `
+            <button
+              type="button"
+              class="demanda-ooad-button ${demandaState.selectedOoad === row.ooad ? 'active' : ''}"
+              data-ooad="${escapeHtml(row.ooad)}">
+              <strong>${escapeHtml(row.ooad)}</strong>
+              <small class="d-block demanda-muted">${formatter.format(row.consultas)} consultas</small>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSelectedPanel(ooadRow, units, stateLabel, demand) {
+      const topUnits = units.slice(0, 10);
+      const unitRows = topUnits.length
+        ? topUnits.map(unit => `
+          <div class="demanda-unit-row">
+            <div>
+              <button class="demanda-profile-link" type="button" data-unit-profile="${escapeHtml(unit.clave_presupuestal)}">
+                ${escapeHtml(unit.unidad || unit.nombre_unidad)}
+              </button>
+              <small class="demanda-unit-meta">${escapeHtml(unit.nivel_atencion || 'Nivel no registrado')} · ${escapeHtml(unit.denominacion_unidad || 'Unidad médica')}</small>
+            </div>
+            <span class="demanda-unit-value">${formatter.format(unit.consultas)}</span>
+          </div>
+        `).join('')
+        : `<div class="demanda-empty">No hay unidades georreferenciadas para esta OOAD en ${demandaState.anio}.</div>`;
+
+      panelDemandaContent.innerHTML = `
+        <span class="demanda-pill mb-3">
+          <i class="material-symbols-rounded" style="font-size:1rem;">map</i>
+          ${escapeHtml(stateLabel)}
+        </span>
+        <h2 class="h4 mb-1">${escapeHtml(ooadRow.ooad)}</h2>
+        <p class="demanda-muted mb-3">Año ${demandaState.anio} · ${escapeHtml(filtrosLabel())}</p>
+        <div class="demanda-total">${formatter.format(ooadRow.consultas)}</div>
+        <p class="demanda-muted mb-4">consultas registradas en la OOAD</p>
+        <div class="mb-4">
+          <span class="demanda-pill">
+            <i class="material-symbols-rounded" style="font-size:1rem;">location_on</i>
+            ${formatter.format(units.length)} unidades mostradas${escapeHtml(unidadesPeriodoLabel())}
+          </span>
+        </div>
+        ${renderOoadOptions(demand, stateLabel)}
+        <h3 class="h6 mt-4 mb-2">Top 10 unidades</h3>
+        ${unitRows}
+      `;
+    }
+
+    function renderSelectionNoDataPanel(ooad, stateLabel, demand) {
+      panelDemandaContent.innerHTML = `
+        <span class="demanda-pill mb-3">
+          <i class="material-symbols-rounded" style="font-size:1rem;">map</i>
+          ${escapeHtml(stateLabel || ooad)}
+        </span>
+        <h2 class="h4 mb-1">${escapeHtml(ooad)}</h2>
+        <p class="demanda-muted mb-3">Año ${demandaState.anio} · ${escapeHtml(filtrosLabel())}</p>
+        <div class="demanda-empty">
+          No se encontraron consultas para esta OOAD con los filtros seleccionados.
+        </div>
+        ${renderOoadOptions(demand, stateLabel || ooad)}
+      `;
+    }
+
+    function renderStateOnlyPanel(stateLabel, demand) {
+      panelDemandaContent.innerHTML = `
+        <span class="demanda-pill mb-3">
+          <i class="material-symbols-rounded" style="font-size:1rem;">map</i>
+          ${escapeHtml(stateLabel)}
+        </span>
+        <h2 class="h4 mb-1">${escapeHtml(stateLabel)}</h2>
+        <p class="demanda-muted mb-3">Año ${demandaState.anio} · ${escapeHtml(filtrosLabel())}</p>
+        <div class="demanda-total">${formatter.format(demand?.consultas || 0)}</div>
+        <p class="demanda-muted mb-4">consultas agregadas por estado</p>
+        ${renderOoadOptions(demand, stateLabel)}
+      `;
+    }
+
+    function clearUnitLayer() {
+      if (demandaState.unidadesLayer) {
+        demandaState.unidadesLayer.clearLayers();
+      }
+    }
+
+    function focusFeatureLayer(layer) {
+      if (!layer?.getBounds) {
+        return;
+      }
+
+      const bounds = layer.getBounds();
+      const latSpan = Math.abs(bounds.getNorth() - bounds.getSouth());
+      const lngSpan = Math.abs(bounds.getEast() - bounds.getWest());
+      const spanArea = latSpan * lngSpan;
+      const maxZoom = spanArea < .12 ? 11 : spanArea < .8 ? 9 : spanArea < 3 ? 8 : 7;
+
+      map.fitBounds(bounds, {
+        padding: [38, 38],
+        maxZoom,
+      });
+    }
+
+    function focusUnitsOrFeature(units) {
+      const points = units
+        .map(unit => [Number(unit.latitud), Number(unit.longitud)])
+        .filter(([lat, lng]) => Number.isFinite(lat) && Number.isFinite(lng));
+
+      if (!points.length) {
+        focusFeatureLayer(demandaState.selectedFeatureLayer);
+        return;
+      }
+
+      const bounds = L.latLngBounds(points);
+      const latSpan = Math.abs(bounds.getNorth() - bounds.getSouth());
+      const lngSpan = Math.abs(bounds.getEast() - bounds.getWest());
+      const spanArea = latSpan * lngSpan;
+      const maxZoom = points.length <= 3 ? 13 : spanArea < .04 ? 12 : spanArea < .3 ? 11 : 9;
+
+      map.fitBounds(bounds.pad(.2), {
+        padding: [42, 42],
+        maxZoom,
+      });
+    }
+
+    function highlightSelectedFeature() {
+      if (!demandaState.selectedFeatureLayer) {
+        return;
+      }
+
+      demandaState.selectedFeatureLayer.setStyle({
+        weight: 3,
+        color: '#9F2241',
+        fillOpacity: .9,
+      });
+    }
+
+    async function fetchJson(url, options = {}) {
+      const response = await fetch(url, options);
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(payload?.error || 'No fue posible consultar los datos.');
+      }
+
+      return payload;
+    }
+
+    async function loadOoadDemand(options = {}) {
+      const preserveSelection = Boolean(options.preserveSelection);
+      const loadingScope = options.loadingScope || 'panel';
+      const previousOoad = preserveSelection ? demandaState.selectedOoad : null;
+      const previousStateKey = preserveSelection ? demandaState.selectedStateKey : null;
+      const previousStateLabel = preserveSelection ? demandaState.selectedStateLabel : null;
+
+      if (demandaState.demandAbortController) {
+        demandaState.demandAbortController.abort();
+      }
+      if (demandaState.unitsAbortController) {
+        demandaState.unitsAbortController.abort();
+      }
+
+      const demandController = new AbortController();
+      demandaState.demandAbortController = demandController;
+      setLoading(true, loadingScope);
+
+      try {
+        demandaState.ooadRows = await fetchJson(`../php/get_demanda_ooad.php?${filtrosQuery().toString()}`, {
+          signal: demandController.signal,
+        });
+        buildDemandIndex(demandaState.ooadRows);
+
+        if (demandaState.geoJsonLayer) {
+          demandaState.geoJsonLayer.setStyle(featureStyle);
+          highlightSelectedFeature();
+        }
+
+        if (preserveSelection && previousStateKey) {
+          demandaState.selectedStateKey = previousStateKey;
+          demandaState.selectedStateLabel = previousStateLabel;
+
+          const demand = previousStateKey ? demandaState.stateDemand.get(previousStateKey) : null;
+          demandaState.selectedOoad = previousOoad;
+
+          if (!previousOoad) {
+            if (demand) {
+              renderStateOnlyPanel(previousStateLabel || demand.nombreEstado, demand);
+            } else {
+              renderSelectionNoDataPanel(previousStateLabel || 'Entidad seleccionada', previousStateLabel, demand);
+            }
+            return;
+          }
+
+          const stillExists = demandaState.ooadRows.some(item => item.ooad === previousOoad);
+
+          if (stillExists) {
+            await loadUnitsForOoad(previousOoad, {
+              focus: false,
+              manageLoading: false,
+              stateLabel: previousStateLabel,
+              stateDemand: demand,
+            });
+            return;
+          }
+
+          renderSelectionNoDataPanel(previousOoad, previousStateLabel, demand);
+          return;
+        }
+
+        demandaState.selectedOoad = null;
+        demandaState.selectedStateKey = null;
+        demandaState.selectedStateLabel = null;
+        clearUnitLayer();
+        renderDefaultPanel();
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          panelDemandaContent.innerHTML = `<div class="demanda-empty">${escapeHtml(error.message)}</div>`;
+        }
+      } finally {
+        if (demandaState.demandAbortController === demandController) {
+          setLoading(false, loadingScope);
+        }
+      }
+    }
+
+    async function loadUnitsForOoad(ooad, options = {}) {
+      const shouldFocus = options.focus !== false;
+      const manageLoading = options.manageLoading !== false;
+      const row = demandaState.ooadRows.find(item => item.ooad === ooad);
+
+      if (!row) {
+        renderSelectionNoDataPanel(ooad, options.stateLabel || demandaState.selectedStateLabel, options.stateDemand);
+        return;
+      }
+
+      demandaState.selectedOoad = ooad;
+      if (demandaState.unitsAbortController) {
+        demandaState.unitsAbortController.abort();
+      }
+
+      const unitsController = new AbortController();
+      demandaState.unitsAbortController = unitsController;
+      if (manageLoading) {
+        setLoading(true, 'panel');
+      }
+
+      try {
+        const params = filtrosQuery();
+        params.set('ooad', ooad);
+        const units = await fetchJson(`../php/get_demanda_unidades.php?${params.toString()}`, {
+          signal: unitsController.signal,
+        });
+        const maxUnit = Math.max(0, ...units.map(unit => Number(unit.consultas || 0)));
+
+        clearUnitLayer();
+        units.forEach(unit => {
+          const lat = Number(unit.latitud);
+          const lng = Number(unit.longitud);
+
+          if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+            return;
+          }
+
+          const radius = Math.max(5, Math.min(26, Math.sqrt(Number(unit.consultas || 0) / Math.max(maxUnit, 1)) * 26));
+          const circle = L.circleMarker([lat, lng], {
+            pane: 'demandaUnitPane',
+            renderer: unitRenderer,
+            radius,
+            fillColor: unitColor(Number(unit.consultas || 0), maxUnit),
+            color: '#FFFFFF',
+            weight: 2,
+            fillOpacity: .86,
+            interactive: true,
+            bubblingMouseEvents: false,
+          });
+
+          circle.bindPopup(`
+            <div class="demanda-popup">
+              <strong>${escapeHtml(unit.unidad || 'Unidad médica')}</strong><br>
+              <small>${escapeHtml(unit.nombre_unidad || '')}</small><br>
+              <span>${escapeHtml(unit.nivel_atencion || 'Nivel no registrado')}</span><br>
+              <span>${escapeHtml(unit.denominacion_unidad || 'Denominación no registrada')}</span><br>
+              <strong>${formatter.format(unit.consultas)} consultas</strong><br>
+              <small>Año ${demandaState.anio} · ${escapeHtml(filtrosLabel())}</small>
+            </div>
+          `);
+
+          circle.on('click', event => {
+            L.DomEvent.stop(event);
+            if (unit.clave_presupuestal) {
+              openUnitProfile(unit.clave_presupuestal);
+            }
+          });
+
+          demandaState.unidadesLayer.addLayer(circle);
+        });
+
+        const stateKey = canonicalStateName(ooad);
+        const demand = options.stateDemand || demandaState.stateDemand.get(stateKey);
+        const stateLabel = options.stateLabel || demand?.nombreEstado || ooad;
+        renderSelectedPanel(row, units, stateLabel, demand);
+
+        if (shouldFocus) {
+          focusUnitsOrFeature(units);
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          panelDemandaContent.innerHTML = `<div class="demanda-empty">${escapeHtml(error.message)}</div>`;
+        }
+      } finally {
+        if (manageLoading && demandaState.unitsAbortController === unitsController) {
+          setLoading(false, 'panel');
+        }
+      }
+    }
+
+    function destroyProfileCharts() {
+      Object.values(demandaState.profileCharts).forEach(chart => {
+        if (chart) {
+          chart.destroy();
+        }
+      });
+
+      demandaState.profileCharts.mensual = null;
+      demandaState.profileCharts.historica = null;
+    }
+
+    function serieMensual(rows) {
+      const values = Array(12).fill(0);
+
+      rows.forEach(row => {
+        const index = Number(row.num_mes) - 1;
+
+        if (index >= 0 && index < 12) {
+          values[index] = Number(row.consultas || 0);
+        }
+      });
+
+      return values;
+    }
+
+    function consultaPorTipo(rows, tipo) {
+      const row = rows.find(item => item.tipo_consulta === tipo);
+      return Number(row?.consultas || 0);
+    }
+
+    function destroyTrendCharts() {
+      Object.values(demandaState.trendCharts).forEach(chart => {
+        if (chart) {
+          chart.destroy();
+        }
+      });
+
+      demandaState.trendCharts.anual = null;
+      demandaState.trendCharts.mensual = null;
+    }
+
+    function sumRowsForCurrentScope(rows) {
+      if (!demandaState.selectedStateKey) {
+        return rows.reduce((total, row) => total + Number(row.consultas || 0), 0);
+      }
+
+      return rows
+        .filter(row => canonicalStateName(row.ooad) === demandaState.selectedStateKey)
+        .reduce((total, row) => total + Number(row.consultas || 0), 0);
+    }
+
+    function trendScopeLabel() {
+      return demandaState.selectedStateLabel || 'Nacional';
+    }
+
+    const selectedGuideLinePlugin = {
+      id: 'selectedGuideLine',
+      afterDatasetsDraw(chart, args, options) {
+        const selectedIndex = Number(options?.index);
+
+        if (!Number.isInteger(selectedIndex) || selectedIndex < 0) {
+          return;
+        }
+
+        const point = chart.getDatasetMeta(0)?.data?.[selectedIndex];
+        const yScale = chart.scales?.y;
+
+        if (!point || !yScale) {
+          return;
+        }
+
+        const color = options.color || '#691C32';
+        const ctx = chart.ctx;
+
+        ctx.save();
+        ctx.setLineDash([6, 6]);
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = .75;
+        ctx.beginPath();
+        ctx.moveTo(point.x, yScale.top);
+        ctx.lineTo(point.x, yScale.bottom);
+        ctx.stroke();
+
+        ctx.globalAlpha = 1;
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#F6C85F';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      },
+    };
+
+    async function fetchDemandRowsFor(paramsObject) {
+      const params = new URLSearchParams({
+        anio: String(paramsObject.anio),
+        tipo: demandaState.tipo,
+      });
+
+      if (paramsObject.mes) {
+        params.set('mes', String(paramsObject.mes));
+      }
+
+      return fetchJson(`../php/get_demanda_ooad.php?${params.toString()}`);
+    }
+
+    function renderTrendCharts(annualSeries, monthlySeries) {
+      if (!window.Chart) {
+        return;
+      }
+
+      const scope = trendScopeLabel();
+      tendenciaAnualSubtitulo.textContent = `${scope} · ${demandaState.tipo}`;
+      tendenciaMensualSubtitulo.textContent = `${scope} · ${demandaState.tipo} · ${demandaState.anio}`;
+
+      const annualCanvas = document.getElementById('tendenciaAnualChart');
+      const monthlyCanvas = document.getElementById('tendenciaMensualChart');
+      const annualSelectedIndex = demandaState.availableYears.findIndex(year => year === demandaState.anio);
+      const monthlySelectedIndex = demandaState.mes === '0' ? -1 : Number(demandaState.mes) - 1;
+      const annualLabels = demandaState.availableYears.map(String);
+      const monthlyLabels = monthNames.map(month => month.slice(0, 3));
+      const annualPointBackground = demandaState.availableYears.map(year => year === demandaState.anio ? '#F6C85F' : '#9F2241');
+      const annualPointBorder = demandaState.availableYears.map(year => year === demandaState.anio ? '#691C32' : '#FFFFFF');
+      const annualPointBorderWidth = demandaState.availableYears.map(year => year === demandaState.anio ? 3 : 1);
+      const annualPointRadius = demandaState.availableYears.map(year => year === demandaState.anio ? 8 : 3);
+      const annualPointHoverRadius = demandaState.availableYears.map(year => year === demandaState.anio ? 9 : 5);
+      const monthlyPointBackground = monthNames.map((_, index) => String(index + 1) === demandaState.mes ? '#F6C85F' : '#235B4E');
+      const monthlyPointBorder = monthNames.map((_, index) => String(index + 1) === demandaState.mes ? '#691C32' : '#FFFFFF');
+      const monthlyPointBorderWidth = monthNames.map((_, index) => String(index + 1) === demandaState.mes ? 3 : 1);
+      const monthlyPointRadius = monthNames.map((_, index) => String(index + 1) === demandaState.mes ? 8 : 3);
+      const monthlyPointHoverRadius = monthNames.map((_, index) => String(index + 1) === demandaState.mes ? 9 : 5);
+
+      if (annualCanvas) {
+        if (demandaState.trendCharts.anual) {
+          const chart = demandaState.trendCharts.anual;
+          const dataset = chart.data.datasets[0];
+
+          chart.data.labels = annualLabels;
+          dataset.data = annualSeries;
+          dataset.pointBackgroundColor = annualPointBackground;
+          dataset.pointBorderColor = annualPointBorder;
+          dataset.pointBorderWidth = annualPointBorderWidth;
+          dataset.pointRadius = annualPointRadius;
+          dataset.pointHoverRadius = annualPointHoverRadius;
+          chart.options.plugins.selectedGuideLine.index = annualSelectedIndex;
+          chart.update('none');
+        } else {
+        demandaState.trendCharts.anual = new Chart(annualCanvas, {
+          type: 'line',
+          data: {
+            labels: annualLabels,
+            datasets: [{
+              label: 'Consultas',
+              data: annualSeries,
+              borderColor: '#9F2241',
+              backgroundColor: 'rgba(159, 34, 65, .12)',
+              pointBackgroundColor: annualPointBackground,
+              pointBorderColor: annualPointBorder,
+              pointBorderWidth: annualPointBorderWidth,
+              pointRadius: annualPointRadius,
+              pointHoverRadius: annualPointHoverRadius,
+              tension: .35,
+              fill: true,
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: context => `${formatter.format(context.parsed.y || 0)} consultas`,
+                },
+              },
+              selectedGuideLine: {
+                index: annualSelectedIndex,
+                color: '#691C32',
+              },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  callback: value => formatter.format(value),
+                },
+              },
+            },
+          },
+          plugins: [selectedGuideLinePlugin],
+        });
+        }
+      }
+
+      if (monthlyCanvas) {
+        if (demandaState.trendCharts.mensual) {
+          const chart = demandaState.trendCharts.mensual;
+          const dataset = chart.data.datasets[0];
+
+          chart.data.labels = monthlyLabels;
+          dataset.data = monthlySeries;
+          dataset.pointBackgroundColor = monthlyPointBackground;
+          dataset.pointBorderColor = monthlyPointBorder;
+          dataset.pointBorderWidth = monthlyPointBorderWidth;
+          dataset.pointRadius = monthlyPointRadius;
+          dataset.pointHoverRadius = monthlyPointHoverRadius;
+          chart.options.plugins.selectedGuideLine.index = monthlySelectedIndex;
+          chart.update('none');
+        } else {
+        demandaState.trendCharts.mensual = new Chart(monthlyCanvas, {
+          type: 'line',
+          data: {
+            labels: monthlyLabels,
+            datasets: [{
+              label: 'Consultas',
+              data: monthlySeries,
+              borderColor: '#235B4E',
+              backgroundColor: 'rgba(35, 91, 78, .12)',
+              pointBackgroundColor: monthlyPointBackground,
+              pointBorderColor: monthlyPointBorder,
+              pointBorderWidth: monthlyPointBorderWidth,
+              pointRadius: monthlyPointRadius,
+              pointHoverRadius: monthlyPointHoverRadius,
+              tension: .35,
+              fill: true,
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: context => `${formatter.format(context.parsed.y || 0)} consultas`,
+                },
+              },
+              selectedGuideLine: {
+                index: monthlySelectedIndex,
+                color: '#691C32',
+              },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  callback: value => formatter.format(value),
+                },
+              },
+            },
+          },
+          plugins: [selectedGuideLinePlugin],
+        });
+        }
+      }
+    }
+
+    async function refreshTrendCharts() {
+      const token = ++demandaState.trendRequestToken;
+      const scope = trendScopeLabel();
+
+      tendenciaAnualSubtitulo.textContent = `${scope} · cargando tendencia anual...`;
+      tendenciaMensualSubtitulo.textContent = `${scope} · cargando tendencia mensual...`;
+
+      try {
+        const annualResponses = await Promise.all(
+          demandaState.availableYears.map(year => fetchDemandRowsFor({ anio: year }))
+        );
+        const monthlyResponses = await Promise.all(
+          monthNames.map((_, index) => fetchDemandRowsFor({ anio: demandaState.anio, mes: index + 1 }))
+        );
+
+        if (token !== demandaState.trendRequestToken) {
+          return;
+        }
+
+        renderTrendCharts(
+          annualResponses.map(rows => sumRowsForCurrentScope(rows)),
+          monthlyResponses.map(rows => sumRowsForCurrentScope(rows))
+        );
+      } catch (error) {
+        if (token !== demandaState.trendRequestToken) {
+          return;
+        }
+
+        tendenciaAnualSubtitulo.textContent = 'No fue posible cargar la serie anual.';
+        tendenciaMensualSubtitulo.textContent = 'No fue posible cargar la serie mensual.';
+      }
+    }
+
+    function renderPerfilUnidad(data) {
+      const perfil = data.perfil || {};
+      const medicinaFamiliar = consultaPorTipo(data.desglose_tipo || [], 'Medicina Familiar');
+      const especialidades = consultaPorTipo(data.desglose_tipo || [], 'Especialidades');
+      const mesMayor = data.mes_mayor_demanda;
+      const anioMayor = data.anio_mayor_demanda;
+      const unidadNombre = perfil.unidad || perfil.nombre_unidad || 'Unidad médica';
+
+      destroyProfileCharts();
+      perfilUnidadSubtitulo.textContent = `${unidadNombre} · ${perfil.ooad || 'OOAD no registrada'}`;
+      perfilUnidadContenido.innerHTML = `
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="demanda-card p-3 h-100">
+              <span class="demanda-pill mb-3">
+                <i class="material-symbols-rounded" style="font-size:1rem;">local_hospital</i>
+                Datos generales
+              </span>
+              <h3 class="h5 mb-2">${escapeHtml(unidadNombre)}</h3>
+              <p class="demanda-muted mb-3">${escapeHtml(perfil.nombre_unidad || 'Nombre de unidad no registrado')}</p>
+              <div class="demanda-profile-grid mb-3">
+                <div class="demanda-profile-metric">
+                  <strong>Consultas ${escapeHtml(data.anio)}</strong>
+                  <span>${formatter.format(data.consultas_anio || 0)}</span>
+                </div>
+                <div class="demanda-profile-metric">
+                  <strong>Promedio anual</strong>
+                  <span>${formatter.format(Math.round(Number(perfil.promedio_anual || 0)))}</span>
+                </div>
+                <div class="demanda-profile-metric">
+                  <strong>Mes con mayor demanda</strong>
+                  <span>${escapeHtml(mesMayor?.mes || 'Sin datos')}</span>
+                </div>
+                <div class="demanda-profile-metric">
+                  <strong>Año con mayor demanda</strong>
+                  <span>${escapeHtml(anioMayor?.anio || 'Sin datos')}</span>
+                </div>
+              </div>
+              <div class="demanda-unit-row">
+                <div>
+                  <span class="demanda-unit-name">Nivel de atención</span>
+                  <small class="demanda-unit-meta">${escapeHtml(perfil.nivel_atencion || 'No registrado')}</small>
+                </div>
+              </div>
+              <div class="demanda-unit-row">
+                <div>
+                  <span class="demanda-unit-name">Denominación</span>
+                  <small class="demanda-unit-meta">${escapeHtml(perfil.denominacion_unidad || 'No registrada')}</small>
+                </div>
+              </div>
+              <div class="demanda-unit-row">
+                <div>
+                  <span class="demanda-unit-name">Clave presupuestal</span>
+                  <small class="demanda-unit-meta">${escapeHtml(perfil.clave_presupuestal || 'No registrada')}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="demanda-card p-3 mb-3">
+              <span class="demanda-pill mb-3">
+                <i class="material-symbols-rounded" style="font-size:1rem;">donut_large</i>
+                Desglose ${escapeHtml(data.anio)}
+              </span>
+              <div class="demanda-profile-grid">
+                <div class="demanda-profile-metric">
+                  <strong>Medicina Familiar</strong>
+                  <span>${formatter.format(medicinaFamiliar)}</span>
+                </div>
+                <div class="demanda-profile-metric">
+                  <strong>Especialidades</strong>
+                  <span>${formatter.format(especialidades)}</span>
+                </div>
+              </div>
+            </div>
+            <div class="demanda-card p-3 mb-3">
+              <h3 class="h6 mb-3">Gráfica mensual enero-diciembre</h3>
+              <div class="demanda-chart-box">
+                <canvas id="perfilChartMensual"></canvas>
+              </div>
+            </div>
+            <div class="demanda-card p-3">
+              <h3 class="h6 mb-3">Serie histórica 2012-2024</h3>
+              <div class="demanda-chart-box">
+                <canvas id="perfilChartHistorica"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      renderPerfilUnidadCharts(data);
+    }
+
+    function renderPerfilUnidadCharts(data) {
+      if (!window.Chart) {
+        return;
+      }
+
+      const monthlyCanvas = document.getElementById('perfilChartMensual');
+      const historicalCanvas = document.getElementById('perfilChartHistorica');
+
+      if (monthlyCanvas) {
+        demandaState.profileCharts.mensual = new Chart(monthlyCanvas, {
+          type: 'bar',
+          data: {
+            labels: monthNames.map(month => month.slice(0, 3)),
+            datasets: [{
+              label: `Consultas ${data.anio}`,
+              data: serieMensual(data.mensual_total || []),
+              backgroundColor: '#235B4E',
+              borderRadius: 8,
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  callback: value => formatter.format(value),
+                },
+              },
+            },
+          },
+        });
+      }
+
+      if (historicalCanvas) {
+        demandaState.profileCharts.historica = new Chart(historicalCanvas, {
+          type: 'line',
+          data: {
+            labels: (data.historica || []).map(row => row.anio),
+            datasets: [{
+              label: 'Consultas',
+              data: (data.historica || []).map(row => Number(row.consultas || 0)),
+              borderColor: '#9F2241',
+              backgroundColor: 'rgba(159, 34, 65, .12)',
+              pointBackgroundColor: '#9F2241',
+              tension: .35,
+              fill: true,
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  callback: value => formatter.format(value),
+                },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    async function openUnitProfile(clavePresupuestal) {
+      if (!clavePresupuestal) {
+        return;
+      }
+
+      if (!perfilUnidadModal && window.bootstrap) {
+        perfilUnidadModal = new bootstrap.Modal(perfilUnidadModalElement);
+      }
+
+      perfilUnidadSubtitulo.textContent = 'Cargando perfil de unidad...';
+      perfilUnidadContenido.innerHTML = `
+        <div class="demanda-empty d-flex align-items-center gap-2">
+          <div class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></div>
+          Cargando información de la unidad.
+        </div>
+      `;
+      perfilUnidadModal?.show();
+
+      try {
+        const params = new URLSearchParams({
+          anio: String(demandaState.anio),
+          clave_presupuestal: clavePresupuestal,
+        });
+        const data = await fetchJson(`../php/get_demanda_unidad_perfil.php?${params.toString()}`);
+        renderPerfilUnidad(data);
+      } catch (error) {
+        perfilUnidadSubtitulo.textContent = 'No fue posible cargar la unidad.';
+        perfilUnidadContenido.innerHTML = `<div class="demanda-empty">${escapeHtml(error.message)}</div>`;
+      }
+    }
+
+    window.openUnitProfile = openUnitProfile;
+
+    function onEachFeature(feature, layer) {
+      const stateLabel = featureName(feature);
+      const key = canonicalStateName(stateLabel);
+      const demand = demandaState.stateDemand.get(key);
+
+      layer.bindTooltip(() => {
+        const current = demandaState.stateDemand.get(key);
+        const consultas = current ? formatter.format(current.consultas) : 'Sin datos';
+
+        return `<strong>${escapeHtml(stateLabel)}</strong><br>${consultas}${current ? ' consultas' : ''}`;
+      }, { sticky: true });
+
+      layer.on({
+        mouseover: event => {
+          event.target.setStyle({
+            weight: 2,
+            color: '#404041',
+            fillOpacity: .9,
+          });
+        },
+        mouseout: event => {
+          demandaState.geoJsonLayer.resetStyle(event.target);
+          if (event.target === demandaState.selectedFeatureLayer) {
+            highlightSelectedFeature();
+          }
+        },
+        click: event => {
+          const currentDemand = demandaState.stateDemand.get(key);
+
+          if (demandaState.selectedFeatureLayer && demandaState.selectedFeatureLayer !== event.target) {
+            demandaState.geoJsonLayer.resetStyle(demandaState.selectedFeatureLayer);
+          }
+
+          demandaState.selectedFeatureLayer = event.target;
+          demandaState.selectedStateKey = key;
+          demandaState.selectedStateLabel = stateLabel;
+          highlightSelectedFeature();
+          focusFeatureLayer(event.target);
+          clearUnitLayer();
+
+          if (!currentDemand) {
+            demandaState.selectedOoad = null;
+            panelDemandaContent.innerHTML = `
+              <span class="demanda-pill mb-3">${escapeHtml(stateLabel)}</span>
+              <div class="demanda-empty">No se encontraron datos para esta entidad en ${demandaState.anio} · ${escapeHtml(filtrosLabel())}.</div>
+            `;
+            return;
+          }
+
+          demandaState.selectedOoad = null;
+          renderStateOnlyPanel(stateLabel, currentDemand);
+          refreshTrendCharts();
+
+          if (currentDemand.ooads.length === 1) {
+            loadUnitsForOoad(currentDemand.ooads[0].ooad, {
+              focus: true,
+              stateLabel,
+              stateDemand: currentDemand,
+            });
+          }
+        },
+      });
+
+      if (demand) {
+        layer.options.title = `${stateLabel}: ${formatter.format(demand.consultas)} consultas`;
+      }
+    }
+
+    async function loadGeoJson() {
+      setLoading(true, 'screen');
+
+      try {
+        const geoJson = await fetchJson('../assets/mexico.geojson');
+        demandaState.geoJsonLayer = L.geoJSON(geoJson, {
+          pane: 'demandaGeoPane',
+          style: featureStyle,
+          onEachFeature,
+        }).addTo(map);
+
+        map.fitBounds(demandaState.geoJsonLayer.getBounds(), { padding: [12, 12] });
+      } catch (error) {
+        panelDemandaContent.innerHTML = `<div class="demanda-empty">No fue posible cargar el mapa de México.</div>`;
+      } finally {
+        setLoading(false, 'screen');
+      }
+    }
+
+    async function loadGrowthData() {
+      try {
+        demandaState.crecimiento = await fetchJson('../php/get_demanda_crecimiento.php');
+        if (!demandaState.selectedStateKey && !demandaState.selectedOoad) {
+          renderDefaultPanel();
+        }
+      } catch (error) {
+        demandaState.crecimiento = [];
+      }
+    }
+
+    function updateYearDisplay() {
+      yearOutput.textContent = String(demandaState.anio);
+    }
+
+    function requestDemandRefresh() {
+      window.clearTimeout(demandaState.filterRequestTimer);
+      demandaState.filterRequestTimer = window.setTimeout(() => {
+        loadOoadDemand({ preserveSelection: true });
+        refreshTrendCharts();
+      }, 160);
+    }
+
+    function fillYearSelect() {
+      const minYear = Math.min(...demandaState.availableYears);
+      const maxYear = Math.max(...demandaState.availableYears);
+
+      yearSelect.min = String(minYear);
+      yearSelect.max = String(maxYear);
+      yearSelect.value = String(demandaState.anio);
+      yearMinLabel.textContent = String(minYear);
+      yearMaxLabel.textContent = String(maxYear);
+      updateYearDisplay();
+
+      yearSelect.addEventListener('input', () => {
+        demandaState.anio = Number(yearSelect.value);
+        updateYearDisplay();
+        requestDemandRefresh();
+      });
+
+      typeSelect.value = demandaState.tipo;
+      typeSelect.addEventListener('change', () => {
+        demandaState.tipo = typeSelect.value;
+        requestDemandRefresh();
+      });
+
+      monthSelect.value = demandaState.mes;
+      monthSelect.addEventListener('change', () => {
+        demandaState.mes = monthSelect.value;
+        requestDemandRefresh();
+      });
+    }
+
+    async function verificarSesion() {
+      const response = await fetch('../php/auth.php');
+      const data = await response.json();
+
+      if (!data.auth) {
+        window.location.href = '../pages/sign-in.html';
+      }
+    }
+
+    async function cargarEspecialidades() {
+      try {
+        const response = await fetch('../php/get_especialidades.php');
+        const especialidades = await response.json();
+        const contenedor = document.getElementById('menuEspecialidades');
+
+        if (!contenedor) {
+          return;
+        }
+
+        contenedor.innerHTML = '';
+
+        especialidades.forEach(especialidad => {
+          contenedor.innerHTML += `
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../pages/especialidad.html?id=${especialidad.id}">
+                <i class="material-symbols-rounded opacity-5">${especialidad.icono}</i>
+                <span class="nav-link-text ms-1">${especialidad.nombre}</span>
+              </a>
+            </li>
+          `;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    document.getElementById('busquedaGlobal').addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        window.location.href = `search.html?q=${encodeURIComponent(this.value)}`;
+      }
+    });
+
+    document.addEventListener('click', event => {
+      const profileButton = event.target.closest('[data-unit-profile]');
+
+      if (profileButton) {
+        openUnitProfile(profileButton.dataset.unitProfile);
+        return;
+      }
+
+      const button = event.target.closest('.demanda-ooad-button');
+
+      if (button) {
+        const stateKey = demandaState.selectedStateKey || canonicalStateName(button.dataset.ooad);
+        const demand = demandaState.stateDemand.get(stateKey);
+
+        loadUnitsForOoad(button.dataset.ooad, {
+          focus: true,
+          stateLabel: demandaState.selectedStateLabel,
+          stateDemand: demand,
+        });
+        refreshTrendCharts();
+      }
+    });
+
+    fillYearSelect();
+    verificarSesion();
+    cargarEspecialidades();
+
+    if (window.L) {
+      map = L.map('demandaMap', {
+        zoomControl: true,
+        scrollWheelZoom: true,
+        preferCanvas: true,
+      }).setView([23.7, -102.5], 5);
+
+      map.createPane('demandaGeoPane');
+      map.getPane('demandaGeoPane').style.zIndex = 410;
+      map.createPane('demandaUnitPane');
+      map.getPane('demandaUnitPane').style.zIndex = 430;
+      map.getPane('demandaUnitPane').style.pointerEvents = 'auto';
+      unitRenderer = L.svg({ pane: 'demandaUnitPane' });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap',
+      }).addTo(map);
+
+      demandaState.unidadesLayer = L.layerGroup().addTo(map);
+      loadGrowthData();
+      loadOoadDemand()
+        .then(loadGeoJson)
+        .then(refreshTrendCharts);
+    } else {
+      panelDemandaContent.innerHTML = '<div class="demanda-empty">Leaflet no está disponible para mostrar el mapa.</div>';
+    }
+  </script>
+</body>
+
+</html>

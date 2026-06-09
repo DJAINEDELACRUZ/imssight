@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>Informe Ejecutivo de Demanda Médica IMSS</title>
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800">
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet">
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+  <link href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
+
+  <style>
+    :root {
+      --imss-green: #006341;
+      --imss-deep-green: #235B4E;
+      --imss-gold: #BC955C;
+      --imss-wine: #9F2241;
+      --imss-deep-wine: #691C32;
+      --imss-soft: #F6F6F6;
+    }
+
+    .executive-shell {
+      padding: 1.5rem;
+    }
+
+    .executive-header {
+      background: var(--imss-deep-green);
+      border-radius: 14px;
+      color: #fff;
+      padding: 1.5rem;
+      box-shadow: 0 18px 45px rgba(35, 91, 78, .18);
+    }
+
+    .executive-card {
+      background: #fff;
+      border: 1px solid rgba(64, 64, 65, .08);
+      border-radius: 14px;
+      box-shadow: 0 12px 32px rgba(64, 64, 65, .08);
+    }
+
+    .executive-kpi {
+      min-height: 142px;
+      padding: 1rem;
+    }
+
+    .executive-kpi small {
+      color: #6F7271;
+      display: block;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .executive-kpi strong {
+      color: var(--imss-wine);
+      display: block;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1.1;
+      margin-top: .5rem;
+    }
+
+    .executive-pill {
+      align-items: center;
+      background: rgba(35, 91, 78, .1);
+      border-radius: 999px;
+      color: var(--imss-deep-green);
+      display: inline-flex;
+      font-size: .78rem;
+      font-weight: 800;
+      gap: .35rem;
+      padding: .38rem .72rem;
+    }
+
+    .executive-chart {
+      height: 295px;
+      min-height: 295px;
+    }
+
+    .executive-table {
+      margin-bottom: 0;
+    }
+
+    .executive-table th {
+      color: #6F7271;
+      font-size: .72rem;
+      text-transform: uppercase;
+    }
+
+    .executive-table td {
+      color: #404041;
+      vertical-align: middle;
+    }
+
+    .executive-rank {
+      background: #F6F6F6;
+      border-radius: 999px;
+      color: var(--imss-wine);
+      display: inline-flex;
+      font-weight: 900;
+      justify-content: center;
+      min-width: 2rem;
+      padding: .2rem .55rem;
+    }
+
+    .executive-category {
+      border-radius: 999px;
+      display: inline-flex;
+      font-size: .72rem;
+      font-weight: 900;
+      padding: .25rem .55rem;
+    }
+
+    .executive-category.normal { background: #e7f4ed; color: var(--imss-green); }
+    .executive-category.expected { background: #f8efd9; color: #815d21; }
+    .executive-category.high { background: #f7e0e8; color: var(--imss-wine); }
+    .executive-category.critical { background: #ead8de; color: var(--imss-deep-wine); }
+
+    .executive-note {
+      background: #F6F6F6;
+      border-left: 5px solid var(--imss-wine);
+      border-radius: 10px;
+      color: #404041;
+      padding: 1rem;
+    }
+
+    .executive-insight {
+      border-left: 6px solid var(--imss-wine);
+      padding: 1.1rem 1.2rem;
+    }
+
+    .executive-insight h2,
+    .executive-insight h3 {
+      line-height: 1.1;
+    }
+
+    .executive-insight p {
+      color: #6F7271;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .finding-card {
+      background: linear-gradient(180deg, #fff, #fbfbfb);
+      border: 1px solid rgba(64, 64, 65, .08);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .finding-card strong {
+      color: var(--imss-wine);
+      display: block;
+      font-size: 1.35rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .rank-list {
+      display: grid;
+      gap: .75rem;
+    }
+
+    .rank-item {
+      align-items: center;
+      background: #F6F6F6;
+      border-radius: 12px;
+      display: grid;
+      gap: .75rem;
+      grid-template-columns: auto 1fr auto;
+      padding: .85rem;
+    }
+
+    .rank-item .meta {
+      color: #6F7271;
+      display: block;
+      font-size: .86rem;
+      margin-top: .12rem;
+    }
+
+    .rank-item .value {
+      color: var(--imss-deep-green);
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .growth-group {
+      border: 1px solid rgba(64, 64, 65, .08);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .projection-box {
+      background: rgba(35, 91, 78, .08);
+      border: 1px dashed rgba(35, 91, 78, .35);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .scenario-select {
+      background: #fff;
+      border: 1px solid rgba(255, 255, 255, .65);
+      border-radius: 999px;
+      color: #404041;
+      font-weight: 800;
+      min-width: 210px;
+      padding: .7rem 1rem;
+    }
+
+    .risk-badge {
+      border-radius: 999px;
+      display: inline-flex;
+      font-size: .76rem;
+      font-weight: 900;
+      padding: .28rem .65rem;
+    }
+
+    .risk-badge.normal { background: #e7f4ed; color: var(--imss-green); }
+    .risk-badge.vigilancia { background: #f8efd9; color: #815d21; }
+    .risk-badge.alto { background: #f7e0e8; color: var(--imss-wine); }
+    .risk-badge.critico { background: #ead8de; color: var(--imss-deep-wine); }
+    .risk-badge.sin-base-real { background: #ededed; color: #6F7271; }
+
+    .ooad-card {
+      border: 1px solid rgba(64, 64, 65, .1);
+      border-radius: 14px;
+      cursor: pointer;
+      padding: 1rem;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+
+    .ooad-card:hover {
+      border-color: rgba(159, 34, 65, .35);
+      box-shadow: 0 14px 34px rgba(64, 64, 65, .1);
+      transform: translateY(-2px);
+    }
+
+    .ooad-card .metric {
+      color: var(--imss-wine);
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .modal {
+      z-index: 20000;
+    }
+
+    .modal-backdrop {
+      z-index: 19990;
+    }
+
+    .modal-chart {
+      height: 300px;
+      min-height: 300px;
+    }
+
+    .executive-actions .btn {
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .navbar .dropdown-menu::before {
+      content: "";
+      position: absolute;
+      top: -8px !important;
+      right: 28px;
+      left: auto !important;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 3px;
+      transform: rotate(45deg);
+      box-shadow: -2px -2px 8px rgba(64, 64, 65, .04);
+    }
+
+    @media print {
+      #menu-lateral,
+      .navbar,
+      .fixed-plugin,
+      .executive-actions {
+        display: none !important;
+      }
+
+      main.main-content {
+        margin-left: 0 !important;
+      }
+
+      .executive-shell {
+        padding: 0;
+      }
+
+      .executive-card,
+      .executive-header {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <div id="menu-lateral"></div>
+  <script>
+    fetch('componentes/menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-lateral').innerHTML = data;
+        cargarEspecialidades();
+      });
+  </script>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left:250px;">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="../pages/index.html">IMSSight</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Análisis ejecutivo</li>
+          </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Buscar...</label>
+              <input type="text" class="form-control" id="busquedaGlobal">
+            </div>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center justify-content-end">
+            <li class="nav-item d-flex align-items-center me-3">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">chat</i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+              <a href="#" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">notifications</i>
+                <span id="notificationDot" style="display:none;width:10px;height:10px;background:#f44336;border-radius:50%;position:absolute;right:-1px;top:1px;box-shadow:0 0 10px rgba(244,67,54,.8);"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" id="notificationMenu" aria-labelledby="dropdownMenuButton">
+                <li><div class="dropdown-item text-muted">Sin notificaciones</div></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <a href="#" class="nav-link text-body font-weight-bold px-0" id="dropdownUsuario" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">account_circle</i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="dropdownUsuario">
+                <li><a class="dropdown-item border-radius-md" href="../pages/user_profile.html" data-imssight-profile-link><i class="fas fa-user me-2"></i>Perfil</a></li>
+                <li><a class="dropdown-item border-radius-md text-danger" href="../php/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="executive-shell" id="informeEjecutivo">
+      <div class="executive-header mb-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="material-symbols-rounded">analytics</span>
+              <span class="text-xs text-uppercase font-weight-bolder opacity-8">Conociendo al Instituto</span>
+            </div>
+            <h1 class="h2 text-white mb-2">Informe Ejecutivo de Demanda Médica IMSS</h1>
+            <p class="mb-0 opacity-8">Lectura nacional de demanda total, estacionalidad, presión mensual y puntos calientes por unidad.</p>
+          </div>
+          <div class="executive-actions d-flex flex-wrap align-items-start gap-2">
+            <select class="scenario-select" id="selectorEscenario" aria-label="Escenario de predicción">
+              <option value="Conservador">Conservador</option>
+              <option value="Ajustado sin COVID">Ajustado sin COVID</option>
+              <option value="Tendencia reciente">Tendencia reciente</option>
+            </select>
+            <a class="btn btn-outline-light mb-0" href="mapa_demanda_medica.html">
+              <i class="material-symbols-rounded me-1" style="font-size:1rem;">map</i>
+              Volver al mapa
+            </a>
+            <button class="btn btn-light mb-0" id="descargarInforme" type="button">
+              <i class="material-symbols-rounded me-1" style="font-size:1rem;">download</i>
+              Descargar informe
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="executive-card p-3 mb-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2">
+          <div>
+            <span class="executive-pill mb-2">
+              <i class="material-symbols-rounded" style="font-size:1rem;">database</i>
+              Fuente: IMSSight / demanda_unidad_mensual_geo
+            </span>
+            <p class="text-sm text-secondary mb-0" id="fechaGeneracion">Generando informe...</p>
+          </div>
+          <p class="text-sm text-secondary mb-0 text-lg-end">La demanda total suma Medicina Familiar + Especialidades. Las predicciones se filtran por escenario.</p>
+        </div>
+      </div>
+
+      <div id="analisisLoader" class="executive-card p-4 mb-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></div>
+          <strong>Cargando análisis ejecutivo...</strong>
+        </div>
+      </div>
+
+      <div id="analisisContenido" style="display:none;">
+        <div class="row g-4 mb-4" id="kpiGrid"></div>
+
+        <div class="executive-card executive-insight mb-4">
+          <span class="executive-pill mb-3">
+            <i class="material-symbols-rounded" style="font-size:1rem;">summarize</i>
+            Resumen ejecutivo
+          </span>
+          <h2 class="h4 mb-3" id="hallazgoPrincipalTitulo">Hallazgo principal nacional</h2>
+          <p class="mb-0" id="hallazgoPrincipalTexto"></p>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-xl-8">
+            <div class="executive-card p-3 h-100">
+              <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <div>
+                  <h2 class="h5 mb-1">Línea nacional real y proyectada</h2>
+                  <p class="text-sm text-secondary mb-0" id="subtituloTendencia">2012-2024 real · 2025-2026 proyección.</p>
+                </div>
+                <span class="executive-pill" id="pillEscenarioGrafica">Conservador</span>
+              </div>
+              <div class="executive-chart">
+                <canvas id="chartAnual"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <div class="executive-card p-3 h-100">
+              <h2 class="h5 mb-3">Lectura ejecutiva</h2>
+              <div class="executive-note h-100" id="lecturaEjecutiva"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-xl-6">
+            <div class="executive-card p-3 h-100">
+              <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <div>
+                  <h2 class="h5 mb-1">Estacionalidad histórica</h2>
+                  <p class="text-sm text-secondary mb-0">Meses que suben y bajan históricamente.</p>
+                </div>
+                <span class="executive-pill">Meses</span>
+              </div>
+              <p class="text-sm text-secondary" id="hallazgoEstacionalidadTexto"></p>
+              <div class="executive-chart">
+                <canvas id="chartEstacionalidad"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="executive-card p-3 h-100">
+              <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <div>
+                  <h2 class="h5 mb-1">Meses calientes</h2>
+                  <p class="text-sm text-secondary mb-0">Índice de presión mensual del último año disponible.</p>
+                </div>
+                <span class="executive-pill" id="pillMesesCalientes">Año final</span>
+              </div>
+              <div class="executive-chart">
+                <canvas id="chartMesesCalientes"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-xl-5">
+            <div class="executive-card p-3 h-100">
+              <h2 class="h5 mb-2">Concentración territorial</h2>
+              <p class="text-sm text-secondary mb-3" id="hallazgoConcentracionTexto"></p>
+              <div id="rankingConcentracion" class="rank-list"></div>
+            </div>
+          </div>
+          <div class="col-xl-7">
+            <div class="executive-card p-3 h-100">
+              <h2 class="h5 mb-2">Proyección territorial por OOAD</h2>
+              <p class="text-sm text-secondary mb-3" id="hallazgoCrecimientoTexto"></p>
+              <div class="row g-3" id="ooadCards"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="executive-card p-3 mb-4">
+          <h2 class="h5 mb-1">Unidades a vigilar</h2>
+          <p class="text-sm text-secondary mb-3">Ranking preliminar por crecimiento esperado 2024-2026. Pendiente cruzar con plantilla médica para IRCA.</p>
+          <div id="rankingUnidadesRiesgo" class="rank-list"></div>
+        </div>
+
+        <div class="executive-card p-3 mb-4">
+          <h2 class="h5 mb-1">Puntos calientes</h2>
+          <p class="text-sm text-secondary mb-3">Ranking breve de alertas por z_score frente al comportamiento esperado de cada unidad.</p>
+          <div id="rankingPuntosCalientes" class="rank-list"></div>
+        </div>
+
+        <div class="executive-card p-3 mb-4">
+          <div class="projection-box">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="material-symbols-rounded text-success">query_stats</i>
+              <h2 class="h5 mb-0">Proyección 2025-2026</h2>
+            </div>
+            <p class="text-sm text-secondary mb-0" id="proyeccionTexto"></p>
+          </div>
+        </div>
+
+        <div class="executive-card p-3 mb-4">
+          <div class="accordion" id="anexoAccordion">
+            <div class="accordion-item border-0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#anexoMetodologico" aria-expanded="false">
+                  Anexo metodológico
+                </button>
+              </h2>
+              <div id="anexoMetodologico" class="accordion-collapse collapse" data-bs-parent="#anexoAccordion">
+                <div class="accordion-body px-0">
+                  <p class="text-sm text-secondary mb-3">
+                    Tablas completas para auditoría. El análisis presenta tres escenarios predictivos:
+                    Conservador, Ajustado sin COVID y Tendencia reciente. Estos escenarios no deben
+                    sumarse entre sí; representan supuestos alternativos para planeación.
+                  </p>
+                  <div class="row g-4">
+                    <div class="col-12">
+                      <h3 class="h6 mb-2">Proyección OOAD</h3>
+                      <div class="table-responsive">
+                        <table class="table executive-table align-items-center" id="tablaProyeccionOoad"></table>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <h3 class="h6 mb-2">Unidades a vigilar</h3>
+                      <div class="table-responsive">
+                        <table class="table executive-table align-items-center" id="tablaUnidadesRiesgo"></table>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <h3 class="h6 mb-2">Puntos calientes completos</h3>
+                      <div class="table-responsive">
+                        <table class="table executive-table align-items-center" id="tablaPuntosCalientes"></table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal fade" id="modalOoad" tabindex="-1" aria-labelledby="modalOoadTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content border-0 border-radius-xl">
+        <div class="modal-header">
+          <div>
+            <span class="executive-pill mb-2" id="modalOoadEscenario">Escenario</span>
+            <h2 class="h4 mb-0" id="modalOoadTitulo">Detalle OOAD</h2>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalOoadLoader" class="d-flex align-items-center gap-2 text-secondary">
+            <div class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></div>
+            Cargando detalle territorial...
+          </div>
+          <div id="modalOoadContenido" style="display:none;">
+            <div class="executive-card p-3 mb-3">
+              <h3 class="h6 mb-2">Histórico real y proyección 2025-2026</h3>
+              <div class="modal-chart">
+                <canvas id="chartOoadDetalle"></canvas>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-lg-4">
+                <div class="executive-card p-3 h-100">
+                  <h3 class="h6 mb-3">Top unidades 2024</h3>
+                  <div class="rank-list" id="modalTop2024"></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="executive-card p-3 h-100">
+                  <h3 class="h6 mb-3">Top proyectadas 2026</h3>
+                  <div class="rank-list" id="modalTop2026"></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="executive-card p-3 h-100">
+                  <h3 class="h6 mb-3">Mayor crecimiento esperado</h3>
+                  <div class="rank-list" id="modalCrecimiento"></div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="executive-card p-3">
+                  <h3 class="h6 mb-3">Puntos calientes de la OOAD</h3>
+                  <div class="rank-list" id="modalPuntos"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-symbols-rounded py-2">chat</i>
+    </a>
+    <div class="card"></div>
+  </div>
+
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script src="../assets/js/imssight-profile-link.js"></script>
+  <script src="../assets/js/imssight-quick-chat.js"></script>
+  <script src="../assets/js/imssight-notifications.js"></script>
+
+  <script>
+    const formatter = new Intl.NumberFormat('es-MX');
+    const percentFormatter = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+    const chartRefs = {};
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function compactNumber(value) {
+      return formatter.format(Math.round(Number(value || 0)));
+    }
+
+    function categoryClass(categoria) {
+      const normalized = String(categoria || '').toLowerCase();
+
+      if (normalized.includes('crítico') || normalized.includes('critico')) return 'critical';
+      if (normalized.includes('alto') && !normalized.includes('esperado')) return 'high';
+      if (normalized.includes('esperado')) return 'expected';
+      return 'normal';
+    }
+
+    function renderRankList(targetId, rows, options = {}) {
+      const target = document.getElementById(targetId);
+      const limit = options.limit || rows.length;
+      const empty = options.empty || 'Sin datos disponibles.';
+
+      if (!target) return;
+
+      if (!rows.length) {
+        target.innerHTML = `<div class="text-secondary text-sm">${escapeHtml(empty)}</div>`;
+        return;
+      }
+
+      target.innerHTML = rows.slice(0, limit).map((row, index) => {
+        const title = options.title ? options.title(row) : row.ooad || row.unidad || 'Sin nombre';
+        const meta = options.meta ? options.meta(row) : '';
+        const value = options.value ? options.value(row) : '';
+
+        return `
+          <div class="rank-item">
+            <span class="executive-rank">${index + 1}</span>
+            <div>
+              <strong>${escapeHtml(title)}</strong>
+              ${meta ? `<span class="meta">${escapeHtml(meta)}</span>` : ''}
+            </div>
+            <div class="value">${escapeHtml(value)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTable(targetId, headers, rows, emptyMessage = 'Sin datos disponibles.') {
+      const target = document.getElementById(targetId);
+
+      if (!rows.length) {
+        target.innerHTML = `<tbody><tr><td class="text-secondary">${escapeHtml(emptyMessage)}</td></tr></tbody>`;
+        return;
+      }
+
+      target.innerHTML = `
+        <thead>
+          <tr>${headers.map(header => `<th>${escapeHtml(header)}</th>`).join('')}</tr>
+        </thead>
+        <tbody>${rows.join('')}</tbody>
+      `;
+    }
+
+    async function verificarSesion() {
+      const response = await fetch('../php/auth.php');
+      const data = await response.json();
+
+      if (!data.auth) {
+        window.location.href = '../pages/sign-in.html';
+      }
+    }
+
+    async function cargarEspecialidades() {
+      try {
+        const response = await fetch('../php/get_especialidades.php');
+        const especialidades = await response.json();
+        const contenedor = document.getElementById('menuEspecialidades');
+
+        if (!contenedor) {
+          return;
+        }
+
+        contenedor.innerHTML = '';
+        especialidades.forEach(especialidad => {
+          contenedor.innerHTML += `
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../pages/especialidad.html?id=${especialidad.id}">
+                <i class="material-symbols-rounded opacity-5">${especialidad.icono}</i>
+                <span class="nav-link-text ms-1">${especialidad.nombre}</span>
+              </a>
+            </li>
+          `;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    document.getElementById('busquedaGlobal').addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        window.location.href = `search.html?q=${encodeURIComponent(this.value)}`;
+      }
+    });
+
+    document.getElementById('descargarInforme').addEventListener('click', () => {
+      const element = document.getElementById('informeEjecutivo');
+
+      if (window.html2pdf) {
+        html2pdf()
+          .set({
+            margin: .35,
+            filename: 'informe-ejecutivo-demanda-medica-imss.pdf',
+            image: { type: 'jpeg', quality: .96 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+          })
+          .from(element)
+          .save();
+        return;
+      }
+
+      window.print();
+    });
+
+    let analisisActual = null;
+    let modalOoadInstance = null;
+    const ESCENARIOS_FALLBACK = ['Conservador', 'Ajustado sin COVID', 'Tendencia reciente'];
+    const DESCRIPCIONES_ESCENARIO = {
+      'Conservador': 'Conservador: usa la historia completa incluyendo 2020.',
+      'Ajustado sin COVID': 'Ajustado sin COVID: corrige el efecto atípico de 2020.',
+      'Tendencia reciente': 'Tendencia reciente: usa el comportamiento 2021-2024 para capturar recuperación y crecimiento post-COVID.',
+    };
+    const NOTA_TENDENCIA_RECIENTE = 'Este escenario privilegia el comportamiento reciente posterior al choque COVID; puede ser más sensible al crecimiento observado entre 2021 y 2024.';
+
+    function riskClass(riesgo) {
+      return String(riesgo || 'Normal')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-');
+    }
+
+    function destroyChart(name) {
+      if (chartRefs[name]) {
+        chartRefs[name].destroy();
+        chartRefs[name] = null;
+      }
+    }
+
+    function proyeccionNacionalEstable(data) {
+      const p2025 = data.proyeccion_nacional?.estimado_2025?.consultas_estimadas;
+      const p2026 = data.proyeccion_nacional?.estimado_2026?.consultas_estimadas;
+
+      return p2025 !== undefined && p2026 !== undefined && Number(p2025) === Number(p2026);
+    }
+
+    function descripcionEscenario(escenario) {
+      return DESCRIPCIONES_ESCENARIO[escenario] || DESCRIPCIONES_ESCENARIO.Conservador;
+    }
+
+    function actualizarSelectorEscenario(data) {
+      const selector = document.getElementById('selectorEscenario');
+      const actual = data.escenario || selector.value || 'Conservador';
+      const escenarios = Array.isArray(data.escenarios_disponibles) && data.escenarios_disponibles.length
+        ? data.escenarios_disponibles
+        : ESCENARIOS_FALLBACK;
+
+      selector.innerHTML = escenarios.map(escenario => `
+        <option value="${escapeHtml(escenario)}"${escenario === actual ? ' selected' : ''}>${escapeHtml(escenario)}</option>
+      `).join('');
+    }
+
+    function renderKpis(data) {
+      const resumen = data.resumen_nacional || {};
+      const proyeccion = data.proyeccion_nacional || {};
+      const p2025 = proyeccion.estimado_2025;
+      const p2026 = proyeccion.estimado_2026;
+      const kpis = [
+        ['Año histórico con más consultas', resumen.anio_historico_mayor_demanda || 'N/D', `${compactNumber(resumen.consultas_anio_mayor_demanda)} consultas`],
+        [`Total real ${resumen.anio_final_real || ''}`, compactNumber(resumen.total_ultimo_anio_real), 'Medicina Familiar + Especialidades'],
+        ['Proyección nacional 2025', compactNumber(p2025?.consultas_estimadas), `${data.escenario} · ${p2025?.error_mape_texto || 'MAPE no disponible'}`],
+        ['Proyección nacional 2026', compactNumber(p2026?.consultas_estimadas), `${data.escenario} · ${p2026?.modelo || resumen.modelo || 'Modelo no registrado'}`],
+        ['Mes históricamente alto', resumen.mes_historico_mas_demandado || 'N/D', `Menor: ${resumen.mes_historico_menos_demandado || 'N/D'}`],
+        ['OOAD a vigilar', resumen.ooad_mayor_riesgo_preliminar?.ooad || 'N/D', `${resumen.ooad_mayor_riesgo_preliminar?.riesgo_preliminar || 'Sin riesgo calculable'}`],
+      ];
+
+      document.getElementById('kpiGrid').innerHTML = kpis.map(([label, value, note]) => `
+        <div class="col-md-6 col-xl-4">
+          <div class="executive-card executive-kpi">
+            <small>${escapeHtml(label)}</small>
+            <strong>${escapeHtml(value)}</strong>
+            <p class="text-sm text-secondary mb-0 mt-2">${escapeHtml(note)}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderNarrative(data) {
+      const resumen = data.resumen_nacional || {};
+      const hallazgos = data.hallazgos || {};
+
+      document.getElementById('hallazgoPrincipalTitulo').textContent =
+        `Escenario ${data.escenario} · Modelo ${resumen.modelo || 'N/D'} · ${resumen.error_mape_texto || 'MAPE no disponible'}`;
+      document.getElementById('hallazgoPrincipalTexto').textContent =
+        `${hallazgos.principal || ''} ${hallazgos.proyeccion || ''} ${descripcionEscenario(data.escenario)}${proyeccionNacionalEstable(data) ? ' Proyección estable bajo el modelo seleccionado.' : ''}${data.escenario === 'Tendencia reciente' ? ` ${NOTA_TENDENCIA_RECIENTE}` : ''}`;
+      document.getElementById('hallazgoEstacionalidadTexto').textContent =
+        hallazgos.estacionalidad || 'No hay lectura estacional disponible.';
+      document.getElementById('hallazgoConcentracionTexto').textContent =
+        `Las 5 OOAD con mayor demanda histórica concentran ${percentFormatter.format(data.concentracion_territorial?.porcentaje_acumulado_top_5 || 0)}% del total nacional.`;
+      document.getElementById('hallazgoCrecimientoTexto').textContent =
+        `${hallazgos.riesgo || ''} Este riesgo es preliminar porque aún no cruza demanda contra plantilla médica. La versión final se integrará al IRCA.`;
+      document.getElementById('pillEscenarioGrafica').textContent = data.escenario || 'Conservador';
+      document.getElementById('pillMesesCalientes').textContent = resumen.anio_final_real || 'Último año';
+      document.getElementById('subtituloTendencia').textContent =
+        `${resumen.anio_inicial || 2012}-${resumen.anio_final_real || 2024} real · 2025-2026 predicción ${data.escenario}.`;
+      document.getElementById('proyeccionTexto').textContent =
+        proyeccionNacionalEstable(data)
+          ? `Proyección estable bajo el modelo seleccionado. ${descripcionEscenario(data.escenario)} ${data.escenario === 'Tendencia reciente' ? NOTA_TENDENCIA_RECIENTE + ' ' : ''}Para publicar suficiencia médica se requiere cruzar esta demanda con plantilla, productividad y reglas IRCA.`
+          : `La proyección 2025-2026 usa el escenario seleccionado. ${descripcionEscenario(data.escenario)} ${data.escenario === 'Tendencia reciente' ? NOTA_TENDENCIA_RECIENTE + ' ' : ''}Para publicar suficiencia médica se requiere cruzar esta demanda con plantilla, productividad y reglas IRCA.`;
+    }
+
+    function renderRankings(data) {
+      renderRankList(
+        'rankingConcentracion',
+        data.concentracion_territorial?.top_5_historico || [],
+        {
+          value: row => `${percentFormatter.format(row.porcentaje_nacional || 0)}%`,
+          meta: row => `${compactNumber(row.consultas)} consultas históricas`,
+        }
+      );
+
+      const ooads = (data.riesgo_ooad || []).slice(0, 12);
+      document.getElementById('ooadCards').innerHTML = ooads.map(row => `
+        <div class="col-md-6 col-xxl-4">
+          <button class="ooad-card bg-white text-start w-100 h-100" type="button" data-ooad="${escapeHtml(row.ooad)}">
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+              <strong>${escapeHtml(row.ooad)}</strong>
+              <span class="risk-badge ${riskClass(row.riesgo_preliminar)}">${escapeHtml(row.riesgo_preliminar)}</span>
+            </div>
+            <span class="metric">${percentFormatter.format(row.crecimiento_esperado_pct || 0)}%</span>
+            <p class="text-sm text-secondary mb-2">crecimiento esperado 2024-2026</p>
+            <div class="text-xs text-secondary">
+              2024: ${compactNumber(row.consultas_2024)} · 2025: ${compactNumber(row.estimado_2025)} · 2026: ${compactNumber(row.estimado_2026)} · Δ ${compactNumber(row.diferencia_esperada)}
+            </div>
+          </button>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-ooad]').forEach(button => {
+        button.addEventListener('click', () => abrirDetalleOoad(button.dataset.ooad));
+      });
+
+      renderRankList(
+        'rankingUnidadesRiesgo',
+        data.riesgo_unidad || [],
+        {
+          limit: 12,
+          title: row => row.unidad,
+          meta: row => `${row.ooad || 'OOAD no inferida'} · 2024 ${compactNumber(row.consultas_2024)} · 2025 ${compactNumber(row.estimado_2025)} · 2026 ${compactNumber(row.estimado_2026)} · Δ ${compactNumber(row.diferencia_esperada)} · ${row.riesgo_preliminar}`,
+          value: row => `${percentFormatter.format(row.crecimiento_esperado_pct || 0)}%`,
+        }
+      );
+
+      renderRankList(
+        'rankingPuntosCalientes',
+        data.puntos_calientes || [],
+        {
+          limit: 6,
+          title: row => row.unidad,
+          meta: row => `${row.ooad} · ${row.mes} · ${row.categoria}`,
+          value: row => `z ${percentFormatter.format(row.z_score || 0)}`,
+        }
+      );
+    }
+
+    function renderTables(data) {
+      renderTable(
+        'tablaProyeccionOoad',
+        ['OOAD', '2024 real', '2025 estimado', '2026 estimado', 'Diferencia', 'Crecimiento', 'Riesgo'],
+        (data.anexos?.proyeccion_ooad || []).map(row => `
+          <tr>
+            <td><strong>${escapeHtml(row.ooad)}</strong></td>
+            <td>${compactNumber(row.consultas_2024)}</td>
+            <td>${compactNumber(row.estimado_2025)}</td>
+            <td>${compactNumber(row.estimado_2026)}</td>
+            <td><strong>${compactNumber(row.diferencia_esperada)}</strong></td>
+            <td><strong>${percentFormatter.format(row.crecimiento_esperado_pct || 0)}%</strong></td>
+            <td><span class="risk-badge ${riskClass(row.riesgo_preliminar)}">${escapeHtml(row.riesgo_preliminar)}</span></td>
+          </tr>
+        `)
+      );
+
+      renderTable(
+        'tablaUnidadesRiesgo',
+        ['Unidad', 'OOAD', '2024 real', '2026 estimado', 'Diferencia', 'Crecimiento', 'Riesgo'],
+        (data.anexos?.proyeccion_unidad || []).map(row => `
+          <tr>
+            <td><strong>${escapeHtml(row.unidad)}</strong></td>
+            <td>${escapeHtml(row.ooad || 'N/D')}</td>
+            <td>${compactNumber(row.consultas_2024)}</td>
+            <td>${compactNumber(row.estimado_2026)}</td>
+            <td><strong>${compactNumber(row.diferencia_esperada)}</strong></td>
+            <td><strong>${percentFormatter.format(row.crecimiento_esperado_pct || 0)}%</strong></td>
+            <td><span class="risk-badge ${riskClass(row.riesgo_preliminar)}">${escapeHtml(row.riesgo_preliminar)}</span></td>
+          </tr>
+        `)
+      );
+
+      renderTable(
+        'tablaPuntosCalientes',
+        ['Unidad', 'OOAD', 'Mes', 'Consultas', 'Promedio', 'z_score', 'Categoría'],
+        (data.anexos?.puntos_calientes || []).map(row => `
+          <tr>
+            <td><strong>${escapeHtml(row.unidad)}</strong><br><small class="text-secondary">${escapeHtml(row.nivel_atencion || '')}</small></td>
+            <td>${escapeHtml(row.ooad)}</td>
+            <td>${escapeHtml(row.mes)}</td>
+            <td>${compactNumber(row.consultas)}</td>
+            <td>${compactNumber(row.promedio_historico)}</td>
+            <td><strong>${percentFormatter.format(row.z_score || 0)}</strong></td>
+            <td><span class="executive-category ${categoryClass(row.categoria)}">${escapeHtml(row.categoria)}</span></td>
+          </tr>
+        `)
+      );
+    }
+
+    function renderCharts(data) {
+      destroyChart('anual');
+      destroyChart('estacionalidad');
+      destroyChart('meses');
+
+      const serie = data.serie_nacional || [];
+      const labels = serie.map(row => row.anio);
+      const real = serie.map(row => row.tipo === 'real' ? row.consultas : null);
+      const proyeccion = serie.map(row => row.tipo === 'proyeccion' ? row.consultas : null);
+      const limiteInferior = serie.map(row => row.tipo === 'proyeccion' ? row.limite_inferior : null);
+      const limiteSuperior = serie.map(row => row.tipo === 'proyeccion' ? row.limite_superior : null);
+
+      const ultimoRealIndex = serie.findLastIndex ? serie.findLastIndex(row => row.tipo === 'real') : serie.map(row => row.tipo).lastIndexOf('real');
+      if (ultimoRealIndex >= 0 && serie[ultimoRealIndex + 1]) {
+        proyeccion[ultimoRealIndex] = serie[ultimoRealIndex].consultas;
+        limiteInferior[ultimoRealIndex] = serie[ultimoRealIndex].consultas;
+        limiteSuperior[ultimoRealIndex] = serie[ultimoRealIndex].consultas;
+      }
+
+      const baseOptions = {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: context => `${context.dataset.label}: ${formatter.format(context.parsed.y || 0)} consultas`,
+            },
+          },
+        },
+        scales: {
+          y: { ticks: { callback: value => formatter.format(value) } },
+        },
+      };
+
+      chartRefs.anual = new Chart(document.getElementById('chartAnual'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Real',
+              data: real,
+              borderColor: '#235B4E',
+              backgroundColor: 'rgba(35, 91, 78, .12)',
+              pointBackgroundColor: '#235B4E',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              tension: .3,
+              fill: true,
+            },
+            {
+              label: data.escenario === 'Tendencia reciente' ? 'Proyección con tendencia reciente' : 'Proyección',
+              data: proyeccion,
+              borderColor: '#9F2241',
+              backgroundColor: 'rgba(159, 34, 65, .1)',
+              borderDash: [8, 6],
+              pointBackgroundColor: '#9F2241',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              tension: .3,
+              fill: false,
+            },
+            {
+              label: 'Límite inferior',
+              data: limiteInferior,
+              borderColor: 'rgba(159, 34, 65, .25)',
+              pointRadius: 0,
+              borderDash: [2, 4],
+              fill: false,
+            },
+            {
+              label: 'Límite superior',
+              data: limiteSuperior,
+              borderColor: 'rgba(159, 34, 65, .25)',
+              pointRadius: 0,
+              borderDash: [2, 4],
+              fill: false,
+            },
+          ],
+        },
+        options: baseOptions,
+      });
+
+      chartRefs.estacionalidad = new Chart(document.getElementById('chartEstacionalidad'), {
+        type: 'bar',
+        data: {
+          labels: (data.estacionalidad?.serie_mensual || []).map(row => String(row.mes).slice(0, 3)),
+          datasets: [{
+            label: 'Promedio histórico',
+            data: (data.estacionalidad?.serie_mensual || []).map(row => row.promedio_historico),
+            backgroundColor: '#235B4E',
+            borderRadius: 8,
+          }],
+        },
+        options: baseOptions,
+      });
+
+      chartRefs.meses = new Chart(document.getElementById('chartMesesCalientes'), {
+        type: 'bar',
+        data: {
+          labels: (data.estacionalidad?.meses_calientes_ultimo_anio_real || []).map(row => String(row.mes).slice(0, 3)),
+          datasets: [{
+            label: 'Índice de presión',
+            data: (data.estacionalidad?.meses_calientes_ultimo_anio_real || []).map(row => row.indice_presion_mensual),
+            backgroundColor: (data.estacionalidad?.meses_calientes_ultimo_anio_real || []).map(row => {
+              const type = categoryClass(row.categoria);
+              if (type === 'critical') return '#691C32';
+              if (type === 'high') return '#9F2241';
+              if (type === 'expected') return '#BC955C';
+              return '#006341';
+            }),
+            borderRadius: 8,
+          }],
+        },
+        options: baseOptions,
+      });
+    }
+
+    function renderLecturaEjecutiva(data) {
+      const resumen = data.resumen_nacional || {};
+      const p2025 = data.proyeccion_nacional?.estimado_2025;
+      const p2026 = data.proyeccion_nacional?.estimado_2026;
+      const caliente = data.estacionalidad?.meses_calientes_ultimo_anio_real?.[0];
+      const punto = data.puntos_calientes?.[0];
+
+      document.getElementById('lecturaEjecutiva').innerHTML = `
+        <p><strong>Escenario:</strong> ${escapeHtml(data.escenario)}. Modelo nacional: ${escapeHtml(resumen.modelo || 'N/D')} · ${escapeHtml(resumen.error_mape_texto || 'MAPE no disponible')}.</p>
+        <p><strong>Lectura del escenario:</strong> ${escapeHtml(descripcionEscenario(data.escenario))}${data.escenario === 'Tendencia reciente' ? ` ${escapeHtml(NOTA_TENDENCIA_RECIENTE)}` : ''}</p>
+        <p><strong>Proyección:</strong> 2025 estima ${compactNumber(p2025?.consultas_estimadas)} consultas y 2026 estima ${compactNumber(p2026?.consultas_estimadas)}.${proyeccionNacionalEstable(data) ? ' Proyección estable bajo el modelo seleccionado.' : ''}</p>
+        <p><strong>Intervalo 2026:</strong> ${compactNumber(p2026?.limite_inferior)} a ${compactNumber(p2026?.limite_superior)} consultas.</p>
+        <p><strong>Estacionalidad:</strong> ${escapeHtml(resumen.mes_historico_mas_demandado || 'N/D')} es el mes históricamente más alto; ${escapeHtml(resumen.mes_historico_menos_demandado || 'N/D')} el más bajo.</p>
+        <p><strong>Mes caliente:</strong> ${caliente ? `${escapeHtml(caliente.mes)} aparece como ${escapeHtml(caliente.categoria)}.` : 'Sin alerta mensual.'}</p>
+        <p><strong>Unidad en alerta:</strong> ${punto ? `${escapeHtml(punto.unidad)} (${escapeHtml(punto.ooad)}) registra z_score ${percentFormatter.format(punto.z_score)}.` : 'Sin punto caliente.'}</p>
+        <p class="mb-0"><strong>Nota IRCA:</strong> El riesgo es preliminar; todavía falta cruzar contra plantilla médica, productividad y suficiencia.</p>
+      `;
+    }
+
+    async function cargarAnalisis() {
+      try {
+        const escenario = document.getElementById('selectorEscenario').value || 'Conservador';
+        document.getElementById('analisisLoader').style.display = 'block';
+        document.getElementById('analisisContenido').style.display = 'none';
+
+        const response = await fetch(`../php/get_analisis_demanda.php?escenario=${encodeURIComponent(escenario)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data?.error || 'No fue posible cargar el análisis.');
+        }
+
+        analisisActual = data;
+        actualizarSelectorEscenario(data);
+        document.getElementById('fechaGeneracion').textContent =
+          `Generado el ${new Date(data.generado_en).toLocaleString('es-MX')} · Escenario ${data.escenario}`;
+        renderKpis(data);
+        renderNarrative(data);
+        renderRankings(data);
+        renderTables(data);
+        renderCharts(data);
+        renderLecturaEjecutiva(data);
+        document.getElementById('analisisLoader').style.display = 'none';
+        document.getElementById('analisisContenido').style.display = 'block';
+      } catch (error) {
+        document.getElementById('analisisLoader').innerHTML = `<div class="text-danger font-weight-bold">${escapeHtml(error.message)}</div>`;
+      }
+    }
+
+    async function abrirDetalleOoad(ooad) {
+      if (!ooad) return;
+
+      const modal = document.getElementById('modalOoad');
+      modalOoadInstance = modalOoadInstance || new bootstrap.Modal(modal);
+      document.getElementById('modalOoadTitulo').textContent = ooad;
+      document.getElementById('modalOoadEscenario').textContent = document.getElementById('selectorEscenario').value;
+      document.getElementById('modalOoadLoader').style.display = 'flex';
+      document.getElementById('modalOoadContenido').style.display = 'none';
+      modalOoadInstance.show();
+
+      try {
+        const escenario = document.getElementById('selectorEscenario').value || 'Conservador';
+        const response = await fetch(`../php/get_detalle_ooad_demanda.php?ooad=${encodeURIComponent(ooad)}&escenario=${encodeURIComponent(escenario)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data?.error || 'No fue posible cargar el detalle.');
+        }
+
+        renderDetalleOoad(data);
+        document.getElementById('modalOoadLoader').style.display = 'none';
+        document.getElementById('modalOoadContenido').style.display = 'block';
+      } catch (error) {
+        document.getElementById('modalOoadLoader').innerHTML = `<div class="text-danger font-weight-bold">${escapeHtml(error.message)}</div>`;
+      }
+    }
+
+    function renderDetalleOoad(data) {
+      destroyChart('ooadDetalle');
+      const serie = data.serie || [];
+      const labels = serie.map(row => row.anio);
+      const real = serie.map(row => row.tipo === 'real' ? row.consultas : null);
+      const proy = serie.map(row => row.tipo === 'proyeccion' ? row.consultas : null);
+      const ultimoRealIndex = serie.findLastIndex ? serie.findLastIndex(row => row.tipo === 'real') : serie.map(row => row.tipo).lastIndexOf('real');
+
+      if (ultimoRealIndex >= 0 && serie[ultimoRealIndex + 1]) {
+        proy[ultimoRealIndex] = serie[ultimoRealIndex].consultas;
+      }
+
+      chartRefs.ooadDetalle = new Chart(document.getElementById('chartOoadDetalle'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Real',
+              data: real,
+              borderColor: '#235B4E',
+              backgroundColor: 'rgba(35, 91, 78, .12)',
+              tension: .3,
+              fill: true,
+            },
+            {
+              label: data.escenario === 'Tendencia reciente' ? 'Proyección con tendencia reciente' : 'Proyección',
+              data: proy,
+              borderColor: '#9F2241',
+              borderDash: [8, 6],
+              tension: .3,
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { tooltip: { callbacks: { label: context => `${context.dataset.label}: ${formatter.format(context.parsed.y || 0)} consultas` } } },
+          scales: { y: { ticks: { callback: value => formatter.format(value) } } },
+        },
+      });
+
+      renderRankList('modalTop2024', data.top_unidades_2024 || [], {
+        title: row => row.unidad,
+        meta: row => row.nivel_atencion || '',
+        value: row => compactNumber(row.consultas),
+      });
+      renderRankList('modalTop2026', data.top_unidades_proyectadas_2026 || [], {
+        title: row => row.unidad,
+        meta: row => row.nivel_atencion || '',
+        value: row => compactNumber(row.estimado_2026),
+      });
+      renderRankList('modalCrecimiento', data.unidades_mayor_crecimiento_esperado || [], {
+        title: row => row.unidad,
+        meta: row => `${row.nivel_atencion || ''} · 2025 ${compactNumber(row.estimado_2025)} · 2026 ${compactNumber(row.estimado_2026)} · Δ ${compactNumber(row.diferencia_esperada)} · ${row.riesgo_preliminar}`,
+        value: row => `${percentFormatter.format(row.crecimiento_esperado_pct || 0)}%`,
+      });
+      renderRankList('modalPuntos', data.puntos_calientes || [], {
+        title: row => row.unidad,
+        meta: row => `${row.mes} · ${row.categoria}`,
+        value: row => `z ${percentFormatter.format(row.z_score || 0)}`,
+      });
+    }
+
+    document.getElementById('selectorEscenario').addEventListener('change', cargarAnalisis);
+
+    verificarSesion();
+    cargarAnalisis();
+  </script>
+</body>
+
+</html>

@@ -226,7 +226,7 @@ body::before{
     </div>
 
     <div class="subtitle">
-        Conocimiento clínico a primera vista
+        Formación clínica interactiva
     </div>
 
     <div class="system">
