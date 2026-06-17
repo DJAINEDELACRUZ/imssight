@@ -14,7 +14,8 @@ try {
 
             id,
             titulo,
-            descripcion
+            descripcion,
+            portada
 
         FROM casos_clinicos
 

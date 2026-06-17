@@ -37,6 +37,510 @@
   <!-- jQuery primero (requerido por jsTree) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --imss-red: #9d2449;
+      --imss-red-dark: #691c32;
+      --imss-green: #285c4d;
+      --imss-muted: #6f7271;
+    }
+
+    .clinical-flow-card {
+      border: 1px solid #DDDDDD;
+      border-top: 5px solid var(--imss-red);
+      box-shadow: 0 14px 34px rgba(64, 64, 65, .08);
+    }
+
+    .clinical-route {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .45rem;
+      margin-bottom: .85rem;
+      color: var(--imss-muted);
+      font-size: .88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .clinical-route span {
+      color: var(--imss-muted);
+    }
+
+    .clinical-route a {
+      color: var(--imss-green);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .clinical-route a:hover,
+    .clinical-route a:focus {
+      color: var(--imss-red);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .clinical-route .active-step {
+      color: var(--imss-red-dark);
+    }
+
+    .clinical-route .route-context {
+      color: var(--imss-green);
+      font-weight: 800;
+    }
+
+    .clinical-route .route-separator {
+      color: #b7b7b7;
+      font-weight: 800;
+    }
+
+    .muro-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      border-radius: 999px;
+      padding: .25rem .55rem;
+      font-size: .72rem;
+      font-weight: 700;
+      background: rgba(64, 64, 65, .08);
+      color: #404041;
+    }
+
+    .muro-chip.institucional {
+      background: rgba(40, 92, 77, .12);
+      color: var(--imss-green);
+    }
+
+    .clinical-search {
+      align-items: center;
+      background: #fff;
+      border: 1px solid #dedede;
+      border-radius: 999px;
+      display: flex;
+      gap: .55rem;
+      max-width: 380px;
+      padding: .5rem .9rem;
+      width: min(100%, 380px);
+    }
+
+    .clinical-search .material-symbols-rounded {
+      color: var(--imss-red);
+      font-size: 1.15rem;
+    }
+
+    .clinical-search input {
+      background: transparent;
+      border: 0;
+      color: #333;
+      font-size: .88rem;
+      outline: 0;
+      width: 100%;
+    }
+
+    .clinical-search input::placeholder {
+      color: #8a8a8a;
+    }
+
+    .imssight-hub-card {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      min-height: 88px;
+      height: 100%;
+      border: 1px solid #DDDDDD;
+      border-radius: 14px;
+      background: #FFFFFF;
+      color: #404041;
+      padding: 1rem;
+      box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .imssight-hub-card:hover,
+    .imssight-hub-card:focus {
+      color: #404041;
+      border-color: rgba(157, 36, 73, .42);
+      box-shadow: 0 16px 34px rgba(157, 36, 73, .11);
+      transform: translateY(-2px);
+    }
+
+    .imssight-hub-card:focus-visible {
+      outline: 3px solid rgba(157, 36, 73, .18);
+      outline-offset: 2px;
+    }
+
+    .imssight-hub-icon {
+
+        width: 46px;
+        height: 46px;
+
+        flex: 0 0 46px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+
+        color: #fff;
+
+        background: linear-gradient(
+            135deg,
+            #1a2e27 0%,
+            #235B4E 35%,
+            #2f7563 100%
+        );
+
+        box-shadow:
+            0 10px 20px rgba(40, 92, 77, .25);
+
+    }
+
+    .imssight-hub-icon .material-symbols-rounded {
+      font-size: 1.35rem;
+    }
+
+    .imssight-hub-title {
+      display: block;
+      margin-bottom: .1rem;
+      font-size: .9rem;
+      font-weight: 800;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .imssight-hub-copy {
+      display: block;
+      color: var(--imss-muted);
+      font-size: .76rem;
+      line-height: 1.25;
+    }
+
+    .clinical-status {
+      border-radius: 10px;
+      padding: 1rem;
+      background: rgba(40, 92, 77, .08);
+      color: var(--imss-green);
+      font-weight: 700;
+    }
+
+    .clinical-progress {
+      height: .45rem;
+      border-radius: 999px;
+      background: rgba(111, 114, 113, .14);
+      overflow: hidden;
+    }
+
+    .clinical-progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    .case-workspace {
+      display: grid;
+      grid-template-columns: minmax(220px, 290px) 1fr;
+      gap: 1rem;
+    }
+
+    .case-stage,
+    .case-timeline {
+      border: 1px solid #DDDDDD;
+      border-radius: 14px;
+      background: #FFFFFF;
+      box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
+    }
+
+    .case-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      background: #235B4E;
+      background-size: cover;
+      background-position: center;
+      color: #FFFFFF;
+      margin-bottom: 1rem;
+      box-shadow: 0 18px 42px rgba(40, 92, 77, .18);
+    }
+
+    .case-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 20, 17, .16);
+    }
+
+    .case-hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.6rem;
+    }
+
+    .case-hero .muro-chip {
+      background: rgba(255, 255, 255, .16);
+      color: #FFFFFF;
+    }
+
+    .case-hero-panel {
+      min-width: 190px;
+      margin-top: 5rem;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 14px;
+      padding: 1rem;
+      background: rgba(17, 31, 43, .58);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .12);
+    }
+
+    .case-hero-copy {
+      max-width: 760px;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, .28);
+    }
+
+    .case-hero .text-secondary,
+    .case-hero .text-xs,
+    .case-hero .text-sm {
+      color: rgba(255, 255, 255, .78) !important;
+    }
+
+    .case-hero .clinical-progress {
+      background: rgba(255, 255, 255, .18);
+    }
+
+    .case-hero-actions {
+      display: grid;
+      gap: .45rem;
+      width: min(240px, 100%);
+    }
+
+    .case-hero-action {
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .12);
+      color: #FFFFFF;
+      min-height: 36px;
+      padding: .42rem .6rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
+      font-size: .75rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .case-hero-action:hover,
+    .case-hero-action:focus {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, .20);
+    }
+
+    .case-hero-action:disabled {
+      opacity: .78;
+      cursor: default;
+    }
+
+    .case-hero-action .material-symbols-rounded {
+      font-size: 1rem;
+    }
+
+    .case-complete-hero .case-hero-content {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .case-complete-panel {
+      width: min(780px, 100%);
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 16px;
+      background: rgba(16, 31, 43, .58);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, .18);
+      padding: 1.35rem;
+    }
+
+    .case-complete-mark {
+      width: 54px;
+      height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, .28);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .14);
+      color: #FFFFFF;
+      margin-bottom: .75rem;
+    }
+
+    .case-complete-mark .material-symbols-rounded {
+      font-size: 2rem;
+    }
+
+    .case-complete-panel h3 {
+      color: #FFFFFF;
+      margin-bottom: .35rem;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, .28);
+    }
+
+    .case-complete-panel p {
+      color: rgba(255, 255, 255, .82);
+      max-width: 560px;
+      margin-inline: auto;
+    }
+
+    .case-timeline {
+      padding: .75rem;
+      position: sticky;
+      top: 1rem;
+      max-height: calc(100vh - 160px);
+      overflow: auto;
+    }
+
+    .case-step {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: #404041;
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      padding: .62rem .68rem;
+      text-align: left;
+      transition: background .15s ease, color .15s ease, transform .15s ease;
+    }
+
+    .case-step:hover,
+    .case-step:focus {
+      background: rgba(40, 92, 77, .08);
+      color: #404041;
+    }
+
+    .case-step.active {
+      background: rgba(157, 36, 73, .10);
+      color: var(--imss-red-dark);
+    }
+
+    .case-step-index {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      border-radius: 10px;
+      background: rgba(40, 92, 77, .12);
+      color: var(--imss-green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .case-step.active .case-step-index {
+      background: var(--imss-red);
+      color: #FFFFFF;
+    }
+
+    .case-stage {
+      overflow: hidden;
+    }
+
+    .case-step-title {
+      display: block;
+      font-size: .86rem;
+      line-height: 1.18;
+      font-weight: 600;
+    }
+
+    .case-stage-header {
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid #DDDDDD;
+    }
+
+    .case-scene-body {
+      padding: 1.25rem;
+      color: #404041;
+      line-height: 1.7;
+    }
+
+    .case-scene-body img,
+    .case-scene-body video,
+    .case-media-frame {
+      max-width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 14px 34px rgba(64, 64, 65, .12);
+    }
+
+    .case-media-frame {
+      width: 100%;
+      min-height: 560px;
+      border: 0;
+    }
+
+    .case-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid #DDDDDD;
+      background: #FAFAFA;
+    }
+
+    .case-action-btn {
+      border: 1px solid #DDDDDD;
+      border-radius: 12px;
+      background: #FFFFFF;
+      color: #404041;
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .case-action-btn.primary {
+      border-color: transparent;
+      background: var(--imss-red);
+      color: #FFFFFF;
+      box-shadow: 0 10px 20px rgba(157, 36, 73, .18);
+    }
+
+    .case-action-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .case-empty {
+      border: 1px dashed #A9A8A9;
+      border-radius: 14px;
+      background: #F6F6F6;
+      padding: 2rem;
+      text-align: center;
+      color: var(--imss-muted);
+    }
+
+    @media (max-width: 991.98px) {
+      .case-workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .case-timeline {
+        position: static;
+        max-height: none;
+      }
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -218,39 +722,27 @@
         </div>
       </div>
       <div class="row mb-4">
-        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h3
-                    class="mb-0 h4 font-weight-bolder"
+        <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
+          <div class="card clinical-flow-card">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <div>
+                  <div class="clinical-route" id="rutaFlujoClinico"></div>
+                  <h5
+                    class="mb-1"
                     id="tituloEspecialidadTexto">
-                  </h3>
-                  <p class="text-sm mb-0">
-                    <i class="fa fa-book text-info"></i>
-                    <span class="font-weight-bold ms-1">
-                      Temas
-                    </span>
+                  </h5>
+                  <p class="text-sm mb-0 text-secondary" id="subtituloFlujoClinico">
+                    Selecciona un tema para consultar sus casos clínicos.
                   </p>
                 </div>
+                <label class="clinical-search mb-0 ms-auto" id="buscadorFlujoWrap" for="buscadorFlujoClinico">
+                  <i class="material-symbols-rounded">search</i>
+                  <input type="search" id="buscadorFlujoClinico" placeholder="Buscar en esta lista">
+                </label>
               </div>
-            </div>
-            <div class="card-body">
-
-                <!-------- TEMAS O CASOS CLINICOS -->
-
-                        <div class="container py-2">
-
-                            <div class="row" id="contenedorTemas">
-
-                            </div>
-
-                        </div>
-
-                <!------ FIN TEMAS CASOS CLINICOS-->
-
-
+              <div class="clinical-status d-none mb-3" id="estadoFlujoClinico"></div>
+              <div class="row g-3" id="contenedorTemas"></div>
             </div>
           </div>
         </div>
@@ -660,11 +1152,367 @@ cargarEspecialidades();
 
   const params = new URLSearchParams(window.location.search);
 
-  const idEspecialidad = params.get('id');
+  let idEspecialidad = params.get('id');
+  const idTemaInicial = params.get('id_tema');
+  const idCasoInicial = params.get('id_caso');
+
+  const flujoClinico = {
+      especialidad: null,
+      temaSeleccionado: null,
+      casoSeleccionado: null,
+      escenas: [],
+      escenaActual: 0,
+      respuestaContestada: false
+  };
+
+  const buscadorFlujoClinico = document.getElementById('buscadorFlujoClinico');
+  const buscadorFlujoWrap = document.getElementById('buscadorFlujoWrap');
+
+  function escapeHtml(valor) {
+      return String(valor ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+  }
+
+  function textoMayusculas(valor) {
+      return String(valor ?? '').toUpperCase();
+  }
+
+  function normalizarBusquedaClinica(valor = '') {
+      return String(valor)
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .trim();
+  }
+
+  function ocultarMensajeBusquedaClinica() {
+      const estado = document.getElementById('estadoFlujoClinico');
+
+      if (estado.dataset.tipo === 'busqueda') {
+          estado.dataset.tipo = '';
+          ocultarEstadoFlujo();
+      }
+  }
+
+  function aplicarFiltroClinico() {
+      const query = normalizarBusquedaClinica(buscadorFlujoClinico.value);
+      const items = document.querySelectorAll('[data-clinical-search-item]');
+      let visibles = 0;
+
+      items.forEach((item) => {
+          const coincide = !query || normalizarBusquedaClinica(item.dataset.clinicalSearch).includes(query);
+
+          item.classList.toggle('d-none', !coincide);
+
+          if (coincide) {
+              visibles += 1;
+          }
+      });
+
+      if (query && !visibles) {
+          const estado = document.getElementById('estadoFlujoClinico');
+
+          estado.dataset.tipo = 'busqueda';
+          mostrarEstadoFlujo('No encontramos coincidencias en esta lista.');
+          return;
+      }
+
+      ocultarMensajeBusquedaClinica();
+  }
+
+  function prepararBusquedaClinica() {
+      buscadorFlujoClinico.value = '';
+      document
+          .querySelectorAll('[data-clinical-search-item]')
+          .forEach((item) => item.classList.remove('d-none'));
+      ocultarMensajeBusquedaClinica();
+  }
+
+  buscadorFlujoClinico.addEventListener('input', aplicarFiltroClinico);
+
+  function mostrarEstadoFlujo(mensaje) {
+      const estado = document.getElementById('estadoFlujoClinico');
+
+      estado.textContent = mensaje;
+      estado.classList.remove('d-none');
+  }
+
+  function ocultarEstadoFlujo() {
+      const estado = document.getElementById('estadoFlujoClinico');
+
+      estado.textContent = '';
+      estado.classList.add('d-none');
+  }
+
+  function colorProgreso(porcentaje) {
+      if (porcentaje < 40) {
+          return '#9d2449';
+      }
+
+      if (porcentaje < 70) {
+          return '#bc955c';
+      }
+
+      return '#4caf50';
+  }
+
+  function actualizarRutaFlujo() {
+      const ruta = document.getElementById('rutaFlujoClinico');
+      const subtitulo = document.getElementById('subtituloFlujoClinico');
+      const titulo = document.getElementById('tituloEspecialidadTexto');
+      const nombreEspecialidad = flujoClinico.especialidad?.nombre || 'Especialidad';
+
+      if (!flujoClinico.especialidad) {
+          buscadorFlujoWrap.classList.remove('d-none');
+          titulo.classList.add('d-none');
+          subtitulo.classList.add('d-none');
+          ruta.innerHTML = `
+              <span class="active-step">ESPECIALIDAD</span>
+          `;
+
+          return;
+      }
+
+      if (!flujoClinico.temaSeleccionado) {
+          buscadorFlujoWrap.classList.remove('d-none');
+          titulo.classList.add('d-none');
+          subtitulo.classList.add('d-none');
+          ruta.innerHTML = `
+              <a href="#" id="volverRutaEspecialidades">
+                  ${escapeHtml(nombreEspecialidad)}
+              </a>
+              <span class="route-separator">/</span>
+              <span class="active-step">TEMAS</span>
+          `;
+
+          document.getElementById('volverRutaEspecialidades')?.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarEspecialidadesClinicas();
+          });
+
+          return;
+      }
+
+      if (flujoClinico.casoSeleccionado) {
+          buscadorFlujoWrap.classList.add('d-none');
+          titulo.classList.add('d-none');
+          subtitulo.classList.add('d-none');
+          ruta.innerHTML = `
+              <a
+                  href="especialidad.html"
+                  id="volverRutaEspecialidadesEscenas">
+                  ${escapeHtml(nombreEspecialidad)}
+              </a>
+              <span class="route-separator">/</span>
+              <a
+                  href="especialidad.html?id=${encodeURIComponent(idEspecialidad)}"
+                  id="volverRutaTemasEscenas">
+                  ${escapeHtml(flujoClinico.temaSeleccionado.titulo)}
+              </a>
+              <span class="route-separator">/</span>
+              <a
+                  href="especialidad.html?id=${encodeURIComponent(idEspecialidad)}&id_tema=${encodeURIComponent(flujoClinico.temaSeleccionado.id || '')}"
+                  id="volverRutaCasosEscenas">
+                  ${escapeHtml(flujoClinico.casoSeleccionado.titulo)}
+              </a>
+              <span class="route-separator">/</span>
+              <span class="active-step">ESCENAS</span>
+          `;
+
+          document.getElementById('volverRutaEspecialidadesEscenas')?.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarEspecialidadesClinicas();
+          });
+
+          document.getElementById('volverRutaTemasEscenas')?.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarTemas();
+          });
+
+          document.getElementById('volverRutaCasosEscenas')?.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarCasosTema(flujoClinico.temaSeleccionado);
+          });
+
+          return;
+      }
+
+      titulo.classList.add('d-none');
+      buscadorFlujoWrap.classList.remove('d-none');
+      subtitulo.classList.add('d-none');
+      ruta.innerHTML = `
+          <a
+              href="especialidad.html"
+              id="volverRutaEspecialidadesCasos">
+              ${escapeHtml(nombreEspecialidad)}
+          </a>
+          <span class="route-separator">/</span>
+          <a
+              href="especialidad.html?id=${encodeURIComponent(idEspecialidad)}"
+              id="volverRutaTemasCasos">
+              ${escapeHtml(flujoClinico.temaSeleccionado.titulo)}
+          </a>
+          <span class="route-separator">/</span>
+          <span class="active-step">CASOS</span>
+      `;
+
+      const volverEspecialidades = document.getElementById('volverRutaEspecialidadesCasos');
+      const volverTemas = document.getElementById('volverRutaTemasCasos');
+
+      if (volverEspecialidades) {
+          volverEspecialidades.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarEspecialidadesClinicas();
+          });
+      }
+
+      if (volverTemas) {
+          volverTemas.addEventListener('click', (event) => {
+              event.preventDefault();
+              cargarTemas();
+          });
+      }
+  }
+
+  function renderizarProgreso(porcentaje) {
+      const valor = Number(porcentaje || 0);
+
+      return `
+          <div class="mt-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="text-xs font-weight-bold text-secondary">
+                      Progreso
+                  </span>
+                  <span class="text-xs font-weight-bold">
+                      ${valor}%
+                  </span>
+              </div>
+              <div class="clinical-progress">
+                  <span style="width:${valor}%; background:${colorProgreso(valor)};"></span>
+              </div>
+          </div>
+      `;
+  }
+
+  function textoTotalCasos(total) {
+      const valor = Number(total || 0);
+
+      if (valor === 1) {
+          return '1 caso clínico';
+      }
+
+      return `${valor} casos clínicos`;
+  }
+
+  async function cargarEspecialidadesClinicas() {
+      try {
+          idEspecialidad = null;
+          document.getElementById('breadcrumbEspecialidad').innerText = 'Especialidad';
+          document.title = 'Especialidad - IMSSight';
+          flujoClinico.especialidad = null;
+          flujoClinico.temaSeleccionado = null;
+          flujoClinico.casoSeleccionado = null;
+          flujoClinico.escenas = [];
+          flujoClinico.escenaActual = 0;
+          flujoClinico.respuestaContestada = false;
+
+          actualizarRutaFlujo();
+          mostrarEstadoFlujo('Cargando especialidades disponibles...');
+
+          const response = await fetch('../php/get_especialidades.php');
+          const especialidades = await response.json();
+          const contenedor = document.getElementById('contenedorTemas');
+
+          ocultarEstadoFlujo();
+
+          if (!Array.isArray(especialidades) || especialidades.length === 0) {
+              contenedor.innerHTML = '';
+              mostrarEstadoFlujo('Todavía no hay especialidades disponibles.');
+              return;
+          }
+
+          contenedor.innerHTML = especialidades.map((especialidad) => `
+              <div
+                  class="col-lg-4 col-md-6"
+                  data-clinical-search-item
+                  data-clinical-search="${escapeHtml(`${especialidad.nombre} ${textoTotalCasos(especialidad.total_casos)} Contenido clínico disponible.`)}">
+                  <a
+                      href="especialidad.html?id=${encodeURIComponent(especialidad.id)}"
+                      class="imssight-hub-card"
+                      data-especialidad-id="${especialidad.id}">
+                      <span class="imssight-hub-icon">
+                          <i class="material-symbols-rounded">${escapeHtml(especialidad.icono || 'local_library')}</i>
+                      </span>
+                      <span class="flex-grow-1">
+                          <span class="d-flex align-items-start justify-content-between gap-2">
+                              <span class="imssight-hub-title">
+                                  ${escapeHtml(especialidad.nombre)}
+                              </span>
+                              <span class="muro-chip institucional">
+                                  ${escapeHtml(textoTotalCasos(especialidad.total_casos))}
+                              </span>
+                          </span>
+                          <span class="imssight-hub-copy">
+                              Contenido clínico disponible.
+                          </span>
+                      </span>
+                  </a>
+              </div>
+          `).join('');
+
+          prepararBusquedaClinica();
+
+          contenedor.querySelectorAll('[data-especialidad-id]').forEach((tarjeta) => {
+              tarjeta.addEventListener('click', (event) => {
+                  event.preventDefault();
+
+                  const especialidad = especialidades.find(
+                      (item) => String(item.id) === String(tarjeta.dataset.especialidadId)
+                  );
+
+                  if (!especialidad) {
+                      return;
+                  }
+
+                  idEspecialidad = String(especialidad.id);
+                  flujoClinico.especialidad = especialidad;
+
+                  document.getElementById('breadcrumbEspecialidad').innerText = especialidad.nombre;
+                  document.getElementById('tituloEspecialidadTexto').innerText = especialidad.nombre;
+                  document.title = `${especialidad.nombre} - IMSSight`;
+
+                  cargarTemas();
+              });
+          });
+
+      } catch(error) {
+
+          console.error(error);
+          mostrarEstadoFlujo('No fue posible cargar las especialidades en este momento.');
+
+      }
+  }
 
   async function cargarTemas() {
 
       try {
+
+          if (!idEspecialidad) {
+              await cargarEspecialidadesClinicas();
+              return;
+          }
+
+          flujoClinico.temaSeleccionado = null;
+          flujoClinico.casoSeleccionado = null;
+          flujoClinico.escenas = [];
+          flujoClinico.escenaActual = 0;
+          flujoClinico.respuestaContestada = false;
+          actualizarRutaFlujo();
+          mostrarEstadoFlujo('Cargando temas disponibles...');
 
           const response = await fetch(
               `/php/get_temas.php?id=${idEspecialidad}`
@@ -674,105 +1522,621 @@ cargarEspecialidades();
 
           const contenedor = document.getElementById('contenedorTemas');
 
-          contenedor.innerHTML = '';
+          ocultarEstadoFlujo();
 
-          for (const tema of temas) {
+          if (!Array.isArray(temas) || temas.length === 0) {
+              contenedor.innerHTML = '';
+              mostrarEstadoFlujo('Esta especialidad todavía no tiene temas clínicos registrados.');
+              return;
+          }
 
-          const responseCaso = await fetch(
-
-              `/php/get_caso_por_tema.php?id=${tema.id}`
-
-          );
-
-          const caso = await responseCaso.json();
-
-          const responseProgreso = await fetch(
-
-              `/php/get_progreso.php?id_caso=${caso.id}`
-
-          );
-
-          const progreso =
-              await responseProgreso.json();
-
-          contenedor.innerHTML += `
-            <div class="col-md-6 mb-4">
-              <div class="card w-100 h-100" style="background-color: lavenderblush;">
-                <div class="card-body">
-                  <div class="d-grid gap-2">
-                    <h5>${tema.titulo}</h5>
-                    <p>${tema.descripcion}</p>
-                    <a
-                        href="caso.html?id=${caso.id}&especialidad=${idEspecialidad}&tema=${encodeURIComponent(tema.titulo)}&id_tema=${tema.id}"
-                        class="btn btn-primary">
-                        Abrir tema
-                    </a>
-                  </div>
-                  <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-success">
-                          <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">
-                                  ${progreso.porcentaje}%
-                              </span>
-                          </div>
-                      </div>
-                      <div class="progress">
-
-                        <div
-
-                            class="progress-bar
-
-                            ${
-
-                                progreso.porcentaje < 40
-
-                                ? 'bg-gradient-danger'
-
-                                :
-
-                                progreso.porcentaje < 70
-
-                                ? 'bg-gradient-warning'
-
-                                :
-
-                                'bg-gradient-success'
-
-                            }"
-
-                            role="progressbar"
-
-                            style="width:${progreso.porcentaje}%">
-
-                        </div>
-
-                    </div>
-                  </div>
-                </div>
+          contenedor.innerHTML = temas.map((tema) => `
+              <div
+                  class="col-lg-4 col-md-6"
+                  data-clinical-search-item
+                  data-clinical-search="${escapeHtml(`${tema.titulo} ${tema.descripcion || 'Unidad de Educación e Investigación'}`)}">
+                  <a
+                      href="especialidad.html?id=${encodeURIComponent(idEspecialidad)}&tema=${encodeURIComponent(tema.id)}"
+                      class="imssight-hub-card"
+                      data-tema-id="${tema.id}">
+                      <span class="imssight-hub-icon">
+                          <i class="material-symbols-rounded">topic</i>
+                      </span>
+                      <span>
+                          <span class="imssight-hub-title">
+                              ${escapeHtml(tema.titulo)}
+                          </span>
+                          <span class="imssight-hub-copy">
+                              ${escapeHtml(tema.descripcion || 'Unidad de Educación e Investigación')}
+                          </span>
+                      </span>
+                  </a>
               </div>
-            </div>
-          `;
-        }
+          `).join('');
+
+          prepararBusquedaClinica();
+
+          contenedor.querySelectorAll('[data-tema-id]').forEach((tarjeta) => {
+              tarjeta.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  const tema = temas.find(
+                      (item) => String(item.id) === String(tarjeta.dataset.temaId)
+                  );
+
+                  if (tema) {
+                      cargarCasosTema(tema);
+                  }
+              });
+          });
 
       } catch(error) {
 
           console.error(error);
+          mostrarEstadoFlujo('No fue posible cargar los temas en este momento.');
 
       }
 
   }
 
-  cargarTemas();
+  async function cargarProgresoCaso(idCaso) {
+      try {
+          const responseProgreso = await fetch(
+              `/php/get_progreso.php?id_caso=${idCaso}`
+          );
+
+          const progreso = await responseProgreso.json();
+
+          return Number(progreso.porcentaje || 0);
+
+      } catch(error) {
+
+          console.error(error);
+          return 0;
+
+      }
+  }
+
+  async function cargarCasosTema(tema) {
+
+      try {
+
+          flujoClinico.temaSeleccionado = tema;
+          flujoClinico.casoSeleccionado = null;
+          flujoClinico.escenas = [];
+          flujoClinico.escenaActual = 0;
+          flujoClinico.respuestaContestada = false;
+          actualizarRutaFlujo();
+          mostrarEstadoFlujo('Cargando casos clínicos del tema seleccionado...');
+
+          const response = await fetch(
+              `/php/get_casos.php?id=${tema.id}`
+          );
+
+          const casos = await response.json();
+          const contenedor = document.getElementById('contenedorTemas');
+
+          ocultarEstadoFlujo();
+
+          if (!Array.isArray(casos) || casos.length === 0) {
+              contenedor.innerHTML = '';
+              mostrarEstadoFlujo('Este tema todavía no tiene casos clínicos registrados.');
+
+              return;
+          }
+
+          const casosConProgreso = await Promise.all(
+              casos.map(async (caso) => ({
+                  ...caso,
+                  progreso: await cargarProgresoCaso(caso.id)
+              }))
+          );
+
+          contenedor.innerHTML = `
+              ${casosConProgreso.map((caso) => {
+                  return `
+                      <div
+                          class="col-md-6"
+                          data-clinical-search-item
+                          data-clinical-search="${escapeHtml(`${caso.titulo} ${caso.descripcion || 'Caso clínico interactivo'} ${caso.progreso}%`)}">
+                          <a
+                              href="#"
+                              class="imssight-hub-card"
+                              data-caso-id="${caso.id}">
+                              <span class="imssight-hub-icon">
+                                  <i class="material-symbols-rounded">clinical_notes</i>
+                              </span>
+                              <span class="flex-grow-1">
+                                  <span class="imssight-hub-title">
+                                      ${escapeHtml(caso.titulo)}
+                                  </span>
+                                  <span class="imssight-hub-copy">
+                                      ${escapeHtml(caso.descripcion || 'Caso clínico interactivo')}
+                                  </span>
+                                  ${renderizarProgreso(caso.progreso)}
+                              </span>
+                          </a>
+                      </div>
+                  `;
+              }).join('')}
+          `;
+
+          prepararBusquedaClinica();
+
+          contenedor.querySelectorAll('[data-caso-id]').forEach((tarjeta) => {
+              tarjeta.addEventListener('click', (event) => {
+                  event.preventDefault();
+
+                  const caso = casosConProgreso.find(
+                      (item) => String(item.id) === String(tarjeta.dataset.casoId)
+                  );
+
+                  if (caso) {
+                      cargarCasoEnPagina(caso);
+                  }
+              });
+          });
+
+      } catch(error) {
+
+          console.error(error);
+          mostrarEstadoFlujo('No fue posible cargar los casos clínicos en este momento.');
+
+      }
+
+  }
+
+  function extensionRecurso(url = '') {
+      return String(url).split('?')[0].toLowerCase();
+  }
+
+  function renderizarMultimedia(multimedia) {
+      if (!multimedia) {
+          return '';
+      }
+
+      const recurso = extensionRecurso(multimedia);
+      const src = escapeHtml(multimedia);
+
+      if (recurso.endsWith('.mp4') || recurso.endsWith('.webm') || recurso.endsWith('.ogg')) {
+          return `
+              <div class="mt-4 text-center">
+                  <video class="w-100" style="max-height:520px;" controls>
+                      <source src="${src}">
+                  </video>
+              </div>
+          `;
+      }
+
+      if (recurso.endsWith('.mp3') || recurso.endsWith('.wav')) {
+          return `
+              <div class="mt-4">
+                  <audio class="w-100" controls>
+                      <source src="${src}">
+                  </audio>
+              </div>
+          `;
+      }
+
+      if (recurso.endsWith('.pdf')) {
+          return `
+              <div class="mt-4">
+                  <iframe class="case-media-frame" src="${src}"></iframe>
+              </div>
+          `;
+      }
+
+      if (
+          recurso.endsWith('.jpg') ||
+          recurso.endsWith('.jpeg') ||
+          recurso.endsWith('.png') ||
+          recurso.endsWith('.gif') ||
+          recurso.endsWith('.webp')
+      ) {
+          return `
+              <div class="mt-4 text-center">
+                  <img src="${src}" alt="Recurso de la escena">
+              </div>
+          `;
+      }
+
+      if (String(multimedia).startsWith('http')) {
+          return `
+              <div class="mt-4">
+                  <a class="case-action-btn primary" href="${src}" target="_blank" rel="noopener">
+                      <i class="material-symbols-rounded">open_in_new</i>
+                      Abrir recurso
+                  </a>
+              </div>
+          `;
+      }
+
+      return `
+          <div class="clinical-status mt-4">
+              Recurso multimedia no soportado: ${src}
+          </div>
+      `;
+  }
+
+  function estiloPortadaCaso(caso = {}) {
+      const portada = caso.portada || caso.imagen;
+
+      if (!portada) {
+          return '';
+      }
+
+      return `style="background-image:url(&quot;${escapeHtml(portada)}&quot;);"`;
+  }
+
+  function renderizarTimelineEscenas() {
+      return flujoClinico.escenas.map((escena, index) => `
+          <button
+              type="button"
+              class="case-step ${index === flujoClinico.escenaActual ? 'active' : ''}"
+              data-escena-index="${index}">
+              <span class="case-step-index">${index + 1}</span>
+              <span>
+                  <strong class="case-step-title">${escapeHtml(escena.titulo || `Escena ${index + 1}`)}</strong>
+              </span>
+          </button>
+      `).join('');
+  }
+
+  function renderizarEscenaActual() {
+      const escena = flujoClinico.escenas[flujoClinico.escenaActual];
+      const contenedor = document.getElementById('contenedorTemas');
+      const caso = flujoClinico.casoSeleccionado;
+      const total = flujoClinico.escenas.length;
+      const posicion = flujoClinico.escenaActual + 1;
+      const perlasUrl =
+          `perlas_clinicas.html?id_caso=${encodeURIComponent(caso.id)}`;
+
+      actualizarRutaFlujo();
+
+      if (!escena) {
+          contenedor.innerHTML = `
+              <div class="col-12">
+                  <div class="case-empty">
+                      <i class="material-symbols-rounded d-block mb-2" style="font-size:2.4rem;">clinical_notes</i>
+                      Este caso todavía no tiene escenas registradas.
+                  </div>
+              </div>
+          `;
+          return;
+      }
+
+      const porcentaje = total ? Math.round((posicion / total) * 100) : 0;
+
+      contenedor.innerHTML = `
+          <div class="col-12">
+              <section class="case-hero" ${estiloPortadaCaso(caso)}>
+                  <div class="case-hero-content">
+                      <div class="case-hero-actions">
+                          <a class="case-hero-action" href="${perlasUrl}">
+                              <i class="material-symbols-rounded">diamond</i>
+                              Perlas clínicas
+                          </a>
+                          <button class="case-hero-action" type="button" disabled>
+                              <i class="material-symbols-rounded">monitoring</i>
+                              Escalas pronósticas
+                          </button>
+                          <button class="case-hero-action" type="button" disabled>
+                              <i class="material-symbols-rounded">library_books</i>
+                              Infografías
+                          </button>
+                      </div>
+                      <div class="case-hero-panel text-end">
+                          <span class="muro-chip mb-2">
+                              ${posicion} de ${total} escenas
+                          </span>
+                          ${renderizarProgreso(porcentaje)}
+                      </div>
+                  </div>
+              </section>
+
+              <section class="case-workspace">
+                  <aside class="case-timeline" aria-label="Escenas del caso">
+                      <div class="d-flex align-items-center justify-content-between mb-2 px-2">
+                          <strong class="text-sm">Ruta del caso</strong>
+                          <span class="text-xs text-secondary">${total} escenas</span>
+                      </div>
+                      ${renderizarTimelineEscenas()}
+                  </aside>
+
+                  <article class="case-stage">
+                      <header class="case-stage-header">
+                          <span class="muro-chip institucional mb-2">
+                              <i class="material-symbols-rounded" style="font-size:1rem;">local_activity</i>
+                              Escena ${posicion}
+                          </span>
+                          <h4 class="mb-0">${escapeHtml(escena.titulo || `Escena ${posicion}`)}</h4>
+                      </header>
+
+                      <div class="case-scene-body" id="contenidoEscena">
+                          ${escena.contenido || ''}
+                          ${renderizarMultimedia(escena.multimedia)}
+                      </div>
+
+                      <footer class="case-actions">
+                          <button
+                              type="button"
+                              class="case-action-btn"
+                              id="btnEscenaAnterior"
+                              ${flujoClinico.escenaActual === 0 ? 'disabled' : ''}>
+                              <i class="material-symbols-rounded">arrow_back</i>
+                              Anterior
+                          </button>
+                          <button
+                              type="button"
+                              class="case-action-btn primary"
+                              id="btnEscenaSiguiente">
+                              ${flujoClinico.escenaActual === total - 1 ? 'Finalizar' : 'Siguiente'}
+                              <i class="material-symbols-rounded">arrow_forward</i>
+                          </button>
+                      </footer>
+                  </article>
+              </section>
+          </div>
+      `;
+
+      contenedor.querySelectorAll('[data-escena-index]').forEach((boton) => {
+          boton.addEventListener('click', () => {
+              flujoClinico.escenaActual = Number(boton.dataset.escenaIndex);
+              flujoClinico.respuestaContestada = false;
+              renderizarEscenaActual();
+          });
+      });
+
+      document.getElementById('btnEscenaAnterior')?.addEventListener('click', anteriorEscenaCaso);
+      document.getElementById('btnEscenaSiguiente')?.addEventListener('click', siguienteEscenaCaso);
+  }
+
+  async function cargarCasoEnPagina(caso) {
+      try {
+          flujoClinico.casoSeleccionado = caso;
+          flujoClinico.escenaActual = 0;
+          flujoClinico.respuestaContestada = false;
+          actualizarRutaFlujo();
+          mostrarEstadoFlujo('Preparando caso clínico...');
+
+          const response = await fetch(
+              `/php/get_escenas.php?id=${caso.id}`
+          );
+
+          const escenas = await response.json();
+
+          flujoClinico.escenas = Array.isArray(escenas) ? escenas : [];
+          ocultarEstadoFlujo();
+          renderizarEscenaActual();
+
+      } catch(error) {
+
+          console.error(error);
+          mostrarEstadoFlujo('No fue posible cargar las escenas del caso clínico.');
+
+      }
+  }
+
+  async function guardarRespuestaCaso(respuesta, correcta) {
+      if (flujoClinico.respuestaContestada) {
+          return;
+      }
+
+      flujoClinico.respuestaContestada = true;
+
+      const escena = flujoClinico.escenas[flujoClinico.escenaActual];
+
+      if (!escena) {
+          return;
+      }
+
+      try {
+          await fetch('../php/guardar_respuesta.php', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id_escena: escena.id,
+                  respuesta_usuario: respuesta,
+                  correcta: correcta
+              })
+          });
+      } catch(error) {
+          console.error(error);
+      }
+  }
+
+  function siguienteEscenaCaso() {
+      const escena = flujoClinico.escenas[flujoClinico.escenaActual];
+
+      if (escena?.tipo === 'pregunta' && !flujoClinico.respuestaContestada) {
+          mostrarEstadoFlujo('Responde la pregunta de esta escena para avanzar.');
+          return;
+      }
+
+      ocultarEstadoFlujo();
+
+      if (flujoClinico.escenaActual >= flujoClinico.escenas.length - 1) {
+          mostrarFinalCasoEmbebido();
+          return;
+      }
+
+      flujoClinico.escenaActual += 1;
+      flujoClinico.respuestaContestada = false;
+      renderizarEscenaActual();
+  }
+
+  function anteriorEscenaCaso() {
+      if (flujoClinico.escenaActual === 0) {
+          return;
+      }
+
+      flujoClinico.escenaActual -= 1;
+      flujoClinico.respuestaContestada = false;
+      ocultarEstadoFlujo();
+      renderizarEscenaActual();
+  }
+
+  function mostrarFinalCasoEmbebido() {
+      const contenedor = document.getElementById('contenedorTemas');
+      const caso = flujoClinico.casoSeleccionado;
+
+      contenedor.innerHTML = `
+          <div class="col-12">
+              <section class="case-hero case-complete-hero mb-0" ${estiloPortadaCaso(caso)}>
+                  <div class="case-hero-content">
+                    <div class="case-complete-panel">
+                      <span class="case-complete-mark">
+                          <i class="material-symbols-rounded">workspace_premium</i>
+                      </span>
+                      <span class="muro-chip mb-3">Caso completado</span>
+                      <h3>${escapeHtml(caso?.titulo || 'Caso clínico')}</h3>
+                      <p class="mb-4">Has recorrido todas las escenas del caso. Puedes iniciar la evaluación o revisar la ruta nuevamente.</p>
+                      <div class="d-flex justify-content-center flex-wrap gap-2">
+                          <button type="button" class="case-action-btn" id="btnRevisarCaso">
+                              <i class="material-symbols-rounded">replay</i>
+                              Revisar escenas
+                          </button>
+                          <button type="button" class="case-action-btn primary" id="btnIniciarEvaluacion">
+                              <i class="material-symbols-rounded">assignment</i>
+                              Iniciar evaluación
+                          </button>
+                      </div>
+                    </div>
+                  </div>
+              </section>
+          </div>
+      `;
+
+      document.getElementById('btnRevisarCaso')?.addEventListener('click', () => {
+          flujoClinico.escenaActual = 0;
+          flujoClinico.respuestaContestada = false;
+          renderizarEscenaActual();
+      });
+
+      document.getElementById('btnIniciarEvaluacion')?.addEventListener('click', iniciarExamenCaso);
+  }
+
+  async function iniciarExamenCaso() {
+      const caso = flujoClinico.casoSeleccionado;
+
+      if (!caso) {
+          return;
+      }
+
+      try {
+          const response = await fetch(
+              `../php/get_examen_por_caso.php?id_caso=${caso.id}`
+          );
+
+          const examen = await response.json();
+
+          if (!examen?.id) {
+              mostrarEstadoFlujo('Este caso aún no tiene evaluación registrada.');
+              return;
+          }
+
+          window.location.href =
+              `examen.html?id=${examen.id}` +
+              `&id_especialidad=${encodeURIComponent(idEspecialidad)}` +
+              `&id_tema=${encodeURIComponent(flujoClinico.temaSeleccionado?.id || '')}` +
+              `&tema=${encodeURIComponent(flujoClinico.temaSeleccionado?.titulo || '')}` +
+              `&id_caso=${encodeURIComponent(caso.id)}`;
+
+      } catch(error) {
+
+          console.error(error);
+          mostrarEstadoFlujo('No fue posible iniciar la evaluación.');
+
+      }
+  }
+
+  async function cargarCasoDesdeUrl() {
+      if (!idTemaInicial || !idCasoInicial) {
+          return false;
+      }
+
+      try {
+          mostrarEstadoFlujo('Abriendo caso clínico...');
+
+          const [temasResponse, casosResponse] = await Promise.all([
+              fetch(`/php/get_temas.php?id=${idEspecialidad}`),
+              fetch(`/php/get_casos.php?id=${idTemaInicial}`)
+          ]);
+
+          const temas = await temasResponse.json();
+          const casos = await casosResponse.json();
+
+          if (!Array.isArray(casos) || !casos.length) {
+              return false;
+          }
+
+          const tema =
+              Array.isArray(temas)
+                  ? temas.find((item) => String(item.id) === String(idTemaInicial))
+                  : null;
+
+          const caso = casos.find((item) => String(item.id) === String(idCasoInicial));
+
+          if (!caso) {
+              return false;
+          }
+
+          flujoClinico.temaSeleccionado = tema || {
+              id: idTemaInicial,
+              titulo: params.get('tema') || 'Tema'
+          };
+
+          await cargarCasoEnPagina(caso);
+          return true;
+
+      } catch(error) {
+
+          console.error(error);
+          return false;
+
+      }
+  }
+
+  window.guardarRespuesta = guardarRespuestaCaso;
+  window.marcarRespuestaContestada = (valor = true) => {
+      flujoClinico.respuestaContestada = Boolean(valor);
+  };
+  window.responderPreguntaEscena = async function(
+      respuesta,
+      correcta,
+      retroalimentacionId,
+      retroalimentacionHtml
+  ) {
+      await guardarRespuestaCaso(respuesta, correcta);
+
+      if (retroalimentacionId && retroalimentacionHtml) {
+          const retroalimentacion = document.getElementById(retroalimentacionId);
+
+          if (retroalimentacion) {
+              retroalimentacion.innerHTML = retroalimentacionHtml;
+          }
+      }
+  };
 
   async function cargarInfoEspecialidad() {
 
       try {
+
+          if (!idEspecialidad) {
+              document.getElementById('breadcrumbEspecialidad').innerText = 'Especialidad';
+              document.title = 'Especialidad - IMSSight';
+              actualizarRutaFlujo();
+              return null;
+          }
 
           const response = await fetch(
               `/php/get_especialidad.php?id=${idEspecialidad}`
           );
 
           const especialidad = await response.json();
+
+          flujoClinico.especialidad = especialidad;
 
           document.getElementById(
               'tituloEspecialidadTexto'
@@ -785,15 +2149,36 @@ cargarEspecialidades();
           document.title =
               especialidad.nombre + ' - IMSSight';
 
+          actualizarRutaFlujo();
+          return especialidad;
+
       } catch(error) {
 
           console.error(error);
+          return null;
 
       }
 
   }
 
-  cargarInfoEspecialidad();
+  async function inicializarFlujoClinico() {
+      await cargarInfoEspecialidad();
+
+      if (!idEspecialidad) {
+          await cargarEspecialidadesClinicas();
+          return;
+      }
+
+      const casoCargado = await cargarCasoDesdeUrl();
+
+      if (casoCargado) {
+          return;
+      }
+
+      await cargarTemas();
+  }
+
+  inicializarFlujoClinico();
 
   </script>
   <script>

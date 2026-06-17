@@ -37,470 +37,535 @@
     <!-- jQuery primero (requerido por jsTree) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    .muro-composer textarea {
-        min-height: 48px;
-        resize: none;
-        overflow: hidden;
-    }
+    <style>
+        .muro-composer textarea {
+            min-height: 48px;
+            resize: none;
+            overflow: hidden;
+        }
 
-    .muro-composer {
-        border: 1px solid #DDDDDD;
-        border-top: 5px solid #9D2449;
-        box-shadow: 0 14px 34px rgba(64, 64, 65, .08);
-    }
+        .muro-composer {
+            border: 1px solid #DDDDDD;
+            border-top: 5px solid #9D2449;
+            box-shadow: 0 14px 34px rgba(64, 64, 65, .08);
+        }
 
-    .muro-form-label {
-        color: #404041;
-        letter-spacing: 0;
-    }
+        .muro-form-label {
+            color: #404041;
+            letter-spacing: 0;
+        }
 
-    .muro-field {
-        border: 1.5px solid #A9A8A9 !important;
-        border-radius: 12px !important;
-        background: #FFFFFF !important;
-        color: #404041 !important;
-        padding: .85rem 1rem !important;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
-        transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
-    }
+        .muro-field {
+            border: 1.5px solid #A9A8A9 !important;
+            border-radius: 12px !important;
+            background: #FFFFFF !important;
+            color: #404041 !important;
+            padding: .85rem 1rem !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+            transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+        }
 
-    .muro-field::placeholder {
-        color: #6F7271;
-        opacity: .82;
-    }
+        .muro-field::placeholder {
+            color: #6F7271;
+            opacity: .82;
+        }
 
-    .muro-field:focus {
-        border-color: #9D2449 !important;
-        background: #FFFFFF !important;
-        box-shadow: 0 0 0 .18rem rgba(157, 36, 73, .14) !important;
-    }
+        .muro-field:focus {
+            border-color: #9D2449 !important;
+            background: #FFFFFF !important;
+            box-shadow: 0 0 0 .18rem rgba(157, 36, 73, .14) !important;
+        }
 
-    .muro-quick-composer .card-body {
-        padding: 1rem !important;
-    }
+        .muro-quick-composer .card-body {
+            padding: 1rem !important;
+        }
 
-    .muro-quick-composer .muro-form-label {
-        font-size: .86rem;
-    }
+        .muro-quick-composer .muro-form-label {
+            font-size: .86rem;
+        }
 
-    .muro-quick-composer .muro-field {
-        border-radius: 14px !important;
-        padding: .72rem .85rem !important;
-        line-height: 1.35;
-    }
+        .muro-quick-composer .muro-field {
+            border-radius: 14px !important;
+            padding: .72rem .85rem !important;
+            line-height: 1.35;
+        }
 
-    .muro-helper {
-        color: #6F7271;
-        font-size: .68rem;
-        line-height: 1.25;
-    }
+        .muro-helper {
+            color: #6F7271;
+            font-size: .68rem;
+            line-height: 1.25;
+        }
 
-    .muro-publish-actions .muro-submit {
-        margin-left: auto;
-    }
+        .muro-publish-actions .muro-submit {
+            margin-left: auto;
+        }
 
-    .muro-post {
-        border: 1px solid rgba(64, 64, 65, .1);
-        border-radius: 14px;
-        background: #ffffff;
-        box-shadow: 0 12px 32px rgba(64, 64, 65, .08);
-    }
+        .muro-post {
+            border: 1px solid rgba(64, 64, 65, .1);
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 12px 32px rgba(64, 64, 65, .08);
+        }
 
-    .muro-post.fijado {
-        border-color: rgba(157, 36, 73, .34);
-        background:
-            linear-gradient(135deg, rgba(246, 246, 246, .96), #ffffff);
-    }
+        .muro-post.fijado {
+            border-color: rgba(157, 36, 73, .34);
+            background:
+                linear-gradient(135deg, rgba(246, 246, 246, .96), #ffffff);
+        }
 
-    .muro-avatar {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #285C4D, #9D2449);
-        color: #ffffff;
-        font-weight: 800;
-    }
+        .muro-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #285C4D, #9D2449);
+            color: #ffffff;
+            font-weight: 800;
+            flex: 0 0 auto;
+            line-height: 1;
+        }
 
-    .muro-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: .25rem;
-        border-radius: 999px;
-        padding: .25rem .55rem;
-        font-size: .72rem;
-        font-weight: 700;
-        background: rgba(64, 64, 65, .08);
-        color: #404041;
-    }
+        .muro-profile-link {
+            color: #404041;
+            font-weight: 800;
+            text-decoration: none;
+        }
 
-    .muro-chip.institucional,
-    .muro-chip.noticia {
-        background: rgba(40, 92, 77, .12);
-        color: #285C4D;
-    }
+        .muro-profile-link:hover {
+            color: #9D2449;
+            text-decoration: underline;
+        }
 
-    .muro-chip.experto {
-        background: rgba(157, 36, 73, .13);
-        color: #9D2449;
-    }
+        .muro-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+            border-radius: 999px;
+            padding: .25rem .55rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: rgba(64, 64, 65, .08);
+            color: #404041;
+        }
 
-    .muro-empty {
-        border: 1px dashed #A9A8A9;
-        border-radius: 16px;
-        background: #F6F6F6;
-    }
+        .muro-chip.institucional,
+        .muro-chip.noticia {
+            background: rgba(40, 92, 77, .12);
+            color: #285C4D;
+        }
 
-    .muro-section-title {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        color: #404041;
-        font-weight: 800;
-        margin: 1rem 0 .25rem;
-    }
+        .muro-chip.experto {
+            background: rgba(157, 36, 73, .13);
+            color: #9D2449;
+        }
 
-    .muro-section-title::before {
-        content: "";
-        width: 8px;
-        height: 26px;
-        border-radius: 999px;
-        background: #9D2449;
-        display: inline-block;
-    }
+        .muro-empty {
+            border: 1px dashed #A9A8A9;
+            border-radius: 16px;
+            background: #F6F6F6;
+        }
 
-    .muro-submit {
-        background: #9D2449;
-        color: #ffffff;
-        box-shadow: 0 8px 18px rgba(157, 36, 73, .2);
-    }
+        .muro-section-title {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            color: #404041;
+            font-weight: 800;
+            margin: 1rem 0 .25rem;
+        }
 
-    .muro-submit:hover,
-    .muro-submit:focus {
-        background: #285C4D;
-        color: #ffffff;
-    }
+        .muro-section-title::before {
+            content: "";
+            width: 8px;
+            height: 26px;
+            border-radius: 999px;
+            background: #9D2449;
+            display: inline-block;
+        }
 
-    .muro-editorial-panel {
-        border: 1px solid #DDDDDD;
-        border-radius: 12px;
-        background: #F6F6F6;
-        padding: .55rem .65rem;
-    }
+        .muro-submit {
+            background: #9D2449;
+            color: #ffffff;
+            box-shadow: 0 8px 18px rgba(157, 36, 73, .2);
+        }
 
-    .muro-editorial-panel .form-switch {
-        display: flex;
-        align-items: center;
-        min-height: auto;
-        margin-bottom: 0;
-        padding-top: 0;
-    }
+        .muro-submit:hover,
+        .muro-submit:focus {
+            background: #285C4D;
+            color: #ffffff;
+        }
 
-    .muro-editorial-panel .form-check-label {
-        color: #404041;
-    }
+        .muro-editorial-panel {
+            border: 1px solid #DDDDDD;
+            border-radius: 12px;
+            background: #F6F6F6;
+            padding: .55rem .65rem;
+        }
 
-    .muro-editorial-compact {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: .75rem;
-    }
+        .muro-editorial-panel .form-switch {
+            display: flex;
+            align-items: center;
+            min-height: auto;
+            margin-bottom: 0;
+            padding-top: 0;
+        }
 
-    .muro-editorial-select {
-        flex: 1 1 0;
-        min-width: 0;
-        max-width: 320px;
-    }
+        .muro-editorial-panel .form-check-label {
+            color: #404041;
+        }
 
-    .muro-editorial-select .muro-field {
-        min-height: 42px;
-        padding: .48rem .8rem !important;
-        border-radius: 13px !important;
-    }
-
-    .muro-editorial-select small {
-        display: block;
-        margin-top: .2rem;
-        color: #6F7271;
-        line-height: 1;
-    }
-
-    .muro-pin-chip {
-        min-height: 48px;
-        padding: .35rem .7rem;
-        gap: .45rem;
-    }
-
-    .muro-pin-chip .form-switch {
-        padding-left: 2.45rem;
-    }
-
-    .muro-pin-icon {
-        color: #285C4D;
-        font-size: 1.05rem;
-        transform: rotate(-24deg);
-    }
-
-    @media (max-width: 575.98px) {
         .muro-editorial-compact {
-            align-items: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
         }
 
         .muro-editorial-select {
-            max-width: none;
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 320px;
         }
-    }
 
-    .muro-contenido {
-        text-align: left;
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-    }
+        .muro-editorial-select .muro-field {
+            min-height: 42px;
+            padding: .48rem .8rem !important;
+            border-radius: 13px !important;
+        }
 
-    .muro-inline-link {
-        color: var(--bs-primary);
-        font-weight: 700;
-        border-bottom: 1px solid rgba(var(--bs-primary-rgb), .28);
-    }
+        .muro-editorial-select small {
+            display: block;
+            margin-top: .2rem;
+            color: #6F7271;
+            line-height: 1;
+        }
 
-    .muro-link-card {
-        display: flex;
-        align-items: center;
-        gap: .85rem;
-        border: 1px solid rgba(var(--bs-primary-rgb), .24);
-        border-left: 4px solid var(--bs-primary);
-        border-radius: 12px;
-        background: rgba(var(--bs-primary-rgb), .06);
-        padding: .85rem 1rem;
-        margin-top: .75rem;
-        color: #404041;
-    }
+        .muro-pin-chip {
+            min-height: 48px;
+            padding: .35rem .7rem;
+            gap: .45rem;
+        }
 
-    .muro-link-card:hover {
-        color: #404041;
-        background: rgba(var(--bs-primary-rgb), .1);
-    }
+        .muro-pin-chip .form-switch {
+            padding-left: 2.45rem;
+        }
 
-    .muro-link-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        background: var(--bs-primary);
-        flex: 0 0 auto;
-    }
+        .muro-pin-icon {
+            color: #285C4D;
+            font-size: 1.05rem;
+            transform: rotate(-24deg);
+        }
 
-    .muro-comments {
-        border-top: 1px solid #DDDDDD;
-        margin-top: 1rem;
-        padding-top: 1rem;
-    }
+        @media (max-width: 575.98px) {
+            .muro-editorial-compact {
+                align-items: stretch;
+            }
 
-    .muro-comment {
-        border-radius: 10px;
-        background: #F6F6F6;
-        padding: .75rem .9rem;
-    }
+            .muro-editorial-select {
+                max-width: none;
+            }
+        }
 
-    .muro-comment-input {
-        border: 1px solid #DDDDDD !important;
-        border-radius: 10px !important;
-        padding: .65rem .8rem !important;
-        background: #FFFFFF !important;
-    }
+        .muro-contenido {
+            text-align: left;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
 
-    .muro-delete-comment {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        border: 1px solid #DDDDDD;
-        background: #FFFFFF;
-        color: #9D2449;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
+        .muro-post-title {
+            font-size: .98rem;
+            line-height: 1.25;
+        }
 
-    .muro-delete-comment:hover {
-        background: rgba(157, 36, 73, .08);
-        border-color: rgba(157, 36, 73, .35);
-    }
+        .muro-post-body,
+        .muro-comment-body {
+            font-size: .82rem;
+            line-height: 1.38;
+        }
 
-    .imssight-hub-card {
-        display: flex;
-        align-items: center;
-        gap: .9rem;
-        min-height: 88px;
-        border: 1px solid #DDDDDD;
-        border-radius: 14px;
-        background: #FFFFFF;
-        color: #404041;
-        padding: 1rem;
-        box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
-        transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-    }
+        .muro-comment-body {
+            margin-top: .15rem;
+            white-space: pre-wrap;
+        }
 
-    .imssight-hub-card:hover,
-    .imssight-hub-card:focus {
-        color: #404041;
-        border-color: rgba(157, 36, 73, .42);
-        box-shadow: 0 16px 34px rgba(157, 36, 73, .11);
-        transform: translateY(-2px);
-    }
+        .muro-inline-link {
+            color: var(--bs-primary);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(var(--bs-primary-rgb), .28);
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
 
-    .imssight-hub-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex: 0 0 auto;
-        color: #FFFFFF;
-        background: linear-gradient(135deg, #285C4D, #9D2449);
-        box-shadow: 0 10px 20px rgba(40, 92, 77, .16);
-    }
+        .muro-link-card {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            border: 1px solid rgba(var(--bs-primary-rgb), .24);
+            border-left: 4px solid var(--bs-primary);
+            border-radius: 12px;
+            background: rgba(var(--bs-primary-rgb), .06);
+            padding: .85rem 1rem;
+            margin-top: .75rem;
+            color: #404041;
+        }
 
-    .imssight-hub-title {
-        display: block;
-        margin-bottom: .1rem;
-        font-size: .9rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .01em;
-    }
+        .muro-link-card:hover {
+            color: #404041;
+            background: rgba(var(--bs-primary-rgb), .1);
+        }
 
-    .imssight-hub-copy {
-        display: block;
-        color: #6F7271;
-        font-size: .76rem;
-        line-height: 1.25;
-    }
+        .muro-link-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: var(--bs-primary);
+            flex: 0 0 auto;
+        }
 
-    .muro-side-feed {
-        border-top: 1px solid #DDDDDD;
-        margin-top: 1.25rem;
-        padding-top: 1rem;
-    }
+        .muro-comments {
+            border-top: 1px solid #DDDDDD;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
 
-    .muro-feed-compact {
-        gap: .85rem !important;
-    }
+        .muro-comment {
+            border-radius: 10px;
+            background: #F6F6F6;
+            padding: .75rem .9rem;
+        }
 
-    .muro-feed-compact .muro-section-title {
-        margin: 1rem 0 .15rem;
-        font-size: .86rem;
-        letter-spacing: .01em;
-    }
+        .muro-comment-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: .5rem;
+        }
 
-    .muro-feed-compact .muro-section-title::before {
-        width: 6px;
-        height: 20px;
-    }
+        .muro-comment-date {
+            display: block;
+            margin-top: .15rem;
+            font-size: .68rem;
+            color: #6F7271;
+            text-align: right;
+        }
 
-    .muro-feed-compact .muro-post {
-        padding: 1rem !important;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(64, 64, 65, .06);
-    }
+        .muro-comment-input {
+            border: 1px solid #DDDDDD !important;
+            border-radius: 10px !important;
+            padding: .65rem .8rem !important;
+            background: #FFFFFF !important;
+        }
 
-    .muro-feed-compact .muro-post > .d-flex {
-        gap: .75rem !important;
-    }
+        .muro-delete-comment {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: 1px solid #DDDDDD;
+            background: #FFFFFF;
+            color: #9D2449;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .muro-feed-compact .muro-avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 10px;
-        font-size: .78rem;
-    }
+        .muro-delete-comment:hover {
+            background: rgba(157, 36, 73, .08);
+            border-color: rgba(157, 36, 73, .35);
+        }
 
-    .muro-feed-compact h5 {
-        font-size: .98rem;
-        line-height: 1.25;
-    }
+        .imssight-hub-card {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            min-height: 88px;
+            border: 1px solid #DDDDDD;
+            border-radius: 14px;
+            background: #FFFFFF;
+            color: #404041;
+            padding: 1rem;
+            box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
+            transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+        }
 
-    .muro-feed-compact h6 {
-        font-size: .85rem;
-    }
+        .imssight-hub-card:hover,
+        .imssight-hub-card:focus {
+            color: #404041;
+            border-color: rgba(157, 36, 73, .42);
+            box-shadow: 0 16px 34px rgba(157, 36, 73, .11);
+            transform: translateY(-2px);
+        }
 
-    .muro-feed-compact .muro-chip {
-        font-size: .64rem;
-        padding: .2rem .45rem;
-    }
+        .imssight-hub-icon {
 
-    .muro-feed-compact .muro-contenido,
-    .muro-feed-compact .muro-comments,
-    .muro-feed-compact .muro-comment,
-    .muro-feed-compact .muro-comment-input {
-        font-size: .78rem;
-    }
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
 
-    .muro-feed-compact .muro-comments {
-        margin-top: .75rem;
-        padding-top: .75rem;
-    }
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-    .muro-feed-compact .muro-comments .d-flex.gap-2 {
-        flex-direction: column;
-    }
+            color: #FFFFFF;
 
-    .muro-feed-compact .muro-comments .btn {
-        width: 100%;
-    }
+            background: linear-gradient(
+                135deg,
+                #1a2e27 0%,
+                #235B4E 35%,
+                #2f7563 100%
+            );
 
-    .muro-feed-compact .muro-comment {
-        padding: .55rem .65rem;
-    }
+            box-shadow:
+                0 10px 20px rgba(40, 92, 77, .25);
 
-    .muro-feed-compact .muro-delete-comment {
-        width: 28px;
-        height: 28px;
-        border-radius: 9px;
-    }
+        }
 
-    .muro-feed-compact .muro-link-card {
-        padding: .65rem .7rem;
-        gap: .65rem;
-    }
+        .imssight-hub-copy {
+            display: block;
+            color: #6F7271;
+            font-size: .76rem;
+            line-height: 1.25;
+        }
 
-    .muro-feed-compact .muro-link-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 9px;
-    }
-  </style>
-  
+        .muro-side-feed {
+            border-top: 1px solid #DDDDDD;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+        }
+
+        .muro-feed-compact {
+            gap: .85rem !important;
+        }
+
+        .muro-feed-compact .muro-section-title {
+            margin: 1rem 0 .15rem;
+            font-size: .86rem;
+            letter-spacing: .01em;
+        }
+
+        .muro-feed-compact .muro-section-title::before {
+            width: 6px;
+            height: 20px;
+        }
+
+        .muro-feed-compact .muro-post {
+            padding: 1rem !important;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(64, 64, 65, .06);
+        }
+
+        .muro-feed-compact .muro-post > .d-flex {
+            gap: .75rem !important;
+        }
+
+        .muro-feed-compact .muro-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: .78rem;
+        }
+
+        .muro-feed-compact h5 {
+            font-size: .98rem;
+            line-height: 1.25;
+        }
+
+        .muro-feed-compact h6 {
+            font-size: .85rem;
+        }
+
+        .muro-feed-compact .muro-chip {
+            font-size: .64rem;
+            padding: .2rem .45rem;
+        }
+
+        .muro-feed-compact .muro-contenido,
+        .muro-feed-compact .muro-comments,
+        .muro-feed-compact .muro-comment,
+        .muro-feed-compact .muro-comment-input {
+            font-size: .78rem;
+        }
+
+        .muro-feed-compact .muro-post-title {
+            font-size: .9rem;
+        }
+
+        .muro-feed-compact .muro-post-body,
+        .muro-feed-compact .muro-comment-body {
+            font-size: .76rem;
+            line-height: 1.34;
+        }
+
+        .muro-feed-compact .muro-comment-date {
+            font-size: .66rem;
+        }
+
+        .muro-feed-compact .muro-comments {
+            margin-top: .75rem;
+            padding-top: .75rem;
+        }
+
+        .muro-feed-compact .muro-comments .d-flex.gap-2 {
+            flex-direction: column;
+        }
+
+        .muro-feed-compact .muro-comment-head {
+            flex-direction: row !important;
+        }
+
+        .muro-feed-compact .muro-comments .btn {
+            width: 100%;
+        }
+
+        .muro-feed-compact .muro-comment {
+            padding: .55rem .65rem;
+        }
+
+        .muro-feed-compact .muro-delete-comment {
+            width: 28px;
+            height: 28px;
+            border-radius: 9px;
+        }
+
+        .muro-feed-compact .muro-link-card {
+            padding: .65rem .7rem;
+            gap: .65rem;
+        }
+
+        .muro-feed-compact .muro-link-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+        }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-  <div id="menu-lateral"></div>
-   <script>
-    fetch('componentes/menu.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('menu-lateral').innerHTML = data;
+    <div id="menu-lateral"></div>
+    <script>
+        fetch('componentes/menu.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('menu-lateral').innerHTML = data;
 
-        // Detectar el archivo actual
-        const paginaActual = window.location.pathname.split("/").pop();
+            // Detectar el archivo actual
+            const paginaActual = window.location.pathname.split("/").pop();
 
-        // Buscar todos los enlaces
-        document.querySelectorAll('#sidenav-main .nav-link').forEach(link => {
-          if(link.getAttribute('href').includes(paginaActual)) {
-            link.classList.add('active', 'bg-gradient-warning', 'text-white');
-          } else {
-            link.classList.remove('active', 'bg-gradient-warning', 'text-white');
-          }
+            // Buscar todos los enlaces
+            document.querySelectorAll('#sidenav-main .nav-link').forEach(link => {
+            if(link.getAttribute('href').includes(paginaActual)) {
+                link.classList.add('active', 'bg-gradient-warning', 'text-white');
+            } else {
+                link.classList.remove('active', 'bg-gradient-warning', 'text-white');
+            }
+            });
         });
-      });
-  </script>
+    </script>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="margin-left: 250px;">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -674,17 +739,6 @@
                   <div class="col-md-6">
                     <a class="imssight-hub-card" href="especialidad.html">
                       <span class="imssight-hub-icon">
-                        <i class="material-symbols-rounded">medical_services</i>
-                      </span>
-                      <span>
-                        <span class="imssight-hub-title">Especialidades</span>
-                        <span class="imssight-hub-copy">Rutas académicas por servicio y área clínica.</span>
-                      </span>
-                    </a>
-                  </div>
-                  <div class="col-md-6">
-                    <a class="imssight-hub-card" href="especialidad.html">
-                      <span class="imssight-hub-icon">
                         <i class="material-symbols-rounded">clinical_notes</i>
                       </span>
                       <span>
@@ -694,7 +748,7 @@
                     </a>
                   </div>
                   <div class="col-md-6">
-                    <a class="imssight-hub-card" href="search.html?q=perla%20cl%C3%ADnica">
+                    <a class="imssight-hub-card" href="perlas_clinicas.html">
                       <span class="imssight-hub-icon">
                         <i class="material-symbols-rounded">lightbulb</i>
                       </span>
@@ -721,7 +775,7 @@
                         <i class="material-symbols-rounded">library_books</i>
                       </span>
                       <span>
-                        <span class="imssight-hub-title">Infografías y guías clínicas</span>
+                        <span class="imssight-hub-title">Infografías</span>
                         <span class="imssight-hub-copy">Material visual y referencias para repaso rápido.</span>
                       </span>
                     </a>
@@ -737,17 +791,7 @@
                       </span>
                     </a>
                   </div>
-                  <div class="col-md-6">
-                    <a class="imssight-hub-card" href="search.html?q=diagn%C3%B3stico">
-                      <span class="imssight-hub-icon">
-                        <i class="material-symbols-rounded">biotech</i>
-                      </span>
-                      <span>
-                        <span class="imssight-hub-title">Exámenes diagnósticos</span>
-                        <span class="imssight-hub-copy">Estudios clave vinculados al razonamiento clínico.</span>
-                      </span>
-                    </a>
-                  </div>
+                  
                   <div class="col-md-6">
                     <a class="imssight-hub-card" href="mapa_demanda_medica.html">
                       <span class="imssight-hub-icon">
@@ -756,28 +800,6 @@
                       <span>
                         <span class="imssight-hub-title">Acceso datos institucionales</span>
                         <span class="imssight-hub-copy">Mapa de demanda médica y lectura ejecutiva.</span>
-                      </span>
-                    </a>
-                  </div>
-                  <div class="col-md-6">
-                    <a class="imssight-hub-card" href="podcast.html">
-                      <span class="imssight-hub-icon">
-                        <i class="material-symbols-rounded">mic</i>
-                      </span>
-                      <span>
-                        <span class="imssight-hub-title">Podcast</span>
-                        <span class="imssight-hub-copy">Conversaciones de formación para residentes.</span>
-                      </span>
-                    </a>
-                  </div>
-                  <div class="col-md-6">
-                    <a class="imssight-hub-card" href="search.html?q=video">
-                      <span class="imssight-hub-icon">
-                        <i class="material-symbols-rounded">movie</i>
-                      </span>
-                      <span>
-                        <span class="imssight-hub-title">Video</span>
-                        <span class="imssight-hub-copy">Contenido audiovisual integrado al aprendizaje.</span>
                       </span>
                     </a>
                   </div>
@@ -1057,1074 +1079,1091 @@
 
   <script>
 
-let muroPuedeFijar = false;
-let muroPublicacionesActuales = [];
-let muroOffset = 0;
-let muroHayMas = true;
-let muroCargando = false;
-const MURO_PAGE_SIZE = 10;
+    let muroPuedeFijar = false;
+    let muroPublicacionesActuales = [];
+    let muroOffset = 0;
+    let muroHayMas = true;
+    let muroCargando = false;
+    const MURO_PAGE_SIZE = 10;
 
-function escaparTexto(valor){
+    function escaparTexto(valor){
 
-    return String(valor ?? '')
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
+        return String(valor ?? '')
+            .replaceAll('&','&amp;')
+            .replaceAll('<','&lt;')
+            .replaceAll('>','&gt;')
+            .replaceAll('"','&quot;')
+            .replaceAll("'","&#039;");
 
-}
-
-function inicialesAutor(nombre){
-
-    return String(nombre ?? 'IM')
-        .trim()
-        .split(/\s+/)
-        .slice(0,2)
-        .map(parte => parte.charAt(0).toUpperCase())
-        .join('') || 'IM';
-
-}
-
-function etiquetaTipo(tipo){
-
-    const etiquetas = {
-        institucional:'Institucional',
-        experto:'Experto IMSS',
-        noticia:'Noticia',
-        usuario:'Comunidad'
-    };
-
-    return etiquetas[tipo] || 'Comunidad';
-
-}
-
-function fechaMuro(fecha){
-
-    if(!fecha){
-        return '';
     }
 
-    return new Date(fecha.replace(' ', 'T'))
-        .toLocaleString('es-MX', {
-            dateStyle:'medium',
-            timeStyle:'short'
-        });
+    function inicialesAutor(nombre){
 
-}
+        return String(nombre ?? 'IM')
+            .trim()
+            .split(/\s+/)
+            .slice(0,2)
+            .map(parte => parte.charAt(0).toUpperCase())
+            .join('') || 'IM';
 
-function extraerUrls(texto){
-
-    const coincidencias =
-        String(texto ?? '')
-            .match(/https?:\/\/[^\s<>"']+/g) || [];
-
-    return [
-        ...new Set(
-            coincidencias.map(url =>
-                url.replace(/[),.;!?]+$/,'')
-            )
-        )
-    ];
-
-}
-
-function dominioUrl(url){
-
-    try{
-        return new URL(url).hostname.replace(/^www\./,'');
-    }
-    catch(error){
-        return url;
     }
 
-}
+    function etiquetaTipo(tipo){
 
-function renderTextoConEnlaces(texto){
+        const etiquetas = {
+            institucional:'Institucional',
+            experto:'Experto IMSS',
+            noticia:'Noticia',
+            usuario:'Comunidad'
+        };
 
-    const seguro =
-        escaparTexto(texto).trim();
+        return etiquetas[tipo] || 'Comunidad';
 
-    return seguro.replace(
-        /(https?:\/\/[^\s<>"']+)/g,
-        url => {
-            const limpio =
-                url.replace(/[),.;!?]+$/,'');
+    }
 
-            const sobrante =
-                url.slice(limpio.length);
+    function fechaMuro(fecha){
 
-            return `<a class="muro-inline-link" href="${limpio}" target="_blank" rel="noopener noreferrer">${dominioUrl(limpio)}</a>${sobrante}`;
+        if(!fecha){
+            return '';
         }
-    );
 
-}
+        return new Date(fecha.replace(' ', 'T'))
+            .toLocaleString('es-MX', {
+                dateStyle:'medium',
+                timeStyle:'short'
+            });
 
-function renderLinkCards(texto){
-
-    const urls =
-        extraerUrls(texto);
-
-    if(urls.length === 0){
-        return '';
     }
 
-    return urls.map(url => `
-        <a
-            class="muro-link-card"
-            href="${escaparTexto(url)}"
-            target="_blank"
-            rel="noopener noreferrer">
-            <span class="muro-link-icon">
-                <i class="material-symbols-rounded" style="font-size:1.15rem;">link</i>
-            </span>
-            <span>
-                <strong class="d-block">Abrir recurso compartido</strong>
-                <small>${escaparTexto(dominioUrl(url))}</small>
-            </span>
-        </a>
-    `).join('');
+    function extraerUrls(texto){
 
-}
+        const coincidencias =
+            String(texto ?? '')
+                .match(/https?:\/\/[^\s<>"']+/g) || [];
 
-function renderComentarios(publicacion){
+        return [
+            ...new Set(
+                coincidencias.map(url =>
+                    url.replace(/[),.;!?]+$/,'')
+                )
+            )
+        ];
 
-    const comentarios =
-        Array.isArray(publicacion.comentarios)
-            ? publicacion.comentarios
-            : [];
+    }
 
-    const idPublicacion =
-        Number(publicacion.id);
+    function dominioUrl(url){
 
-    const lista =
-        comentarios.length > 0
-            ? comentarios.map(comentario => `
-                <div class="muro-comment mb-2">
-                    <div class="d-flex justify-content-between gap-2 flex-wrap mb-1">
-                        <div>
-                            <strong class="text-sm">${escaparTexto(comentario.autor_nombre)}</strong>
-                            <small class="text-muted ms-2">${fechaMuro(comentario.fecha)}</small>
+        try{
+            return new URL(url).hostname.replace(/^www\./,'');
+        }
+        catch(error){
+            return url;
+        }
+
+    }
+
+    function renderTextoConEnlaces(texto){
+
+        const seguro =
+            escaparTexto(texto).trim();
+
+        return seguro.replace(
+            /(https?:\/\/[^\s<>"']+)/g,
+            url => {
+                const limpio =
+                    url.replace(/[),.;!?]+$/,'');
+
+                const sobrante =
+                    url.slice(limpio.length);
+
+                return `<a class="muro-inline-link" href="${limpio}" target="_blank" rel="noopener noreferrer">${limpio}</a>${sobrante}`;
+            }
+        );
+
+    }
+
+    function renderLinkCards(texto){
+
+        const urls =
+            extraerUrls(texto);
+
+        if(urls.length === 0){
+            return '';
+        }
+
+        return urls.map(url => `
+            <a
+                class="muro-link-card"
+                href="${escaparTexto(url)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                <span class="muro-link-icon">
+                    <i class="material-symbols-rounded" style="font-size:1.15rem;">link</i>
+                </span>
+                <span>
+                    <strong class="d-block">Abrir recurso compartido</strong>
+                    <small>${escaparTexto(dominioUrl(url))}</small>
+                </span>
+            </a>
+        `).join('');
+
+    }
+
+    function perfilUsuarioUrl(idUsuario){
+
+        const id =
+            Number(idUsuario);
+
+        return Number.isFinite(id) && id > 0
+            ? `user_profile.html?id=${id}`
+            : 'user_profile.html';
+
+    }
+
+    function renderComentarios(publicacion){
+
+        const comentarios =
+            Array.isArray(publicacion.comentarios)
+                ? publicacion.comentarios
+                : [];
+
+        const idPublicacion =
+            Number(publicacion.id);
+
+        const lista =
+            comentarios.length > 0
+                ? comentarios.map(comentario => `
+                    <div class="muro-comment mb-2">
+                        <div class="muro-comment-head mb-1">
+                            <a
+                                class="muro-profile-link text-sm"
+                                href="${perfilUsuarioUrl(comentario.id_usuario)}">
+                                ${escaparTexto(comentario.autor_nombre)}
+                            </a>
+                            ${
+                                Number(comentario.puede_eliminar) === 1
+                                ? `<button
+                                    class="muro-delete-comment"
+                                    type="button"
+                                    title="Eliminar comentario"
+                                    aria-label="Eliminar comentario"
+                                    onclick="eliminarComentarioMuro(${Number(comentario.id)})">
+                                    <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                                </button>`
+                                : ''
+                            }
                         </div>
-                        ${
-                            Number(comentario.puede_eliminar) === 1
-                            ? `<button
-                                class="muro-delete-comment"
-                                type="button"
-                                title="Eliminar comentario"
-                                aria-label="Eliminar comentario"
-                                onclick="eliminarComentarioMuro(${Number(comentario.id)})">
-                                <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
-                            </button>`
-                            : ''
-                        }
+                        <div class="text-dark muro-contenido muro-comment-body">${renderTextoConEnlaces(comentario.contenido)}</div>
+                        <small class="muro-comment-date">${fechaMuro(comentario.fecha)}</small>
                     </div>
-                    <div class="text-sm text-dark muro-contenido">${renderTextoConEnlaces(comentario.contenido)}</div>
-                    ${renderLinkCards(comentario.contenido)}
+                `).join('')
+                : `<small class="text-muted d-block mb-2">Sin comentarios todavía.</small>`;
+
+        return `
+            <div class="muro-comments">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <strong class="text-sm">Comentarios</strong>
+                    <small class="text-muted">${comentarios.length}</small>
                 </div>
-            `).join('')
-            : `<small class="text-muted d-block mb-2">Sin comentarios todavía.</small>`;
-
-    return `
-        <div class="muro-comments">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-                <strong class="text-sm">Comentarios</strong>
-                <small class="text-muted">${comentarios.length}</small>
+                ${lista}
+                <div class="d-flex gap-2 mt-2">
+                    <input
+                        class="form-control muro-comment-input"
+                        id="muroComentario${idPublicacion}"
+                        maxlength="800"
+                        placeholder="Escribe un comentario...">
+                    <button
+                        class="btn btn-sm muro-submit mb-0"
+                        type="button"
+                        onclick="publicarComentarioMuro(${idPublicacion})">
+                        Comentar
+                    </button>
+                </div>
             </div>
-            ${lista}
-            <div class="d-flex gap-2 mt-2">
-                <input
-                    class="form-control muro-comment-input"
-                    id="muroComentario${idPublicacion}"
-                    maxlength="800"
-                    placeholder="Escribe un comentario...">
-                <button
-                    class="btn btn-sm muro-submit mb-0"
-                    type="button"
-                    onclick="publicarComentarioMuro(${idPublicacion})">
-                    Comentar
-                </button>
-            </div>
-        </div>
-    `;
+        `;
 
-}
+    }
 
-function plantillaPublicacion(publicacion){
+    function plantillaPublicacion(publicacion){
 
-            const tipo =
-                escaparTexto(publicacion.tipo);
+                const tipo =
+                    escaparTexto(publicacion.tipo);
 
-            const idPublicacion =
-                Number(publicacion.id);
+                const idPublicacion =
+                    Number(publicacion.id);
 
-            const estaFijado =
-                publicacion.fijado == 1;
+                const estaFijado =
+                    publicacion.fijado == 1;
 
-            return `
+                const perfilAutor =
+                    perfilUsuarioUrl(publicacion.id_usuario);
 
-                <article class="muro-post ${estaFijado ? 'fijado' : ''} p-4">
-                    <div class="d-flex align-items-start gap-3">
-                        <div class="muro-avatar">
-                            ${inicialesAutor(publicacion.autor_nombre)}
-                        </div>
+                return `
 
-                        <div class="flex-grow-1">
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                                <div>
-                                    <h6 class="mb-0">
-                                        ${escaparTexto(publicacion.autor_nombre)}
-                                    </h6>
-                                    <small class="text-muted">
-                                        ${fechaMuro(publicacion.fecha)}
-                                    </small>
-                                </div>
-
-                                <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <span class="muro-chip ${tipo}">
-                                        ${estaFijado ? 'Fijado · ' : ''}
-                                        ${etiquetaTipo(publicacion.tipo)}
-                                    </span>
-
-                                    ${
-                                        Number(publicacion.puede_editar) === 1
-                                        ? `<button
-                                            class="muro-delete-comment"
-                                            type="button"
-                                            title="Editar publicación"
-                                            aria-label="Editar publicación"
-                                            onclick="editarPublicacionMuro(${idPublicacion})">
-                                            <i class="material-symbols-rounded" style="font-size:1.05rem;">edit</i>
-                                        </button>`
-                                        : ''
-                                    }
-
-                                    ${
-                                        Number(publicacion.puede_eliminar) === 1
-                                        ? `<button
-                                            class="muro-delete-comment"
-                                            type="button"
-                                            title="Eliminar publicación"
-                                            aria-label="Eliminar publicación"
-                                            onclick="eliminarPublicacionMuro(${idPublicacion})">
-                                            <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
-                                        </button>`
-                                        : ''
-                                    }
-
-                                    ${
-                                        Number(publicacion.puede_fijar) === 1
-                                        ? `<button
-                                            class="btn btn-sm btn-outline-secondary mb-0 py-1 px-2"
-                                            type="button"
-                                            onclick="alternarFijadoMuro(${idPublicacion}, ${estaFijado ? 0 : 1})">
-                                            ${estaFijado ? 'Quitar de fijas' : 'Fijar arriba'}
-                                        </button>`
-                                        : ''
-                                    }
-                                </div>
+                    <article class="muro-post ${estaFijado ? 'fijado' : ''} p-4">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="muro-avatar">
+                                ${inicialesAutor(publicacion.autor_nombre)}
                             </div>
 
-                            ${
-                                publicacion.titulo
-                                ? `<h5 class="mb-2">${escaparTexto(publicacion.titulo)}</h5>`
-                                : ''
-                            }
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                                    <div>
+                                        <h6 class="mb-0">
+                                            <a
+                                                class="muro-profile-link"
+                                                href="${perfilAutor}">
+                                                ${escaparTexto(publicacion.autor_nombre)}
+                                            </a>
+                                        </h6>
+                                        <small class="text-muted">
+                                            ${fechaMuro(publicacion.fecha)}
+                                        </small>
+                                    </div>
 
-                            <p class="text-sm text-dark mb-2 muro-contenido">${renderTextoConEnlaces(publicacion.contenido)}</p>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <span class="muro-chip ${tipo}">
+                                            ${estaFijado ? 'Fijado · ' : ''}
+                                            ${etiquetaTipo(publicacion.tipo)}
+                                        </span>
 
-                            ${renderLinkCards(publicacion.contenido)}
+                                        ${
+                                            Number(publicacion.puede_editar) === 1
+                                            ? `<button
+                                                class="muro-delete-comment"
+                                                type="button"
+                                                title="Editar publicación"
+                                                aria-label="Editar publicación"
+                                                onclick="editarPublicacionMuro(${idPublicacion})">
+                                                <i class="material-symbols-rounded" style="font-size:1.05rem;">edit</i>
+                                            </button>`
+                                            : ''
+                                        }
 
-                            ${
-                                publicacion.fuente
-                                ? `<small class="text-muted"><strong>Fuente:</strong> ${escaparTexto(publicacion.fuente)}</small>`
-                                : ''
-                            }
+                                        ${
+                                            Number(publicacion.puede_eliminar) === 1
+                                            ? `<button
+                                                class="muro-delete-comment"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                                aria-label="Eliminar publicación"
+                                                onclick="eliminarPublicacionMuro(${idPublicacion})">
+                                                <i class="material-symbols-rounded" style="font-size:1.05rem;">delete</i>
+                                            </button>`
+                                            : ''
+                                        }
 
-                            ${renderComentarios(publicacion)}
+                                        ${
+                                            Number(publicacion.puede_fijar) === 1
+                                            ? `<button
+                                                class="btn btn-sm btn-outline-secondary mb-0 py-1 px-2"
+                                                type="button"
+                                                onclick="alternarFijadoMuro(${idPublicacion}, ${estaFijado ? 0 : 1})">
+                                                ${estaFijado ? 'Quitar de fijas' : 'Fijar arriba'}
+                                            </button>`
+                                            : ''
+                                        }
+                                    </div>
+                                </div>
+
+                                ${
+                                    publicacion.titulo
+                                    ? `<h5 class="mb-2 muro-post-title">${escaparTexto(publicacion.titulo)}</h5>`
+                                    : ''
+                                }
+
+                                <p class="text-dark mb-2 muro-contenido muro-post-body">${renderTextoConEnlaces(publicacion.contenido)}</p>
+
+                                ${
+                                    publicacion.fuente
+                                    ? `<small class="text-muted"><strong>Fuente:</strong> ${escaparTexto(publicacion.fuente)}</small>`
+                                    : ''
+                                }
+
+                                ${renderComentarios(publicacion)}
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
+
+                `;
+
+    }
+
+    function bloquePublicaciones(titulo, publicaciones){
+
+        if(publicaciones.length === 0){
+            return '';
+        }
+
+        return `
+            <div class="muro-section-title">
+                ${titulo}
+            </div>
+            ${publicaciones.map(plantillaPublicacion).join('')}
+        `;
+
+    }
+
+    function renderizarMuro(publicaciones){
+
+        const contenedor =
+            document.getElementById('muroPublicaciones');
+
+        muroPublicacionesActuales =
+            publicaciones || [];
+
+        if(!publicaciones || publicaciones.length === 0){
+
+            contenedor.innerHTML = `
+
+                <div class="muro-empty p-4 text-center text-muted">
+                    Aún no hay publicaciones. Comparte la primera perla clínica de la comunidad.
+                </div>
 
             `;
 
-}
+            return;
 
-function bloquePublicaciones(titulo, publicaciones){
-
-    if(publicaciones.length === 0){
-        return '';
-    }
-
-    return `
-        <div class="muro-section-title">
-            ${titulo}
-        </div>
-        ${publicaciones.map(plantillaPublicacion).join('')}
-    `;
-
-}
-
-function renderizarMuro(publicaciones){
-
-    const contenedor =
-        document.getElementById('muroPublicaciones');
-
-    muroPublicacionesActuales =
-        publicaciones || [];
-
-    if(!publicaciones || publicaciones.length === 0){
-
-        contenedor.innerHTML = `
-
-            <div class="muro-empty p-4 text-center text-muted">
-                Aún no hay publicaciones. Comparte la primera perla clínica de la comunidad.
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-    const fijadas =
-        publicaciones.filter(publicacion => publicacion.fijado == 1);
-
-    const comunidad =
-        publicaciones.filter(publicacion => publicacion.fijado != 1);
-
-    contenedor.innerHTML =
-        bloquePublicaciones('Fijadas por docentes y administración', fijadas)
-        + bloquePublicaciones('Comunidad', comunidad);
-
-}
-
-function actualizarBotonCargarMas(){
-
-    const boton =
-        document.getElementById('muroCargarMas');
-
-    if(!boton){
-        return;
-    }
-
-    boton.classList.toggle(
-        'd-none',
-        !muroHayMas || muroPublicacionesActuales.length === 0
-    );
-
-    boton.disabled =
-        muroCargando;
-
-    boton.innerHTML =
-        muroCargando
-            ? 'Cargando...'
-            : 'Cargar más publicaciones';
-
-}
-
-function buscarPublicacionLocal(idPublicacion){
-
-    return muroPublicacionesActuales.find(publicacion =>
-        Number(publicacion.id) === Number(idPublicacion)
-    );
-
-}
-
-async function editarPublicacionMuro(idPublicacion){
-
-    const publicacion =
-        buscarPublicacionLocal(idPublicacion);
-
-    if(!publicacion){
-        return;
-    }
-
-    document.getElementById('editarMuroId').value =
-        idPublicacion;
-
-    document.getElementById('editarMuroTitulo').value =
-        publicacion.titulo || '';
-
-    const tituloGrupo =
-        document.getElementById('editarMuroTituloGrupo');
-
-    if(tituloGrupo){
-        tituloGrupo.classList.toggle(
-            'd-none',
-            !muroPuedeFijar
-        );
-    }
-
-    document.getElementById('editarMuroContenido').value =
-        publicacion.contenido || '';
-
-    document.getElementById('editarMuroMensaje').innerHTML =
-        '';
-
-    bootstrap
-        .Modal
-        .getOrCreateInstance(
-            document.getElementById('modalEditarPublicacionMuro')
-        )
-        .show();
-
-}
-
-async function guardarEdicionPublicacionMuro(){
-
-    const idPublicacion =
-        Number(document.getElementById('editarMuroId').value);
-
-    const titulo =
-        muroPuedeFijar
-            ? document.getElementById('editarMuroTitulo').value.trim()
-            : '';
-
-    const contenido =
-        document.getElementById('editarMuroContenido').value.trim();
-
-    const modalMensaje =
-        document.getElementById('editarMuroMensaje');
-
-    const mensaje =
-        document.getElementById('muroMensaje');
-
-    if(!contenido){
-        modalMensaje.innerHTML = `
-            <div class="alert alert-warning py-2 mb-0">
-                Escribe contenido para la publicación.
-            </div>
-        `;
-        return;
-    }
-
-    try{
-
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'PATCH',
-                cache:'no-store',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    accion:'editar_publicacion',
-                    id_publicacion:idPublicacion,
-                    titulo,
-                    contenido
-                })
-            });
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo editar la publicación.');
         }
+
+        const fijadas =
+            publicaciones.filter(publicacion => publicacion.fijado == 1);
+
+        const comunidad =
+            publicaciones.filter(publicacion => publicacion.fijado != 1);
+
+        contenedor.innerHTML =
+            bloquePublicaciones('Fijadas por docentes y administración', fijadas)
+            + bloquePublicaciones('Comunidad', comunidad);
+
+    }
+
+    function actualizarBotonCargarMas(){
+
+        const boton =
+            document.getElementById('muroCargarMas');
+
+        if(!boton){
+            return;
+        }
+
+        boton.classList.toggle(
+            'd-none',
+            !muroHayMas || muroPublicacionesActuales.length === 0
+        );
+
+        boton.disabled =
+            muroCargando;
+
+        boton.innerHTML =
+            muroCargando
+                ? 'Cargando...'
+                : 'Cargar más publicaciones';
+
+    }
+
+    function buscarPublicacionLocal(idPublicacion){
+
+        return muroPublicacionesActuales.find(publicacion =>
+            Number(publicacion.id) === Number(idPublicacion)
+        );
+
+    }
+
+    async function editarPublicacionMuro(idPublicacion){
+
+        const publicacion =
+            buscarPublicacionLocal(idPublicacion);
+
+        if(!publicacion){
+            return;
+        }
+
+        document.getElementById('editarMuroId').value =
+            idPublicacion;
+
+        document.getElementById('editarMuroTitulo').value =
+            publicacion.titulo || '';
+
+        const tituloGrupo =
+            document.getElementById('editarMuroTituloGrupo');
+
+        if(tituloGrupo){
+            tituloGrupo.classList.toggle(
+                'd-none',
+                !muroPuedeFijar
+            );
+        }
+
+        document.getElementById('editarMuroContenido').value =
+            publicacion.contenido || '';
+
+        document.getElementById('editarMuroMensaje').innerHTML =
+            '';
 
         bootstrap
             .Modal
             .getOrCreateInstance(
                 document.getElementById('modalEditarPublicacionMuro')
             )
-            .hide();
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-    }catch(error){
-
-        console.error(error);
-
-        modalMensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
+            .show();
 
     }
 
-}
+    async function guardarEdicionPublicacionMuro(){
 
-async function eliminarPublicacionMuro(idPublicacion){
+        const idPublicacion =
+            Number(document.getElementById('editarMuroId').value);
 
-    const mensaje =
-        document.getElementById('muroMensaje');
+        const titulo =
+            muroPuedeFijar
+                ? document.getElementById('editarMuroTitulo').value.trim()
+                : '';
 
-    if(!confirm('¿Eliminar esta publicación y sus comentarios?')){
-        return;
-    }
+        const contenido =
+            document.getElementById('editarMuroContenido').value.trim();
 
-    try{
+        const modalMensaje =
+            document.getElementById('editarMuroMensaje');
 
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'DELETE',
-                cache:'no-store',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    id_publicacion:idPublicacion
-                })
-            });
+        const mensaje =
+            document.getElementById('muroMensaje');
 
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo eliminar la publicación.');
-        }
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-    }catch(error){
-
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-async function eliminarComentarioMuro(idComentario){
-
-    const mensaje =
-        document.getElementById('muroMensaje');
-
-    if(!confirm('¿Eliminar este comentario?')){
-        return;
-    }
-
-    try{
-
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'DELETE',
-                cache:'no-store',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    id_comentario:idComentario
-                })
-            });
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo eliminar el comentario.');
-        }
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-    }catch(error){
-
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-async function publicarComentarioMuro(idPublicacion){
-
-    const input =
-        document.getElementById(`muroComentario${idPublicacion}`);
-
-    const mensaje =
-        document.getElementById('muroMensaje');
-
-    const contenido =
-        input.value.trim();
-
-    if(!contenido){
-
-        mensaje.innerHTML = `
-            <div class="alert alert-warning py-2 mb-0">
-                Escribe un comentario.
-            </div>
-        `;
-
-        return;
-
-    }
-
-    try{
-
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'POST',
-                cache:'no-store',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    accion:'comentar',
-                    id_publicacion:idPublicacion,
-                    contenido
-                })
-            });
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo comentar.');
-        }
-
-        input.value = '';
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-    }catch(error){
-
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-async function alternarFijadoMuro(id, fijado){
-
-    const mensaje =
-        document.getElementById('muroMensaje');
-
-    if(!muroPuedeFijar){
-        return;
-    }
-
-    try{
-
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'PATCH',
-                cache:'no-store',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    id,
-                    fijado:Boolean(fijado)
-                })
-            });
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo actualizar la publicación.');
-        }
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-        if(fijado){
-            document
-                .getElementById('muroPublicaciones')
-                .scrollIntoView({
-                    behavior:'smooth',
-                    block:'start'
-                });
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-function configurarControlesMuro(permisos){
-
-    muroPuedeFijar =
-        Boolean(permisos && permisos.puede_fijar);
-
-    const controles =
-        document.getElementById('muroControlesEditoriales');
-
-    const tituloGrupo =
-        document.getElementById('muroTituloGrupo');
-
-    if(controles){
-        controles.classList.toggle(
-            'd-none',
-            !muroPuedeFijar
-        );
-    }
-
-    if(tituloGrupo){
-        tituloGrupo.classList.toggle(
-            'd-none',
-            !muroPuedeFijar
-        );
-    }
-
-}
-
-async function cargarMuro(reiniciar = true){
-
-    const contenedor =
-        document.getElementById('muroPublicaciones');
-
-    if(muroCargando){
-        return;
-    }
-
-    muroCargando = true;
-    actualizarBotonCargarMas();
-
-    try{
-
-        if(reiniciar){
-            muroOffset = 0;
-            muroHayMas = true;
-            contenedor.innerHTML = `
-                <div class="muro-empty p-4 text-center text-muted">
-                    Cargando publicaciones del muro...
+        if(!contenido){
+            modalMensaje.innerHTML = `
+                <div class="alert alert-warning py-2 mb-0">
+                    Escribe contenido para la publicación.
                 </div>
             `;
+            return;
         }
 
-        const response =
-            await fetch(
-                `../php/muro_publicaciones.php?limit=${MURO_PAGE_SIZE}&offset=${muroOffset}`,
-                {
-                    cache:'no-store'
-                }
-            );
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo cargar el muro.');
-        }
-
-        configurarControlesMuro(data.permisos);
-
-        const nuevasPublicaciones =
-            Array.isArray(data.publicaciones)
-                ? data.publicaciones
-                : [];
-
-        if(reiniciar){
-            muroPublicacionesActuales =
-                nuevasPublicaciones;
-        }
-        else{
-            const mapa =
-                new Map(
-                    muroPublicacionesActuales.map(publicacion => [
-                        Number(publicacion.id),
-                        publicacion
-                    ])
-                );
-
-            nuevasPublicaciones.forEach(publicacion => {
-                mapa.set(
-                    Number(publicacion.id),
-                    publicacion
-                );
-            });
-
-            muroPublicacionesActuales =
-                Array.from(mapa.values());
-        }
-
-        muroOffset =
-            Number(data.paginacion?.next_offset ?? muroPublicacionesActuales.length);
-
-        muroHayMas =
-            Boolean(data.paginacion?.hay_mas);
-
-        renderizarMuro(muroPublicacionesActuales);
-
-    }catch(error){
-
-        console.error(error);
-
-        contenedor.innerHTML = `
-
-            <div class="alert alert-danger">
-                No se pudieron cargar las publicaciones del muro.
-            </div>
-
-        `;
-
-    }
-    finally{
-        muroCargando = false;
-        actualizarBotonCargarMas();
-    }
-
-}
-
-function ajustarAlturaMuroContenido(){
-
-    const textarea =
-        document.getElementById('muroContenido');
-
-    if(!textarea){
-        return;
-    }
-
-    textarea.style.height =
-        'auto';
-
-    textarea.style.height =
-        `${Math.min(textarea.scrollHeight, 180)}px`;
-
-}
-
-function configurarTextareaMuro(){
-
-    const textarea =
-        document.getElementById('muroContenido');
-
-    if(!textarea){
-        return;
-    }
-
-    textarea.addEventListener(
-        'input',
-        ajustarAlturaMuroContenido
-    );
-
-    ajustarAlturaMuroContenido();
-
-}
-
-async function publicarEnMuro(){
-
-    const titulo =
-        muroPuedeFijar
-            ? document.getElementById('muroTitulo').value.trim()
-            : '';
-
-    const contenido =
-        document.getElementById('muroContenido').value.trim();
-
-    const mensaje =
-        document.getElementById('muroMensaje');
-
-    const payload = {
-        titulo,
-        contenido
-    };
-
-    if(muroPuedeFijar){
-
-        payload.tipo =
-            document.getElementById('muroTipo').value;
-
-        payload.fijado =
-            document.getElementById('muroFijado').checked;
-
-    }
-
-    if(!contenido){
-
-        mensaje.innerHTML = `
-            <div class="alert alert-warning py-2 mb-0">
-                Escribe algo para publicar.
-            </div>
-        `;
-
-        return;
-
-    }
-
-    try{
-
-        const response =
-            await fetch('../php/muro_publicaciones.php', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify(payload)
-            });
-
-        const data =
-            await response.json();
-
-        if(!data.ok){
-            throw new Error(data.mensaje || 'No se pudo publicar.');
-        }
-
-        document.getElementById('muroTitulo').value = '';
-        document.getElementById('muroContenido').value = '';
-        ajustarAlturaMuroContenido();
-
-        if(muroPuedeFijar){
-            document.getElementById('muroTipo').value = 'usuario';
-            document.getElementById('muroFijado').checked = false;
-        }
-
-        mensaje.innerHTML = `
-            <div class="alert alert-success py-2 mb-0">
-                ${escaparTexto(data.mensaje)}
-            </div>
-        `;
-
-        await cargarMuro();
-
-    }catch(error){
-
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger py-2 mb-0">
-                ${escaparTexto(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-configurarTextareaMuro();
-cargarMuro();
-
-  </script>
-
-  <script>
-
-/* =========================================
-NOTIFICACIONES PERFIL
-========================================= */
-
-async function verificarPerfil(){
-
-    try{
-
-        const response =
-            await fetch(
-                '../php/verificar_perfil.php'
-            );
-
-        const data =
-            await response.json();
-
-        if(!data.perfil_completo){
-
-            document
-            .getElementById(
-                'notificationDot'
-            ).style.display = 'inline-block';
-
-            document
-            .getElementById(
-                'notificationMenu'
-            ).innerHTML = `
-
-                <li>
-
-                    <a
-                        class="dropdown-item border-radius-md"
-                        href="../pages/user_profile.html">
-
-                        <div class="d-flex py-1">
-
-                            <div class="my-auto">
-
-                                <i class="material-symbols-rounded text-warning">
-
-                                    warning
-
-                                </i>
-
-                            </div>
-
-                            <div class="d-flex flex-column justify-content-center ms-3">
-
-                                <h6 class="text-sm font-weight-bold mb-1">
-
-                                    Completa tu registro
-
-                                </h6>
-
-                                <p class="text-xs text-secondary mb-0">
-
-                                    Agrega tu información académica y personal
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </a>
-
-                </li>
-
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'PATCH',
+                    cache:'no-store',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        accion:'editar_publicacion',
+                        id_publicacion:idPublicacion,
+                        titulo,
+                        contenido
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo editar la publicación.');
+            }
+
+            bootstrap
+                .Modal
+                .getOrCreateInstance(
+                    document.getElementById('modalEditarPublicacionMuro')
+                )
+                .hide();
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+        }catch(error){
+
+            console.error(error);
+
+            modalMensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
             `;
 
         }
 
-    }catch(error){
+    }
 
-        console.error(error);
+    async function eliminarPublicacionMuro(idPublicacion){
+
+        const mensaje =
+            document.getElementById('muroMensaje');
+
+        if(!confirm('¿Eliminar esta publicación y sus comentarios?')){
+            return;
+        }
+
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'DELETE',
+                    cache:'no-store',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        id_publicacion:idPublicacion
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo eliminar la publicación.');
+            }
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+        }catch(error){
+
+            console.error(error);
+
+            mensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
+            `;
+
+        }
 
     }
 
-}
+    async function eliminarComentarioMuro(idComentario){
 
-verificarPerfil();
+        const mensaje =
+            document.getElementById('muroMensaje');
+
+        if(!confirm('¿Eliminar este comentario?')){
+            return;
+        }
+
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'DELETE',
+                    cache:'no-store',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        id_comentario:idComentario
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo eliminar el comentario.');
+            }
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+        }catch(error){
+
+            console.error(error);
+
+            mensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+    async function publicarComentarioMuro(idPublicacion){
+
+        const input =
+            document.getElementById(`muroComentario${idPublicacion}`);
+
+        const mensaje =
+            document.getElementById('muroMensaje');
+
+        const contenido =
+            input.value.trim();
+
+        if(!contenido){
+
+            mensaje.innerHTML = `
+                <div class="alert alert-warning py-2 mb-0">
+                    Escribe un comentario.
+                </div>
+            `;
+
+            return;
+
+        }
+
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'POST',
+                    cache:'no-store',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        accion:'comentar',
+                        id_publicacion:idPublicacion,
+                        contenido
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo comentar.');
+            }
+
+            input.value = '';
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+        }catch(error){
+
+            console.error(error);
+
+            mensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+    async function alternarFijadoMuro(id, fijado){
+
+        const mensaje =
+            document.getElementById('muroMensaje');
+
+        if(!muroPuedeFijar){
+            return;
+        }
+
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'PATCH',
+                    cache:'no-store',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        id,
+                        fijado:Boolean(fijado)
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo actualizar la publicación.');
+            }
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+            if(fijado){
+                document
+                    .getElementById('muroPublicaciones')
+                    .scrollIntoView({
+                        behavior:'smooth',
+                        block:'start'
+                    });
+            }
+
+        }catch(error){
+
+            console.error(error);
+
+            mensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+    function configurarControlesMuro(permisos){
+
+        muroPuedeFijar =
+            Boolean(permisos && permisos.puede_fijar);
+
+        const controles =
+            document.getElementById('muroControlesEditoriales');
+
+        const tituloGrupo =
+            document.getElementById('muroTituloGrupo');
+
+        if(controles){
+            controles.classList.toggle(
+                'd-none',
+                !muroPuedeFijar
+            );
+        }
+
+        if(tituloGrupo){
+            tituloGrupo.classList.toggle(
+                'd-none',
+                !muroPuedeFijar
+            );
+        }
+
+    }
+
+    async function cargarMuro(reiniciar = true){
+
+        const contenedor =
+            document.getElementById('muroPublicaciones');
+
+        if(muroCargando){
+            return;
+        }
+
+        muroCargando = true;
+        actualizarBotonCargarMas();
+
+        try{
+
+            if(reiniciar){
+                muroOffset = 0;
+                muroHayMas = true;
+                contenedor.innerHTML = `
+                    <div class="muro-empty p-4 text-center text-muted">
+                        Cargando publicaciones del muro...
+                    </div>
+                `;
+            }
+
+            const response =
+                await fetch(
+                    `../php/muro_publicaciones.php?limit=${MURO_PAGE_SIZE}&offset=${muroOffset}`,
+                    {
+                        cache:'no-store'
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo cargar el muro.');
+            }
+
+            configurarControlesMuro(data.permisos);
+
+            const nuevasPublicaciones =
+                Array.isArray(data.publicaciones)
+                    ? data.publicaciones
+                    : [];
+
+            if(reiniciar){
+                muroPublicacionesActuales =
+                    nuevasPublicaciones;
+            }
+            else{
+                const mapa =
+                    new Map(
+                        muroPublicacionesActuales.map(publicacion => [
+                            Number(publicacion.id),
+                            publicacion
+                        ])
+                    );
+
+                nuevasPublicaciones.forEach(publicacion => {
+                    mapa.set(
+                        Number(publicacion.id),
+                        publicacion
+                    );
+                });
+
+                muroPublicacionesActuales =
+                    Array.from(mapa.values());
+            }
+
+            muroOffset =
+                Number(data.paginacion?.next_offset ?? muroPublicacionesActuales.length);
+
+            muroHayMas =
+                Boolean(data.paginacion?.hay_mas);
+
+            renderizarMuro(muroPublicacionesActuales);
+
+        }catch(error){
+
+            console.error(error);
+
+            contenedor.innerHTML = `
+
+                <div class="alert alert-danger">
+                    No se pudieron cargar las publicaciones del muro.
+                </div>
+
+            `;
+
+        }
+        finally{
+            muroCargando = false;
+            actualizarBotonCargarMas();
+        }
+
+    }
+
+    function ajustarAlturaMuroContenido(){
+
+        const textarea =
+            document.getElementById('muroContenido');
+
+        if(!textarea){
+            return;
+        }
+
+        textarea.style.height =
+            'auto';
+
+        textarea.style.height =
+            `${Math.min(textarea.scrollHeight, 180)}px`;
+
+    }
+
+    function configurarTextareaMuro(){
+
+        const textarea =
+            document.getElementById('muroContenido');
+
+        if(!textarea){
+            return;
+        }
+
+        textarea.addEventListener(
+            'input',
+            ajustarAlturaMuroContenido
+        );
+
+        ajustarAlturaMuroContenido();
+
+    }
+
+    async function publicarEnMuro(){
+
+        const titulo =
+            muroPuedeFijar
+                ? document.getElementById('muroTitulo').value.trim()
+                : '';
+
+        const contenido =
+            document.getElementById('muroContenido').value.trim();
+
+        const mensaje =
+            document.getElementById('muroMensaje');
+
+        const payload = {
+            titulo,
+            contenido
+        };
+
+        if(muroPuedeFijar){
+
+            payload.tipo =
+                document.getElementById('muroTipo').value;
+
+            payload.fijado =
+                document.getElementById('muroFijado').checked;
+
+        }
+
+        if(!contenido){
+
+            mensaje.innerHTML = `
+                <div class="alert alert-warning py-2 mb-0">
+                    Escribe algo para publicar.
+                </div>
+            `;
+
+            return;
+
+        }
+
+        try{
+
+            const response =
+                await fetch('../php/muro_publicaciones.php', {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify(payload)
+                });
+
+            const data =
+                await response.json();
+
+            if(!data.ok){
+                throw new Error(data.mensaje || 'No se pudo publicar.');
+            }
+
+            document.getElementById('muroTitulo').value = '';
+            document.getElementById('muroContenido').value = '';
+            ajustarAlturaMuroContenido();
+
+            if(muroPuedeFijar){
+                document.getElementById('muroTipo').value = 'usuario';
+                document.getElementById('muroFijado').checked = false;
+            }
+
+            mensaje.innerHTML = `
+                <div class="alert alert-success py-2 mb-0">
+                    ${escaparTexto(data.mensaje)}
+                </div>
+            `;
+
+            await cargarMuro();
+
+        }catch(error){
+
+            console.error(error);
+
+            mensaje.innerHTML = `
+                <div class="alert alert-danger py-2 mb-0">
+                    ${escaparTexto(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+    configurarTextareaMuro();
+    cargarMuro();
+
+    </script>
+
+    <script>
+
+    /* =========================================
+    NOTIFICACIONES PERFIL
+    ========================================= */
+
+    async function verificarPerfil(){
+
+        try{
+
+            const response =
+                await fetch(
+                    '../php/verificar_perfil.php'
+                );
+
+            const data =
+                await response.json();
+
+            if(!data.perfil_completo){
+
+                document
+                .getElementById(
+                    'notificationDot'
+                ).style.display = 'inline-block';
+
+                document
+                .getElementById(
+                    'notificationMenu'
+                ).innerHTML = `
+
+                    <li>
+
+                        <a
+                            class="dropdown-item border-radius-md"
+                            href="../pages/user_profile.html">
+
+                            <div class="d-flex py-1">
+
+                                <div class="my-auto">
+
+                                    <i class="material-symbols-rounded text-warning">
+
+                                        warning
+
+                                    </i>
+
+                                </div>
+
+                                <div class="d-flex flex-column justify-content-center ms-3">
+
+                                    <h6 class="text-sm font-weight-bold mb-1">
+
+                                        Completa tu registro
+
+                                    </h6>
+
+                                    <p class="text-xs text-secondary mb-0">
+
+                                        Agrega tu información académica y personal
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </li>
+
+                `;
+
+            }
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+    verificarPerfil();
 
 </script>
 <script src="../assets/js/imssight-quick-chat.js"></script>

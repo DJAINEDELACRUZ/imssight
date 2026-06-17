@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    CASOS CLINICOS
+    Búsqueda | IMSSight
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -37,6 +37,281 @@
   <!-- jQuery primero (requerido por jsTree) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root{
+            --imssight-red:#9d2449;
+            --imssight-red-dark:#691c32;
+            --imssight-green:#285c4d;
+            --imssight-muted:#6f7271;
+            --imssight-border:#dddddd;
+            --imssight-soft:#eef4f2;
+        }
+
+        .search-shell{
+            max-width:1320px;
+            margin:0 auto;
+        }
+
+        .search-panel{
+            background:#fff;
+            border:1px solid var(--imssight-border);
+            border-top:5px solid var(--imssight-red);
+            border-radius:10px;
+            box-shadow:0 18px 45px rgba(33,37,41,.08);
+        }
+
+        .search-kicker{
+            color:var(--imssight-red);
+            font-size:.85rem;
+            font-weight:800;
+            letter-spacing:.02em;
+            text-transform:uppercase;
+        }
+
+        .search-form{
+            width:min(100%, 520px);
+        }
+
+        .search-box{
+            align-items:center;
+            background:#fff;
+            border:1px solid var(--imssight-border);
+            border-radius:999px;
+            display:flex;
+            gap:.75rem;
+            padding:.75rem 1rem;
+            transition:border-color .18s ease, box-shadow .18s ease;
+        }
+
+        .search-box:focus-within{
+            border-color:rgba(157,36,73,.45);
+            box-shadow:0 0 0 .2rem rgba(157,36,73,.08);
+        }
+
+        .search-box .material-symbols-rounded{
+            color:var(--imssight-red);
+            font-size:1.35rem;
+        }
+
+        .search-box input{
+            border:0;
+            color:#202124;
+            font-size:1rem;
+            outline:0;
+            width:100%;
+        }
+
+        .search-filters{
+            display:flex;
+            flex-wrap:wrap;
+            gap:.55rem;
+        }
+
+        .search-filter{
+            align-items:center;
+            background:#fff;
+            border:1px solid var(--imssight-border);
+            border-radius:999px;
+            color:#3c4043;
+            display:inline-flex;
+            font-weight:700;
+            gap:.35rem;
+            padding:.48rem .78rem;
+            transition:background .18s ease, border-color .18s ease, color .18s ease;
+        }
+
+        .search-filter:hover,
+        .search-filter.active{
+            background:var(--imssight-green);
+            border-color:var(--imssight-green);
+            color:#fff;
+        }
+
+        .search-filter-count{
+            opacity:.78;
+        }
+
+        .search-result{
+            border-top:1px solid #ececec;
+            padding:1.1rem 0;
+        }
+
+        .search-result:first-child{
+            border-top:0;
+        }
+
+        .search-result-icon{
+            align-items:center;
+            background:var(--imssight-green);
+            border-radius:14px;
+            color:#fff;
+            display:inline-flex;
+            flex:0 0 52px;
+            height:52px;
+            justify-content:center;
+            width:52px;
+        }
+
+        .search-result-icon .material-symbols-rounded{
+            font-size:1.55rem;
+        }
+
+        .search-type{
+            background:var(--imssight-soft);
+            border-radius:999px;
+            color:var(--imssight-green);
+            display:inline-flex;
+            font-size:.78rem;
+            font-weight:800;
+            margin-bottom:.35rem;
+            padding:.25rem .6rem;
+        }
+
+        .search-title{
+            color:#202124;
+            font-size:1.18rem;
+            font-weight:850;
+            line-height:1.25;
+            margin:0 0 .35rem;
+        }
+
+        .search-title a{
+            color:#202124;
+        }
+
+        .search-title a:hover{
+            color:var(--imssight-red);
+        }
+
+        .search-url{
+            color:var(--imssight-green);
+            display:block;
+            font-size:.84rem;
+            margin-top:.35rem;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+
+        .search-empty{
+            border:1px dashed var(--imssight-border);
+            border-radius:10px;
+            color:var(--imssight-muted);
+            padding:2.25rem;
+            text-align:center;
+        }
+
+        .search-knowledge{
+            border-left:1px solid #ececec;
+            height:100%;
+            padding-left:1.75rem;
+        }
+
+        .knowledge-card{
+            background:#fff;
+            border:1px solid var(--imssight-border);
+            border-radius:12px;
+            box-shadow:0 12px 30px rgba(33,37,41,.06);
+            overflow:hidden;
+            position:sticky;
+            top:1rem;
+        }
+
+        .knowledge-card::before{
+            background:var(--imssight-red);
+            content:"";
+            display:block;
+            height:5px;
+            width:100%;
+        }
+
+        .knowledge-body{
+            padding:1.35rem;
+        }
+
+        .knowledge-label{
+            color:var(--imssight-green);
+            font-size:.78rem;
+            font-weight:850;
+            letter-spacing:.02em;
+            text-transform:uppercase;
+        }
+
+        .knowledge-title{
+            color:#202124;
+            font-size:1.35rem;
+            font-weight:850;
+            line-height:1.2;
+            margin:.35rem 0 .2rem;
+        }
+
+        .knowledge-section{
+            color:var(--imssight-red);
+            font-size:.95rem;
+            font-weight:800;
+            margin-bottom:.8rem;
+        }
+
+        .knowledge-text{
+            color:var(--imssight-muted);
+            font-size:.95rem;
+            line-height:1.65;
+            margin-bottom:1rem;
+        }
+
+        .knowledge-meta{
+            display:flex;
+            flex-wrap:wrap;
+            gap:.45rem;
+            margin-bottom:1rem;
+        }
+
+        .knowledge-meta span{
+            background:var(--imssight-soft);
+            border-radius:999px;
+            color:var(--imssight-green);
+            font-size:.78rem;
+            font-weight:800;
+            padding:.28rem .6rem;
+        }
+
+        .knowledge-link{
+            align-items:center;
+            background:var(--imssight-green);
+            border-radius:8px;
+            color:#fff;
+            display:inline-flex;
+            font-weight:800;
+            gap:.35rem;
+            padding:.65rem .85rem;
+        }
+
+        .knowledge-link:hover{
+            color:#fff;
+            background:var(--imssight-red-dark);
+        }
+
+        @media (max-width: 767.98px){
+            main.main-content{
+                margin-left:0 !important;
+            }
+
+            .search-panel{
+                border-radius:8px;
+            }
+
+            .search-result-icon{
+                flex-basis:46px;
+                height:46px;
+                width:46px;
+            }
+
+            .search-knowledge{
+                border-left:0;
+                padding-left:0;
+            }
+        }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -206,116 +481,30 @@
       </div>
     </nav>
     <!-- End Navbar -->
-    <div class="container-fluid py-2">
-      <div class="row mb-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6 id="bienvenida"></h6>
-                  <p class="text-sm mb-0">
-                    <i class="fa fa-search text-info" aria-hidden="true"></i>
-                    <span class="font-weight-bold ms-1">Resultados</span> de búsqueda
-                  </p>
-                </div>
-                <div class="col-lg-6 col-5 my-auto text-end">
-                  <div class="dropdown float-lg-end pe-4">
-                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa fa-ellipsis-v text-secondary"></i>
-                    </a>
-                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-                <div class="container py-5">
-
-                    <!---------contenido------->
-                    <div id="resultados"></div>
-                    <!---------contenido------->
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card h-100">
-            <div class="card-header pb-0">
-              <h6>Linea de Tiempo</h6>
-              <p class="text-sm">
-                <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                <span class="font-weight-bold">24%</span> this month
+    <div class="container-fluid py-2 search-shell">
+      <section class="search-panel mb-4">
+        <div class="p-4 p-lg-5">
+          <div class="d-flex flex-column gap-1">
+            <div>
+              <div class="search-kicker">Búsqueda IMSSight</div>
+              <h3 class="mb-1">Resultados de búsqueda</h3>
+              <p class="text-sm text-secondary mb-0" id="resumenBusqueda">
+                Busca casos, perlas clínicas, perfiles y recursos de la plataforma.
               </p>
             </div>
-            <div class="card-body p-3">
-              <div class="timeline timeline-one-side">
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-success text-gradient">notifications</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">$2400, Design changes</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-danger text-gradient">code</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New order #1832412</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-info text-gradient">shopping_cart</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Server payments for April</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 9:34 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-warning text-gradient">credit_card</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New card added for order #4395133</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">20 DEC 2:20 AM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-primary text-gradient">key</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for development</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
-                  </div>
-                </div>
-                <div class="timeline-block">
-                  <span class="timeline-step">
-                    <i class="material-symbols-rounded text-dark text-gradient">payments</i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New order #9583120</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">17 DEC</p>
-                  </div>
-                </div>
-              </div>
+          </div>
+
+          <div class="search-filters mt-4" id="filtrosBusqueda"></div>
+          <div class="row g-4 mt-2">
+            <div class="col-lg-8">
+              <div id="resultados"></div>
+            </div>
+            <div class="col-lg-4">
+              <aside class="search-knowledge" id="panelConocimiento"></aside>
             </div>
           </div>
         </div>
-      </div>
+      </section>
         <footer class="footer py-4">
             <div class="container-fluid">
                 <div class="row align-items-center justify-content-lg-between">
@@ -386,11 +575,12 @@
 
         // MOSTRAR NOMBRE
 
-        document.getElementById(
-            'bienvenida'
-        ).innerHTML =
+        const bienvenida =
+            document.getElementById('bienvenida');
 
-            `Bienvenido ${data.usuario.nombre}`;
+        if(bienvenida){
+            bienvenida.innerHTML = `Bienvenido ${data.usuario.nombre}`;
+        }
 
     }
 
@@ -472,7 +662,43 @@ const params =
     new URLSearchParams(window.location.search);
 
 const q =
-    params.get('q');
+    (params.get('q') || '').trim();
+
+const filtrosBusqueda = [
+    {
+        id:'todos',
+        etiqueta:'Todos',
+        tipos:null
+    },
+    {
+        id:'usuarios',
+        etiqueta:'Usuarios',
+        tipos:['usuario','perfil_entrada']
+    },
+    {
+        id:'casos',
+        etiqueta:'Casos',
+        tipos:['caso','especialidad','tema','escena']
+    },
+    {
+        id:'perlas',
+        etiqueta:'Perlas',
+        tipos:['perla']
+    },
+    {
+        id:'infografias',
+        etiqueta:'Infografías',
+        tipos:['infografia']
+    },
+    {
+        id:'escalas',
+        etiqueta:'Escalas pronósticas',
+        tipos:['escala']
+    }
+];
+
+let resultadosCache = [];
+let filtroActivo = 'todos';
 
 function escaparTexto(valor){
     return String(valor ?? '')
@@ -483,11 +709,28 @@ function escaparTexto(valor){
         .replaceAll("'","&#039;");
 }
 
-function urlResultado(url){
-    const separador =
-        String(url || '').includes('?') ? '&' : '?';
+function escaparAtributo(valor){
+    return escaparTexto(valor);
+}
 
-    return `${url}${separador}q=${encodeURIComponent(q)}`;
+function urlResultado(url){
+    return url || '#';
+}
+
+function normalizarTipo(tipo){
+    const tipoLimpio =
+        String(tipo || '').toLowerCase();
+
+    const mapa = {
+        perlas:'perla',
+        perlaclinica:'perla',
+        infografias:'infografia',
+        pronostico:'escala',
+        pronostica:'escala',
+        escalas:'escala'
+    };
+
+    return mapa[tipoLimpio] || tipoLimpio;
 }
 
 function etiquetaResultado(tipo){
@@ -496,79 +739,421 @@ function etiquetaResultado(tipo){
         tema:'Tema',
         caso:'Caso clínico',
         escena:'Escena',
+        perla:'Perla clínica',
+        infografia:'Infografía',
+        escala:'Escala pronóstica',
         usuario:'Usuario',
         perfil_entrada:'Entrada de perfil'
     };
 
-    return etiquetas[tipo] || tipo;
+    return etiquetas[normalizarTipo(tipo)] || tipo || 'Resultado';
 }
 
-async function buscar(){
+function iconoResultado(tipo){
+    const iconos = {
+        especialidad:'medical_services',
+        tema:'folder_open',
+        caso:'clinical_notes',
+        escena:'route',
+        perla:'diamond',
+        infografia:'article',
+        escala:'monitoring',
+        usuario:'person',
+        perfil_entrada:'forum'
+    };
 
-    const response = await fetch(
+    return iconos[normalizarTipo(tipo)] || 'search';
+}
 
-        `../php/search.php?q=${encodeURIComponent(q)}`
+function textoPlano(valor){
+    const temporal =
+        document.createElement('div');
 
+    temporal.innerHTML = String(valor ?? '');
+
+    return temporal.textContent
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function normalizarBusqueda(valor){
+    return textoPlano(valor)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+}
+
+function descripcionResultado(resultado){
+    const descripcion =
+        textoPlano(resultado.descripcion || resultado.contenido || '');
+
+    if(!descripcion){
+        return 'Resultado disponible en IMSSight.';
+    }
+
+    const limpio =
+        descripcion
+            .replace(/#sca[\w-]+/g, '')
+            .replace(/--[\w-]+:[^;]+;/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+    return limpio.length > 280
+        ? `${limpio.slice(0, 277)}...`
+        : limpio;
+}
+
+function puntajeResultado(resultado){
+    const tipo =
+        normalizarTipo(resultado.tipo);
+
+    const titulo =
+        normalizarBusqueda(resultado.titulo);
+
+    const descripcion =
+        normalizarBusqueda(resultado.descripcion || resultado.contenido);
+
+    const busqueda =
+        normalizarBusqueda(q);
+
+    const pesos = {
+        caso:520,
+        perla:430,
+        tema:350,
+        especialidad:320,
+        escena:180,
+        infografia:160,
+        escala:160,
+        usuario:120,
+        perfil_entrada:90
+    };
+
+    let puntaje =
+        pesos[tipo] || 80;
+
+    if(titulo === busqueda){
+        puntaje += 220;
+    }
+    else if(titulo.startsWith(busqueda)){
+        puntaje += 140;
+    }
+    else if(titulo.includes(busqueda)){
+        puntaje += 80;
+    }
+
+    if(tipo === 'perla' && /definicion|nosologica|etiologia/.test(titulo + ' ' + descripcion)){
+        puntaje += 160;
+    }
+
+    if(tipo === 'escena' && /diagnostico|conclusion|pregunta|evaluacion/.test(titulo)){
+        puntaje -= 60;
+    }
+
+    return puntaje;
+}
+
+function ordenarResultados(resultados){
+    return [...resultados].sort((a, b) => {
+        const diferencia =
+            puntajeResultado(b) - puntajeResultado(a);
+
+        if(diferencia !== 0){
+            return diferencia;
+        }
+
+        return String(a.titulo || '').localeCompare(String(b.titulo || ''), 'es');
+    });
+}
+
+function conteoTipo(tipo){
+    return resultadosCache.filter(resultado =>
+        normalizarTipo(resultado.tipo) === tipo
+    ).length;
+}
+
+function extraerTextoFicha(resultado){
+    let texto =
+        descripcionResultado(resultado);
+
+    const partes =
+        texto.split(' · ').map(parte => parte.trim()).filter(Boolean);
+
+    if(partes.length >= 3){
+        texto = partes.slice(2).join(' · ');
+    }
+
+    return texto.length > 520
+        ? `${texto.slice(0, 517)}...`
+        : texto;
+}
+
+function buscarFichaConocimiento(){
+    const perlas =
+        resultadosCache.filter(resultado =>
+            normalizarTipo(resultado.tipo) === 'perla'
+        );
+
+    const definicion =
+        perlas.find(resultado =>
+            /definicion|nosologica|etiologia/.test(
+                normalizarBusqueda(`${resultado.titulo} ${resultado.descripcion || resultado.contenido}`)
+            )
+        );
+
+    return definicion
+        || perlas[0]
+        || resultadosCache.find(resultado => normalizarTipo(resultado.tipo) === 'caso')
+        || resultadosCache[0]
+        || null;
+}
+
+function renderPanelConocimiento(){
+    const panel =
+        document.getElementById('panelConocimiento');
+
+    const ficha =
+        buscarFichaConocimiento();
+
+    if(!ficha){
+        panel.innerHTML = '';
+        return;
+    }
+
+    const tipo =
+        normalizarTipo(ficha.tipo);
+
+    const partesTitulo =
+        String(ficha.titulo || q)
+            .split(' · ')
+            .map(parte => parte.trim())
+            .filter(Boolean);
+
+    const titulo =
+        partesTitulo[0] || q || 'IMSSight';
+
+    const seccion =
+        partesTitulo.slice(1).join(' · ')
+        || (tipo === 'perla' ? 'Perla clínica destacada' : etiquetaResultado(tipo));
+
+    const texto =
+        extraerTextoFicha(ficha);
+
+    const url =
+        urlResultado(ficha.url);
+
+    const accion =
+        tipo === 'perla' ? 'Abrir perla clínica' : 'Abrir recurso';
+
+    panel.innerHTML = `
+        <div class="knowledge-card">
+            <div class="knowledge-body">
+                <div class="knowledge-label">Ficha contextual</div>
+                <h4 class="knowledge-title">${escaparTexto(titulo)}</h4>
+                <div class="knowledge-section">${escaparTexto(seccion)}</div>
+                <p class="knowledge-text">${escaparTexto(texto)}</p>
+                <div class="knowledge-meta">
+                    <span>${conteoTipo('caso')} casos</span>
+                    <span>${conteoTipo('perla')} perlas</span>
+                    <span>${conteoTipo('escena')} escenas</span>
+                </div>
+                <a class="knowledge-link" href="${escaparAtributo(url)}">
+                    <i class="material-symbols-rounded">open_in_new</i>
+                    ${escaparTexto(accion)}
+                </a>
+            </div>
+        </div>
+    `;
+}
+
+function resultadosFiltrados(){
+    const filtro =
+        filtrosBusqueda.find(item => item.id === filtroActivo);
+
+    if(!filtro || !filtro.tipos){
+        return resultadosCache;
+    }
+
+    return resultadosCache.filter(resultado =>
+        filtro.tipos.includes(normalizarTipo(resultado.tipo))
     );
+}
 
-    const resultados =
-        await response.json();
+function conteoFiltro(filtro){
+    if(!filtro.tipos){
+        return resultadosCache.length;
+    }
 
+    return resultadosCache.filter(resultado =>
+        filtro.tipos.includes(normalizarTipo(resultado.tipo))
+    ).length;
+}
+
+function renderFiltros(){
+    const contenedor =
+        document.getElementById('filtrosBusqueda');
+
+    contenedor.innerHTML =
+        filtrosBusqueda.map(filtro => {
+            const total =
+                conteoFiltro(filtro);
+
+            return `
+                <button
+                    type="button"
+                    class="search-filter ${filtro.id === filtroActivo ? 'active' : ''}"
+                    data-filter="${filtro.id}">
+                    <span>${escaparTexto(filtro.etiqueta)}</span>
+                    <span class="search-filter-count">${total}</span>
+                </button>
+            `;
+        }).join('');
+
+    contenedor
+        .querySelectorAll('[data-filter]')
+        .forEach(boton => {
+            boton.addEventListener('click', () => {
+                filtroActivo = boton.dataset.filter;
+                renderFiltros();
+                renderResultados();
+            });
+        });
+}
+
+function renderResultados(){
     const div =
         document.getElementById('resultados');
 
-    div.innerHTML = '';
+    const resultados =
+        resultadosFiltrados();
 
-    if(resultados.length == 0){
-
+    if(resultados.length === 0){
         div.innerHTML = `
-
-            <div class="alert alert-warning">
-
-                No se encontraron resultados
-
+            <div class="search-empty">
+                <i class="material-symbols-rounded d-block mb-2">manage_search</i>
+                No hay resultados para este filtro.
             </div>
-
         `;
-
         return;
-
     }
 
-    resultados.forEach(r => {
+    div.innerHTML =
+        resultados.map(resultado => {
+            const url =
+                urlResultado(resultado.url);
 
-        div.innerHTML += `
+            return `
+                <article class="search-result">
+                    <div class="d-flex gap-3">
+                        <span class="search-result-icon">
+                            <i class="material-symbols-rounded">${iconoResultado(resultado.tipo)}</i>
+                        </span>
+                        <div class="min-width-0 flex-grow-1">
+                            <span class="search-type">${etiquetaResultado(resultado.tipo)}</span>
+                            <h4 class="search-title">
+                                <a href="${escaparAtributo(url)}">
+                                    ${escaparTexto(resultado.titulo)}
+                                </a>
+                            </h4>
+                            <p class="text-sm text-secondary mb-0">
+                                ${escaparTexto(descripcionResultado(resultado))}
+                            </p>
+                            <span class="search-url">${escaparTexto(url)}</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join('');
+}
 
-            <div class="card mb-3">
+async function buscar(){
+    const input =
+        document.getElementById('busquedaGlobal');
 
-                <div class="card-body bg-light">
+    const resumen =
+        document.getElementById('resumenBusqueda');
 
-                    <small class="text-muted text-uppercase font-weight-bold">
+    if(input){
+        input.value = q;
 
-                        ${etiquetaResultado(r.tipo)}
+        const grupoInput =
+            input.closest('.input-group-outline');
 
-                    </small>
+        if(grupoInput){
+            grupoInput.classList.toggle('is-filled', q !== '');
+        }
+    }
 
-                    <h4>
-
-                        <a class="${r.tipo === 'usuario' ? 'text-success' : 'text-info'}" href="${urlResultado(r.url)}">
-                            ${escaparTexto(r.titulo)}
-                        </a>
-
-                    </h4>
-
-                    <p>
-                        ${escaparTexto(r.descripcion ?? '')}
-                    </p>
-
-                </div>
-
+    if(!q){
+        resultadosCache = [];
+        resumen.textContent =
+            'Escribe un término para buscar en casos, perlas clínicas, perfiles y recursos.';
+        document.getElementById('filtrosBusqueda').innerHTML = '';
+        document.getElementById('panelConocimiento').innerHTML = '';
+        document.getElementById('resultados').innerHTML = `
+            <div class="search-empty">
+                <i class="material-symbols-rounded d-block mb-2">search</i>
+                Comienza escribiendo una palabra clave.
             </div>
+        `;
+        return;
+    }
 
+    try{
+
+        const response = await fetch(
+
+            `../php/search.php?q=${encodeURIComponent(q)}`
+
+        );
+
+        if(!response.ok){
+            throw new Error('No fue posible completar la búsqueda.');
+        }
+
+        resultadosCache =
+            ordenarResultados(await response.json());
+
+        filtroActivo = 'todos';
+
+        resumen.textContent =
+            resultadosCache.length === 1
+                ? `1 resultado para "${q}"`
+                : `${resultadosCache.length} resultados para "${q}"`;
+
+        renderFiltros();
+        renderPanelConocimiento();
+
+        if(resultadosCache.length === 0){
+
+            document.getElementById('resultados').innerHTML = `
+                <div class="search-empty">
+                    <i class="material-symbols-rounded d-block mb-2">search_off</i>
+                    No se encontraron resultados para "${escaparTexto(q)}".
+                </div>
+            `;
+
+            return;
+        }
+
+        renderResultados();
+
+    }catch(error){
+
+        console.error(error);
+
+        resumen.textContent =
+            'La búsqueda no respondió correctamente.';
+
+        document.getElementById('filtrosBusqueda').innerHTML = '';
+        document.getElementById('panelConocimiento').innerHTML = '';
+        document.getElementById('resultados').innerHTML = `
+            <div class="search-empty">
+                <i class="material-symbols-rounded d-block mb-2">error</i>
+                No se pudo cargar la búsqueda. Intenta de nuevo en un momento.
+            </div>
         `;
 
-    });
-
+    }
 }
 
 buscar();

@@ -29150,4 +29150,13 @@ pre[class*=language-] {
   }
 }
 
+.imssight-hub-title {
+    display: block;
+    margin-bottom: .1rem;
+    font-size: .9rem;
+    font-weight: 800;
+    /*text-transform: uppercase;*/
+    letter-spacing: .01em;
+}
+
 /*# sourceMappingURL=dashboard-free.css.map */

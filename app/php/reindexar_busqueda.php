@@ -179,7 +179,8 @@ while($row = $stmt->fetch()){
         $row['descripcion'],
         $row['id_especialidad'],
         $row['id'],
-        "/pages/especialidad.html?id=".$row['id_especialidad']
+        "/pages/especialidad.html?id=".$row['id_especialidad'].
+            "&id_tema=".$row['id']
 
     ]);
 
@@ -250,7 +251,96 @@ while($row = $stmt->fetch()){
         $row['id_especialidad'],
         $row['id_tema'],
         $row['id'],
-        "/pages/caso.html?id=".$row['id']
+        "/pages/especialidad.html?id=".$row['id_especialidad'].
+            "&id_tema=".$row['id_tema'].
+            "&id_caso=".$row['id']
+
+    ]);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| PERLAS CLINICAS
+|--------------------------------------------------------------------------
+*/
+
+$sql = "
+
+SELECT
+    p.id,
+    p.seccion,
+    p.contenido,
+    c.id AS id_caso,
+    c.titulo AS caso,
+    t.id AS id_tema,
+    t.titulo AS tema,
+    t.id_especialidad
+
+FROM imssight.perlas_clinicas_caso p
+
+INNER JOIN imssight.casos_clinicos c
+ON c.id = p.id_caso
+
+INNER JOIN imssight.temas t
+ON t.id = c.id_tema
+
+WHERE c.activo = 1
+
+";
+
+$stmt = $pdo->query($sql);
+
+while($row = $stmt->fetch()){
+
+    $textoPlano =
+        trim(
+            preg_replace(
+                '/\s+/',
+                ' ',
+                strip_tags($row['contenido'] ?? '')
+            )
+        );
+
+    $insert = $pdo->prepare("
+
+        INSERT INTO search_index(
+
+            tipo,
+            titulo,
+            contenido,
+            descripcion,
+            id_especialidad,
+            id_tema,
+            id_caso,
+            url
+
+        )
+
+        VALUES(
+
+            'perla',
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?
+
+        )
+
+    ");
+
+    $insert->execute([
+
+        trim(($row['caso'] ?? '') . ' · ' . ($row['seccion'] ?? 'Perla clínica')),
+        trim(($row['caso'] ?? '') . ' ' . ($row['tema'] ?? '') . ' ' . ($row['seccion'] ?? '') . ' ' . $textoPlano),
+        mb_substr($textoPlano, 0, 300, 'UTF-8'),
+        $row['id_especialidad'],
+        $row['id_tema'],
+        $row['id_caso'],
+        "/pages/perlas_clinicas.html?id_caso=".$row['id_caso']
 
     ]);
 
@@ -270,6 +360,7 @@ SELECT
     e.titulo,
     e.contenido,
     c.id AS id_caso,
+    t.id AS id_tema,
     t.id_especialidad
 
 FROM escenas e
@@ -327,7 +418,10 @@ while($row = $stmt->fetch()){
         $textoPlano,
         mb_substr($textoPlano, 0, 300, 'UTF-8'),
         $row['id_especialidad'],
-        "/pages/caso.html?id=".$row['id_caso']."&escena=".$row['id']
+        "/pages/especialidad.html?id=".$row['id_especialidad'].
+            "&id_tema=".$row['id_tema'].
+            "&id_caso=".$row['id_caso'].
+            "&escena=".$row['id']
     ]);
 
 }
