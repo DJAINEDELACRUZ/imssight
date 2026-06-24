@@ -1789,6 +1789,10 @@ cargarEspecialidades();
       const posicion = flujoClinico.escenaActual + 1;
       const perlasUrl =
           `perlas_clinicas.html?id_caso=${encodeURIComponent(caso.id)}`;
+      const infografiasUrl =
+          `infografias.html?id_caso=${encodeURIComponent(caso.id)}`;
+      const escalasUrl =
+          `escalas_pronosticas.html?id_caso=${encodeURIComponent(caso.id)}`;
 
       actualizarRutaFlujo();
 
@@ -1815,14 +1819,14 @@ cargarEspecialidades();
                               <i class="material-symbols-rounded">diamond</i>
                               Perlas clínicas
                           </a>
-                          <button class="case-hero-action" type="button" disabled>
+                          <a class="case-hero-action" href="${escalasUrl}">
                               <i class="material-symbols-rounded">monitoring</i>
                               Escalas pronósticas
-                          </button>
-                          <button class="case-hero-action" type="button" disabled>
+                          </a>
+                          <a class="case-hero-action" href="${infografiasUrl}">
                               <i class="material-symbols-rounded">library_books</i>
                               Infografías
-                          </button>
+                          </a>
                       </div>
                       <div class="case-hero-panel text-end">
                           <span class="muro-chip mb-2">

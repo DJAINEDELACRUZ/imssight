@@ -54,27 +54,6 @@ $data = json_decode(
 
 );
 
-$stmtOrden = $pdo->prepare("
-
-    SELECT
-        COALESCE(MAX(orden_pregunta),0) + 1
-        AS siguiente
-
-    FROM examen_preguntas
-
-    WHERE id_examen = ?
-
-");
-
-$stmtOrden->execute([
-
-    $data['id_examen']
-
-]);
-
-$orden =
-    $stmtOrden->fetch()['siguiente'];
-
 /*
 |--------------------------------------------------------------------------
 | INSERTAR
@@ -82,6 +61,27 @@ $orden =
 */
 
 if(!isset($data['id'])){
+
+    $stmtOrden = $pdo->prepare("
+
+        SELECT
+            COALESCE(MAX(orden_pregunta),0) + 1
+            AS siguiente
+
+        FROM examen_preguntas
+
+        WHERE id_examen = ?
+
+    ");
+
+    $stmtOrden->execute([
+
+        $data['id_examen']
+
+    ]);
+
+    $orden =
+        $stmtOrden->fetch()['siguiente'];
 
     $stmt = $pdo->prepare("
 
@@ -161,7 +161,8 @@ $stmt = $pdo->prepare("
         opcion_c = ?,
         opcion_d = ?,
         respuesta_correcta = ?,
-        explicacion = ?
+        explicacion = ?,
+        dificultad = ?
 
     WHERE id = ?
 
@@ -169,7 +170,6 @@ $stmt = $pdo->prepare("
 
 $ok = $stmt->execute([
 
-    $data['id_examen'],
     $data['pregunta'],
     $data['opcion_a'],
     $data['opcion_b'],
@@ -178,7 +178,7 @@ $ok = $stmt->execute([
     $data['respuesta_correcta'],
     $data['explicacion'],
     $data['dificultad'],
-    $orden
+    $data['id']
 
 ]);
 

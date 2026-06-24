@@ -4,181 +4,469 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>IMSSIGHT :: USUARIOS</title>
+<title>IMSSIGHT :: Usuarios</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/imssight-terminal.css">
 
 <style>
-    .toolbar-terminal{
-        display:flex;
-        gap:18px;
-        align-items:flex-end;
-        margin-top:25px;
-        flex-wrap:wrap;
+.folder-desk{
+    position:relative;
+    min-height:720px;
+    padding:66px 32px 46px;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(135deg, rgba(80,72,58,.26), rgba(19,21,20,.18)),
+        #b7b4a9;
+    border:1px solid rgba(14,15,13,.24);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.folder-desk::before{
+    content:"";
+    position:absolute;
+    left:32px;
+    right:32px;
+    top:72px;
+    height:88px;
+    background:linear-gradient(180deg, #b9ad8f, #a99b7d);
+    border:1px solid rgba(55,45,32,.38);
+    border-bottom:none;
+    border-radius:10px 18px 0 0;
+    box-shadow:0 16px 28px rgba(18,18,15,.22);
+}
+
+.folder-desk::after{
+    content:"";
+    position:absolute;
+    left:32px;
+    top:12px;
+    min-width:390px;
+    height:62px;
+    background:linear-gradient(180deg, #d2c5a5, #b9ab8b);
+    border:1px solid rgba(55,45,32,.36);
+    border-bottom:none;
+    border-radius:10px 20px 0 0;
+    box-shadow:0 8px 14px rgba(18,18,15,.12);
+}
+
+.folder-tab-label{
+    position:absolute;
+    left:55px;
+    top:25px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    min-height:38px;
+    padding:0 20px;
+    color:#1b1712;
+    font-family:var(--sans);
+    font-size:1.72rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    text-shadow:0 1px 0 rgba(255,255,255,.22);
+}
+
+.folder-tab-label::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    right:8px;
+    bottom:1px;
+    height:14px;
+    background:
+        linear-gradient(90deg, transparent 0 7%, rgba(255,255,255,.78) 7% 93%, transparent 93% 100%),
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(230,229,221,.58));
+    opacity:.78;
+    transform:rotate(-1deg);
+    clip-path:polygon(0 24%, 4% 0, 9% 18%, 14% 0, 100% 12%, 96% 100%, 91% 78%, 86% 100%, 0 86%);
+    box-shadow:0 1px 1px rgba(35,32,26,.14);
+    z-index:-1;
+}
+
+.folder-return{
+    position:absolute;
+    top:24px;
+    right:32px;
+    z-index:3;
+    margin-top:0;
+    background:rgba(251,251,247,.82);
+}
+
+.paper-stack{
+    position:relative;
+    z-index:2;
+    max-width:920px;
+    margin:36px auto 0;
+}
+
+.paper-sheet{
+    position:relative;
+    min-height:610px;
+    padding:50px 58px 44px;
+    color:#171716;
+    background:
+        linear-gradient(rgba(12,12,10,.035) 1px, transparent 1px),
+        #fbfbf8;
+    background-size:100% 31px;
+    border:1px solid rgba(20,20,18,.18);
+    box-shadow:
+        0 26px 45px rgba(10,12,11,.24),
+        10px 12px 0 rgba(245,245,240,.72),
+        18px 22px 0 rgba(218,217,208,.9);
+}
+
+.paper-sheet::before{
+    content:"";
+    position:absolute;
+    top:-76px;
+    left:50%;
+    width:150px;
+    height:100px;
+    background:url('../assets/img/clip.png') center / contain no-repeat;
+    transform:translateX(-50%) rotate(-5deg);
+    filter:drop-shadow(0 14px 14px rgba(10,12,11,.3));
+    z-index:4;
+}
+
+.document-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px;
+    align-items:center;
+    padding-bottom:22px;
+    border-bottom:3px double #2b2b27;
+}
+
+.document-logo{
+    width:58px;
+    height:58px;
+    display:grid;
+    place-items:center;
+    background:#171917;
+    border-radius:50%;
+}
+
+.document-kicker{
+    color:#65655f;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.document-title{
+    margin-top:3px;
+    font-family:var(--sans);
+    font-size:clamp(1.8rem, 4vw, 3.15rem);
+    font-weight:700;
+    line-height:1;
+    text-transform:uppercase;
+}
+
+.document-subtitle{
+    margin-top:8px;
+    color:#686761;
+    font-size:.86rem;
+    line-height:1.45;
+}
+
+.users-toolbar{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    gap:18px;
+    align-items:end;
+    margin-top:32px;
+    padding-bottom:22px;
+    border-bottom:1px dashed rgba(22,20,17,.28);
+}
+
+.paper-label{
+    display:block;
+    margin-bottom:8px;
+    color:#5b3b2c;
+    font-family:var(--mono);
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.paper-input,
+.paper-select{
+    width:100%;
+    min-height:42px;
+    border:0;
+    border-bottom:2px solid rgba(23,23,22,.58);
+    border-radius:0;
+    background:transparent;
+    color:#171716;
+    font-family:var(--mono);
+    font-size:.86rem;
+    outline:none;
+}
+
+.paper-input:focus,
+.paper-select:focus{
+    border-bottom-color:#611232;
+}
+
+.paper-button{
+    min-height:44px;
+    padding:0 24px;
+    border:1px solid #111;
+    background:#070908;
+    color:#fbfbf8;
+    font-family:var(--mono);
+    font-size:.74rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 8px 16px rgba(10,12,11,.12);
+}
+
+.paper-button:disabled{
+    cursor:not-allowed;
+    opacity:.58;
+}
+
+.paper-status{
+    min-height:22px;
+    margin-top:18px;
+    color:#235B4E;
+    font-family:var(--mono);
+    font-size:.78rem;
+}
+
+.paper-status.is-error{
+    color:#9F2241;
+}
+
+.users-table-wrap{
+    margin-top:18px;
+    overflow-x:auto;
+}
+
+.users-table{
+    width:100%;
+    border-collapse:collapse;
+    color:#171716;
+    font-family:var(--mono);
+    font-size:.78rem;
+}
+
+.users-table th{
+    padding:12px 9px;
+    color:#5b3b2c;
+    border-bottom:2px solid rgba(23,23,22,.52);
+    text-align:left;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.users-table td{
+    padding:13px 9px;
+    border-bottom:1px dashed rgba(22,20,17,.24);
+    vertical-align:middle;
+    line-height:1.45;
+}
+
+.user-name{
+    color:#171716;
+    font-family:var(--sans);
+    font-size:1.02rem;
+    font-weight:700;
+}
+
+.muted-terminal{
+    color:#716d63;
+    line-height:1.55;
+}
+
+.role-badge{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid rgba(22,20,17,.28);
+    background:rgba(185,173,146,.22);
+    color:#611232;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+}
+
+.status-badge{
+    margin-top:7px;
+    color:#235B4E;
+    font-weight:700;
+}
+
+.status-badge.inactive{
+    color:#9F2241;
+}
+
+.action-row{
+    display:grid;
+    grid-template-columns:minmax(112px,1fr) minmax(105px,.8fr) auto;
+    gap:8px;
+    align-items:center;
+}
+
+.action-row .paper-button{
+    min-height:38px;
+    padding:0 14px;
+    font-size:.66rem;
+}
+
+@media(max-width:900px){
+    .users-toolbar,
+    .action-row,
+    .document-head{
+        grid-template-columns:1fr;
     }
 
-    .toolbar-terminal .search-box{
-        flex:1;
-        min-width:260px;
+    .paper-sheet{
+        padding:42px 22px 34px;
+    }
+}
+
+@media(max-width:760px){
+    .folder-desk{
+        padding:74px 14px 34px;
     }
 
-    .role-badge{
-        display:inline-block;
-        padding:7px 12px;
-        border:1px solid rgba(88,245,200,.28);
-        color:#d8fff5;
-        background:rgba(88,245,200,.08);
-        font-size:.75rem;
-        letter-spacing:1px;
-        text-transform:uppercase;
+    .folder-desk::before,
+    .folder-desk::after{
+        left:14px;
+        right:14px;
     }
 
-    .status-badge{
-        color:#58f5c8;
-    }
-
-    .status-badge.inactive{
-        color:#BC955C;
-    }
-
-    .action-row{
-        display:grid;
-        grid-template-columns:minmax(130px,1fr) minmax(110px,.7fr) auto;
-        gap:10px;
-        align-items:center;
-    }
-
-    .btn-small{
+    .folder-desk::after{
+        min-width:0;
         width:auto;
-        min-width:120px;
-        padding:13px 16px;
-        font-size:.75rem;
+        top:14px;
+        height:54px;
     }
 
-    .muted-terminal{
-        color:#7ea99a;
-        line-height:1.7;
-        letter-spacing:1px;
+    .folder-desk::before{
+        top:68px;
     }
 
-    @media(max-width:900px){
-        .action-row{
-            grid-template-columns:1fr;
-        }
+    .folder-tab-label{
+        left:30px;
+        top:25px;
+        max-width:calc(100% - 138px);
+        min-height:30px;
+        padding:0 12px;
+        font-size:1.08rem;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
+
+    .folder-return{
+        top:26px;
+        right:18px;
+        min-height:32px;
+        padding:8px 10px;
+        font-size:.68rem;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<div class="hex"></div>
-<div class="hex"></div>
-<div class="hex"></div>
-
 <div class="container">
-  <div class="layout">
+    <div class="layout">
 
-<aside class="sidebar">
+        <aside class="sidebar">
+            <div class="sidebar-title">Administración</div>
 
-    <div class="sidebar-title">IMSSIGHT</div>
-
-    <div class="sidebar-section">
-        <div class="sidebar-section-title">DASHBOARD</div>
-        <div class="sidebar-menu">
-            <a href="profile.html" class="sidebar-link">Dashboard</a>
-            <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
-        </div>
-    </div>
-
-    <div class="sidebar-section mt-40">
-        <div class="sidebar-section-title">CARGAR CONTENIDO</div>
-        <div class="sidebar-menu">
-            <a href="admin_especialidades.html" class="sidebar-link">Especialidades</a>
-            <a href="admin_temas.html" class="sidebar-link">Temas</a>
-            <a href="admin_casos.html" class="sidebar-link">Casos</a>
-            <a href="admin_escenas.html" class="sidebar-link">Escenas</a>
-            <a href="admin_examenes.html" class="sidebar-link">Exámenes</a>
-            <a href="admin_perlas.html" class="sidebar-link">Perlas clínicas</a>
-        </div>
-    </div>
-
-    <div class="sidebar-section mt-40">
-        <div class="sidebar-section-title">SISTEMA</div>
-        <div class="sidebar-menu">
-            <a href="metricas.html" class="sidebar-link">Métricas</a>
-            <a href="admin_usuarios.html" class="sidebar-link">Usuarios</a>
-            <button class="sidebar-link" onclick="reindexarBusqueda(event)">Reindexar</button>
-        </div>
-    </div>
-
-</aside>
-
-    <main class="main-content">
-
-      <div class="topbar">
-        <div>
-            <div class="access-label">INSTITUTO MEXICANO DEL SEGURO SOCIAL</div>
-            <div class="logo">USUARIOS</div>
-            <div class="welcome-terminal" id="bienvenida">
-                VERIFICANDO PERMISOS...
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Inicio</div>
+                <div class="sidebar-menu">
+                    <a href="profile.html" class="sidebar-link">Panel</a>
+                    <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
+                </div>
             </div>
-        </div>
 
-        <div class="status">
-            ADMINISTRACIÓN DE ROLES
-            <br>
-            CONTROL DE ACCESO :: ACTIVO
-            <br>
-            <a href="/pages/index.html" class="return-btn">⬅ REGRESAR AL NODO PRINCIPAL</a>
-        </div>
-      </div>
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Carga clínica</div>
+                <div class="sidebar-menu">
+                    <a href="admin_contenidos.html" class="sidebar-link">Contenidos</a>
+                </div>
+            </div>
 
-      <section class="system">
-        <div class="line green">MÓDULO DE PERMISOS DE USUARIO</div>
-        <div class="line">Administra roles sin tocar registros clínicos ni contenido académico.</div>
-        <div class="line warning">No se permite desactivar o degradar al último administrador activo.</div>
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Administración</div>
+                <div class="sidebar-menu">
+                    <a href="metricas.html" class="sidebar-link">Métricas</a>
+                    <a href="admin_usuarios.html" class="sidebar-link is-current">Usuarios</a>
+                    <button class="sidebar-link" type="button" onclick="reindexarBusqueda(event)">Reindexar búsqueda</button>
+                </div>
+            </div>
+        </aside>
 
-        <div class="toolbar-terminal">
-            <label class="search-box">
-                <span class="terminal-label">BUSCAR USUARIO</span>
-                <input
-                    class="terminal-input"
-                    id="buscarUsuarios"
-                    type="search"
-                    placeholder="Nombre, matrícula, rol, puesto o especialidad">
-            </label>
+        <main class="main-content">
+            <section class="folder-desk" aria-labelledby="tituloDocumento">
+                <span class="folder-tab-label">Usuarios</span>
+                <a href="profile.html" class="return-btn folder-return">Regresar</a>
 
-            <button class="btn btn-small" id="recargarUsuarios">
-                Recargar
-            </button>
-        </div>
+                <div class="paper-stack">
+                    <article class="paper-sheet">
+                        <header class="document-head">
+                            <div class="document-logo">
+                                <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="36" height="42">
+                            </div>
+                            <div>
+                                <div class="document-kicker">Archivo administrativo / Control de acceso</div>
+                                <h1 class="document-title" id="tituloDocumento">Registro de usuarios</h1>
+                                <p class="document-subtitle" id="bienvenida">
+                                    Verificando permisos de administrador.
+                                </p>
+                            </div>
+                        </header>
 
-        <div class="terminal-log" id="estadoUsuarios">
-            <div class="terminal-line">Esperando respuesta del sistema...</div>
-        </div>
+                        <section class="users-toolbar" aria-label="Herramientas de usuarios">
+                            <label>
+                                <span class="paper-label">Buscar usuario</span>
+                                <input
+                                    class="paper-input"
+                                    id="buscarUsuarios"
+                                    type="search"
+                                    placeholder="Nombre, matrícula, rol, puesto o especialidad">
+                            </label>
 
-        <div class="table-container">
-            <table class="table-terminal">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Rol actual</th>
-                        <th>Contexto</th>
-                        <th>Permisos</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaUsuarios"></tbody>
-            </table>
-        </div>
-      </section>
+                            <button class="paper-button" id="recargarUsuarios" type="button">
+                                Recargar
+                            </button>
+                        </section>
 
-      <div class="footer">
-          PERMISOS SINCRONIZADOS CON LA TABLA USUARIOS.
-      </div>
+                        <div class="paper-status" id="estadoUsuarios" aria-live="polite">
+                            Esperando respuesta del sistema.
+                        </div>
 
-    </main>
-  </div>
+                        <div class="users-table-wrap">
+                            <table class="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Rol actual</th>
+                                        <th>Contexto</th>
+                                        <th>Permisos</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaUsuarios"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
 </div>
 
 <script>
@@ -186,205 +474,218 @@ const rolesDisponibles = ['usuario','docente','admin'];
 let timerBusqueda = null;
 
 function escaparHTML(valor){
-  return String(valor ?? '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+    return String(valor ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
+
+function fijarEstado(mensaje, error = false){
+    const estado = document.getElementById('estadoUsuarios');
+    estado.textContent = mensaje;
+    estado.classList.toggle('is-error', error);
 }
 
 async function validarAccesoAdmin(){
-  const response =
-    await fetch('../php/auth.php');
+    const response = await fetch('../php/auth.php');
+    const data = await response.json();
 
-  const data =
-    await response.json();
+    if(!data.auth){
+        window.location.href = '../pages/sign-in.html';
+        return false;
+    }
 
-  if(!data.auth){
-    window.location.href = '../pages/sign-in.html';
-    return false;
-  }
+    if(data.usuario.rol !== 'admin'){
+        window.location.href = '../pages/user_profile.html';
+        return false;
+    }
 
-  if(data.usuario.rol !== 'admin'){
-    window.location.href = '../pages/user_profile.html';
-    return false;
-  }
+    document.getElementById('bienvenida').innerHTML = `
+        Operador <strong>${escaparHTML(data.usuario.nombre)}</strong>.
+        Permisos de administrador confirmados para gestión de roles y estado de cuenta.
+    `;
 
-  document.getElementById('bienvenida').innerHTML = `
-    OPERADOR <span style="color:#58f5c8;">${escaparHTML(data.usuario.nombre).toUpperCase()}</span>
-    <br>
-    PERMISOS DE ADMINISTRADOR CONFIRMADOS.
-  `;
-
-  return true;
+    return true;
 }
 
 function renderUsuarios(usuarios){
-  const tabla =
-    document.getElementById('tablaUsuarios');
+    const tabla = document.getElementById('tablaUsuarios');
 
-  if(!usuarios.length){
-    tabla.innerHTML = `
-      <tr>
-        <td colspan="4" class="muted-terminal">Sin usuarios para mostrar.</td>
-      </tr>
-    `;
-    return;
-  }
+    if(!usuarios.length){
+        tabla.innerHTML = `
+            <tr>
+                <td colspan="4" class="muted-terminal">Sin usuarios para mostrar.</td>
+            </tr>
+        `;
+        return;
+    }
 
-  tabla.innerHTML =
-    usuarios.map(usuario => {
-      const opcionesRol =
-        rolesDisponibles.map(rol => `
-          <option value="${rol}" ${usuario.rol === rol ? 'selected' : ''}>
-            ${rol}
-          </option>
+    tabla.innerHTML = usuarios.map((usuario) => {
+        const opcionesRol = rolesDisponibles.map((rol) => `
+            <option value="${rol}" ${usuario.rol === rol ? 'selected' : ''}>
+                ${rol}
+            </option>
         `).join('');
 
-      return `
-        <tr data-usuario-id="${usuario.id}">
-          <td>
-            <strong>${escaparHTML(usuario.nombre)}</strong>
-            <div class="muted-terminal">${escaparHTML(usuario.matricula)}</div>
-          </td>
-          <td>
-            <span class="role-badge">${escaparHTML(usuario.rol)}</span>
-            <div class="status-badge ${Number(usuario.activo) === 1 ? '' : 'inactive'}">
-              ${Number(usuario.activo) === 1 ? 'Activo' : 'Inactivo'}
-            </div>
-          </td>
-          <td class="muted-terminal">
-            ${escaparHTML(usuario.puesto || usuario.especialidad || usuario.hospital || usuario.estado || 'Sin datos públicos')}
-          </td>
-          <td>
-            <div class="action-row">
-              <select class="terminal-select" data-role-control>
-                ${opcionesRol}
-              </select>
+        return `
+            <tr data-usuario-id="${usuario.id}">
+                <td>
+                    <div class="user-name">${escaparHTML(usuario.nombre)}</div>
+                    <div class="muted-terminal">${escaparHTML(usuario.matricula)}</div>
+                </td>
+                <td>
+                    <span class="role-badge">${escaparHTML(usuario.rol)}</span>
+                    <div class="status-badge ${Number(usuario.activo) === 1 ? '' : 'inactive'}">
+                        ${Number(usuario.activo) === 1 ? 'Activo' : 'Inactivo'}
+                    </div>
+                </td>
+                <td class="muted-terminal">
+                    ${escaparHTML(usuario.puesto || usuario.especialidad || usuario.hospital || usuario.estado || 'Sin datos públicos')}
+                </td>
+                <td>
+                    <div class="action-row">
+                        <select class="paper-select" data-role-control aria-label="Rol de ${escaparHTML(usuario.nombre)}">
+                            ${opcionesRol}
+                        </select>
 
-              <select class="terminal-select" data-active-control>
-                <option value="1" ${Number(usuario.activo) === 1 ? 'selected' : ''}>Activo</option>
-                <option value="0" ${Number(usuario.activo) === 0 ? 'selected' : ''}>Inactivo</option>
-              </select>
+                        <select class="paper-select" data-active-control aria-label="Estado de ${escaparHTML(usuario.nombre)}">
+                            <option value="1" ${Number(usuario.activo) === 1 ? 'selected' : ''}>Activo</option>
+                            <option value="0" ${Number(usuario.activo) === 0 ? 'selected' : ''}>Inactivo</option>
+                        </select>
 
-              <button class="btn btn-small" data-save-user>
-                Guardar
-              </button>
-            </div>
-          </td>
-        </tr>
-      `;
+                        <button class="paper-button" data-save-user type="button">
+                            Guardar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
     }).join('');
 }
 
 async function cargarUsuarios(){
-  const estado =
-    document.getElementById('estadoUsuarios');
+    fijarEstado('Consultando usuarios...');
 
-  estado.innerHTML = '<div class="terminal-line">Consultando usuarios...</div>';
-
-  const q =
-    encodeURIComponent(
-      document.getElementById('buscarUsuarios').value.trim()
+    const q = encodeURIComponent(
+        document.getElementById('buscarUsuarios').value.trim()
     );
 
-  const response =
-    await fetch(`../php/admin_usuarios.php?q=${q}`);
+    try{
+        const response = await fetch(`../php/admin_usuarios.php?q=${q}`);
+        const data = await response.json();
 
-  const data =
-    await response.json();
+        if(!data.ok){
+            fijarEstado(data.mensaje || 'No fue posible cargar usuarios.', true);
+            return;
+        }
 
-  if(!data.ok){
-    estado.innerHTML = `<div class="terminal-line warning-line">${escaparHTML(data.mensaje || 'No fue posible cargar usuarios.')}</div>`;
-    return;
-  }
-
-  estado.innerHTML = `<div class="terminal-line">[OK] ${data.usuarios.length} usuarios cargados.</div>`;
-  renderUsuarios(data.usuarios);
+        fijarEstado(`${data.usuarios.length} usuarios cargados.`);
+        renderUsuarios(data.usuarios);
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible consultar usuarios.', true);
+    }
 }
 
 async function guardarUsuario(row){
-  const boton =
-    row.querySelector('[data-save-user]');
+    const boton = row.querySelector('[data-save-user]');
+    const textoOriginal = boton.textContent;
 
-  boton.disabled = true;
-  boton.innerText = 'Guardando...';
+    boton.disabled = true;
+    boton.textContent = 'Guardando...';
+    fijarEstado('Actualizando permisos...');
 
-  const payload = {
-    id: Number(row.dataset.usuarioId),
-    rol: row.querySelector('[data-role-control]').value,
-    activo: Number(row.querySelector('[data-active-control]').value) === 1
-  };
+    const payload = {
+        id: Number(row.dataset.usuarioId),
+        rol: row.querySelector('[data-role-control]').value,
+        activo: Number(row.querySelector('[data-active-control]').value) === 1
+    };
 
-  const response =
-    await fetch('../php/admin_usuarios.php', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
-    });
+    try{
+        const response = await fetch('../php/admin_usuarios.php', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        });
 
-  const data =
-    await response.json();
+        const data = await response.json();
 
-  if(!data.ok){
-    alert(data.mensaje || 'No fue posible guardar.');
-  }
+        if(!data.ok){
+            fijarEstado(data.mensaje || 'No fue posible guardar.', true);
+            boton.disabled = false;
+            boton.textContent = textoOriginal;
+            return;
+        }
 
-  boton.disabled = false;
-  boton.innerText = 'Guardar';
-  await cargarUsuarios();
+        fijarEstado('Permisos actualizados.');
+        await cargarUsuarios();
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible guardar los permisos.', true);
+    }finally{
+        boton.disabled = false;
+        boton.textContent = textoOriginal;
+    }
 }
 
 async function reindexarBusqueda(event){
-  const boton = event.target;
-  boton.innerText = 'Reindexando...';
-  boton.disabled = true;
+    const boton = event.currentTarget;
+    const textoOriginal = boton.textContent;
 
-  try{
-    await fetch('../php/reindexar_busqueda.php');
-  }
-  finally{
-    boton.innerText = 'Reindexar';
-    boton.disabled = false;
-  }
+    try{
+        boton.textContent = 'Reindexando...';
+        boton.disabled = true;
+        fijarEstado('Reconstruyendo índice de búsqueda...');
+
+        const response = await fetch('../php/reindexar_busqueda.php');
+
+        if(!response.ok){
+            throw new Error('No se pudo reindexar la búsqueda.');
+        }
+
+        fijarEstado('Índice de búsqueda actualizado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible reindexar la búsqueda.', true);
+    }finally{
+        boton.textContent = textoOriginal;
+        boton.disabled = false;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const autorizado =
-    await validarAccesoAdmin();
+    const autorizado = await validarAccesoAdmin();
 
-  if(!autorizado){
-    return;
-  }
-
-  await cargarUsuarios();
-
-  document
-    .getElementById('recargarUsuarios')
-    .addEventListener('click', cargarUsuarios);
-
-  document
-    .getElementById('buscarUsuarios')
-    .addEventListener('input', () => {
-      clearTimeout(timerBusqueda);
-      timerBusqueda = setTimeout(cargarUsuarios, 300);
-    });
-
-  document
-    .getElementById('tablaUsuarios')
-    .addEventListener('click', event => {
-      const boton =
-        event.target.closest('[data-save-user]');
-
-      if(!boton){
+    if(!autorizado){
         return;
-      }
+    }
 
-      guardarUsuario(
-        boton.closest('tr')
-      );
-    });
+    await cargarUsuarios();
+
+    document
+        .getElementById('recargarUsuarios')
+        .addEventListener('click', cargarUsuarios);
+
+    document
+        .getElementById('buscarUsuarios')
+        .addEventListener('input', () => {
+            clearTimeout(timerBusqueda);
+            timerBusqueda = setTimeout(cargarUsuarios, 300);
+        });
+
+    document
+        .getElementById('tablaUsuarios')
+        .addEventListener('click', (event) => {
+            const boton = event.target.closest('[data-save-user]');
+
+            if(!boton){
+                return;
+            }
+
+            guardarUsuario(boton.closest('tr'));
+        });
 });
 </script>
 

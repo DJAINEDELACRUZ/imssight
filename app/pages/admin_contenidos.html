@@ -1,0 +1,3835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IMSSIGHT :: Contenidos</title>
+
+<link rel="stylesheet" href="../assets/css/imssight-terminal.css">
+
+<style>
+.folder-desk{
+    position:relative;
+    min-height:720px;
+    padding:66px 32px 46px;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(135deg, rgba(80,72,58,.26), rgba(19,21,20,.18)),
+        #b7b4a9;
+    border:1px solid rgba(14,15,13,.24);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.folder-desk::before{
+    content:"";
+    position:absolute;
+    left:32px;
+    right:32px;
+    top:72px;
+    height:88px;
+    background:linear-gradient(180deg, #b9ad8f, #a99b7d);
+    border:1px solid rgba(55,45,32,.38);
+    border-bottom:none;
+    border-radius:10px 18px 0 0;
+    box-shadow:0 16px 28px rgba(18,18,15,.22);
+}
+
+.folder-desk::after{
+    content:"";
+    position:absolute;
+    left:32px;
+    top:12px;
+    min-width:390px;
+    height:62px;
+    background:linear-gradient(180deg, #d2c5a5, #b9ab8b);
+    border:1px solid rgba(55,45,32,.36);
+    border-bottom:none;
+    border-radius:10px 20px 0 0;
+    box-shadow:0 8px 14px rgba(18,18,15,.12);
+}
+
+.folder-tab-label{
+    position:absolute;
+    left:55px;
+    top:25px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    min-height:38px;
+    padding:0 20px;
+    color:#1b1712;
+    font-family:var(--sans);
+    font-size:1.72rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    text-shadow:0 1px 0 rgba(255,255,255,.22);
+}
+
+.folder-tab-label::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    right:8px;
+    bottom:1px;
+    height:14px;
+    background:
+        linear-gradient(90deg, transparent 0 7%, rgba(255,255,255,.78) 7% 93%, transparent 93% 100%),
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(230,229,221,.58));
+    opacity:.78;
+    transform:rotate(-1deg);
+    clip-path:polygon(0 24%, 4% 0, 9% 18%, 14% 0, 100% 12%, 96% 100%, 91% 78%, 86% 100%, 0 86%);
+    box-shadow:0 1px 1px rgba(35,32,26,.14);
+    z-index:-1;
+}
+
+.folder-return{
+    position:absolute;
+    top:24px;
+    right:32px;
+    z-index:3;
+    margin-top:0;
+    background:rgba(251,251,247,.82);
+}
+
+.paper-stack{
+    position:relative;
+    z-index:2;
+    max-width:920px;
+    margin:36px auto 0;
+}
+
+.paper-sheet{
+    position:relative;
+    min-height:610px;
+    padding:50px 58px 44px;
+    color:#171716;
+    background:
+        linear-gradient(rgba(12,12,10,.035) 1px, transparent 1px),
+        #fbfbf8;
+    background-size:100% 31px;
+    border:1px solid rgba(20,20,18,.18);
+    box-shadow:
+        0 26px 45px rgba(10,12,11,.24),
+        10px 12px 0 rgba(245,245,240,.72),
+        18px 22px 0 rgba(218,217,208,.9);
+}
+
+.paper-sheet::before{
+    content:"";
+    position:absolute;
+    top:-76px;
+    left:50%;
+    width:150px;
+    height:100px;
+    background:url('../assets/img/clip.png') center / contain no-repeat;
+    transform:translateX(-50%) rotate(-5deg);
+    filter:drop-shadow(0 14px 14px rgba(10,12,11,.3));
+    z-index:4;
+}
+
+.document-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px;
+    align-items:center;
+    padding-bottom:22px;
+    border-bottom:3px double #2b2b27;
+}
+
+.document-logo{
+    width:58px;
+    height:58px;
+    display:grid;
+    place-items:center;
+    background:#171917;
+    border-radius:50%;
+}
+
+.document-kicker{
+    color:#65655f;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.document-title{
+    margin-top:3px;
+    font-family:var(--sans);
+    font-size:clamp(1.8rem, 4vw, 3.15rem);
+    font-weight:700;
+    line-height:1;
+    text-transform:uppercase;
+}
+
+.document-subtitle{
+    margin-top:8px;
+    color:#686761;
+    font-size:.86rem;
+    line-height:1.45;
+}
+
+.content-tree{
+    margin-top:32px;
+    padding:0;
+    list-style:none;
+    counter-reset:specialty;
+}
+
+.topic-list,
+.case-list{
+    margin:12px 0 0;
+    padding:0;
+    list-style:none;
+}
+
+.topic-list{
+    counter-reset:topic;
+}
+
+.case-list{
+    counter-reset:casefile;
+}
+
+.tree-row{
+    position:relative;
+    display:grid;
+    align-items:start;
+    gap:14px;
+    padding:11px 0 10px;
+    border-bottom:none;
+    cursor:pointer;
+    transition:background .16s ease, padding .16s ease;
+}
+
+.specialty-row{
+    counter-increment:specialty;
+    grid-template-columns:56px minmax(0,1fr) auto;
+}
+
+.topic-row{
+    counter-increment:topic;
+    grid-template-columns:74px minmax(0,1fr) auto;
+    margin-left:0;
+}
+
+.case-row{
+    counter-increment:casefile;
+    grid-template-columns:92px minmax(0,1fr) auto;
+    margin-left:0;
+}
+
+.tree-row::before{
+    color:#6a665d;
+    font-weight:700;
+    letter-spacing:.08em;
+}
+
+.specialty-row::before{
+    content:counter(specialty) ".-";
+}
+
+.topic-row::before{
+    content:counter(specialty) "." counter(topic) ".-";
+}
+
+.case-row::before{
+    content:counter(specialty) "." counter(topic) "." counter(casefile) ".-";
+}
+
+.tree-row:hover{
+    background:rgba(185,173,146,.16);
+}
+
+.tree-row.is-open{
+    background:rgba(185,173,146,.18);
+}
+
+.specialty-row.is-open,
+.topic-row.is-open{
+    padding-left:8px;
+}
+
+.specialty-row.is-inactive{
+    color:#77736b;
+}
+
+.specialty-row.is-inactive .tree-name{
+    color:#6c675f;
+    text-decoration:line-through;
+    text-decoration-thickness:2px;
+    text-decoration-color:rgba(92,43,32,.72);
+}
+
+.specialty-row.is-inactive .tree-name::after{
+    content:" / anulada";
+    color:#7b2f25;
+    font-family:var(--mono);
+    font-size:.75rem;
+    font-weight:700;
+}
+
+.specialty-row.is-inactive::after{
+    content:"";
+    position:absolute;
+    left:48px;
+    right:0;
+    top:31px;
+    height:2px;
+    background:rgba(92,43,32,.34);
+    transform:rotate(-.35deg);
+    pointer-events:none;
+}
+
+.tree-name{
+    display:block;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:1.12rem;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.specialty-row .tree-name{
+    font-size:1.2rem;
+}
+
+.tree-meta{
+    display:block;
+    margin-top:4px;
+    color:#77736b;
+    font-size:.75rem;
+}
+
+.tree-action{
+    width:auto;
+    min-width:76px;
+    min-height:32px;
+    padding:7px 10px;
+    font-size:.68rem;
+    cursor:pointer;
+}
+
+.tree-panel{
+    position:relative;
+    grid-column:2 / -1;
+    display:none;
+    margin-top:12px;
+    padding-top:18px;
+}
+
+.tree-row.is-open > .tree-panel{
+    display:block;
+}
+
+.tree-panel::before{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    border-top:1px dashed rgba(22,20,17,.36);
+}
+
+.specialty-row > .tree-panel::before{
+    left:0;
+}
+
+.topic-row > .tree-panel::before{
+    left:0;
+}
+
+.tree-section-title{
+    margin:4px 0 14px;
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.empty-line{
+    margin:12px 0 0;
+    color:#77736b;
+    font-size:.8rem;
+}
+
+.empty-line.is-topic{
+    margin-left:0;
+}
+
+.empty-line.is-case{
+    margin-left:0;
+}
+
+.add-line{
+    display:grid;
+    grid-template-columns:92px minmax(0,1fr) auto;
+    gap:14px;
+    align-items:end;
+    margin-top:8px;
+    padding:8px 0 10px;
+    margin-left:0;
+}
+
+.add-line.is-root{
+    grid-template-columns:56px minmax(0,1fr) auto;
+    margin-top:18px;
+    margin-left:0;
+}
+
+.add-line.is-topic{
+    grid-template-columns:74px minmax(0,1fr) auto;
+    margin-left:0;
+}
+
+.add-number{
+    color:#6a665d;
+    font-weight:700;
+    letter-spacing:.08em;
+}
+
+.add-input{
+    width:100%;
+    padding:8px 0 7px;
+    color:#171716;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid #171716;
+    border-radius:0;
+    font-family:var(--mono);
+    font-size:.95rem;
+    outline:none;
+}
+
+.add-input::placeholder{
+    color:#8d8a80;
+}
+
+.add-note{
+    grid-column:2 / -1;
+    color:#77736b;
+    font-size:.74rem;
+}
+
+.resource-list{
+    margin:12px 0 0;
+    padding:14px 0 6px;
+    list-style:none;
+    border-top:1px dashed rgba(22,20,17,.34);
+}
+
+.resource-row{
+    display:grid;
+    grid-template-columns:92px minmax(0,1fr) auto;
+    gap:18px;
+    align-items:center;
+    padding:12px 0;
+    cursor:pointer;
+}
+
+.resource-row:hover,
+.resource-row:focus-within{
+    background:rgba(185,173,146,.18);
+}
+
+.resource-index{
+    color:#6a665d;
+    font-weight:700;
+    letter-spacing:.08em;
+}
+
+.resource-title{
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+
+.resource-meta{
+    display:block;
+    margin-top:3px;
+    color:#77736b;
+    font-size:.76rem;
+}
+
+.paper-status{
+    min-height:22px;
+    margin-top:18px;
+    color:#356348;
+    font-size:.82rem;
+    font-weight:700;
+}
+
+.paper-status.is-error{
+    color:#7b2f25;
+}
+
+.postit{
+    position:fixed;
+    right:34px;
+    top:130px;
+    z-index:20;
+    width:min(420px, calc(100vw - 40px));
+    padding:24px 22px 20px;
+    color:#201b12;
+    background:
+        linear-gradient(rgba(60,44,18,.045) 1px, transparent 1px),
+        #f3df85;
+    background-size:100% 27px;
+    border:1px solid rgba(89,70,26,.32);
+    box-shadow:0 24px 50px rgba(10,12,11,.24);
+    transform:rotate(-1.2deg);
+}
+
+.postit[hidden]{
+    display:none;
+}
+
+.postit::before{
+    content:"";
+    position:absolute;
+    left:42%;
+    top:-14px;
+    width:92px;
+    height:28px;
+    background:rgba(240,232,196,.78);
+    box-shadow:0 3px 8px rgba(10,12,11,.12);
+    transform:rotate(3deg);
+}
+
+.postit-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:14px;
+}
+
+.postit-kicker{
+    color:#611232;
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.postit-title{
+    margin-top:4px;
+    font-family:var(--sans);
+    font-size:1.25rem;
+    font-weight:700;
+}
+
+.postit-close{
+    border:0;
+    background:transparent;
+    color:#201b12;
+    font-size:1.25rem;
+    cursor:pointer;
+}
+
+.postit-grid{
+    display:grid;
+    gap:12px;
+}
+
+.postit-field label{
+    display:block;
+    margin-bottom:4px;
+    color:#5b3b2c;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+}
+
+.postit-input,
+.postit-select{
+    width:100%;
+    padding:7px 0 6px;
+    color:#171716;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid rgba(23,23,22,.62);
+    border-radius:0;
+    font-family:var(--mono);
+    font-size:.9rem;
+    outline:none;
+}
+
+.postit-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:14px;
+}
+
+.modal-backdrop{
+    position:fixed;
+    inset:0;
+    z-index:30;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    background:rgba(12,13,12,.54);
+}
+
+.modal-backdrop[hidden]{
+    display:none;
+}
+
+.paper-confirm{
+    position:fixed;
+    inset:0;
+    z-index:70;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    background:rgba(12,13,12,.36);
+}
+
+.paper-confirm[hidden]{
+    display:none;
+}
+
+.paper-confirm-card{
+    position:relative;
+    width:min(460px, calc(100vw - 42px));
+    min-height:360px;
+    display:grid;
+    place-items:center;
+    padding:56px 54px 48px;
+    color:#171716;
+    text-align:center;
+    transform:rotate(-1.5deg);
+}
+
+.paper-confirm-card::before{
+    content:"";
+    position:absolute;
+    inset:-34px;
+    background:url('../assets/img/bola_papel.png') center / contain no-repeat;
+    opacity:.96;
+    filter:drop-shadow(0 26px 34px rgba(0,0,0,.34));
+}
+
+.paper-confirm-content{
+    position:relative;
+    z-index:1;
+    max-width:300px;
+    padding:18px 18px 16px;
+    background:rgba(251,251,248,.66);
+    border:1px dashed rgba(23,23,22,.28);
+    box-shadow:0 10px 20px rgba(255,255,255,.22) inset;
+}
+
+.paper-confirm-kicker{
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+
+.paper-confirm-title{
+    margin:8px 0 8px;
+    font-family:var(--sans);
+    font-size:1.25rem;
+    line-height:1.1;
+}
+
+.paper-confirm-text{
+    margin:0;
+    color:#5f5a52;
+    font-family:var(--mono);
+    font-size:.82rem;
+    line-height:1.45;
+}
+
+.paper-confirm-actions{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:18px;
+}
+
+.paper-confirm-actions .return-btn,
+.paper-confirm-actions .btn{
+    min-width:112px;
+}
+
+.scene-modal{
+    width:min(1010px, calc(100vw - 96px));
+    max-height:92vh;
+    overflow:auto;
+    padding:18px 56px 24px;
+    color:#171716;
+    background:
+        linear-gradient(rgba(12,12,10,.035) 1px, transparent 1px),
+        #fbfbf8;
+    background-size:100% 31px;
+    border:1px solid rgba(20,20,18,.22);
+    box-shadow:0 30px 70px rgba(0,0,0,.38);
+}
+
+.scene-modal-main{
+    min-width:0;
+}
+
+.scene-modal-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    padding-bottom:8px;
+    border-bottom:3px double #2b2b27;
+}
+
+.scene-modal-titleblock{
+    display:grid;
+    grid-template-columns:74px minmax(0,1fr);
+    align-items:center;
+    gap:18px;
+}
+
+.scene-modal-logo{
+    width:66px;
+    height:66px;
+    display:grid;
+    place-items:center;
+    align-self:center;
+    background:#111412;
+    border-radius:50%;
+}
+
+.scene-modal-logo img{
+    display:block;
+    width:39px;
+    height:auto;
+}
+
+.scene-modal-kicker{
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.scene-modal-title{
+    margin-top:4px;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:clamp(2rem, 5vw, 4.2rem);
+    font-weight:700;
+    line-height:.98;
+    text-transform:none;
+}
+
+.scene-list{
+    margin:10px 0;
+    padding:0;
+    list-style:none;
+}
+
+.content-list{
+    margin:16px 0;
+    padding:0;
+    list-style:none;
+}
+
+.content-list > li{
+    padding:12px 0;
+    border-bottom:1px dashed rgba(22,20,17,.28);
+}
+
+.content-list > li.is-editing{
+    background:rgba(185,173,146,.18);
+}
+
+.content-editor-grid{
+    display:grid;
+    grid-template-columns:90px minmax(0,1fr) 130px;
+    gap:14px;
+    align-items:end;
+}
+
+.content-editor-grid[hidden]{
+    display:none;
+}
+
+.content-editor-grid .wide{
+    grid-column:1 / -1;
+}
+
+.content-editor-grid textarea.postit-input{
+    min-height:120px;
+    resize:vertical;
+}
+
+.scene-list > li{
+    padding:10px 0;
+    border-bottom:1px dashed rgba(22,20,17,.28);
+}
+
+.scene-list > li.is-editing{
+    background:rgba(185,173,146,.18);
+}
+
+.scene-item-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:12px;
+}
+
+.scene-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.tree-action.danger{
+    background:#611232;
+}
+
+.tree-action.danger:hover{
+    background:#4c0e27;
+}
+
+.scene-item-title strong{
+    display:block;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:1.05rem;
+    line-height:1.2;
+}
+
+.scene-preview-shell{
+    --portal-preview-scale:.68;
+    height:420px;
+    overflow:hidden;
+    padding:12px;
+    background:#f5f3ed;
+    border:1px solid rgba(22,20,17,.16);
+}
+
+.scene-preview-frame{
+    display:block;
+    width:calc(100% / var(--portal-preview-scale));
+    height:calc(100% / var(--portal-preview-scale));
+    min-height:0;
+    background:#fff;
+    border:0;
+    transform:scale(var(--portal-preview-scale));
+    transform-origin:top left;
+}
+
+.infografia-admin-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 180px;
+    gap:14px;
+    align-items:end;
+}
+
+.infografia-admin-grid .wide{
+    grid-column:1 / -1;
+}
+
+.infografia-file-input{
+    padding:12px;
+    background:#f5f3ed;
+    border:1px dashed rgba(22,20,17,.36);
+}
+
+.infografia-preview-img{
+    display:block;
+    width:100%;
+    max-height:360px;
+    object-fit:contain;
+    background:#f5f3ed;
+    border:1px solid rgba(22,20,17,.16);
+}
+
+.infografia-card-meta{
+    color:#77736b;
+    font-size:.82rem;
+    line-height:1.35;
+}
+
+.scene-editor{
+    margin-top:14px;
+    padding:18px;
+    background:
+        linear-gradient(rgba(60,44,18,.045) 1px, transparent 1px),
+        #f3df85;
+    background-size:100% 27px;
+    border:1px solid rgba(89,70,26,.32);
+    box-shadow:0 16px 32px rgba(10,12,11,.14);
+    transform:rotate(-.25deg);
+}
+
+.scene-editor[hidden]{
+    display:none;
+}
+
+.scene-editor-drawer{
+    position:fixed;
+    z-index:45;
+    right:calc((100vw - min(1010px, calc(100vw - 96px))) / 2 + 22px);
+    top:108px;
+    width:min(520px, calc(100vw - 48px));
+    max-height:calc(100vh - 136px);
+    overflow:auto;
+    padding:22px 22px 20px;
+    background:
+        linear-gradient(rgba(60,44,18,.045) 1px, transparent 1px),
+        #f3df85;
+    background-size:100% 27px;
+    border:1px solid rgba(89,70,26,.32);
+    box-shadow:0 24px 54px rgba(10,12,11,.34);
+    transform:rotate(-.45deg);
+}
+
+.scene-editor-drawer[hidden]{
+    display:none;
+}
+
+.scene-editor-drawer::before{
+    content:"";
+    position:absolute;
+    left:38%;
+    top:-14px;
+    width:112px;
+    height:28px;
+    background:rgba(240,232,196,.78);
+    box-shadow:0 3px 8px rgba(10,12,11,.12);
+    transform:rotate(2.5deg);
+    pointer-events:none;
+}
+
+.scene-editor-drawer .postit-kicker{
+    color:#611232;
+}
+
+.scene-editor-drawer .postit-title{
+    font-size:1.05rem;
+}
+
+.scene-editor-grid{
+    display:grid;
+    grid-template-columns:86px minmax(0,1fr) 140px;
+    gap:12px;
+    align-items:end;
+}
+
+.scene-editor-grid .wide{
+    grid-column:1 / -1;
+}
+
+.scene-html-input{
+    width:100%;
+    min-height:240px;
+    padding:12px;
+    color:#171716;
+    background:rgba(255,255,255,.28);
+    border:1px solid rgba(23,23,22,.22);
+    border-bottom:2px solid rgba(23,23,22,.62);
+    border-radius:0;
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:.84rem;
+    line-height:1.55;
+    resize:vertical;
+    outline:none;
+}
+
+.scene-editor-drawer .scene-editor-grid{
+    grid-template-columns:1fr;
+}
+
+.scene-editor-drawer .scene-editor-grid .wide{
+    grid-column:1;
+}
+
+.scene-editor-drawer .scene-html-input{
+    min-height:310px;
+}
+
+.scene-form{
+    flex:0 0 auto;
+    display:grid;
+    grid-template-columns:90px minmax(0,1fr) 130px;
+    gap:14px;
+    align-items:end;
+}
+
+.scene-form .wide{
+    grid-column:1 / -1;
+}
+
+.scene-form textarea.postit-input{
+    min-height:110px;
+    resize:vertical;
+}
+
+.question-builder-admin{
+    grid-column:1 / -1;
+    padding:18px;
+    background:rgba(97,18,50,.045);
+    border-top:1px dashed rgba(97,18,50,.42);
+    border-bottom:1px dashed rgba(97,18,50,.42);
+}
+
+.question-builder-admin[hidden]{
+    display:none;
+}
+
+.question-builder-title{
+    display:flex;
+    justify-content:space-between;
+    gap:18px;
+    margin-bottom:16px;
+}
+
+.question-builder-title h3{
+    margin:0;
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.82rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+
+.question-builder-title p{
+    margin:.35rem 0 0;
+    color:#6f6a60;
+    font-family:var(--mono);
+    font-size:.8rem;
+}
+
+.question-grid{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:12px;
+}
+
+.question-grid .full{
+    grid-column:1 / -1;
+}
+
+.question-grid .half{
+    grid-column:span 2;
+}
+
+.question-builder-admin textarea.postit-input{
+    min-height:74px;
+}
+
+.question-builder-note{
+    margin:12px 0 0;
+    color:#6f6a60;
+    font-family:var(--mono);
+    font-size:.78rem;
+}
+
+.exam-summary{
+    display:grid;
+    grid-template-columns:90px minmax(0,1fr) 130px;
+    gap:14px;
+    align-items:start;
+}
+
+.exam-summary-title strong,
+.question-item-title strong{
+    display:block;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:1.05rem;
+    line-height:1.2;
+}
+
+.exam-summary-description,
+.question-item-meta{
+    margin-top:4px;
+    color:#6f6a60;
+    font-family:var(--mono);
+    font-size:.82rem;
+    line-height:1.45;
+}
+
+.exam-summary-status{
+    color:#5b3b2c;
+    font-family:var(--mono);
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.question-option-list{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:6px 16px;
+    margin:10px 0 0;
+    color:#4f4b44;
+    font-family:var(--mono);
+    font-size:.78rem;
+}
+
+@media(max-width:760px){
+    .folder-desk{
+        padding:74px 14px 34px;
+    }
+
+    .folder-desk::before,
+    .folder-desk::after{
+        left:14px;
+        right:14px;
+    }
+
+    .folder-desk::after{
+        min-width:0;
+        width:auto;
+        top:14px;
+        height:54px;
+    }
+
+    .folder-desk::before{
+        top:68px;
+    }
+
+    .folder-tab-label{
+        left:30px;
+        top:25px;
+        max-width:calc(100% - 138px);
+        min-height:30px;
+        padding:0 12px;
+        font-size:1.08rem;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .folder-return{
+        top:26px;
+        right:18px;
+        min-height:32px;
+        padding:8px 10px;
+        font-size:.68rem;
+    }
+
+    .paper-sheet{
+        padding:42px 22px 34px;
+    }
+
+    .scene-modal{
+        width:calc(100vw - 28px);
+        max-height:90vh;
+        overflow:auto;
+        padding:18px 18px 24px;
+    }
+
+    .scene-modal-titleblock{
+        grid-template-columns:1fr;
+    }
+
+    .scene-editor-drawer{
+        left:14px;
+        right:14px;
+        top:86px;
+        width:auto;
+        max-height:calc(100vh - 108px);
+    }
+
+    .document-head,
+    .scene-form,
+    .content-editor-grid,
+    .scene-editor-grid{
+        grid-template-columns:1fr;
+    }
+
+    .question-grid{
+        grid-template-columns:1fr;
+    }
+
+    .question-grid .half{
+        grid-column:1;
+    }
+
+    .topic-row,
+    .case-row{
+        margin-left:0;
+    }
+
+    .add-line,
+    .add-line.is-topic{
+        margin-left:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-title">Administración</div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Inicio</div>
+                <div class="sidebar-menu">
+                    <a href="profile.html" class="sidebar-link">Panel</a>
+                    <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Carga clínica</div>
+                <div class="sidebar-menu">
+                    <a href="admin_contenidos.html" class="sidebar-link is-current">Contenidos</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Administración</div>
+                <div class="sidebar-menu">
+                    <a href="metricas.html" class="sidebar-link">Métricas</a>
+                    <a href="admin_usuarios.html" class="sidebar-link">Usuarios</a>
+                    <button class="sidebar-link" type="button" onclick="reindexarBusqueda(event)">Reindexar búsqueda</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="folder-desk" aria-labelledby="tituloDocumento">
+                <span class="folder-tab-label">Contenidos</span>
+                <a href="profile.html" class="return-btn folder-return">Regresar</a>
+
+                <div class="paper-stack">
+                    <article class="paper-sheet">
+                        <header class="document-head">
+                            <div class="document-logo">
+                                <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="28" height="32">
+                            </div>
+                            <div>
+                                <div class="document-kicker">Archivo académico / Árbol integral</div>
+                                <h1 class="document-title" id="tituloDocumento">Registro de contenidos</h1>
+                                <p class="document-subtitle">
+                                    Navega especialidades, temas y casos en una sola hoja. Edita con el post-it y abre escenas desde el caso seleccionado.
+                                </p>
+                            </div>
+                        </header>
+
+                        <ol class="content-tree" id="contentTree"></ol>
+
+                        <div class="paper-status" id="estadoContenido" aria-live="polite"></div>
+                    </article>
+                </div>
+            </section>
+
+            <div class="footer">Archivo administrativo integral.</div>
+        </main>
+    </div>
+</div>
+
+<aside class="postit" id="postitEditor" hidden aria-label="Editor contextual">
+    <div class="postit-head">
+        <div>
+            <div class="postit-kicker" id="postitKicker">Editar</div>
+            <div class="postit-title" id="postitTitle">Expediente</div>
+        </div>
+        <button class="postit-close" type="button" id="cerrarPostit" aria-label="Cerrar">×</button>
+    </div>
+    <form id="postitForm">
+        <div class="postit-grid" id="postitFields"></div>
+        <div class="postit-actions">
+            <button class="btn" type="submit">Guardar</button>
+        </div>
+    </form>
+</aside>
+
+<div class="modal-backdrop" id="sceneModal" hidden>
+    <section class="scene-modal" aria-labelledby="sceneModalTitle">
+        <div class="scene-modal-main">
+            <header class="scene-modal-head">
+                <div class="scene-modal-titleblock">
+                    <div class="scene-modal-logo">
+                        <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS">
+                    </div>
+                    <div>
+                        <div class="scene-modal-kicker">Escenas del caso</div>
+                        <h2 class="scene-modal-title" id="sceneModalTitle">Caso clínico</h2>
+                    </div>
+                </div>
+                <button class="return-btn" type="button" id="cerrarModalEscenas">Cerrar</button>
+            </header>
+
+            <ul class="scene-list" id="sceneList"></ul>
+
+            <form class="scene-form" id="sceneForm" autocomplete="off">
+                <div class="postit-field">
+                    <label for="sceneOrden">Orden</label>
+                    <input class="postit-input" id="sceneOrden" type="number" min="1">
+                </div>
+                <div class="postit-field">
+                    <label for="sceneTitulo">Título</label>
+                    <input class="postit-input" id="sceneTitulo" type="text">
+                </div>
+                <div class="postit-field">
+                    <label for="sceneTipo">Tipo</label>
+                    <select class="postit-select" id="sceneTipo">
+                        <option value="texto">Texto</option>
+                        <option value="imagen">Imagen</option>
+                        <option value="video">Video</option>
+                        <option value="pregunta">Pregunta</option>
+                    </select>
+                </div>
+                <div class="postit-field wide">
+                    <label for="sceneContenido">Contenido HTML</label>
+                    <textarea class="postit-input" id="sceneContenido"></textarea>
+                </div>
+                <div class="question-builder-admin" id="sceneQuestionBuilder" hidden>
+                    <div class="question-builder-title">
+                        <div>
+                            <h3>Constructor Visual de Preguntas</h3>
+                            <p>Generador automático de lógica clínica interactiva.</p>
+                        </div>
+                    </div>
+                    <div class="question-grid">
+                        <div class="postit-field full">
+                            <label for="scenePreguntaTexto">Pregunta</label>
+                            <textarea class="postit-input" id="scenePreguntaTexto"></textarea>
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneOpcionA">Opción A</label>
+                            <input class="postit-input" id="sceneOpcionA" type="text">
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneOpcionB">Opción B</label>
+                            <input class="postit-input" id="sceneOpcionB" type="text">
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneOpcionC">Opción C</label>
+                            <input class="postit-input" id="sceneOpcionC" type="text">
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneOpcionD">Opción D</label>
+                            <input class="postit-input" id="sceneOpcionD" type="text">
+                        </div>
+                        <div class="postit-field">
+                            <label for="sceneRespuestaCorrecta">Respuesta correcta</label>
+                            <select class="postit-select" id="sceneRespuestaCorrecta">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
+                        <div class="postit-field">
+                            <label for="sceneEvaluable">Evaluable</label>
+                            <select class="postit-select" id="sceneEvaluable">
+                                <option value="1">Sí</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="postit-field">
+                            <label for="scenePuntos">Puntos</label>
+                            <input class="postit-input" id="scenePuntos" type="number" min="0" value="1">
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneRetroCorrecta">Retroalimentación correcta</label>
+                            <textarea class="postit-input" id="sceneRetroCorrecta"></textarea>
+                        </div>
+                        <div class="postit-field half">
+                            <label for="sceneRetroIncorrecta">Retroalimentación incorrecta</label>
+                            <textarea class="postit-input" id="sceneRetroIncorrecta"></textarea>
+                        </div>
+                    </div>
+                    <p class="question-builder-note">
+                        Al guardar, estos campos construyen automáticamente el HTML de la pregunta.
+                    </p>
+                </div>
+                <div class="postit-field wide">
+                    <label for="sceneMultimedia">Multimedia</label>
+                    <input class="postit-input" id="sceneMultimedia" type="text" placeholder="../img/escena.png">
+                </div>
+                <button class="btn paper-save" type="submit">Agregar escena</button>
+            </form>
+        </div>
+
+        <aside class="scene-editor-drawer" id="sceneEditorDrawer" hidden aria-label="Editor de escena">
+            <div class="postit-head">
+                <div>
+                    <div class="postit-kicker">Editar HTML</div>
+                    <div class="postit-title" id="sceneEditorTitle">Escena</div>
+                </div>
+                <button class="postit-close" type="button" id="cerrarEditorEscena" aria-label="Cerrar editor">×</button>
+            </div>
+            <form id="sceneEditForm" autocomplete="off">
+                <div class="scene-editor-grid">
+                    <div class="postit-field">
+                        <label>Orden</label>
+                        <input class="postit-input" name="orden" type="number" min="1">
+                    </div>
+                    <div class="postit-field">
+                        <label>Título</label>
+                        <input class="postit-input" name="titulo" type="text">
+                    </div>
+                    <div class="postit-field">
+                        <label>Tipo</label>
+                        <select class="postit-select" name="tipo">
+                            <option value="texto">Texto</option>
+                            <option value="imagen">Imagen</option>
+                            <option value="video">Video</option>
+                            <option value="pregunta">Pregunta</option>
+                        </select>
+                    </div>
+                    <div class="postit-field wide">
+                        <label>HTML</label>
+                        <textarea class="scene-html-input" name="contenido"></textarea>
+                    </div>
+                    <div class="postit-field wide">
+                        <label>Multimedia</label>
+                        <input class="postit-input" name="multimedia" type="text">
+                    </div>
+                </div>
+                <div class="postit-actions">
+                    <button class="return-btn" type="button" id="cancelarEditorEscena">Cancelar</button>
+                    <button class="btn" type="submit">Guardar escena</button>
+                </div>
+            </form>
+        </aside>
+
+        <div class="paper-confirm" id="deleteSceneConfirm" hidden>
+            <div class="paper-confirm-card" role="dialog" aria-modal="true" aria-labelledby="deleteSceneTitle">
+                <div>
+                    <div class="paper-confirm-content">
+                        <div class="paper-confirm-kicker">Papelera clínica</div>
+                        <h3 class="paper-confirm-title" id="deleteSceneTitle">Eliminar escena</h3>
+                        <p class="paper-confirm-text" id="deleteSceneText">
+                            Esta escena se eliminará definitivamente del expediente.
+                        </p>
+                    </div>
+                    <div class="paper-confirm-actions">
+                        <button class="return-btn" type="button" id="cancelDeleteScene">Cancelar</button>
+                        <button class="btn tree-action danger" type="button" id="confirmDeleteScene">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-backdrop" id="perlasModal" hidden>
+    <section class="scene-modal" aria-labelledby="perlasModalTitle">
+        <div class="scene-modal-main">
+            <header class="scene-modal-head">
+                <div class="scene-modal-titleblock">
+                    <div class="scene-modal-logo">
+                        <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS">
+                    </div>
+                    <div>
+                        <div class="scene-modal-kicker">Perlas del caso</div>
+                        <h2 class="scene-modal-title" id="perlasModalTitle">Perlas clínicas</h2>
+                    </div>
+                </div>
+                <button class="return-btn" type="button" id="cerrarModalPerlas">Cerrar</button>
+            </header>
+
+            <form id="perlasForm" autocomplete="off">
+                <ul class="content-list" id="perlasList"></ul>
+                <div class="postit-actions">
+                    <button class="btn" type="submit">Guardar perlas</button>
+                </div>
+            </form>
+        </div>
+
+        <aside class="scene-editor-drawer" id="perlaEditorDrawer" hidden aria-label="Editor de perla">
+            <div class="postit-head">
+                <div>
+                    <div class="postit-kicker">Editar perla</div>
+                    <div class="postit-title" id="perlaEditorTitle">Perla clínica</div>
+                </div>
+                <button class="postit-close" type="button" id="cerrarEditorPerla" aria-label="Cerrar editor">×</button>
+            </div>
+            <form id="perlaEditForm" autocomplete="off">
+                <div class="scene-editor-grid">
+                    <div class="postit-field wide">
+                        <label>HTML</label>
+                        <textarea class="scene-html-input" name="contenido"></textarea>
+                    </div>
+                </div>
+                <div class="postit-actions">
+                    <button class="return-btn" type="button" id="cancelarEditorPerla">Cancelar</button>
+                    <button class="btn" type="submit">Guardar perla</button>
+                </div>
+            </form>
+        </aside>
+    </section>
+</div>
+
+<div class="modal-backdrop" id="infografiasModal" hidden>
+    <section class="scene-modal" aria-labelledby="infografiasModalTitle">
+        <div class="scene-modal-main">
+            <header class="scene-modal-head">
+                <div class="scene-modal-titleblock">
+                    <div class="scene-modal-logo">
+                        <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS">
+                    </div>
+                    <div>
+                        <div class="scene-modal-kicker">Infografías del caso</div>
+                        <h2 class="scene-modal-title" id="infografiasModalTitle">Infografías</h2>
+                    </div>
+                </div>
+                <button class="return-btn" type="button" id="cerrarModalInfografias">Cerrar</button>
+            </header>
+
+            <ul class="content-list" id="infografiasList"></ul>
+
+            <form class="infografia-admin-grid" id="infografiaForm" autocomplete="off" enctype="multipart/form-data">
+                <div class="postit-field wide">
+                    <label for="infografiaTitulo">Título</label>
+                    <input class="postit-input" id="infografiaTitulo" name="titulo" type="text" required>
+                </div>
+                <div class="postit-field wide">
+                    <label for="infografiaDescripcion">Descripción breve</label>
+                    <textarea class="postit-input" id="infografiaDescripcion" name="descripcion"></textarea>
+                </div>
+                <div class="postit-field wide">
+                    <label for="infografiaObjetivo">Objetivo educativo</label>
+                    <textarea class="postit-input" id="infografiaObjetivo" name="objetivo"></textarea>
+                </div>
+                <div class="postit-field wide">
+                    <label for="infografiaAlt">Texto alternativo</label>
+                    <input class="postit-input" id="infografiaAlt" name="alt_text" type="text">
+                </div>
+                <div class="postit-field">
+                    <label for="infografiaImagen">Imagen</label>
+                    <input class="postit-input infografia-file-input" id="infografiaImagen" name="imagen" type="file" accept="image/png,image/jpeg,image/webp,image/gif" required>
+                </div>
+                <div class="postit-field">
+                    <label for="infografiaOrden">Orden</label>
+                    <input class="postit-input" id="infografiaOrden" name="orden" type="number" min="1" value="1">
+                </div>
+                <input id="infografiaColor" name="color_sugerido" type="hidden" value="#1f5f4f">
+                <button class="btn paper-save" type="submit">Cargar infografía</button>
+            </form>
+        </div>
+
+        <div class="paper-confirm" id="deleteInfografiaConfirm" hidden>
+            <div class="paper-confirm-card" role="dialog" aria-modal="true" aria-labelledby="deleteInfografiaTitle">
+                <div>
+                    <div class="paper-confirm-content">
+                        <div class="paper-confirm-kicker">Papelera clínica</div>
+                        <h3 class="paper-confirm-title" id="deleteInfografiaTitle">Eliminar infografía</h3>
+                        <p class="paper-confirm-text" id="deleteInfografiaText">
+                            Esta infografía se eliminará definitivamente del expediente y del servidor.
+                        </p>
+                    </div>
+                    <div class="paper-confirm-actions">
+                        <button class="return-btn" type="button" id="cancelDeleteInfografia">Cancelar</button>
+                        <button class="btn tree-action danger" type="button" id="confirmDeleteInfografia">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-backdrop" id="escalasModal" hidden>
+    <section class="scene-modal" aria-labelledby="escalasModalTitle">
+        <div class="scene-modal-main">
+            <header class="scene-modal-head">
+                <div class="scene-modal-titleblock">
+                    <div class="scene-modal-logo">
+                        <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS">
+                    </div>
+                    <div>
+                        <div class="scene-modal-kicker">Escalas del caso</div>
+                        <h2 class="scene-modal-title" id="escalasModalTitle">Escalas pronósticas</h2>
+                    </div>
+                </div>
+                <button class="return-btn" type="button" id="cerrarModalEscalas">Cerrar</button>
+            </header>
+
+            <ul class="content-list" id="escalasList"></ul>
+
+            <form class="infografia-admin-grid" id="escalaForm" autocomplete="off">
+                <div class="postit-field wide">
+                    <label for="escalaTitulo">Título</label>
+                    <input class="postit-input" id="escalaTitulo" name="titulo" type="text" required>
+                </div>
+                <div class="postit-field wide">
+                    <label for="escalaDescripcion">Descripción breve</label>
+                    <textarea class="postit-input" id="escalaDescripcion" name="descripcion"></textarea>
+                </div>
+                <div class="postit-field wide">
+                    <label for="escalaUrl">Enlace</label>
+                    <input class="postit-input" id="escalaUrl" name="url" type="url" placeholder="https://www.mdcalc.com/..." required>
+                </div>
+                <div class="postit-field">
+                    <label for="escalaProveedor">Proveedor</label>
+                    <input class="postit-input" id="escalaProveedor" name="proveedor" type="text" placeholder="MDCalc">
+                </div>
+                <div class="postit-field">
+                    <label for="escalaOrden">Orden</label>
+                    <input class="postit-input" id="escalaOrden" name="orden" type="number" min="1" value="1">
+                </div>
+                <button class="btn paper-save" type="submit">Guardar escala</button>
+            </form>
+        </div>
+
+        <div class="paper-confirm" id="deleteEscalaConfirm" hidden>
+            <div class="paper-confirm-card" role="dialog" aria-modal="true" aria-labelledby="deleteEscalaTitle">
+                <div>
+                    <div class="paper-confirm-content">
+                        <div class="paper-confirm-kicker">Papelera clínica</div>
+                        <h3 class="paper-confirm-title" id="deleteEscalaTitle">Eliminar escala</h3>
+                        <p class="paper-confirm-text" id="deleteEscalaText">
+                            Esta escala se eliminará definitivamente del expediente.
+                        </p>
+                    </div>
+                    <div class="paper-confirm-actions">
+                        <button class="return-btn" type="button" id="cancelDeleteEscala">Cancelar</button>
+                        <button class="btn tree-action danger" type="button" id="confirmDeleteEscala">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-backdrop" id="examenesModal" hidden>
+    <section class="scene-modal" aria-labelledby="examenesModalTitle">
+        <div class="scene-modal-main">
+            <header class="scene-modal-head">
+                <div class="scene-modal-titleblock">
+                    <div class="scene-modal-logo">
+                        <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS">
+                    </div>
+                    <div>
+                        <div class="scene-modal-kicker">Examen del caso</div>
+                        <h2 class="scene-modal-title" id="examenesModalTitle">Examen</h2>
+                    </div>
+                </div>
+                <button class="return-btn" type="button" id="cerrarModalExamenes">Cerrar</button>
+            </header>
+
+            <ul class="content-list" id="examenesList"></ul>
+
+            <form class="content-editor-grid" id="examenForm" autocomplete="off">
+                <div class="postit-field wide">
+                    <label for="examenTitulo">Título</label>
+                    <input class="postit-input" id="examenTitulo" type="text" placeholder="Nuevo examen">
+                </div>
+                <div class="postit-field wide">
+                    <label for="examenDescripcion">Descripción</label>
+                    <textarea class="postit-input" id="examenDescripcion"></textarea>
+                </div>
+                <button class="btn paper-save" type="submit">Guardar examen</button>
+            </form>
+
+            <section class="question-builder-admin" id="preguntasExamenPanel" hidden>
+                <div class="question-builder-title">
+                    <div>
+                        <h3>Preguntas del examen</h3>
+                        <p id="preguntasExamenMeta">Banco de reactivos clínicos del caso.</p>
+                    </div>
+                </div>
+
+                <form id="preguntaExamenForm" autocomplete="off">
+                    <div class="question-grid">
+                        <div class="full">
+                            <label class="paper-label" for="modalPreguntaTexto">Pregunta clínica</label>
+                            <textarea class="postit-input" id="modalPreguntaTexto" name="pregunta"></textarea>
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaA">Opción A</label>
+                            <input class="postit-input" id="modalPreguntaA" name="opcion_a" type="text">
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaB">Opción B</label>
+                            <input class="postit-input" id="modalPreguntaB" name="opcion_b" type="text">
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaC">Opción C</label>
+                            <input class="postit-input" id="modalPreguntaC" name="opcion_c" type="text">
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaD">Opción D</label>
+                            <input class="postit-input" id="modalPreguntaD" name="opcion_d" type="text">
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaCorrecta">Respuesta correcta</label>
+                            <select class="postit-select" id="modalPreguntaCorrecta" name="respuesta_correcta">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
+                        <div class="half">
+                            <label class="paper-label" for="modalPreguntaDificultad">Dificultad</label>
+                            <select class="postit-select" id="modalPreguntaDificultad" name="dificultad">
+                                <option value="basica">Básica</option>
+                                <option value="media">Media</option>
+                                <option value="avanzada">Avanzada</option>
+                            </select>
+                        </div>
+                        <div class="full">
+                            <label class="paper-label" for="modalPreguntaExplicacion">Explicación clínica</label>
+                            <textarea class="postit-input" id="modalPreguntaExplicacion" name="explicacion"></textarea>
+                        </div>
+                    </div>
+                    <div class="postit-actions">
+                        <button class="btn" type="submit">Guardar pregunta</button>
+                    </div>
+                </form>
+
+                <ul class="content-list" id="preguntasExamenList"></ul>
+            </section>
+        </div>
+
+        <aside class="scene-editor-drawer" id="preguntaEditorDrawer" hidden aria-label="Editor de pregunta">
+            <div class="postit-head">
+                <div>
+                    <div class="postit-kicker">Editar pregunta</div>
+                    <div class="postit-title" id="preguntaEditorTitle">Pregunta clínica</div>
+                </div>
+                <button class="postit-close" type="button" id="cerrarEditorPregunta" aria-label="Cerrar editor">×</button>
+            </div>
+            <form id="preguntaEditForm" autocomplete="off">
+                <div class="scene-editor-grid">
+                    <div class="postit-field wide">
+                        <label>Pregunta clínica</label>
+                        <textarea class="postit-input" name="pregunta"></textarea>
+                    </div>
+                    <div class="postit-field">
+                        <label>Opción A</label>
+                        <input class="postit-input" name="opcion_a" type="text">
+                    </div>
+                    <div class="postit-field">
+                        <label>Opción B</label>
+                        <input class="postit-input" name="opcion_b" type="text">
+                    </div>
+                    <div class="postit-field">
+                        <label>Opción C</label>
+                        <input class="postit-input" name="opcion_c" type="text">
+                    </div>
+                    <div class="postit-field">
+                        <label>Opción D</label>
+                        <input class="postit-input" name="opcion_d" type="text">
+                    </div>
+                    <div class="postit-field">
+                        <label>Respuesta</label>
+                        <select class="postit-select" name="respuesta_correcta">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="postit-field">
+                        <label>Dificultad</label>
+                        <select class="postit-select" name="dificultad">
+                            <option value="basica">Básica</option>
+                            <option value="media">Media</option>
+                            <option value="avanzada">Avanzada</option>
+                        </select>
+                    </div>
+                    <div class="postit-field wide">
+                        <label>Explicación clínica</label>
+                        <textarea class="postit-input" name="explicacion"></textarea>
+                    </div>
+                </div>
+                <div class="postit-actions">
+                    <button class="return-btn" type="button" id="cancelarEditorPregunta">Cancelar</button>
+                    <button class="btn" type="submit">Guardar pregunta</button>
+                </div>
+            </form>
+        </aside>
+
+        <aside class="scene-editor-drawer" id="examenEditorDrawer" hidden aria-label="Editor de examen">
+            <div class="postit-head">
+                <div>
+                    <div class="postit-kicker">Editar examen</div>
+                    <div class="postit-title" id="examenEditorTitle">Evaluación del caso</div>
+                </div>
+                <button class="postit-close" type="button" id="cerrarEditorExamen" aria-label="Cerrar editor">×</button>
+            </div>
+            <form id="examenEditForm" autocomplete="off">
+                <div class="scene-editor-grid">
+                    <div class="postit-field wide">
+                        <label>Título</label>
+                        <input class="postit-input" name="titulo" type="text">
+                    </div>
+                    <div class="postit-field wide">
+                        <label>Descripción</label>
+                        <textarea class="postit-input" name="descripcion"></textarea>
+                    </div>
+                    <div class="postit-field wide">
+                        <label>Estado</label>
+                        <select class="postit-select" name="activo">
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="postit-actions">
+                    <button class="return-btn" type="button" id="cancelarEditorExamen">Cancelar</button>
+                    <button class="btn" type="submit">Guardar examen</button>
+                </div>
+            </form>
+        </aside>
+    </section>
+</div>
+
+<script>
+const state = {
+    especialidades: [],
+    temas: [],
+    casos: [],
+    escenas: [],
+    perlas: [],
+    infografias: [],
+    escalas: [],
+    examenes: [],
+    preguntas: [],
+    openEspecialidad: null,
+    openTema: null,
+    openCaso: null,
+    openExamen: null,
+    editType: null,
+    editId: null,
+    editPreguntaId: null,
+    pendingDeleteScene: null,
+    pendingDeleteInfografia: null,
+    pendingDeleteEscala: null
+};
+
+const dificultades = ['Básico', 'Intermedio', 'Avanzado'];
+const seccionesPerlas = [
+    { orden:1, seccion:'Definición nosológica / Etiología' },
+    { orden:2, seccion:'Epidemiología' },
+    { orden:3, seccion:'Anatomía' },
+    { orden:4, seccion:'Fisiopatología' },
+    { orden:5, seccion:'Síntomas y Signos' },
+    { orden:6, seccion:'Diagnóstico' },
+    { orden:7, seccion:'Tratamiento' },
+    { orden:8, seccion:'Pronóstico' }
+];
+
+function escaparHTML(valor){
+    return String(valor ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
+
+function capitalizarFrase(valor){
+    const texto = String(valor ?? '').trim().toLocaleLowerCase('es-MX');
+
+    return texto.replace(/(^|[.!?]\s+)([a-záéíóúñ])/g, (match, inicio, letra) =>
+        `${inicio}${letra.toLocaleUpperCase('es-MX')}`
+    );
+}
+
+function valorCampo(id){
+    return String(document.getElementById(id)?.value ?? '').trim();
+}
+
+function crearRetroPregunta(tipo, titulo, respuestaCorrecta, retro){
+    return `
+        <div
+            class="card border-0 shadow-sm bg-${tipo} bg-opacity-10 p-4"
+            style="border-radius:15px;">
+            <div class="d-flex align-items-center text-${tipo} mb-0">
+                <h5 class="mb-0 fw-bold">${escaparHTML(titulo)}</h5>
+            </div>
+            <hr class="border-${tipo} opacity-25">
+            <strong>Respuesta correcta: ${escaparHTML(respuestaCorrecta)}</strong>
+            <p class="mt-2 mb-0 small text-dark">${escaparHTML(retro)}</p>
+        </div>
+    `;
+}
+
+function crearBotonPregunta(letra, texto, respuestaCorrecta, retroId, retroCorrecta, retroIncorrecta){
+    const esCorrecta = letra === respuestaCorrecta ? 1 : 0;
+    const tipo = esCorrecta ? 'success' : 'danger';
+    const titulo = esCorrecta ? 'Correcto' : 'Retroalimentación';
+    const retro = esCorrecta ? retroCorrecta : retroIncorrecta;
+    const retroHtml = crearRetroPregunta(tipo, titulo, respuestaCorrecta, retro);
+    const fallback = `document.getElementById(${JSON.stringify(retroId)}).innerHTML=${JSON.stringify(retroHtml)}`;
+    const accion =
+        `window.responderPreguntaEscena ? ` +
+        `window.responderPreguntaEscena(${JSON.stringify(letra)},${esCorrecta},${JSON.stringify(retroId)},${JSON.stringify(retroHtml)}) : ` +
+        `(${fallback})`;
+
+    return `
+        <div class="col-md-6">
+            <button
+                type="button"
+                class="btn btn-outline-primary text-start p-3 border-2 shadow-sm d-flex align-items-center w-100 h-100"
+                style="border-radius:12px;"
+                onclick="${escaparHTML(accion)}">
+                <span class="badge bg-dark text-white border me-3 py-2 px-3">${letra}</span>
+                <span>${escaparHTML(texto)}</span>
+            </button>
+        </div>
+    `;
+}
+
+function construirHTMLPregunta(){
+    const pregunta = valorCampo('scenePreguntaTexto');
+    const opciones = {
+        A: valorCampo('sceneOpcionA'),
+        B: valorCampo('sceneOpcionB'),
+        C: valorCampo('sceneOpcionC'),
+        D: valorCampo('sceneOpcionD')
+    };
+    const correcta = valorCampo('sceneRespuestaCorrecta') || 'A';
+    const puntos = valorCampo('scenePuntos') || '1';
+    const retroCorrecta =
+        valorCampo('sceneRetroCorrecta') ||
+        'Respuesta correcta. Continúa con el razonamiento clínico.';
+    const retroIncorrecta =
+        valorCampo('sceneRetroIncorrecta') ||
+        'Revisa los datos del caso y vuelve a razonar la decisión.';
+
+    const camposRequeridos = [
+        pregunta,
+        opciones.A,
+        opciones.B,
+        opciones.C,
+        opciones.D
+    ];
+
+    if(camposRequeridos.some((campo) => !campo)){
+        throw new Error('Completa la pregunta y las cuatro opciones antes de guardar.');
+    }
+
+    const retroId = `retro-pregunta-${Date.now()}`;
+
+    return `
+<div class="container my-4 imssight-question" data-puntos="${escaparHTML(puntos)}">
+    <h3 class="fw-bold mb-4">${escaparHTML(pregunta)}</h3>
+    <div id="${retroId}" class="mt-4 mb-4"></div>
+    <div class="row g-3">
+        ${crearBotonPregunta('A', opciones.A, correcta, retroId, retroCorrecta, retroIncorrecta)}
+        ${crearBotonPregunta('B', opciones.B, correcta, retroId, retroCorrecta, retroIncorrecta)}
+        ${crearBotonPregunta('C', opciones.C, correcta, retroId, retroCorrecta, retroIncorrecta)}
+        ${crearBotonPregunta('D', opciones.D, correcta, retroId, retroCorrecta, retroIncorrecta)}
+    </div>
+</div>`;
+}
+
+function toggleConstructorPregunta(){
+    const tipo = document.getElementById('sceneTipo').value;
+    const builder = document.getElementById('sceneQuestionBuilder');
+    builder.hidden = tipo !== 'pregunta';
+}
+
+function limpiarConstructorPregunta(){
+    [
+        'scenePreguntaTexto',
+        'sceneOpcionA',
+        'sceneOpcionB',
+        'sceneOpcionC',
+        'sceneOpcionD',
+        'sceneRetroCorrecta',
+        'sceneRetroIncorrecta'
+    ].forEach((id) => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('sceneRespuestaCorrecta').value = 'A';
+    document.getElementById('sceneEvaluable').value = '1';
+    document.getElementById('scenePuntos').value = '1';
+}
+
+function extensionRecurso(url = ''){
+    return String(url).split('?')[0].toLowerCase();
+}
+
+function renderizarMultimediaPreview(multimedia){
+    if(!multimedia){
+        return '';
+    }
+
+    const recurso = extensionRecurso(multimedia);
+    const src = escaparHTML(multimedia);
+
+    if(recurso.endsWith('.mp4') || recurso.endsWith('.webm') || recurso.endsWith('.ogg')){
+        return `
+            <div class="mt-4 text-center">
+                <video class="w-100" style="max-height:520px;" controls>
+                    <source src="${src}">
+                </video>
+            </div>
+        `;
+    }
+
+    if(recurso.endsWith('.mp3') || recurso.endsWith('.wav')){
+        return `
+            <div class="mt-4">
+                <audio class="w-100" controls>
+                    <source src="${src}">
+                </audio>
+            </div>
+        `;
+    }
+
+    if(recurso.endsWith('.pdf')){
+        return `
+            <div class="mt-4">
+                <iframe class="case-media-frame" src="${src}"></iframe>
+            </div>
+        `;
+    }
+
+    if(
+        recurso.endsWith('.jpg') ||
+        recurso.endsWith('.jpeg') ||
+        recurso.endsWith('.png') ||
+        recurso.endsWith('.gif') ||
+        recurso.endsWith('.webp')
+    ){
+        return `
+            <div class="mt-4 text-center">
+                <img src="${src}" alt="Recurso de la escena">
+            </div>
+        `;
+    }
+
+    if(String(multimedia).startsWith('http')){
+        return `
+            <div class="mt-4">
+                <a class="case-action-btn primary" href="${src}" target="_blank" rel="noopener">
+                    Abrir recurso
+                </a>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="clinical-status mt-4">
+            Recurso multimedia no soportado: ${src}
+        </div>
+    `;
+}
+
+function documentoPreviewEscena(escena){
+    const titulo = escaparHTML(escena.titulo || 'Escena');
+    const contenido = escena.contenido || '';
+    const multimedia = renderizarMultimediaPreview(escena.multimedia);
+
+    return `<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="${location.origin}/pages/">
+<link rel="stylesheet" href="../assets/css/material-dashboard.css?v=3.2.0">
+<style>
+:root{--imss-red:#9d2449;--imss-red-dark:#691c32;--imss-green:#285c4d;--imss-muted:#6f7271;}
+html{font-size:13px;}
+body{margin:0;background:#f8f9fa;color:#404041;font-family:Inter,Arial,sans-serif;}
+body *{max-width:100%;box-sizing:border-box;}
+.case-stage{overflow:hidden;background:#fff;border:1px solid #DDDDDD;border-radius:10px;box-shadow:0 10px 24px rgba(64,64,65,.08);}
+.case-stage-header{padding:.8rem 1rem;border-bottom:1px solid #DDDDDD;}
+.muro-chip{display:inline-flex;align-items:center;gap:.25rem;border-radius:999px;padding:.2rem .48rem;font-size:.62rem;font-weight:700;background:rgba(40,92,77,.12);color:var(--imss-green);}
+.case-scene-body{padding:1rem;color:#404041;line-height:1.55;}
+.case-scene-body h1{font-size:2rem;}
+.case-scene-body h2{font-size:1.65rem;}
+.case-scene-body h3{font-size:1.35rem;}
+.case-scene-body h4{font-size:1.1rem;}
+.case-scene-body p,.case-scene-body li{font-size:.9rem;}
+.case-scene-body img,.case-scene-body video,.case-media-frame{max-width:100%;border-radius:10px;box-shadow:0 10px 24px rgba(64,64,65,.12);}
+.case-media-frame{width:100%;min-height:390px;border:0;}
+.case-action-btn{border:1px solid #DDDDDD;border-radius:10px;background:#fff;color:#404041;min-height:34px;padding:.42rem .72rem;font-size:.82rem;font-weight:800;display:inline-flex;align-items:center;gap:.35rem;text-decoration:none;}
+.case-action-btn.primary{border-color:transparent;background:var(--imss-red);color:#fff;box-shadow:0 10px 20px rgba(157,36,73,.18);}
+.clinical-status{border-radius:14px;padding:1rem;background:rgba(157,36,73,.08);color:var(--imss-red-dark);font-weight:700;}
+</style>
+</head>
+<body>
+<section class="case-stage">
+    <header class="case-stage-header">
+        <span class="muro-chip">Vista portal</span>
+        <h4 class="mb-0 mt-2">${titulo}</h4>
+    </header>
+    <div class="case-scene-body">
+        ${contenido}
+        ${multimedia}
+    </div>
+</section>
+</body>
+</html>`;
+}
+
+function fijarEstado(mensaje, esError = false){
+    const estado = document.getElementById('estadoContenido');
+    estado.textContent = mensaje;
+    estado.classList.toggle('is-error', esError);
+}
+
+function opcionesDificultad(valor){
+    return dificultades.map((dificultad) =>
+        `<option value="${dificultad}"${String(valor || '') === dificultad ? ' selected' : ''}>${dificultad}</option>`
+    ).join('');
+}
+
+function indiceEspecialidadAbierta(){
+    const index = state.especialidades.findIndex((item) => String(item.id) === String(state.openEspecialidad));
+    return index >= 0 ? index + 1 : 0;
+}
+
+function indiceTemaAbierto(){
+    const index = state.temas.findIndex((item) => String(item.id) === String(state.openTema));
+    return index >= 0 ? index + 1 : 0;
+}
+
+function indiceCasoAbierto(){
+    const index = state.casos.findIndex((item) => String(item.id) === String(state.openCaso));
+    return index >= 0 ? index + 1 : 0;
+}
+
+async function verificarSesion(){
+    try{
+        const response = await fetch('../php/auth.php');
+        const data = await response.json();
+
+        if(!data.auth){
+            window.location.href = '../pages/sign-in.html';
+            return false;
+        }
+
+        if(data.usuario.rol !== 'admin'){
+            window.location.href = '../pages/user_profile.html';
+            return false;
+        }
+
+        return true;
+    }catch(error){
+        console.error(error);
+        return false;
+    }
+}
+
+async function cargarEspecialidades(){
+    try{
+        fijarEstado('Consultando árbol de contenidos...');
+        const response = await fetch('../php/get_especialidades.php?include_inactive=1');
+        const data = await response.json();
+        state.especialidades = Array.isArray(data) ? data : [];
+        renderTree();
+        fijarEstado('Árbol listo.');
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible cargar especialidades.', true);
+    }
+}
+
+async function abrirEspecialidad(id){
+    state.openEspecialidad = String(state.openEspecialidad) === String(id) ? null : id;
+    state.openTema = null;
+    state.openCaso = null;
+    state.temas = [];
+    state.casos = [];
+
+    if(state.openEspecialidad){
+        const response = await fetch(`../php/get_temas_admin.php?id=${encodeURIComponent(id)}`);
+        const data = await response.json();
+        state.temas = Array.isArray(data) ? data : [];
+    }
+
+    renderTree();
+}
+
+async function abrirTema(id){
+    state.openTema = String(state.openTema) === String(id) ? null : id;
+    state.openCaso = null;
+    state.casos = [];
+
+    if(state.openTema){
+        const response = await fetch(`../php/casos.php?id=${encodeURIComponent(id)}`);
+        const data = await response.json();
+        state.casos = Array.isArray(data) ? data : [];
+    }
+
+    renderTree();
+}
+
+async function refrescarRamaAbierta(){
+    if(state.openEspecialidad){
+        const temasResponse = await fetch(`../php/get_temas_admin.php?id=${encodeURIComponent(state.openEspecialidad)}`);
+        const temasData = await temasResponse.json();
+        state.temas = Array.isArray(temasData) ? temasData : [];
+    }
+
+    if(state.openTema){
+        const casosResponse = await fetch(`../php/casos.php?id=${encodeURIComponent(state.openTema)}`);
+        const casosData = await casosResponse.json();
+        state.casos = Array.isArray(casosData) ? casosData : [];
+    }
+
+    renderTree();
+}
+
+function renderTree(){
+    const tree = document.getElementById('contentTree');
+    const rows = state.especialidades.map((especialidad) => {
+        const abierta = String(state.openEspecialidad) === String(especialidad.id);
+        const activa = Number(especialidad.activo) === 1;
+        return `
+            <li class="tree-row specialty-row${abierta ? ' is-open' : ''}${activa ? '' : ' is-inactive'}" data-specialty="${especialidad.id}">
+                <div>
+                    <span class="tree-name">${escaparHTML(especialidad.nombre)}</span>
+                    <span class="tree-meta">${Number(especialidad.total_temas || 0)} temas / ${Number(especialidad.total_casos || 0)} casos</span>
+                </div>
+                <button class="btn tree-action" type="button" data-edit-type="especialidad" data-edit-id="${especialidad.id}">Editar</button>
+                <div class="tree-panel">
+                    ${abierta ? renderTemas() : ''}
+                </div>
+            </li>
+        `;
+    }).join('');
+
+    tree.innerHTML = `
+        <li class="tree-section-title tree-section-title-root">Especialidades</li>
+        ${rows}
+        <li>
+            <form class="add-line is-root" data-add-specialty autocomplete="off">
+                <span class="add-number">${state.especialidades.length + 1}.-</span>
+                <input class="add-input" name="nombre" type="text" placeholder="Escribir nueva especialidad">
+                <button class="btn tree-action" type="submit">Guardar</button>
+                <span class="add-note">Enter guarda la especialidad con icono y color administrativos por defecto.</span>
+            </form>
+        </li>
+    `;
+}
+
+function renderTemas(){
+    const addTopicIndex = `${indiceEspecialidadAbierta()}.${state.temas.length + 1}.-`;
+
+    return `
+        <div class="tree-section-title">Temas de la especialidad</div>
+        <ol class="topic-list">
+            ${state.temas.map((tema) => {
+                const abierto = String(state.openTema) === String(tema.id);
+                return `
+                    <li class="tree-row topic-row${abierto ? ' is-open' : ''}" data-topic="${tema.id}">
+                        <div>
+                            <span class="tree-name">${escaparHTML(tema.titulo)}</span>
+                            <span class="tree-meta">${Number(tema.total_casos || 0)} casos</span>
+                        </div>
+                        <button class="btn tree-action" type="button" data-edit-type="tema" data-edit-id="${tema.id}">Editar</button>
+                        <div class="tree-panel">
+                            ${abierto ? renderCasos() : ''}
+                        </div>
+                    </li>
+                `;
+            }).join('')}
+            ${state.temas.length ? '' : '<li class="empty-line is-topic">No hay temas registrados para esta especialidad.</li>'}
+            <li>
+                <form class="add-line is-topic" data-add-topic autocomplete="off">
+                    <span class="add-number">${addTopicIndex}</span>
+                    <input class="add-input" name="titulo" type="text" placeholder="Escribir nuevo tema">
+                    <button class="btn tree-action" type="submit">Guardar</button>
+                    <span class="add-note">Enter guarda el tema con información administrativa por defecto.</span>
+                </form>
+            </li>
+        </ol>
+    `;
+}
+
+function renderCasos(){
+    const addCaseIndex = `${indiceEspecialidadAbierta()}.${indiceTemaAbierto()}.${state.casos.length + 1}.-`;
+
+    return `
+        <div class="tree-section-title">Casos del tema</div>
+        <ol class="case-list">
+            ${state.casos.map((caso) => {
+                const abierto = String(state.openCaso) === String(caso.id);
+                return `
+                <li class="tree-row case-row${abierto ? ' is-open' : ''}" data-case="${caso.id}">
+                    <div>
+                        <span class="tree-name">${escaparHTML(caso.titulo)}</span>
+                        <span class="tree-meta">${escaparHTML(caso.dificultad || 'Intermedio')} / ${escaparHTML(caso.descripcion || 'Sin descripción')}</span>
+                    </div>
+                    <button class="btn tree-action" type="button" data-edit-type="caso" data-edit-id="${caso.id}">Editar</button>
+                    <div class="tree-panel">
+                        ${abierto ? renderRecursosCaso() : ''}
+                    </div>
+                </li>
+            `;
+            }).join('')}
+            ${state.casos.length ? '' : '<li class="empty-line is-case">No hay casos registrados para este tema.</li>'}
+            <li>
+                <form class="add-line" data-add-case autocomplete="off">
+                    <span class="add-number">${addCaseIndex}</span>
+                    <input class="add-input" name="titulo" type="text" placeholder="Escribir nuevo caso">
+                    <button class="btn tree-action" type="submit">Guardar</button>
+                    <span class="add-note">Enter guarda el caso con información administrativa por defecto.</span>
+                </form>
+            </li>
+        </ol>
+    `;
+}
+
+function renderRecursosCaso(){
+    const base = `${indiceEspecialidadAbierta()}.${indiceTemaAbierto()}.${indiceCasoAbierto()}`;
+    const recursos = [
+        {
+            key:'escenas',
+            titulo:'Escenas',
+            meta:'Narrativa clínica y contenido del portal'
+        },
+        {
+            key:'perlas',
+            titulo:'Perlas',
+            meta:'Síntesis clínica del caso'
+        },
+        {
+            key:'infografias',
+            titulo:'Infografías',
+            meta:'Material visual complementario'
+        },
+        {
+            key:'escalas',
+            titulo:'Escalas',
+            meta:'Calculadoras y riesgo clínico'
+        },
+        {
+            key:'examenes',
+            titulo:'Examen',
+            meta:'Evaluación y preguntas del caso'
+        }
+    ];
+
+    return `
+        <ul class="resource-list">
+            ${recursos.map((recurso, index) => `
+                <li class="resource-row" data-resource="${recurso.key}">
+                    <span class="resource-index">${base}.${index + 1}.-</span>
+                    <span>
+                        <span class="resource-title">${recurso.titulo}</span>
+                        <span class="resource-meta">${recurso.meta}</span>
+                    </span>
+                    <span class="tree-action">Abrir</span>
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
+
+function abrirPostit(tipo, id){
+    const postit = document.getElementById('postitEditor');
+    const fields = document.getElementById('postitFields');
+    const kicker = document.getElementById('postitKicker');
+    const title = document.getElementById('postitTitle');
+
+    state.editType = tipo;
+    state.editId = id;
+
+    let data = null;
+
+    if(tipo === 'especialidad'){
+        data = state.especialidades.find((item) => String(item.id) === String(id));
+        kicker.textContent = 'Especialidad';
+        title.textContent = data?.nombre || 'Editar especialidad';
+        fields.innerHTML = `
+            ${field('nombre', 'Nombre', data?.nombre || '')}
+            ${field('icono', 'Icono', data?.icono || 'folder')}
+            <div class="postit-field">
+                <label for="postit_color">Color</label>
+                <input class="postit-input" id="postit_color" name="color" type="color" value="${escaparHTML(data?.color || '#1f5f4f')}">
+            </div>
+            <div class="postit-field">
+                <label for="postit_activo">Estado</label>
+                <select class="postit-select" id="postit_activo" name="activo">
+                    <option value="1"${Number(data?.activo) === 1 ? ' selected' : ''}>Activa</option>
+                    <option value="0"${Number(data?.activo) === 0 ? ' selected' : ''}>Anulada</option>
+                </select>
+            </div>
+        `;
+    }
+
+    if(tipo === 'tema'){
+        data = state.temas.find((item) => String(item.id) === String(id));
+        kicker.textContent = 'Tema';
+        title.textContent = data?.titulo || 'Editar tema';
+        fields.innerHTML = `
+            ${field('titulo', 'Título', data?.titulo || '')}
+            ${field('descripcion', 'Descripción', data?.descripcion || '')}
+            ${field('imagen', 'Imagen', data?.imagen || '')}
+        `;
+    }
+
+    if(tipo === 'caso'){
+        data = state.casos.find((item) => String(item.id) === String(id));
+        kicker.textContent = 'Caso';
+        title.textContent = data?.titulo || 'Editar caso';
+        fields.innerHTML = `
+            ${field('titulo', 'Título', data?.titulo || '')}
+            ${field('descripcion', 'Descripción', data?.descripcion || '')}
+            ${field('portada', 'Portada', data?.portada || '')}
+            <div class="postit-field">
+                <label for="postit_dificultad">Dificultad</label>
+                <select class="postit-select" id="postit_dificultad" name="dificultad">
+                    ${opcionesDificultad(data?.dificultad || 'Intermedio')}
+                </select>
+            </div>
+        `;
+    }
+
+    postit.hidden = false;
+}
+
+function field(name, label, value){
+    return `
+        <div class="postit-field">
+            <label for="postit_${name}">${label}</label>
+            <input class="postit-input" id="postit_${name}" name="${name}" type="text" value="${escaparHTML(value)}">
+        </div>
+    `;
+}
+
+async function guardarPostit(event){
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const tipo = state.editType;
+    const id = state.editId;
+
+    try{
+        if(tipo === 'especialidad'){
+            await fetch('../php/update_especialidad.php', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body:JSON.stringify({
+                    id,
+                    nombre: form.get('nombre'),
+                    icono: form.get('icono') || 'folder',
+                    color: form.get('color') || '#1f5f4f',
+                    activo: Number(form.get('activo') || 1)
+                })
+            });
+            await cargarEspecialidades();
+        }
+
+        if(tipo === 'tema'){
+            await fetch('../php/update_tema.php', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body:JSON.stringify({
+                    id,
+                    titulo: form.get('titulo'),
+                    descripcion: form.get('descripcion'),
+                    imagen: form.get('imagen')
+                })
+            });
+            await refrescarRamaAbierta();
+        }
+
+        if(tipo === 'caso'){
+            await fetch('../php/casos.php', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body:JSON.stringify({
+                    id,
+                    titulo: form.get('titulo'),
+                    descripcion: form.get('descripcion'),
+                    portada: form.get('portada'),
+                    dificultad: form.get('dificultad'),
+                    activo: 1
+                })
+            });
+            await refrescarRamaAbierta();
+        }
+
+        document.getElementById('postitEditor').hidden = true;
+        fijarEstado('Expediente actualizado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible guardar el post-it.', true);
+    }
+}
+
+async function guardarNuevaEspecialidad(form){
+    const nombre = String(new FormData(form).get('nombre') || '').trim();
+
+    if(!nombre){
+        fijarEstado('Escribe una especialidad para guardar.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/guardar_especialidad.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                nombre,
+                icono:'folder',
+                color:'#1f5f4f'
+            })
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo guardar la especialidad.');
+        }
+
+        form.reset();
+        await cargarEspecialidades();
+        fijarEstado('Especialidad agregada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar la especialidad.', true);
+    }
+}
+
+async function guardarNuevoTema(form){
+    const titulo = String(new FormData(form).get('titulo') || '').trim();
+
+    if(!state.openEspecialidad){
+        fijarEstado('Abre una especialidad antes de guardar un tema.', true);
+        return;
+    }
+
+    if(!titulo){
+        fijarEstado('Escribe un tema para guardar.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/guardar_tema.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_especialidad: state.openEspecialidad,
+                titulo,
+                descripcion:'Unidad de Educación e Investigación',
+                imagen:''
+            })
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo guardar el tema.');
+        }
+
+        form.reset();
+        await refrescarRamaAbierta();
+        await cargarEspecialidades();
+        fijarEstado('Tema agregado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar el tema.', true);
+    }
+}
+
+async function guardarNuevoCaso(form){
+    const titulo = String(new FormData(form).get('titulo') || '').trim();
+
+    if(!state.openTema){
+        fijarEstado('Abre un tema antes de guardar un caso.', true);
+        return;
+    }
+
+    if(!titulo){
+        fijarEstado('Escribe un caso para guardar.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/casos.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_tema: state.openTema,
+                titulo,
+                descripcion:'Unidad de Educación e Investigación',
+                dificultad:'Intermedio',
+                portada:''
+            })
+        });
+        const result = await response.json();
+
+        if(result.error){
+            throw new Error(result.error);
+        }
+
+        form.reset();
+        await refrescarRamaAbierta();
+        await cargarEspecialidades();
+        fijarEstado(result.mensaje || 'Caso agregado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar el caso.', true);
+    }
+}
+
+async function abrirModalEscenas(idCaso){
+    state.openCaso = idCaso;
+    const caso = state.casos.find((item) => String(item.id) === String(idCaso));
+    document.getElementById('sceneModalTitle').textContent = capitalizarFrase(caso?.titulo || 'Caso clínico');
+    document.getElementById('sceneModal').hidden = false;
+    cerrarEditorEscena();
+    await cargarEscenas();
+}
+
+async function abrirModalPerlas(idCaso){
+    state.openCaso = idCaso;
+    const caso = state.casos.find((item) => String(item.id) === String(idCaso));
+    document.getElementById('perlasModalTitle').textContent = capitalizarFrase(caso?.titulo || 'Perlas clínicas');
+    document.getElementById('perlasModal').hidden = false;
+    cerrarEditorPerla();
+    await cargarPerlasCaso();
+}
+
+async function cargarPerlasCaso(){
+    const response = await fetch(`../php/perlas.php?id_caso=${encodeURIComponent(state.openCaso)}`);
+    const data = await response.json();
+    state.perlas = Array.isArray(data) ? data : [];
+    renderPerlasCaso();
+}
+
+function renderPerlasCaso(){
+    const list = document.getElementById('perlasList');
+
+    list.innerHTML = seccionesPerlas.map((seccion) => {
+        const perla = state.perlas.find((item) => Number(item.orden) === Number(seccion.orden));
+        const contenido = perla?.contenido || '';
+        return `
+            <li class="scene-item" data-perla-item="${seccion.orden}">
+                <div class="scene-item-head">
+                    <div class="scene-item-title">
+                        <strong>${String(seccion.orden).padStart(2, '0')} / ${escaparHTML(seccion.seccion)}</strong>
+                        <span class="tree-meta">${contenido ? 'Vista portal' : 'Sin contenido registrado'}</span>
+                    </div>
+                    <button class="btn tree-action" type="button" data-edit-perla="${seccion.orden}">Editar HTML</button>
+                </div>
+                <div class="scene-preview-shell">
+                    <iframe
+                        class="scene-preview-frame"
+                        sandbox="allow-scripts"
+                        title="Vista portal de ${escaparHTML(seccion.seccion)}"
+                        srcdoc="${escaparHTML(documentoPreviewEscena({
+                            titulo: seccion.seccion,
+                            contenido: contenido || '<p class="text-muted">Sin contenido registrado.</p>',
+                            multimedia: ''
+                        }))}">
+                    </iframe>
+                </div>
+            </li>
+        `;
+    }).join('');
+}
+
+function perlasPayload(){
+    return seccionesPerlas.map((seccion) => {
+        const perla = state.perlas.find((item) => Number(item.orden) === Number(seccion.orden));
+        return {
+            orden: seccion.orden,
+            seccion: seccion.seccion,
+            contenido: perla?.contenido || ''
+        };
+    });
+}
+
+async function persistirPerlasCaso(mensaje = 'Perlas guardadas.'){
+    try{
+        const response = await fetch('../php/perlas.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_caso: state.openCaso,
+                perlas: perlasPayload()
+            })
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudieron guardar las perlas.');
+        }
+
+        await cargarPerlasCaso();
+        fijarEstado(result.mensaje || mensaje);
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar las perlas.', true);
+    }
+}
+
+async function guardarPerlasCaso(event){
+    event.preventDefault();
+    await persistirPerlasCaso('Perlas guardadas.');
+}
+
+function abrirEditorPerla(orden){
+    const seccion = seccionesPerlas.find((item) => Number(item.orden) === Number(orden));
+    const perla = state.perlas.find((item) => Number(item.orden) === Number(orden));
+    const drawer = document.getElementById('perlaEditorDrawer');
+    const form = document.getElementById('perlaEditForm');
+
+    if(!seccion){
+        return;
+    }
+
+    drawer.hidden = false;
+    form.dataset.perlaOrden = seccion.orden;
+    document.getElementById('perlaEditorTitle').textContent =
+        `${String(seccion.orden).padStart(2, '0')} / ${seccion.seccion}`;
+    form.elements.contenido.value = perla?.contenido || '';
+
+    document.querySelectorAll('[data-perla-item]').forEach((item) => {
+        item.classList.toggle('is-editing', Number(item.dataset.perlaItem) === Number(seccion.orden));
+    });
+
+    const item = document.querySelector(`[data-perla-item="${seccion.orden}"]`);
+    if(item){
+        item.scrollIntoView({ block:'start', behavior:'smooth' });
+    }
+}
+
+function cerrarEditorPerla(){
+    document.getElementById('perlaEditorDrawer').hidden = true;
+    document.getElementById('perlaEditForm').reset();
+    document.querySelectorAll('[data-perla-item]').forEach((item) => {
+        item.classList.remove('is-editing');
+    });
+    delete document.getElementById('perlaEditForm').dataset.perlaOrden;
+}
+
+async function guardarPerlaEditada(form){
+    const orden = Number(form.dataset.perlaOrden);
+    const seccion = seccionesPerlas.find((item) => Number(item.orden) === orden);
+
+    if(!seccion){
+        return;
+    }
+
+    const actual = state.perlas.filter((item) => Number(item.orden) !== orden);
+    actual.push({
+        orden: seccion.orden,
+        seccion: seccion.seccion,
+        contenido: form.elements.contenido.value
+    });
+    state.perlas = actual;
+    await persistirPerlasCaso('Perla guardada.');
+    cerrarEditorPerla();
+}
+
+async function abrirModalInfografias(idCaso){
+    state.openCaso = idCaso;
+    const caso = state.casos.find((item) => String(item.id) === String(idCaso));
+    document.getElementById('infografiasModalTitle').textContent = capitalizarFrase(caso?.titulo || 'Infografías');
+    document.getElementById('infografiasModal').hidden = false;
+    await cargarInfografiasCaso();
+}
+
+async function cargarInfografiasCaso(){
+    const response = await fetch(`../php/infografias.php?id_caso=${encodeURIComponent(state.openCaso)}`);
+    const data = await response.json();
+    state.infografias = Array.isArray(data) ? data : [];
+    document.getElementById('infografiaOrden').value = state.infografias.length + 1;
+    renderInfografiasCaso();
+}
+
+function renderInfografiasCaso(){
+    const list = document.getElementById('infografiasList');
+
+    if(!state.infografias.length){
+        list.innerHTML = '<li class="empty-line">No hay infografías asociadas a este caso.</li>';
+        return;
+    }
+
+    list.innerHTML = state.infografias.map((infografia) => {
+        const imagen = infografia.ruta_imagen ? `../${infografia.ruta_imagen}` : '';
+        return `
+            <li class="scene-item">
+                <div class="scene-item-head">
+                    <div class="scene-item-title">
+                        <strong>${String(infografia.orden || 1).padStart(2, '0')} / ${escaparHTML(infografia.titulo || 'Infografía')}</strong>
+                        <span class="infografia-card-meta">
+                            ${escaparHTML(infografia.descripcion || infografia.objetivo || 'Material visual complementario')}
+                        </span>
+                    </div>
+                    <button class="btn tree-action danger" type="button" data-delete-infografia="${infografia.id}">Eliminar</button>
+                </div>
+                ${imagen ? `<img class="infografia-preview-img" src="${escaparHTML(imagen)}" alt="${escaparHTML(infografia.alt_text || infografia.titulo || 'Infografía clínica')}">` : ''}
+            </li>
+        `;
+    }).join('');
+}
+
+async function guardarInfografiaCaso(event){
+    event.preventDefault();
+
+    if(!state.openCaso){
+        fijarEstado('Abre un caso antes de cargar una infografía.', true);
+        return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.append('id_caso', state.openCaso);
+
+    try{
+        const response = await fetch('../php/infografias.php', {
+            method:'POST',
+            body:formData
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo cargar la infografía.');
+        }
+
+        form.reset();
+        document.getElementById('infografiaColor').value = '#1f5f4f';
+        await cargarInfografiasCaso();
+        fijarEstado(result.mensaje || 'Infografía cargada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible cargar la infografía.', true);
+    }
+}
+
+function solicitarEliminarInfografia(id){
+    const infografia = state.infografias.find((item) => String(item.id) === String(id));
+
+    if(!infografia){
+        return;
+    }
+
+    state.pendingDeleteInfografia = id;
+    document.getElementById('deleteInfografiaTitle').textContent =
+        infografia.titulo || 'Eliminar infografía';
+    document.getElementById('deleteInfografiaText').textContent =
+        'Esta acción eliminará definitivamente la infografía y borrará su imagen del servidor.';
+    document.getElementById('deleteInfografiaConfirm').hidden = false;
+}
+
+function cerrarConfirmacionEliminarInfografia(){
+    state.pendingDeleteInfografia = null;
+    document.getElementById('deleteInfografiaConfirm').hidden = true;
+}
+
+async function eliminarInfografiaConfirmada(){
+    const id = state.pendingDeleteInfografia;
+
+    if(!id){
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/infografias.php', {
+            method:'DELETE',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({ id })
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo eliminar la infografía.');
+        }
+
+        await cargarInfografiasCaso();
+        cerrarConfirmacionEliminarInfografia();
+        fijarEstado(result.mensaje || 'Infografía eliminada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible eliminar la infografía.', true);
+    }
+}
+
+async function abrirModalEscalas(idCaso){
+    state.openCaso = idCaso;
+    const caso = state.casos.find((item) => String(item.id) === String(idCaso));
+    document.getElementById('escalasModalTitle').textContent = capitalizarFrase(caso?.titulo || 'Escalas pronósticas');
+    document.getElementById('escalasModal').hidden = false;
+    await cargarEscalasCaso();
+}
+
+async function cargarEscalasCaso(){
+    const response = await fetch(`../php/escalas.php?id_caso=${encodeURIComponent(state.openCaso)}`);
+    const data = await response.json();
+    state.escalas = Array.isArray(data) ? data : [];
+    document.getElementById('escalaOrden').value = state.escalas.length + 1;
+    renderEscalasCaso();
+}
+
+function renderEscalasCaso(){
+    const list = document.getElementById('escalasList');
+
+    if(!state.escalas.length){
+        list.innerHTML = '<li class="empty-line">No hay escalas registradas para este caso.</li>';
+        return;
+    }
+
+    list.innerHTML = state.escalas.map((escala) => `
+        <li class="scene-item">
+            <div class="scene-item-head">
+                <div class="scene-item-title">
+                    <strong>${String(escala.orden || 1).padStart(2, '0')} / ${escaparHTML(escala.titulo || 'Escala pronóstica')}</strong>
+                    <span class="infografia-card-meta">
+                        ${escaparHTML(escala.descripcion || escala.url || 'Calculadora clínica externa')}
+                    </span>
+                    <span class="infografia-card-meta">
+                        ${escaparHTML(escala.proveedor || '')}
+                    </span>
+                </div>
+                <button class="btn tree-action danger" type="button" data-delete-escala="${escala.id}">Eliminar</button>
+            </div>
+            <div class="scene-preview-shell">
+                <iframe
+                    class="scene-preview-frame"
+                    title="Vista de ${escaparHTML(escala.titulo || 'escala')}"
+                    src="${escaparHTML(escala.url || '')}">
+                </iframe>
+            </div>
+        </li>
+    `).join('');
+}
+
+async function guardarEscalaCaso(event){
+    event.preventDefault();
+
+    if(!state.openCaso){
+        fijarEstado('Abre un caso antes de guardar una escala.', true);
+        return;
+    }
+
+    const form = event.currentTarget;
+    const data = {
+        id_caso: state.openCaso,
+        titulo: form.elements.titulo.value.trim(),
+        descripcion: form.elements.descripcion.value.trim(),
+        url: form.elements.url.value.trim(),
+        proveedor: form.elements.proveedor.value.trim(),
+        orden: Number(form.elements.orden.value || 1)
+    };
+
+    try{
+        const response = await fetch('../php/escalas.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify(data)
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo guardar la escala.');
+        }
+
+        form.reset();
+        await cargarEscalasCaso();
+        fijarEstado(result.mensaje || 'Escala guardada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar la escala.', true);
+    }
+}
+
+function solicitarEliminarEscala(id){
+    const escala = state.escalas.find((item) => String(item.id) === String(id));
+
+    if(!escala){
+        return;
+    }
+
+    state.pendingDeleteEscala = id;
+    document.getElementById('deleteEscalaTitle').textContent =
+        escala.titulo || 'Eliminar escala';
+    document.getElementById('deleteEscalaText').textContent =
+        'Esta acción eliminará definitivamente el enlace de la escala del expediente.';
+    document.getElementById('deleteEscalaConfirm').hidden = false;
+}
+
+function cerrarConfirmacionEliminarEscala(){
+    state.pendingDeleteEscala = null;
+    document.getElementById('deleteEscalaConfirm').hidden = true;
+}
+
+async function eliminarEscalaConfirmada(){
+    const id = state.pendingDeleteEscala;
+
+    if(!id){
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/escalas.php', {
+            method:'DELETE',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({ id })
+        });
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo eliminar la escala.');
+        }
+
+        await cargarEscalasCaso();
+        cerrarConfirmacionEliminarEscala();
+        fijarEstado(result.mensaje || 'Escala eliminada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible eliminar la escala.', true);
+    }
+}
+
+async function abrirModalExamenes(idCaso){
+    state.openCaso = idCaso;
+    state.openExamen = null;
+    state.preguntas = [];
+    cerrarEditorExamen();
+    cerrarEditorPregunta();
+    const caso = state.casos.find((item) => String(item.id) === String(idCaso));
+    document.getElementById('examenesModalTitle').textContent = capitalizarFrase(caso?.titulo || 'Examen');
+    document.getElementById('examenesModal').hidden = false;
+    await cargarExamenesCaso();
+}
+
+async function cargarExamenesCaso(){
+    const response = await fetch(`../php/examenes.php?id=${encodeURIComponent(state.openCaso)}`);
+    const data = await response.json();
+    state.examenes = Array.isArray(data) ? data : [];
+    const examenActivo = state.examenes.find((examen) => Number(examen.activo) === 1) || state.examenes[0];
+    state.openExamen = examenActivo?.id || null;
+    renderExamenesCaso();
+
+    if(state.openExamen){
+        await cargarPreguntasExamen(state.openExamen);
+    }
+}
+
+function renderExamenesCaso(){
+    const list = document.getElementById('examenesList');
+    const examenForm = document.getElementById('examenForm');
+    const preguntasPanel = document.getElementById('preguntasExamenPanel');
+
+    if(!state.examenes.length){
+        list.innerHTML = '<li>No hay examen registrado para este caso.</li>';
+        examenForm.hidden = false;
+        preguntasPanel.hidden = true;
+        state.preguntas = [];
+        state.openExamen = null;
+        cerrarEditorExamen();
+        cerrarEditorPregunta();
+        return;
+    }
+
+    examenForm.hidden = true;
+    preguntasPanel.hidden = false;
+    const examen = state.examenes.find((item) => String(item.id) === String(state.openExamen));
+
+    list.innerHTML = examen ? `
+            <li>
+                <div class="exam-summary">
+                    <span class="add-number">1.-</span>
+                    <div class="exam-summary-title">
+                        <strong>${escaparHTML(examen.titulo || 'Examen sin título')}</strong>
+                        <div class="exam-summary-description">${escaparHTML(examen.descripcion || 'Sin descripción')}</div>
+                    </div>
+                    <div>
+                        <div class="exam-summary-status">${Number(examen.activo) === 1 ? 'Activo' : 'Inactivo'}</div>
+                        <button class="btn tree-action" type="button" data-edit-examen="${examen.id}">Editar</button>
+                    </div>
+                </div>
+            </li>
+        ` : '<li>No hay examen registrado para este caso.</li>';
+
+    document.getElementById('preguntasExamenMeta').textContent = `Examen: ${examen?.titulo || 'Evaluación del caso'}`;
+}
+
+async function cargarPreguntasExamen(idExamen){
+    const response = await fetch(`../php/preguntas.php?id=${encodeURIComponent(idExamen)}`);
+    const data = await response.json();
+    state.preguntas = Array.isArray(data) ? data : [];
+    renderPreguntasExamen();
+}
+
+function renderPreguntasExamen(){
+    const list = document.getElementById('preguntasExamenList');
+
+    if(!state.preguntas.length){
+        list.innerHTML = '<li>No hay preguntas registradas para este examen.</li>';
+        return;
+    }
+
+    list.innerHTML = state.preguntas.map((pregunta, index) => `
+        <li${String(state.editPreguntaId) === String(pregunta.id) ? ' class="is-editing"' : ''}>
+            <div class="scene-item-head">
+                <div class="question-item-title">
+                    <strong>${index + 1}.- ${escaparHTML(pregunta.pregunta || 'Pregunta sin texto')}</strong>
+                    <div class="question-item-meta">Respuesta correcta: ${escaparHTML(pregunta.respuesta_correcta || 'A')} / ${escaparHTML(pregunta.dificultad || 'basica')}</div>
+                    <div class="question-option-list">
+                        <span>A. ${escaparHTML(pregunta.opcion_a || '')}</span>
+                        <span>B. ${escaparHTML(pregunta.opcion_b || '')}</span>
+                        <span>C. ${escaparHTML(pregunta.opcion_c || '')}</span>
+                        <span>D. ${escaparHTML(pregunta.opcion_d || '')}</span>
+                    </div>
+                </div>
+                <button class="btn tree-action" type="button" data-edit-pregunta="${pregunta.id}">Editar</button>
+            </div>
+        </li>
+    `).join('');
+}
+
+async function guardarNuevoExamen(event){
+    event.preventDefault();
+
+    const titulo = document.getElementById('examenTitulo').value.trim();
+    const descripcion = document.getElementById('examenDescripcion').value.trim();
+
+    if(!titulo){
+        fijarEstado('Escribe el título del examen.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/examenes.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_caso: state.openCaso,
+                titulo,
+                descripcion
+            })
+        });
+        const result = await response.json();
+
+        if(!result.success){
+            throw new Error(result.mensaje || 'No se pudo crear el examen.');
+        }
+
+        event.currentTarget.reset();
+        await cargarExamenesCaso();
+        fijarEstado(result.mensaje || 'Examen guardado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar el examen.', true);
+    }
+}
+
+async function guardarExamenExistente(form){
+    const id = form.dataset.examenForm;
+    const data = new FormData(form);
+    const titulo = String(data.get('titulo') || '').trim();
+
+    if(!titulo){
+        fijarEstado('Escribe el título del examen.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/examenes.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id,
+                titulo,
+                descripcion: String(data.get('descripcion') || '').trim(),
+                activo: Number(data.get('activo') || 1)
+            })
+        });
+        const result = await response.json();
+
+        if(!result.success){
+            throw new Error(result.mensaje || 'No se pudo actualizar el examen.');
+        }
+
+        await cargarExamenesCaso();
+        cerrarEditorExamen();
+        fijarEstado(result.mensaje || 'Examen actualizado.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible actualizar el examen.', true);
+    }
+}
+
+function abrirEditorExamen(idExamen){
+    const examen = state.examenes.find((item) => String(item.id) === String(idExamen));
+
+    if(!examen){
+        return;
+    }
+
+    const drawer = document.getElementById('examenEditorDrawer');
+    const form = document.getElementById('examenEditForm');
+
+    cerrarEditorPregunta();
+    drawer.hidden = false;
+    form.dataset.examenForm = idExamen;
+    document.getElementById('examenEditorTitle').textContent = examen.titulo || 'Evaluación del caso';
+    form.elements.titulo.value = examen.titulo || '';
+    form.elements.descripcion.value = examen.descripcion || '';
+    form.elements.activo.value = String(Number(examen.activo) === 0 ? 0 : 1);
+}
+
+function cerrarEditorExamen(){
+    const drawer = document.getElementById('examenEditorDrawer');
+    const form = document.getElementById('examenEditForm');
+
+    if(!drawer || !form){
+        return;
+    }
+
+    drawer.hidden = true;
+    form.reset();
+    delete form.dataset.examenForm;
+}
+
+function datosPreguntaDesdeFormulario(form){
+    const data = new FormData(form);
+
+    return {
+        pregunta: String(data.get('pregunta') || '').trim(),
+        opcion_a: String(data.get('opcion_a') || '').trim(),
+        opcion_b: String(data.get('opcion_b') || '').trim(),
+        opcion_c: String(data.get('opcion_c') || '').trim(),
+        opcion_d: String(data.get('opcion_d') || '').trim(),
+        respuesta_correcta: String(data.get('respuesta_correcta') || 'A').trim(),
+        explicacion: String(data.get('explicacion') || '').trim(),
+        dificultad: String(data.get('dificultad') || 'basica').trim()
+    };
+}
+
+function validarDatosPregunta(data){
+    return data.pregunta && data.opcion_a && data.opcion_b && data.opcion_c && data.opcion_d && data.respuesta_correcta;
+}
+
+async function guardarPreguntaExamen(event){
+    event.preventDefault();
+
+    if(!state.openExamen){
+        fijarEstado('Primero guarda el examen del caso.', true);
+        return;
+    }
+
+    const data = datosPreguntaDesdeFormulario(event.currentTarget);
+
+    if(!validarDatosPregunta(data)){
+        fijarEstado('Completa la pregunta y sus cuatro opciones.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/preguntas.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_examen: state.openExamen,
+                ...data
+            })
+        });
+        const result = await response.json();
+
+        if(!result.success){
+            throw new Error(result.mensaje || 'No se pudo guardar la pregunta.');
+        }
+
+        event.currentTarget.reset();
+        await cargarPreguntasExamen(state.openExamen);
+        fijarEstado(result.mensaje || 'Pregunta guardada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar la pregunta.', true);
+    }
+}
+
+function abrirEditorPregunta(idPregunta){
+    const pregunta = state.preguntas.find((item) => String(item.id) === String(idPregunta));
+
+    if(!pregunta){
+        return;
+    }
+
+    const drawer = document.getElementById('preguntaEditorDrawer');
+    const form = document.getElementById('preguntaEditForm');
+
+    cerrarEditorExamen();
+    state.editPreguntaId = idPregunta;
+    drawer.hidden = false;
+    form.dataset.preguntaId = idPregunta;
+    document.getElementById('preguntaEditorTitle').textContent = pregunta.pregunta || 'Pregunta clínica';
+
+    form.elements.pregunta.value = pregunta.pregunta || '';
+    form.elements.opcion_a.value = pregunta.opcion_a || '';
+    form.elements.opcion_b.value = pregunta.opcion_b || '';
+    form.elements.opcion_c.value = pregunta.opcion_c || '';
+    form.elements.opcion_d.value = pregunta.opcion_d || '';
+    form.elements.respuesta_correcta.value = pregunta.respuesta_correcta || 'A';
+    form.elements.dificultad.value = pregunta.dificultad || 'basica';
+    form.elements.explicacion.value = pregunta.explicacion || '';
+
+    renderPreguntasExamen();
+}
+
+function cerrarEditorPregunta(){
+    const drawer = document.getElementById('preguntaEditorDrawer');
+    const form = document.getElementById('preguntaEditForm');
+
+    if(!drawer || !form){
+        return;
+    }
+
+    state.editPreguntaId = null;
+    drawer.hidden = true;
+    form.reset();
+    delete form.dataset.preguntaId;
+
+    if(document.getElementById('preguntasExamenList')){
+        renderPreguntasExamen();
+    }
+}
+
+async function guardarPreguntaEditada(form){
+    const id = form.dataset.preguntaId;
+    const data = datosPreguntaDesdeFormulario(form);
+
+    if(!id){
+        return;
+    }
+
+    if(!validarDatosPregunta(data)){
+        fijarEstado('Completa la pregunta y sus cuatro opciones.', true);
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/preguntas.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id,
+                ...data
+            })
+        });
+        const result = await response.json();
+
+        if(!result.success){
+            throw new Error(result.mensaje || 'No se pudo actualizar la pregunta.');
+        }
+
+        await cargarPreguntasExamen(state.openExamen);
+        cerrarEditorPregunta();
+        fijarEstado(result.mensaje || 'Pregunta actualizada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible actualizar la pregunta.', true);
+    }
+}
+
+function abrirRecursoCaso(recurso){
+    if(!state.openCaso){
+        return;
+    }
+
+    if(recurso === 'escenas'){
+        abrirModalEscenas(state.openCaso);
+        return;
+    }
+
+    if(recurso === 'perlas'){
+        abrirModalPerlas(state.openCaso);
+        return;
+    }
+
+    if(recurso === 'infografias'){
+        abrirModalInfografias(state.openCaso);
+        return;
+    }
+
+    if(recurso === 'escalas'){
+        abrirModalEscalas(state.openCaso);
+        return;
+    }
+
+    if(recurso === 'examenes'){
+        abrirModalExamenes(state.openCaso);
+        return;
+    }
+
+    fijarEstado('Este módulo quedará conectado en la siguiente etapa.');
+}
+
+async function cargarEscenas(){
+    const response = await fetch(`../php/get_escenas.php?id=${encodeURIComponent(state.openCaso)}`);
+    const data = await response.json();
+    state.escenas = Array.isArray(data) ? data : [];
+    document.getElementById('sceneOrden').value = state.escenas.length + 1;
+    renderEscenas();
+}
+
+function renderEscenas(){
+    const list = document.getElementById('sceneList');
+    list.innerHTML = state.escenas.length
+        ? state.escenas.map((escena) => `
+            <li class="scene-item" data-scene-item="${escena.id}">
+                <div class="scene-item-head">
+                    <div class="scene-item-title">
+                        <strong>${escaparHTML(escena.orden)}.- ${escaparHTML(escena.titulo || 'Escena')}</strong>
+                        <span class="tree-meta">${escaparHTML(escena.tipo || 'texto')}</span>
+                    </div>
+                    <div class="scene-actions">
+                        <button class="btn tree-action" type="button" data-edit-scene="${escena.id}">Editar HTML</button>
+                        <button class="btn tree-action danger" type="button" data-delete-scene="${escena.id}">Eliminar</button>
+                    </div>
+                </div>
+                <div class="scene-preview-shell">
+                    <iframe
+                        class="scene-preview-frame"
+                        sandbox="allow-scripts"
+                        title="Vista portal de ${escaparHTML(escena.titulo || 'escena')}"
+                        srcdoc="${escaparHTML(documentoPreviewEscena(escena))}">
+                    </iframe>
+                </div>
+            </li>
+        `).join('')
+        : '<li>No hay escenas registradas.</li>';
+}
+
+function abrirEditorEscena(id){
+    const escena = state.escenas.find((item) => String(item.id) === String(id));
+
+    if(!escena){
+        return;
+    }
+
+    const drawer = document.getElementById('sceneEditorDrawer');
+    const form = document.getElementById('sceneEditForm');
+
+    drawer.hidden = false;
+    form.dataset.sceneEditor = escena.id;
+    document.getElementById('sceneEditorTitle').textContent =
+        `${escena.orden}.- ${escena.titulo || 'Escena'}`;
+    form.elements.orden.value = escena.orden || '';
+    form.elements.titulo.value = escena.titulo || '';
+    form.elements.tipo.value = escena.tipo || 'texto';
+    form.elements.contenido.value = escena.contenido || '';
+    form.elements.multimedia.value = escena.multimedia || '';
+
+    document.querySelectorAll('[data-scene-item]').forEach((item) => {
+        item.classList.toggle('is-editing', String(item.dataset.sceneItem) === String(escena.id));
+    });
+
+    const item = document.querySelector(`[data-scene-item="${escena.id}"]`);
+    if(item){
+        item.scrollIntoView({ block:'start', behavior:'smooth' });
+    }
+}
+
+function cerrarEditorEscena(){
+    document.getElementById('sceneEditorDrawer').hidden = true;
+    document.getElementById('sceneEditForm').reset();
+    document.querySelectorAll('[data-scene-item]').forEach((item) => {
+        item.classList.remove('is-editing');
+    });
+    delete document.getElementById('sceneEditForm').dataset.sceneEditor;
+}
+
+async function guardarCambiosEscena(form){
+    const id = form.dataset.sceneEditor;
+
+    try{
+        const data = {
+            id,
+            orden: form.elements.orden.value,
+            tipo: form.elements.tipo.value,
+            titulo: form.elements.titulo.value.trim(),
+            contenido: form.elements.contenido.value,
+            multimedia: form.elements.multimedia.value.trim()
+        };
+
+        const response = await fetch('../php/update_escena.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo actualizar la escena.');
+        }
+
+        await cargarEscenas();
+        cerrarEditorEscena();
+        fijarEstado(result.mensaje || 'Escena actualizada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible actualizar la escena.', true);
+    }
+}
+
+function solicitarEliminarEscena(id){
+    const escena = state.escenas.find((item) => String(item.id) === String(id));
+
+    if(!escena){
+        return;
+    }
+
+    state.pendingDeleteScene = id;
+    document.getElementById('deleteSceneTitle').textContent =
+        `${escena.orden}.- ${escena.titulo || 'Escena'}`;
+    document.getElementById('deleteSceneText').textContent =
+        'Esta acción eliminará definitivamente la escena y sus respuestas registradas.';
+    document.getElementById('deleteSceneConfirm').hidden = false;
+}
+
+function cerrarConfirmacionEliminarEscena(){
+    state.pendingDeleteScene = null;
+    document.getElementById('deleteSceneConfirm').hidden = true;
+}
+
+async function eliminarEscenaConfirmada(){
+    const id = state.pendingDeleteScene;
+
+    if(!id){
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/delete_escena.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id
+            })
+        });
+
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo eliminar la escena.');
+        }
+
+        if(String(document.getElementById('sceneEditForm').dataset.sceneEditor) === String(id)){
+            cerrarEditorEscena();
+        }
+
+        await cargarEscenas();
+        cerrarConfirmacionEliminarEscena();
+        fijarEstado(result.mensaje || 'Escena eliminada definitivamente.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible eliminar la escena.', true);
+    }
+}
+
+async function guardarEscena(event){
+    event.preventDefault();
+
+    try{
+        const tipo = document.getElementById('sceneTipo').value;
+        const contenido =
+            tipo === 'pregunta'
+                ? construirHTMLPregunta()
+                : document.getElementById('sceneContenido').value.trim();
+
+        const response = await fetch('../php/guardar_escena.php', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                id_caso: state.openCaso,
+                orden: document.getElementById('sceneOrden').value,
+                tipo,
+                titulo: document.getElementById('sceneTitulo').value.trim(),
+                contenido,
+                multimedia: document.getElementById('sceneMultimedia').value.trim(),
+                respuesta_correcta: tipo === 'pregunta'
+                    ? document.getElementById('sceneRespuestaCorrecta').value
+                    : '',
+                evaluable: tipo === 'pregunta'
+                    ? Number(document.getElementById('sceneEvaluable').value)
+                    : 0
+            })
+        });
+
+        const result = await response.json();
+
+        if(!result.ok){
+            throw new Error(result.mensaje || 'No se pudo guardar la escena.');
+        }
+
+        document.getElementById('sceneTitulo').value = '';
+        document.getElementById('sceneContenido').value = '';
+        document.getElementById('sceneMultimedia').value = '';
+        document.getElementById('sceneTipo').value = 'texto';
+        limpiarConstructorPregunta();
+        toggleConstructorPregunta();
+        await cargarEscenas();
+        fijarEstado('Escena agregada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible guardar la escena.', true);
+    }
+}
+
+async function reindexarBusqueda(event){
+    const boton = event.currentTarget;
+    const textoOriginal = boton.textContent;
+
+    try{
+        boton.textContent = 'Reindexando...';
+        boton.disabled = true;
+        await fetch('../php/reindexar_busqueda.php');
+        boton.textContent = textoOriginal;
+        boton.disabled = false;
+        fijarEstado('Índice de búsqueda actualizado.');
+    }catch(error){
+        console.error(error);
+        boton.textContent = textoOriginal;
+        boton.disabled = false;
+        fijarEstado('No fue posible reindexar la búsqueda.', true);
+    }
+}
+
+document.getElementById('contentTree').addEventListener('click', (event) => {
+    if(event.target.closest('.add-line')){
+        return;
+    }
+
+    const editButton = event.target.closest('[data-edit-type]');
+    if(editButton){
+        event.stopPropagation();
+        abrirPostit(editButton.dataset.editType, editButton.dataset.editId);
+        return;
+    }
+
+    const caseRow = event.target.closest('[data-case]');
+    if(caseRow){
+        event.stopPropagation();
+        const resourceRow = event.target.closest('[data-resource]');
+
+        if(resourceRow){
+            abrirRecursoCaso(resourceRow.dataset.resource);
+            return;
+        }
+
+        state.openCaso =
+            String(state.openCaso) === String(caseRow.dataset.case)
+                ? null
+                : caseRow.dataset.case;
+        renderTree();
+        return;
+    }
+
+    const topicRow = event.target.closest('[data-topic]');
+    if(topicRow){
+        event.stopPropagation();
+        abrirTema(topicRow.dataset.topic);
+        return;
+    }
+
+    const specialtyRow = event.target.closest('[data-specialty]');
+    if(specialtyRow){
+        abrirEspecialidad(specialtyRow.dataset.specialty);
+    }
+});
+
+document.getElementById('contentTree').addEventListener('submit', (event) => {
+    const specialtyForm = event.target.closest('[data-add-specialty]');
+    const topicForm = event.target.closest('[data-add-topic]');
+    const caseForm = event.target.closest('[data-add-case]');
+
+    if(specialtyForm){
+        event.preventDefault();
+        guardarNuevaEspecialidad(specialtyForm);
+        return;
+    }
+
+    if(topicForm){
+        event.preventDefault();
+        guardarNuevoTema(topicForm);
+        return;
+    }
+
+    if(caseForm){
+        event.preventDefault();
+        guardarNuevoCaso(caseForm);
+    }
+});
+
+document.getElementById('postitForm').addEventListener('submit', guardarPostit);
+document.getElementById('cerrarPostit').addEventListener('click', () => {
+    document.getElementById('postitEditor').hidden = true;
+});
+document.getElementById('cerrarModalEscenas').addEventListener('click', () => {
+    cerrarEditorEscena();
+    cerrarConfirmacionEliminarEscena();
+    document.getElementById('sceneModal').hidden = true;
+});
+document.getElementById('sceneModal').addEventListener('click', (event) => {
+    if(event.target.id === 'sceneModal'){
+        cerrarEditorEscena();
+        cerrarConfirmacionEliminarEscena();
+        event.currentTarget.hidden = true;
+    }
+});
+document.getElementById('cerrarModalPerlas').addEventListener('click', () => {
+    cerrarEditorPerla();
+    document.getElementById('perlasModal').hidden = true;
+});
+document.getElementById('perlasModal').addEventListener('click', (event) => {
+    if(event.target.id === 'perlasModal'){
+        cerrarEditorPerla();
+        event.currentTarget.hidden = true;
+    }
+});
+document.getElementById('cerrarModalInfografias').addEventListener('click', () => {
+    cerrarConfirmacionEliminarInfografia();
+    document.getElementById('infografiasModal').hidden = true;
+});
+document.getElementById('infografiasModal').addEventListener('click', (event) => {
+    if(event.target.id === 'infografiasModal'){
+        cerrarConfirmacionEliminarInfografia();
+        event.currentTarget.hidden = true;
+    }
+});
+document.getElementById('cerrarModalEscalas').addEventListener('click', () => {
+    cerrarConfirmacionEliminarEscala();
+    document.getElementById('escalasModal').hidden = true;
+});
+document.getElementById('escalasModal').addEventListener('click', (event) => {
+    if(event.target.id === 'escalasModal'){
+        cerrarConfirmacionEliminarEscala();
+        event.currentTarget.hidden = true;
+    }
+});
+document.getElementById('cerrarModalExamenes').addEventListener('click', () => {
+    cerrarEditorExamen();
+    cerrarEditorPregunta();
+    document.getElementById('examenesModal').hidden = true;
+});
+document.getElementById('examenesModal').addEventListener('click', (event) => {
+    if(event.target.id === 'examenesModal'){
+        cerrarEditorExamen();
+        cerrarEditorPregunta();
+        event.currentTarget.hidden = true;
+    }
+});
+document.getElementById('sceneForm').addEventListener('submit', guardarEscena);
+document.getElementById('sceneTipo').addEventListener('change', toggleConstructorPregunta);
+document.getElementById('sceneList').addEventListener('click', (event) => {
+    const editButton = event.target.closest('[data-edit-scene]');
+    if(editButton){
+        abrirEditorEscena(editButton.dataset.editScene);
+    }
+
+    const deleteButton = event.target.closest('[data-delete-scene]');
+    if(deleteButton){
+        solicitarEliminarEscena(deleteButton.dataset.deleteScene);
+    }
+});
+document.getElementById('cancelDeleteScene').addEventListener('click', cerrarConfirmacionEliminarEscena);
+document.getElementById('confirmDeleteScene').addEventListener('click', eliminarEscenaConfirmada);
+document.getElementById('deleteSceneConfirm').addEventListener('click', (event) => {
+    if(event.target.id === 'deleteSceneConfirm'){
+        cerrarConfirmacionEliminarEscena();
+    }
+});
+document.getElementById('perlasForm').addEventListener('submit', guardarPerlasCaso);
+document.getElementById('perlasList').addEventListener('click', (event) => {
+    const editButton = event.target.closest('[data-edit-perla]');
+
+    if(editButton){
+        abrirEditorPerla(editButton.dataset.editPerla);
+    }
+});
+document.getElementById('perlaEditForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    guardarPerlaEditada(event.currentTarget);
+});
+document.getElementById('cerrarEditorPerla').addEventListener('click', cerrarEditorPerla);
+document.getElementById('cancelarEditorPerla').addEventListener('click', cerrarEditorPerla);
+document.getElementById('infografiaForm').addEventListener('submit', guardarInfografiaCaso);
+document.getElementById('infografiasList').addEventListener('click', (event) => {
+    const deleteButton = event.target.closest('[data-delete-infografia]');
+
+    if(deleteButton){
+        solicitarEliminarInfografia(deleteButton.dataset.deleteInfografia);
+    }
+});
+document.getElementById('cancelDeleteInfografia').addEventListener('click', cerrarConfirmacionEliminarInfografia);
+document.getElementById('confirmDeleteInfografia').addEventListener('click', eliminarInfografiaConfirmada);
+document.getElementById('deleteInfografiaConfirm').addEventListener('click', (event) => {
+    if(event.target.id === 'deleteInfografiaConfirm'){
+        cerrarConfirmacionEliminarInfografia();
+    }
+});
+document.getElementById('escalaForm').addEventListener('submit', guardarEscalaCaso);
+document.getElementById('escalasList').addEventListener('click', (event) => {
+    const deleteButton = event.target.closest('[data-delete-escala]');
+
+    if(deleteButton){
+        solicitarEliminarEscala(deleteButton.dataset.deleteEscala);
+    }
+});
+document.getElementById('cancelDeleteEscala').addEventListener('click', cerrarConfirmacionEliminarEscala);
+document.getElementById('confirmDeleteEscala').addEventListener('click', eliminarEscalaConfirmada);
+document.getElementById('deleteEscalaConfirm').addEventListener('click', (event) => {
+    if(event.target.id === 'deleteEscalaConfirm'){
+        cerrarConfirmacionEliminarEscala();
+    }
+});
+document.getElementById('examenForm').addEventListener('submit', guardarNuevoExamen);
+document.getElementById('examenesList').addEventListener('click', (event) => {
+    const editButton = event.target.closest('[data-edit-examen]');
+
+    if(editButton){
+        abrirEditorExamen(editButton.dataset.editExamen);
+    }
+});
+document.getElementById('examenEditForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    guardarExamenExistente(event.currentTarget);
+});
+document.getElementById('cerrarEditorExamen').addEventListener('click', cerrarEditorExamen);
+document.getElementById('cancelarEditorExamen').addEventListener('click', cerrarEditorExamen);
+document.getElementById('preguntaExamenForm').addEventListener('submit', guardarPreguntaExamen);
+document.getElementById('preguntasExamenList').addEventListener('click', (event) => {
+    const editButton = event.target.closest('[data-edit-pregunta]');
+
+    if(editButton){
+        abrirEditorPregunta(editButton.dataset.editPregunta);
+    }
+});
+document.getElementById('preguntaEditForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    guardarPreguntaEditada(event.currentTarget);
+});
+document.getElementById('cerrarEditorPregunta').addEventListener('click', cerrarEditorPregunta);
+document.getElementById('cancelarEditorPregunta').addEventListener('click', cerrarEditorPregunta);
+document.getElementById('sceneEditForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    guardarCambiosEscena(event.currentTarget);
+});
+document.getElementById('cerrarEditorEscena').addEventListener('click', cerrarEditorEscena);
+document.getElementById('cancelarEditorEscena').addEventListener('click', cerrarEditorEscena);
+toggleConstructorPregunta();
+
+verificarSesion().then((permitido) => {
+    if(permitido){
+        cargarEspecialidades();
+    }
+});
+</script>
+
+</body>
+</html>

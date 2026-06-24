@@ -309,7 +309,7 @@ if(preg_match('/\b(escala|escalas|pronostica|pronosticas|pronostico|pronosticos)
         'escala',
         'Escalas pronósticas',
         'Herramientas de riesgo y apoyo a decisiones clínicas.',
-        '/pages/search.html?q=escala%20pronostica'
+        '/pages/escalas_pronosticas.html'
     );
 
 }

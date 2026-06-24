@@ -8,13 +8,21 @@ $id = $_GET['id'];
 
 $sql = "
 
-    SELECT *
+    SELECT
+        t.*,
+        COUNT(DISTINCT c.id) AS total_casos
 
-    FROM imssight.temas
+    FROM imssight.temas t
 
-    WHERE id_especialidad = :id
+    LEFT JOIN imssight.casos_clinicos c
+        ON c.id_tema = t.id
+        AND c.activo = 1
 
-    ORDER BY id
+    WHERE t.id_especialidad = :id
+
+    GROUP BY t.id, t.id_especialidad, t.titulo, t.descripcion, t.imagen
+
+    ORDER BY t.id
 
 ";
 

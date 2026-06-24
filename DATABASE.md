@@ -134,6 +134,74 @@ CREATE TABLE imssight.perlas_clinicas_caso (
 
 ---
 
+# Infografías por Caso
+
+Para cargar imágenes clínicas y asociarlas a un caso.
+
+```sql
+CREATE TABLE imssight.infografias_caso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_caso INT NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    objetivo TEXT,
+    identificador VARCHAR(120) NOT NULL,
+    ruta_imagen VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(80),
+    tamano_bytes INT DEFAULT 0,
+    alt_text VARCHAR(255),
+    color_sugerido VARCHAR(20) DEFAULT '#1f5f4f',
+    orden INT DEFAULT 1,
+    activo TINYINT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_infografias_caso (id_caso, orden),
+    UNIQUE KEY uq_infografias_identificador (identificador),
+
+    FOREIGN KEY (id_caso)
+    REFERENCES imssight.casos_clinicos(id)
+    ON DELETE CASCADE
+);
+```
+
+Notas:
+- `ruta_imagen` guarda la ruta relativa servida por la app, por ejemplo `img/infografias/casos/apendicitis-1-20260623111500.png`.
+- `identificador` permite ubicar la infografía desde el explorador visual y mantener compatibilidad con el buscador/hub de infografías.
+- El endpoint administrativo es `app/php/infografias.php`; acepta `GET`, `POST multipart/form-data` y `DELETE`.
+
+---
+
+# Escalas Pronósticas por Caso
+
+Para asociar calculadoras o escalas diagnósticas externas a un caso clínico.
+
+```sql
+CREATE TABLE imssight.escalas_pronosticas_caso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_caso INT NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    url VARCHAR(600) NOT NULL,
+    proveedor VARCHAR(120),
+    orden INT DEFAULT 1,
+    activo TINYINT DEFAULT 1,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_escalas_caso (id_caso, orden),
+
+    FOREIGN KEY (id_caso)
+    REFERENCES imssight.casos_clinicos(id)
+    ON DELETE CASCADE
+);
+```
+
+Notas:
+- `url` guarda el enlace externo de la escala o calculadora clínica.
+- La página pública intenta mostrar el enlace embebido en `iframe`; si el proveedor bloquea embebidos, el usuario conserva un botón para abrir la escala en una pestaña nueva.
+- El endpoint administrativo es `app/php/escalas.php`; acepta `GET`, `POST application/json` y `DELETE`.
+
+---
+
 # Exámenes
 
 Para crear exámenes asociados a un caso clínico.

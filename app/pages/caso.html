@@ -57,6 +57,26 @@ body{
     background-color:#f8fafc;
 }
 
+.case-infografia-card{
+    border:1px solid rgba(15,23,42,.1);
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 12px 28px rgba(15,23,42,.08);
+}
+
+.case-infografia-card img{
+    display:block;
+    width:100%;
+    max-height:520px;
+    object-fit:contain;
+    background:#f8fafc;
+}
+
+.case-infografia-body{
+    padding:18px;
+}
+
 /* HERO */
 
 .hero-section{
@@ -381,6 +401,26 @@ body{
 
                                         </button>
 
+                                        <button
+                                            class="btn btn-success"
+                                            onclick="abrirInfografiasCaso()">
+
+                                            <i class="fas fa-image me-1"></i>
+
+                                            Infografías
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-info"
+                                            onclick="abrirEscalasCaso()">
+
+                                            <i class="fas fa-chart-line me-1"></i>
+
+                                            Escalas
+
+                                        </button>
+
                                         <!-- Botón anterior -->
                                         <button
                                             class="btn btn-outline-secondary"
@@ -493,6 +533,57 @@ body{
                     <div class="text-center py-5 text-muted">
 
                         Cargando perlas clínicas...
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="modal fade"
+    id="modalInfografiasCaso"
+    style="z-index: 999999;"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-gradient-success">
+
+                <h5 class="modal-title text-white fw-bold">
+
+                    <i class="fas fa-image me-2"></i>
+
+                    Infografías
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div
+                    class="row g-4"
+                    id="listaInfografiasCaso">
+
+                    <div class="text-center py-5 text-muted">
+
+                        Cargando infografías...
 
                     </div>
 
@@ -1513,6 +1604,138 @@ function construirAcordeonPerlas(perlas){
         `;
 
     });
+
+}
+
+function escaparTextoCaso(texto){
+    const div = document.createElement('div');
+    div.textContent = texto || '';
+
+    return div.innerHTML;
+}
+
+async function abrirInfografiasCaso(){
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                'modalInfografiasCaso'
+            )
+        );
+
+    modal.show();
+
+    await cargarInfografiasCaso();
+
+}
+
+function abrirEscalasCaso(){
+
+    window.location.href =
+        `escalas_pronosticas.html?id_caso=${encodeURIComponent(idCaso)}`;
+
+}
+
+async function cargarInfografiasCaso(){
+
+    const contenedor =
+        document.getElementById(
+            'listaInfografiasCaso'
+        );
+
+    contenedor.innerHTML = `
+
+        <div class="text-center py-5 text-muted">
+
+            Cargando infografías...
+
+        </div>
+
+    `;
+
+    try{
+
+        const response =
+            await fetch(
+                `../php/infografias.php?id_caso=${idCaso}`
+            );
+
+        const infografias =
+            await response.json();
+
+        construirInfografiasCaso(
+            Array.isArray(infografias) ? infografias : []
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        contenedor.innerHTML = `
+
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    No se pudieron cargar las infografías.
+                </div>
+            </div>
+
+        `;
+
+    }
+
+}
+
+function construirInfografiasCaso(infografias){
+
+    const contenedor =
+        document.getElementById(
+            'listaInfografiasCaso'
+        );
+
+    if(!infografias.length){
+
+        contenedor.innerHTML = `
+
+            <div class="col-12">
+                <div class="alert alert-light border text-muted mb-0">
+                    Este caso aún no tiene infografías asociadas.
+                </div>
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    contenedor.innerHTML =
+        infografias.map((infografia) => {
+
+            const imagen =
+                infografia.ruta_imagen
+                ? `../${infografia.ruta_imagen}`
+                : `../img/infografias/${infografia.identificador}.png`;
+
+            return `
+
+                <div class="col-12 col-lg-6">
+                    <article class="case-infografia-card">
+                        <img
+                            src="${escaparTextoCaso(imagen)}"
+                            alt="${escaparTextoCaso(infografia.alt_text || infografia.titulo || 'Infografía clínica')}">
+                        <div class="case-infografia-body">
+                            <h6 class="fw-bold mb-2">${escaparTextoCaso(infografia.titulo || 'Infografía clínica')}</h6>
+                            <p class="text-sm text-muted mb-0">
+                                ${escaparTextoCaso(infografia.descripcion || infografia.objetivo || 'Material visual complementario del caso.')}
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+            `;
+
+        }).join('');
 
 }
 

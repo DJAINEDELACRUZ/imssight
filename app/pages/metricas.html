@@ -1,1003 +1,1053 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<title>IMSSIGHT :: Métricas</title>
 
-<title>
-    IMSSIGHT :: MÉTRICAS
-</title>
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap"
-    rel="stylesheet">
-
-<link
-    rel="stylesheet"
-    href="../assets/css/imssight-terminal.css">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="../assets/css/imssight-terminal.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
-/* =========================================
-METRICAS
-========================================= */
-
-.metric-number{
-
-    font-size:4rem;
-
-    color:#58f5c8;
-
-    font-weight:800;
-
-    margin:25px 0;
-
-    text-shadow:
-        0 0 10px rgba(88,245,200,.45),
-        0 0 25px rgba(88,245,200,.2);
-
-    animation:pulse 2s infinite;
-
-}
-
-/* =========================================
-CHART CARD
-========================================= */
-
-.chart-card{
-
-    margin-top:40px;
-
-}
-
-.chart-container{
-
+.folder-desk{
     position:relative;
-
-    width:100%;
-
-    height:450px;
-
+    min-height:720px;
+    padding:66px 32px 46px;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(135deg, rgba(80,72,58,.26), rgba(19,21,20,.18)),
+        #b7b4a9;
+    border:1px solid rgba(14,15,13,.24);
+    box-shadow:var(--shadow);
+    overflow:hidden;
 }
 
-/* =========================================
-LOG MINI
-========================================= */
-
-.mini-log{
-
-    margin-top:25px;
-
-    border:1px solid rgba(88,245,200,.08);
-
-    padding:20px;
-
-    background:rgba(0,0,0,.25);
-
-    line-height:2;
-
-    color:#7ea99a;
-
+.folder-desk::before{
+    content:"";
+    position:absolute;
+    left:32px;
+    right:32px;
+    top:72px;
+    height:88px;
+    background:linear-gradient(180deg, #b9ad8f, #a99b7d);
+    border:1px solid rgba(55,45,32,.38);
+    border-bottom:none;
+    border-radius:10px 18px 0 0;
+    box-shadow:0 16px 28px rgba(18,18,15,.22);
 }
 
-/* =========================================
-RESPONSIVE
-========================================= */
-
-@media(max-width:900px){
-
-    .metric-number{
-
-        font-size:2.8rem;
-
-    }
-
+.folder-desk::after{
+    content:"";
+    position:absolute;
+    left:32px;
+    top:12px;
+    min-width:390px;
+    height:62px;
+    background:linear-gradient(180deg, #d2c5a5, #b9ab8b);
+    border:1px solid rgba(55,45,32,.36);
+    border-bottom:none;
+    border-radius:10px 20px 0 0;
+    box-shadow:0 8px 14px rgba(18,18,15,.12);
 }
 
-/* =========================================
-METRICS GRID
-========================================= */
+.folder-tab-label{
+    position:absolute;
+    left:55px;
+    top:25px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    min-height:38px;
+    padding:0 20px;
+    color:#1b1712;
+    font-family:var(--sans);
+    font-size:1.72rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    text-shadow:0 1px 0 rgba(255,255,255,.22);
+}
+
+.folder-tab-label::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    right:8px;
+    bottom:1px;
+    height:14px;
+    background:
+        linear-gradient(90deg, transparent 0 7%, rgba(255,255,255,.78) 7% 93%, transparent 93% 100%),
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(230,229,221,.58));
+    opacity:.78;
+    transform:rotate(-1deg);
+    clip-path:polygon(0 24%, 4% 0, 9% 18%, 14% 0, 100% 12%, 96% 100%, 91% 78%, 86% 100%, 0 86%);
+    box-shadow:0 1px 1px rgba(35,32,26,.14);
+    z-index:-1;
+}
+
+.folder-return{
+    position:absolute;
+    top:24px;
+    right:32px;
+    z-index:3;
+    margin-top:0;
+    background:rgba(251,251,247,.82);
+}
+
+.paper-stack{
+    position:relative;
+    z-index:2;
+    max-width:920px;
+    margin:36px auto 0;
+}
+
+.paper-sheet{
+    position:relative;
+    min-height:610px;
+    padding:50px 58px 44px;
+    color:#171716;
+    background:
+        linear-gradient(rgba(12,12,10,.035) 1px, transparent 1px),
+        #fbfbf8;
+    background-size:100% 31px;
+    border:1px solid rgba(20,20,18,.18);
+    box-shadow:
+        0 26px 45px rgba(10,12,11,.24),
+        10px 12px 0 rgba(245,245,240,.72),
+        18px 22px 0 rgba(218,217,208,.9);
+}
+
+.paper-sheet::before{
+    content:"";
+    position:absolute;
+    top:-76px;
+    left:50%;
+    width:150px;
+    height:100px;
+    background:url('../assets/img/clip.png') center / contain no-repeat;
+    transform:translateX(-50%) rotate(-5deg);
+    filter:drop-shadow(0 14px 14px rgba(10,12,11,.3));
+    z-index:4;
+}
+
+.document-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px;
+    align-items:center;
+    padding-bottom:22px;
+    border-bottom:3px double #2b2b27;
+}
+
+.document-logo{
+    width:58px;
+    height:58px;
+    display:grid;
+    place-items:center;
+    background:#171917;
+    border-radius:50%;
+}
+
+.document-kicker{
+    color:#65655f;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.document-title{
+    margin-top:3px;
+    font-family:var(--sans);
+    font-size:clamp(1.8rem, 4vw, 3.15rem);
+    font-weight:700;
+    line-height:1;
+    text-transform:uppercase;
+}
+
+.document-subtitle{
+    margin-top:8px;
+    color:#686761;
+    font-size:.86rem;
+    line-height:1.45;
+}
+
+.metrics-overview{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:14px;
+    margin-top:30px;
+}
+
+.metric-slip{
+    min-height:108px;
+    padding:16px 18px;
+    background:rgba(185,173,146,.18);
+    border:1px solid rgba(22,20,17,.12);
+    border-left:4px solid #611232;
+}
+
+.metric-slip b{
+    display:block;
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.metric-slip strong{
+    display:block;
+    margin-top:10px;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:2.1rem;
+    line-height:1;
+}
+
+.metric-slip span{
+    display:block;
+    margin-top:8px;
+    color:#6f6a60;
+    font-family:var(--mono);
+    font-size:.74rem;
+}
+
+.editorial-grid{
+    display:grid;
+    grid-template-columns:repeat(5, minmax(0, 1fr));
+    gap:10px;
+    margin-top:18px;
+}
+
+.editorial-slip{
+    min-height:82px;
+    padding:12px 10px;
+    background:rgba(251,251,248,.68);
+    border:1px dashed rgba(22,20,17,.24);
+}
+
+.editorial-slip b{
+    display:block;
+    color:#5b3b2c;
+    font-family:var(--mono);
+    font-size:.58rem;
+    letter-spacing:.1em;
+    line-height:1.35;
+    text-transform:uppercase;
+}
+
+.editorial-slip strong{
+    display:block;
+    margin-top:8px;
+    color:#171716;
+    font-family:var(--sans);
+    font-size:1.7rem;
+    line-height:1;
+}
 
 .metrics-grid{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0,1fr));
-
-    gap:30px;
-
-    margin-top:40px;
-
+    grid-template-columns:1fr;
+    gap:18px;
+    margin-top:26px;
 }
 
-/* FULL WIDTH */
-
-.full-width{
-
-    grid-column:1 / -1;
-
+.metric-card,
+.critical-card{
+    padding:18px;
+    background:
+        linear-gradient(rgba(40,36,28,.035) 1px, transparent 1px),
+        rgba(251,251,248,.72);
+    background-size:100% 24px;
+    border:1px solid rgba(22,20,17,.14);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.56);
 }
 
-/* =========================================
-RESPONSIVE
-========================================= */
-
-@media(max-width:1200px){
-
-    .metrics-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
+.metric-card-title,
+.critical-card-title{
+    color:#611232;
+    font-family:var(--mono);
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
 }
 
-/* =========================================
-CRITICAL TABLE
-========================================= */
+.metric-card canvas{
+    width:100%;
+    min-height:240px;
+    max-height:260px;
+    margin-top:12px;
+    filter:contrast(.96) saturate(.72);
+}
+
+.metric-card::after{
+    content:"Trazado administrativo";
+    display:block;
+    margin-top:8px;
+    color:#8b8579;
+    font-family:var(--mono);
+    font-size:.62rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.critical-card{
+    margin-top:18px;
+}
+
+.critical-card-desc{
+    margin:.45rem 0 1rem;
+    color:#686761;
+    font-size:.82rem;
+}
 
 .critical-table-wrapper{
-
     overflow-x:auto;
-
-    margin-top:25px;
-
 }
 
 .critical-table{
-
     width:100%;
-
     border-collapse:collapse;
-
+    color:#171716;
+    font-family:var(--mono);
+    font-size:.8rem;
 }
 
 .critical-table th{
-
+    padding:12px 10px;
+    color:#5b3b2c;
+    border-bottom:2px solid rgba(23,23,22,.52);
     text-align:left;
-
-    padding:18px;
-
-    color:#58f5c8;
-
-    border-bottom:
-        1px solid rgba(88,245,200,.2);
-
-    letter-spacing:2px;
-
-    font-size:.85rem;
-
+    letter-spacing:.12em;
+    text-transform:uppercase;
 }
 
 .critical-table td{
-
-    padding:20px;
-
-    border-bottom:
-        1px solid rgba(88,245,200,.08);
-
-    color:#d8fff5;
-
+    padding:13px 10px;
+    border-bottom:1px dashed rgba(22,20,17,.24);
     vertical-align:top;
-
-    line-height:1.7;
-
+    line-height:1.45;
 }
 
-/* =========================================
-SEVERIDAD
-========================================= */
-
 .critical-high{
-
-    color:#ff5f5f;
-
-    text-shadow:
-        0 0 12px rgba(255,0,0,.35);
-
+    color:#9F2241;
+    font-weight:700;
 }
 
 .critical-medium{
-
-    color:#ffb347;
-
+    color:#8a5d1d;
+    font-weight:700;
 }
 
 .critical-low{
-
-    color:#ffe66d;
-
+    color:#235B4E;
+    font-weight:700;
 }
-
-/* =========================================
-BADGE
-========================================= */
 
 .fallos-badge{
-
-    display:inline-block;
-
-    min-width:70px;
-
-    text-align:center;
-
-    padding:10px 14px;
-
-    border:1px solid rgba(88,245,200,.18);
-
-    background:rgba(0,0,0,.35);
-
-    font-weight:800;
-
-    letter-spacing:2px;
-
+    display:inline-grid;
+    min-width:54px;
+    place-items:center;
+    padding:6px 10px;
+    border:1px solid currentColor;
+    background:rgba(251,251,248,.52);
+    font-weight:700;
 }
 
-</style>
+.paper-status{
+    min-height:20px;
+    margin-top:18px;
+    color:#235B4E;
+    font-family:var(--mono);
+    font-size:.78rem;
+}
 
+.paper-status.is-error{
+    color:#9F2241;
+}
+
+@media(max-width:900px){
+    .metrics-overview,
+    .editorial-grid,
+    .metrics-grid{
+        grid-template-columns:1fr;
+    }
+
+    .paper-sheet{
+        padding:42px 22px 34px;
+    }
+
+    .document-head{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:760px){
+    .folder-desk{
+        padding:74px 14px 34px;
+    }
+
+    .folder-desk::before,
+    .folder-desk::after{
+        left:14px;
+        right:14px;
+    }
+
+    .folder-desk::after{
+        min-width:0;
+        width:auto;
+        top:14px;
+        height:54px;
+    }
+
+    .folder-desk::before{
+        top:68px;
+    }
+
+    .folder-tab-label{
+        left:30px;
+        top:25px;
+        max-width:calc(100% - 138px);
+        min-height:30px;
+        padding:0 12px;
+        font-size:1.08rem;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .folder-return{
+        top:26px;
+        right:18px;
+        min-height:32px;
+        padding:8px 10px;
+        font-size:.68rem;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="hex"></div>
-<div class="hex"></div>
-<div class="hex"></div>
-
-<div class="layout">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-    <div class="sidebar-title">
-
-        IMSSIGHT
-
-    </div>
-
-    <!-- DASHBOARD -->
-
-    <div class="sidebar-section">
-
-        <div class="sidebar-section-title">
-
-            DASHBOARD
-
-        </div>
-
-        <div class="sidebar-menu">
-
-            <a
-                href="profile.html"
-                class="sidebar-link">
-
-                Dashboard
-
-            </a>
-
-            <a
-                href="user_profile.html"
-                class="sidebar-link">
-
-                Mi perfil
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- CARGAR CONTENIDO -->
-
-    <div class="sidebar-section mt-40">
-
-        <div class="sidebar-section-title">
-
-            CARGAR CONTENIDO
-
-        </div>
-
-        <div class="sidebar-menu">
-
-            <a
-                href="admin_especialidades.html"
-                class="sidebar-link">
-
-                Especialidades
-
-            </a>
-
-            <a
-                href="admin_temas.html"
-                class="sidebar-link">
-
-                Temas
-
-            </a>
-
-            <a
-                href="admin_casos.html"
-                class="sidebar-link">
-
-                Casos
-
-            </a>
-
-            <a
-                href="admin_escenas.html"
-                class="sidebar-link">
-
-                Escenas
-
-            </a>
-
-            <a
-                href="admin_examenes.html"
-                class="sidebar-link">
-
-                Exámenes
-
-            </a>
-
-            <a
-                href="admin_multimedia.html"
-                class="sidebar-link">
-
-                Multimedia
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- SISTEMA -->
-
-    <div class="sidebar-section mt-40">
-
-        <div class="sidebar-section-title">
-
-            SISTEMA
-
-        </div>
-
-        <div class="sidebar-menu">
-
-            <a
-                href="metricas.html"
-                class="sidebar-link">
-
-                Métricas
-
-            </a>
-
-            <a
-                href="admin_usuarios.html"
-                class="sidebar-link">
-
-                Usuarios
-
-            </a>
-
-            <button
-                class="sidebar-link"
-                onclick="reindexarBusqueda()">
-
-                Reindexar
-
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- LOG -->
-
-    <div class="terminal-log mt-40">
-
-        <div class="terminal-line">
-            [OK] TELEMETRÍA ONLINE
-        </div>
-
-        <div class="terminal-line">
-            [OK] ANALYTICS READY
-        </div>
-
-        <div class="terminal-line warning-line">
-            [WARN] SYSTEM MONITORED
-        </div>
-
-    </div>
-
-</aside>
-
-<!-- CONTENIDO -->
-
-<div class="main-content">
-
 <div class="container">
+    <div class="layout">
 
-    <!-- HEADER -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Administración</div>
 
-    <div class="topbar">
-
-        <div>
-
-            <div class="access-label">
-                INSTITUTO MEXICANO DEL SEGURO SOCIAL
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Inicio</div>
+                <div class="sidebar-menu">
+                    <a href="profile.html" class="sidebar-link">Panel</a>
+                    <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
+                </div>
             </div>
 
-            <div class="logo">
-                MÉTRICAS
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Carga clínica</div>
+                <div class="sidebar-menu">
+                    <a href="admin_contenidos.html" class="sidebar-link">Contenidos</a>
+                </div>
             </div>
 
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING TELEMETRY...
-
+            <div class="sidebar-section mt-40">
+                <div class="sidebar-section-title">Administración</div>
+                <div class="sidebar-menu">
+                    <a href="metricas.html" class="sidebar-link is-current">Métricas</a>
+                    <a href="admin_usuarios.html" class="sidebar-link">Usuarios</a>
+                    <button class="sidebar-link" type="button" onclick="reindexarBusqueda(event)">Reindexar búsqueda</button>
+                </div>
             </div>
+        </aside>
 
-        </div>
+        <main class="main-content">
+            <section class="folder-desk" aria-labelledby="tituloDocumento">
+                <span class="folder-tab-label">Métricas</span>
+                <a href="profile.html" class="return-btn folder-return">Regresar</a>
 
-        <div class="status">
+                <div class="paper-stack">
+                    <article class="paper-sheet">
+                        <header class="document-head">
+                            <div class="document-logo">
+                                <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="36" height="42">
+                            </div>
+                            <div>
+                                <div class="document-kicker">Archivo administrativo / Telemetría académica</div>
+                                <h1 class="document-title" id="tituloDocumento">Registro de métricas</h1>
+                                <p class="document-subtitle">
+                                    Seguimiento de actividad educativa de usuarios y docentes, desempeño por examen y preguntas dentro de escenas.
+                                </p>
+                            </div>
+                        </header>
 
-            TELEMETRÍA ACADÉMICA :: ONLINE
-            <br>
+                        <section class="metrics-overview" aria-label="Resumen general">
+                            <div class="metric-slip">
+                                <b>Usuarios activos</b>
+                                <strong id="totalUsuarios">--</strong>
+                                <span>Cuentas habilitadas</span>
+                            </div>
+                            <div class="metric-slip">
+                                <b>Exámenes realizados</b>
+                                <strong id="totalExamenes">--</strong>
+                                <span>Intentos registrados</span>
+                            </div>
+                            <div class="metric-slip">
+                                <b>Promedio global</b>
+                                <strong id="promedioGlobal">--</strong>
+                                <span>Calificación general</span>
+                            </div>
+                            <div class="metric-slip">
+                                <b>Respuestas en escenas</b>
+                                <strong id="totalEscenasRespuestas">--</strong>
+                                <span>Preguntas clínicas contestadas</span>
+                            </div>
+                            <div class="metric-slip">
+                                <b>Aciertos en escenas</b>
+                                <strong id="totalEscenasAciertos">--</strong>
+                                <span>Respuestas correctas</span>
+                            </div>
+                            <div class="metric-slip">
+                                <b>Promedio en escenas</b>
+                                <strong id="promedioEscenas">--</strong>
+                                <span>Porcentaje de acierto</span>
+                            </div>
+                        </section>
 
-            INDEX ENGINE :: READY
-            <br>
+                        <section class="editorial-grid" aria-label="Salud editorial">
+                            <div class="editorial-slip">
+                                <b>Casos sin examen</b>
+                                <strong id="casosSinExamen">--</strong>
+                            </div>
+                            <div class="editorial-slip">
+                                <b>Casos sin escenas</b>
+                                <strong id="casosSinEscenas">--</strong>
+                            </div>
+                            <div class="editorial-slip">
+                                <b>Casos sin perlas</b>
+                                <strong id="casosSinPerlas">--</strong>
+                            </div>
+                            <div class="editorial-slip">
+                                <b>Exámenes sin preguntas</b>
+                                <strong id="examenesSinPreguntas">--</strong>
+                            </div>
+                            <div class="editorial-slip">
+                                <b>Exámenes sin intentos</b>
+                                <strong id="examenesSinIntentos">--</strong>
+                            </div>
+                        </section>
 
-            ACTIVIDAD CLÍNICA :: MONITOREADA
-            <br>
+                        <section class="metrics-grid" aria-label="Gráficas de actividad">
+                            <div class="metric-card">
+                                <div class="metric-card-title">Brechas editoriales</div>
+                                <canvas id="chartSaludEditorial"></canvas>
+                            </div>
 
-            ENTORNO EDUCATIVO :: ESTABLE
-            <br>
+                            <div class="metric-card">
+                                <div class="metric-card-title">Especialidades más consultadas</div>
+                                <canvas id="chartPopular"></canvas>
+                            </div>
 
-            <a
-                href="profile.html"
-                class="return-btn">
+                            <div class="metric-card">
+                                <div class="metric-card-title">Preguntas de escena por especialidad</div>
+                                <canvas id="chartEscenasEspecialidad"></canvas>
+                            </div>
 
-                ⬅ REGRESAR
+                            <div class="metric-card">
+                                <div class="metric-card-title">Usuarios más activos</div>
+                                <canvas id="chartUsuarios"></canvas>
+                            </div>
 
-            </a>
+                            <div class="metric-card">
+                                <div class="metric-card-title">Casos con más respuestas de escena</div>
+                                <canvas id="chartEscenasCaso"></canvas>
+                            </div>
 
-        </div>
+                            <div class="metric-card">
+                                <div class="metric-card-title">Especialidades con menor promedio</div>
+                                <canvas id="chartDificiles"></canvas>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-card-title">Balance de respuestas correctas</div>
+                                <canvas id="chartBalanceRespuestas"></canvas>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-card-title">Banco de preguntas por dificultad</div>
+                                <canvas id="chartDificultadPreguntas"></canvas>
+                            </div>
+                        </section>
+
+                        <section class="critical-card" aria-labelledby="incompletosTitulo">
+                            <div class="critical-card-title" id="incompletosTitulo">Casos incompletos</div>
+                            <p class="critical-card-desc">Casos que requieren cierre editorial antes de considerarse completos.</p>
+
+                            <div class="critical-table-wrapper">
+                                <table class="critical-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Caso clínico</th>
+                                            <th>Especialidad</th>
+                                            <th>Escenas</th>
+                                            <th>Examen</th>
+                                            <th>Preguntas</th>
+                                            <th>Perlas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaIncompletos"></tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section class="critical-card" aria-labelledby="criticosTitulo">
+                            <div class="critical-card-title" id="criticosTitulo">Puntos críticos de aprendizaje</div>
+                            <p class="critical-card-desc">Preguntas dentro del caso clínico con mayor tasa de error.</p>
+
+                            <div class="critical-table-wrapper">
+                                <table class="critical-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Especialidad</th>
+                                            <th>Caso clínico</th>
+                                            <th>Escena</th>
+                                            <th>Fallos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaCriticos"></tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <div class="paper-status" id="estadoMetricas" aria-live="polite"></div>
+                    </article>
+                </div>
+            </section>
+        </main>
 
     </div>
-
-    <!-- PANEL -->
-
-    <div class="system">
-
-        <div class="line green">
-            CENTRO DE TELEMETRÍA ACADÉMICA OPERATIVO
-        </div>
-
-        <div class="line">
-            MOTOR DE ANALÍTICA CLÍNICA SINCRONIZADO.
-        </div>
-
-        <div class="line warning">
-            TODA ACTIVIDAD EDUCATIVA ES MONITOREADA.
-        </div>
-
-        <div class="hud-line"></div>
-
-        <!-- METRICAS -->
-
-        <div class="metrics-grid">
-
-
-            <div class="card mt-40">
-
-                <div class="card-title">
-                    Especialidades más populares
-                </div>
-
-                <canvas id="chartPopular"></canvas>
-
-            </div>
-
-            <div class="card mt-40">
-
-                <div class="card-title">
-                    Usuarios más activos
-                </div>
-
-                <canvas id="chartUsuarios"></canvas>
-
-            </div>
-
-            <div class="card mt-40">
-
-                <div class="card-title">
-                    Especialidades con menor promedio
-                </div>
-
-                <canvas id="chartDificiles"></canvas>
-
-            </div>
-
-        </div>
-
-        <!-- =========================================
-        ESCENAS MÁS FALLADAS
-        ========================================= -->
-
-        <div class="card mt-40">
-
-            <div class="card-title">
-                Puntos críticos de aprendizaje
-            </div>
-
-            <div class="card-desc">
-
-                Preguntas dentro del caso clínico con mayor tasa de error
-
-            </div>
-
-            <div class="critical-table-wrapper">
-
-                <table class="critical-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Especialidad</th>
-                            <th>Caso clínico</th>
-                            <th>Escena</th>
-                            <th>Fallos</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tablaCriticos">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        IMSSIGHT TELEMETRY ENGINE ONLINE...
-
-    </div>
-
-</div>
-
-</div>
-
 </div>
 
 <script>
+let chartPopular = null;
+let chartUsuarios = null;
+let chartDificiles = null;
+let chartSaludEditorial = null;
+let chartBalanceRespuestas = null;
+let chartDificultadPreguntas = null;
+let chartEscenasEspecialidad = null;
+let chartEscenasCaso = null;
 
-/* =========================================
-SESION
-========================================= */
+const trazoManualPlugin = {
+    id:'trazoManual',
+    afterDraw(chart){
+        const { ctx, chartArea } = chart;
 
-async function verificarSesion(){
-
-    try{
-
-        const response =
-            await fetch('../php/auth.php');
-
-        const data =
-            await response.json();
-
-        if(!data.auth){
-
-            window.location.href =
-                '../pages/sign-in.html';
-
+        if(!chartArea){
             return;
         }
 
-        document
-        .getElementById('bienvenida')
-        .innerHTML = `
+        const { left, top, right, bottom } = chartArea;
 
-            BIENVENIDO, OPERADOR
-            <span style="color:#58f5c8;">
-            ${data.usuario.nombre.toUpperCase()}
-            </span>
-
-            <br>
-
-            MOTOR ANALÍTICO OPERATIVO.
-            <br>
-
-            TODA ACTIVIDAD ES REGISTRADA.
-
-        `;
-
-    }catch(error){
-
-        console.error(error);
-
+        ctx.save();
+        ctx.strokeStyle = 'rgba(47,43,38,.38)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 5]);
+        ctx.beginPath();
+        ctx.moveTo(left - 5, top - 4);
+        ctx.lineTo(right + 3, top - 2);
+        ctx.lineTo(right + 5, bottom + 5);
+        ctx.lineTo(left - 4, bottom + 3);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
     }
+};
 
+Chart.register(trazoManualPlugin);
+
+function escaparHTML(valor){
+    return String(valor ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
 }
 
-verificarSesion();
+function fijarEstado(mensaje, error = false){
+    const estado = document.getElementById('estadoMetricas');
+    estado.textContent = mensaje;
+    estado.classList.toggle('is-error', error);
+}
 
-/* =========================================
-REINDEXAR
-========================================= */
+async function verificarSesion(){
+    try{
+        const response = await fetch('../php/auth.php');
+        const data = await response.json();
 
-async function reindexarBusqueda(){
+        if(!data.auth){
+            window.location.href = '../pages/sign-in.html';
+            return false;
+        }
 
-    const boton =
-        event.target;
+        if(data.usuario.rol !== 'admin'){
+            window.location.href = '../pages/user_profile.html';
+            return false;
+        }
+
+        return true;
+    }catch(error){
+        console.error(error);
+        fijarEstado('No fue posible validar la sesión.', true);
+        return false;
+    }
+}
+
+async function reindexarBusqueda(event){
+    const boton = event.currentTarget;
+    const textoOriginal = boton.textContent;
 
     try{
-
-        boton.innerText =
-            'Reindexando...';
-
+        boton.textContent = 'Reindexando...';
         boton.disabled = true;
+        fijarEstado('Reconstruyendo índice de búsqueda...');
 
-        boton.style.opacity = '.7';
+        const response = await fetch('../php/reindexar_busqueda.php');
 
-        boton.style.animation =
-            'terminalPulse 1s infinite';
+        if(!response.ok){
+            throw new Error('No se pudo reindexar la búsqueda.');
+        }
 
-        await fetch(
-            '../php/reindexar_busqueda.php'
-        );
-
-        await new Promise(resolve =>
-            setTimeout(resolve,2000)
-        );
-
-        boton.innerText =
-            'Reindexar';
-
+        boton.textContent = textoOriginal;
         boton.disabled = false;
-
-        boton.style.opacity = '1';
-
-        boton.style.animation =
-            'none';
-
+        fijarEstado('Índice de búsqueda actualizado.');
     }catch(error){
-
         console.error(error);
-
+        boton.textContent = textoOriginal;
+        boton.disabled = false;
+        fijarEstado('No fue posible reindexar la búsqueda.', true);
     }
-
 }
 
-/* =========================================
-CARGAR METRICAS
-========================================= */
+function opcionesGrafica(indexAxis = 'x'){
+    const colorTexto = '#3f3b34';
+    const colorLinea = 'rgba(22,20,17,.16)';
+
+    return {
+        responsive:true,
+        maintainAspectRatio:false,
+        indexAxis,
+        layout:{
+            padding:{
+                top:8,
+                right:10,
+                bottom:4,
+                left:4
+            }
+        },
+        plugins:{
+            legend:{
+                position:'bottom',
+                labels:{
+                    color:colorTexto,
+                    boxWidth:18,
+                    boxHeight:10,
+                    font:{
+                        family:'Courier New, monospace',
+                        size:11
+                    }
+                }
+            },
+            tooltip:{
+                backgroundColor:'#fbfbf8',
+                titleColor:'#171716',
+                bodyColor:'#171716',
+                borderColor:'rgba(22,20,17,.34)',
+                borderWidth:1,
+                titleFont:{ family:'Courier New, monospace' },
+                bodyFont:{ family:'Courier New, monospace' },
+                displayColors:false
+            }
+        },
+        scales:{
+            x:{
+                border:{ color:'#2e2b25', width:2 },
+                ticks:{
+                    color:colorTexto,
+                    font:{ family:'Courier New, monospace', size:10 }
+                },
+                grid:{
+                    color:colorLinea,
+                    borderDash:[2, 4],
+                    tickBorderDash:[2, 4]
+                }
+            },
+            y:{
+                border:{ color:'#2e2b25', width:2 },
+                ticks:{
+                    color:colorTexto,
+                    font:{ family:'Courier New, monospace', size:10 }
+                },
+                grid:{
+                    color:colorLinea,
+                    borderDash:[2, 4],
+                    tickBorderDash:[2, 4]
+                }
+            }
+        }
+    };
+}
+
+function crearPatronTinta(canvas, color = '#2f2b26'){
+    const ctx = canvas.getContext('2d');
+    const patternCanvas = document.createElement('canvas');
+    const patternContext = patternCanvas.getContext('2d');
+
+    patternCanvas.width = 10;
+    patternCanvas.height = 10;
+    patternContext.fillStyle = 'rgba(251,251,248,.18)';
+    patternContext.fillRect(0, 0, 10, 10);
+    patternContext.strokeStyle = color;
+    patternContext.globalAlpha = .52;
+    patternContext.lineWidth = 1;
+
+    for(let offset = -10; offset <= 10; offset += 5){
+        patternContext.beginPath();
+        patternContext.moveTo(offset, 10);
+        patternContext.lineTo(offset + 10, 0);
+        patternContext.stroke();
+    }
+
+    return ctx.createPattern(patternCanvas, 'repeat');
+}
+
+function crearGrafica(canvasId, tipo, labels, data, label, indexAxis = 'x'){
+    const canvas = document.getElementById(canvasId);
+    const patron = crearPatronTinta(canvas, '#2f2b26');
+
+    return new Chart(canvas, {
+        type:tipo,
+        data:{
+            labels,
+            datasets:[{
+                label,
+                data,
+                backgroundColor:patron,
+                borderColor:'#2f2b26',
+                borderWidth:1.8,
+                borderSkipped:false,
+                borderRadius:0,
+                categoryPercentage:.72,
+                barPercentage:.7
+            }]
+        },
+        options:opcionesGrafica(indexAxis)
+    });
+}
+
+function renderTablaCriticos(items){
+    const tabla = document.getElementById('tablaCriticos');
+
+    if(!items.length){
+        tabla.innerHTML = '<tr><td colspan="4">No hay puntos críticos registrados.</td></tr>';
+        return;
+    }
+
+    tabla.innerHTML = items.map((item) => {
+        let clase = 'critical-low';
+
+        if(Number(item.fallos) >= 10){
+            clase = 'critical-high';
+        }else if(Number(item.fallos) >= 5){
+            clase = 'critical-medium';
+        }
+
+        return `
+            <tr>
+                <td class="${clase}">${escaparHTML(item.especialidad)}</td>
+                <td>${escaparHTML(item.caso_clinico)}</td>
+                <td>${escaparHTML(item.escena)}</td>
+                <td><span class="fallos-badge ${clase}">${escaparHTML(item.fallos)}</span></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function valorSaludEditorial(items, metrica){
+    const row = items.find((item) => item.metrica === metrica);
+    return Number(row?.valor || 0);
+}
+
+function renderSaludEditorial(items){
+    const mapa = {
+        casos_sin_examen:'casosSinExamen',
+        casos_sin_escenas:'casosSinEscenas',
+        casos_sin_perlas:'casosSinPerlas',
+        examenes_sin_preguntas:'examenesSinPreguntas',
+        examenes_sin_intentos:'examenesSinIntentos'
+    };
+
+    Object.entries(mapa).forEach(([metrica, id]) => {
+        document.getElementById(id).textContent = valorSaludEditorial(items, metrica);
+    });
+}
+
+function renderResumenEscenas(resumen){
+    const total = Number(resumen?.total || 0);
+    const correctas = Number(resumen?.correctas || 0);
+    const promedio = resumen?.promedio !== null && resumen?.promedio !== undefined
+        ? Number(resumen.promedio).toFixed(2)
+        : '--';
+
+    document.getElementById('totalEscenasRespuestas').textContent = total;
+    document.getElementById('totalEscenasAciertos').textContent = correctas;
+    document.getElementById('promedioEscenas').textContent = promedio === '--' ? '--' : `${promedio}%`;
+}
+
+function estadoContenido(valor){
+    return Number(valor || 0) > 0
+        ? `<span class="critical-low">${escaparHTML(valor)}</span>`
+        : '<span class="critical-high">Falta</span>';
+}
+
+function renderTablaIncompletos(items){
+    const tabla = document.getElementById('tablaIncompletos');
+
+    if(!items.length){
+        tabla.innerHTML = '<tr><td colspan="6">Todos los casos tienen estructura editorial completa.</td></tr>';
+        return;
+    }
+
+    tabla.innerHTML = items.map((item) => `
+        <tr>
+            <td>${escaparHTML(item.caso)}</td>
+            <td>${escaparHTML(item.especialidad)}</td>
+            <td>${estadoContenido(item.escenas)}</td>
+            <td>${estadoContenido(item.examenes)}</td>
+            <td>${estadoContenido(item.preguntas)}</td>
+            <td>${estadoContenido(item.perlas)}</td>
+        </tr>
+    `).join('');
+}
 
 async function cargarMetricas(){
+    try{
+        fijarEstado('Cargando métricas...');
 
-    const response =
-        await fetch('../php/metricas.php');
+        const response = await fetch('../php/metricas.php');
 
-    const data =
-        await response.json();
-
-    /* =========================================
-    POPULARES
-    ========================================= */
-
-    new Chart(
-
-        document.getElementById('chartPopular'),
-
-        {
-
-            type:'bar',
-
-            data:{
-
-                labels:
-                    data.popular.map(
-                        x => x.especialidad
-                    ),
-
-                    datasets:[{
-
-                        label:'Interacciones',
-
-                        data:
-                            data.popular.map(
-                                x => x.interacciones
-                            ),
-
-                        backgroundColor:
-                            'rgba(88,245,200,.25)',
-
-                        borderColor:
-                            '#58f5c8',
-
-                        borderWidth:2
-
-                    }]
-
-            },
-
-            options:{
-
-                indexAxis:'y',
-
-                responsive:true,
-
-                plugins:{
-
-                    legend:{
-                        labels:{
-                            color:'#8fffe0'
-                        }
-                    }
-
-                },
-
-                scales:{
-
-                    x:{
-                        ticks:{
-                            color:'#8fffe0'
-                        },
-
-                        grid:{
-                            color:'rgba(88,245,200,.08)'
-                        }
-                    },
-
-                    y:{
-                        ticks:{
-                            color:'#8fffe0'
-                        },
-
-                        grid:{
-                            color:'rgba(88,245,200,.05)'
-                        }
-                    }
-
-                }
-
-            }
-
+        if(!response.ok){
+            throw new Error('No se pudieron cargar las métricas.');
         }
 
-    );
-
-    /* =========================================
-    USUARIOS
-    ========================================= */
-
-    new Chart(
-
-        document.getElementById('chartUsuarios'),
-
-        {
-
-            type:'bar',
-
-            data:{
-
-                labels:
-                    data.activos.map(
-                        x => x.nombre
-                    ),
-
-                    datasets:[{
-
-                        label:'Interacciones',
-
-                        data:
-                            data.popular.map(
-                                x => x.interacciones
-                            ),
-
-                        backgroundColor:
-                            'rgba(88,245,200,.25)',
-
-                        borderColor:
-                            '#58f5c8',
-
-                        borderWidth:2
-
-                    }]
-
-            },
-
-            options:{
-
-                responsive:true,
-
-                plugins:{
-
-                    legend:{
-                        labels:{
-                            color:'#8fffe0'
-                        }
-                    }
-
-                },
-
-                scales:{
-
-                    x:{
-                        ticks:{
-                            color:'#8fffe0'
-                        }
-                    },
-
-                    y:{
-                        ticks:{
-                            color:'#8fffe0'
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-    );
-
-    /* =========================================
-    DIFICULTAD
-    ========================================= */
-
-    new Chart(
-
-        document.getElementById('chartDificiles'),
-
-        {
-
-            type:'bar',
-
-            data:{
-
-                labels:
-                    data.dificiles.map(
-                        x => x.nombre
-                    ),
-
-                    datasets:[{
-
-                        label:'Interacciones',
-
-                        data:
-                            data.popular.map(
-                                x => x.interacciones
-                            ),
-
-                        backgroundColor:
-                            'rgba(88,245,200,.25)',
-
-                        borderColor:
-                            '#58f5c8',
-
-                        borderWidth:2
-
-                    }]
-
-            },
-
-            options:{
-
-                responsive:true,
-
-                plugins:{
-
-                    legend:{
-                        labels:{
-                            color:'#8fffe0'
-                        }
-                    }
-
-                },
-
-                scales:{
-
-                    x:{
-                        ticks:{
-                            color:'#8fffe0'
-                        }
-                    },
-
-                    y:{
-                        ticks:{
-                            color:'#8fffe0'
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-    );
-
-    /* =========================================
-ESCENAS FALLADAS
-========================================= */
-
-const tablaCriticos =
-    document.getElementById(
-        'tablaCriticos'
-    );
-
-tablaCriticos.innerHTML = '';
-
-data.escenas_falladas.forEach(item => {
-
-    let clase = 'critical-low';
-
-    if(item.fallos >= 10){
-
-        clase = 'critical-high';
-
-    }else if(item.fallos >= 5){
-
-        clase = 'critical-medium';
-
+        const data = await response.json();
+
+        document.getElementById('totalUsuarios').textContent = data.usuarios ?? 0;
+        document.getElementById('totalExamenes').textContent = data.examenes ?? 0;
+        document.getElementById('promedioGlobal').textContent = data.promedio ?? '--';
+        renderResumenEscenas(data.escenas_resumen || {});
+        renderSaludEditorial(data.salud_editorial || []);
+        renderTablaIncompletos(data.casos_incompletos || []);
+
+        chartPopular?.destroy();
+        chartUsuarios?.destroy();
+        chartDificiles?.destroy();
+        chartSaludEditorial?.destroy();
+        chartBalanceRespuestas?.destroy();
+        chartDificultadPreguntas?.destroy();
+        chartEscenasEspecialidad?.destroy();
+        chartEscenasCaso?.destroy();
+
+        chartSaludEditorial = crearGrafica(
+            'chartSaludEditorial',
+            'bar',
+            (data.salud_editorial || []).map((item) => ({
+                casos_sin_examen:'Casos sin examen',
+                casos_sin_escenas:'Casos sin escenas',
+                casos_sin_perlas:'Casos sin perlas',
+                examenes_sin_preguntas:'Exámenes sin preguntas',
+                examenes_sin_intentos:'Exámenes sin intentos'
+            }[item.metrica] || item.metrica)),
+            (data.salud_editorial || []).map((item) => Number(item.valor || 0)),
+            'Brechas',
+            'y'
+        );
+
+        chartPopular = crearGrafica(
+            'chartPopular',
+            'bar',
+            (data.popular || []).map((item) => item.especialidad),
+            (data.popular || []).map((item) => Number(item.interacciones || 0)),
+            'Interacciones',
+            'y'
+        );
+
+        chartEscenasEspecialidad = crearGrafica(
+            'chartEscenasEspecialidad',
+            'bar',
+            (data.escenas_por_especialidad || []).map((item) => item.especialidad),
+            (data.escenas_por_especialidad || []).map((item) => Number(item.respuestas || 0)),
+            'Respuestas',
+            'y'
+        );
+
+        chartUsuarios = crearGrafica(
+            'chartUsuarios',
+            'bar',
+            (data.activos || []).map((item) => item.nombre),
+            (data.activos || []).map((item) => Number(item.actividad || 0)),
+            'Actividad'
+        );
+
+        chartEscenasCaso = crearGrafica(
+            'chartEscenasCaso',
+            'bar',
+            (data.escenas_por_caso || []).map((item) => item.caso),
+            (data.escenas_por_caso || []).map((item) => Number(item.respuestas || 0)),
+            'Respuestas',
+            'y'
+        );
+
+        chartDificiles = crearGrafica(
+            'chartDificiles',
+            'bar',
+            (data.dificiles || []).map((item) => item.nombre),
+            (data.dificiles || []).map((item) => Number(item.promedio || 0)),
+            'Promedio'
+        );
+
+        chartBalanceRespuestas = crearGrafica(
+            'chartBalanceRespuestas',
+            'bar',
+            (data.balance_respuestas || []).map((item) => item.opcion || 'Sin dato'),
+            (data.balance_respuestas || []).map((item) => Number(item.total || 0)),
+            'Preguntas'
+        );
+
+        chartDificultadPreguntas = crearGrafica(
+            'chartDificultadPreguntas',
+            'bar',
+            (data.dificultad_preguntas || []).map((item) => item.dificultad || 'Sin dato'),
+            (data.dificultad_preguntas || []).map((item) => Number(item.total || 0)),
+            'Preguntas'
+        );
+
+        renderTablaCriticos(data.escenas_falladas || []);
+        fijarEstado('Métricas actualizadas.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible cargar las métricas.', true);
     }
-
-    tablaCriticos.innerHTML += `
-
-        <tr>
-
-            <td class="${clase}">
-                ${item.especialidad}
-            </td>
-
-            <td>
-                ${item.caso_clinico}
-            </td>
-
-            <td>
-                ${item.escena}
-            </td>
-
-            <td>
-
-                <span class="fallos-badge ${clase}">
-
-                    ${item.fallos}
-
-                </span>
-
-            </td>
-
-        </tr>
-
-    `;
-
-});
-
 }
 
-cargarMetricas();
-
+verificarSesion().then((permitido) => {
+    if(permitido){
+        cargarMetricas();
+    }
+});
 </script>
 
 </body>

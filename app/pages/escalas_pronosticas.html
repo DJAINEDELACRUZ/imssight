@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>Infografías | IMSSight</title>
+  <title>Escalas pronósticas | IMSSight</title>
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -96,10 +96,6 @@
       width: 100%;
     }
 
-    .perlas-search input::placeholder {
-      color: #8a8a8a;
-    }
-
     .perlas-card {
       align-items: center;
       border: 1px solid #DDDDDD;
@@ -119,11 +115,6 @@
       transform: translateY(-2px);
       border-color: rgba(157, 36, 73, .42);
       box-shadow: 0 16px 34px rgba(157, 36, 73, .11);
-    }
-
-    .perlas-card:focus-visible {
-      outline: 3px solid rgba(157, 36, 73, .18);
-      outline-offset: 2px;
     }
 
     .perlas-icon {
@@ -223,56 +214,40 @@
       background: rgba(255, 255, 255, .20);
     }
 
-    .perlas-case-action:disabled {
-      opacity: .78;
-      cursor: default;
-    }
-
     .perlas-case-action .material-symbols-rounded {
       font-size: 1rem;
     }
 
-    .infografia-item {
+    .escala-item {
       border: 1px solid #e5e5e5;
       border-radius: 10px;
       background: #fff;
-      overflow: hidden;
       height: 100%;
-      box-shadow: 0 10px 24px rgba(64, 64, 65, .06);
+      padding: 1rem;
       cursor: pointer;
+      box-shadow: 0 10px 24px rgba(64, 64, 65, .06);
       transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
 
-    .infografia-item:hover,
-    .infografia-item:focus {
+    .escala-item:hover,
+    .escala-item:focus {
       transform: translateY(-2px);
       border-color: rgba(35, 91, 78, .42);
       box-shadow: 0 18px 38px rgba(35, 91, 78, .14);
       outline: 0;
     }
 
-    .infografia-item img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: contain;
-      background: #f8fafc;
-      border-bottom: 1px solid #eeeeee;
-    }
-
-    .infografia-body {
-      padding: 1rem;
-    }
-
-    .infografia-body h6 {
+    .escala-item h6 {
       color: var(--imss-green-dark);
       font-weight: 800;
     }
 
-    .infografia-body p {
-      color: #3a3a3a;
-      font-size: .9rem;
-      line-height: 1.5;
+    .escala-frame {
+      width: 100%;
+      min-height: 720px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
     }
 
     .empty-state {
@@ -281,18 +256,6 @@
       color: var(--imss-muted);
       border-radius: 10px;
       padding: 1.25rem;
-    }
-
-    #modalInfografiaImagen {
-      z-index: 20050;
-    }
-
-    .modal-backdrop {
-      z-index: 20040;
-    }
-
-    .infografia-modal-header {
-      background: #235B4E;
     }
 
     @media (max-width: 1199.98px) {
@@ -304,7 +267,6 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-
   <div id="menu-lateral"></div>
 
   <script>
@@ -348,96 +310,38 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="index.html">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Infografías</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Escalas pronósticas</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group input-group-outline">
               <label class="form-label">Buscar...</label>
-              <input
-                type="text"
-                class="form-control"
-                id="busquedaGlobal">
+              <input type="text" class="form-control" id="busquedaGlobal">
             </div>
           </div>
           <ul class="navbar-nav d-flex align-items-center justify-content-end">
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                <div class="sidenav-toggler-inner">
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                </div>
-              </a>
-            </li>
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0">
                 <i class="material-symbols-rounded fixed-plugin-button-nav">chat</i>
               </a>
             </li>
             <li class="nav-item dropdown pe-3 d-flex align-items-center">
-              <a
-                href="#"
-                class="nav-link text-body p-0 position-relative"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <a href="#" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="material-symbols-rounded">notifications</i>
-                <span
-                  id="notificationDot"
-                  style="
-                    display:none;
-                    width:10px;
-                    height:10px;
-                    background:#f44336;
-                    border-radius:50%;
-                    position:absolute;
-                    right:-1px;
-                    top:1px;
-                    box-shadow:0 0 10px rgba(244,67,54,.8);
-                  ">
-                </span>
+                <span id="notificationDot" style="display:none;width:10px;height:10px;background:#f44336;border-radius:50%;position:absolute;right:-1px;top:1px;box-shadow:0 0 10px rgba(244,67,54,.8);"></span>
               </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                id="notificationMenu"
-                aria-labelledby="dropdownMenuButton">
-                <li>
-                  <div class="dropdown-item text-muted">
-                    Sin notificaciones
-                  </div>
-                </li>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" id="notificationMenu" aria-labelledby="dropdownMenuButton">
+                <li><div class="dropdown-item text-muted">Sin notificaciones</div></li>
               </ul>
             </li>
             <li class="nav-item dropdown d-flex align-items-center">
-              <a
-                href="#"
-                class="nav-link text-body font-weight-bold px-0"
-                id="dropdownUsuario"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <a href="#" class="nav-link text-body font-weight-bold px-0" id="dropdownUsuario" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="material-symbols-rounded">account_circle</i>
               </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end px-2 py-2"
-                aria-labelledby="dropdownUsuario">
-                <li>
-                  <a
-                    class="dropdown-item border-radius-md"
-                    href="../pages/user_profile.html" data-imssight-profile-link>
-                    <i class="fas fa-user me-2"></i>
-                    Perfil
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item border-radius-md text-danger"
-                    href="../php/logout.php">
-                    <i class="fas fa-sign-out-alt me-2"></i>
-                    Cerrar sesión
-                  </a>
-                </li>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="dropdownUsuario">
+                <li><a class="dropdown-item border-radius-md" href="../pages/user_profile.html" data-imssight-profile-link><i class="fas fa-user me-2"></i>Perfil</a></li>
+                <li><a class="dropdown-item border-radius-md text-danger" href="../php/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
               </ul>
             </li>
           </ul>
@@ -449,19 +353,17 @@
       <div class="row">
         <div class="col-md-12">
           <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
-          <p class="mb-4">
-            IMSSight - Formación clínica interactiva
-          </p>
+          <p class="mb-4">IMSSight - Formación clínica interactiva</p>
         </div>
       </div>
 
       <section class="card perlas-panel mb-4">
         <div class="card-body p-4">
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
-            <nav class="perlas-path" id="stepbar" aria-label="Ruta de infografías"></nav>
-            <label class="perlas-search mb-0" id="buscadorInfografiasWrap" for="buscadorInfografias">
+            <nav class="perlas-path" id="stepbar" aria-label="Ruta de escalas pronósticas"></nav>
+            <label class="perlas-search mb-0" id="buscadorEscalasWrap" for="buscadorEscalas">
               <i class="material-symbols-rounded">search</i>
-              <input type="search" id="buscadorInfografias" placeholder="Buscar en esta lista">
+              <input type="search" id="buscadorEscalas" placeholder="Buscar en esta lista">
             </label>
           </div>
 
@@ -471,9 +373,8 @@
           </div>
 
           <div id="mensaje" class="empty-state d-none"></div>
-
           <div class="row g-3" id="gridResultados"></div>
-          <div id="infografiasResultado" class="d-none"></div>
+          <div id="escalasResultado" class="d-none"></div>
         </div>
       </section>
       <footer class="footer py-4">
@@ -489,18 +390,10 @@
             </div>
             <div class="col-lg-6">
               <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="#" class="nav-link text-muted" target="_blank">Acerca de IMSSight</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link text-muted" target="_blank">Guía de uso</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link text-muted" target="_blank">Contacto</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link pe-0 text-muted" target="_blank">Términos</a>
-                </li>
+                <li class="nav-item"><a href="#" class="nav-link text-muted" target="_blank">Acerca de IMSSight</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-muted" target="_blank">Guía de uso</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-muted" target="_blank">Contacto</a></li>
+                <li class="nav-item"><a href="#" class="nav-link pe-0 text-muted" target="_blank">Términos</a></li>
               </ul>
             </div>
           </div>
@@ -509,27 +402,11 @@
     </div>
   </main>
 
-  <div class="modal fade" id="modalInfografiaImagen" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content border-0 shadow-lg">
-        <div class="modal-header infografia-modal-header">
-          <h5 class="modal-title text-white fw-bold" id="modalInfografiaTitulo">Infografía</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body bg-gray-100 text-center">
-          <img id="modalInfografiaImg" src="" alt="Infografía clínica" class="img-fluid rounded shadow-sm bg-white">
-          <p class="text-sm text-muted mt-3 mb-0" id="modalInfografiaDescripcion"></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="material-symbols-rounded py-2">chat</i>
     </a>
-    <div class="card">
-    </div>
+    <div class="card"></div>
   </div>
 
   <script src="../assets/js/core/popper.min.js"></script>
@@ -537,7 +414,6 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
-
   <script src="../assets/js/imssight-quick-chat.js"></script>
   <script src="../assets/js/imssight-notifications.js"></script>
   <script src="../assets/js/imssight-profile-link.js"></script>
@@ -563,19 +439,18 @@
       nivel: 'especialidades',
       especialidad: null,
       tema: null,
-      caso: null,
-      historial: []
+      caso: null
     };
 
     const grid = document.getElementById('gridResultados');
-    const infografiasResultado = document.getElementById('infografiasResultado');
+    const escalasResultado = document.getElementById('escalasResultado');
     const loading = document.getElementById('loading');
     const mensaje = document.getElementById('mensaje');
     const stepbar = document.getElementById('stepbar');
-    const buscadorInfografias = document.getElementById('buscadorInfografias');
-    const buscadorInfografiasWrap = document.getElementById('buscadorInfografiasWrap');
+    const buscadorEscalas = document.getElementById('buscadorEscalas');
+    const buscadorEscalasWrap = document.getElementById('buscadorEscalasWrap');
 
-    let todasInfografias = [];
+    let todasEscalas = [];
     let currentItems = [];
     let currentTipo = '';
 
@@ -586,9 +461,7 @@
       }
     });
 
-    buscadorInfografias.addEventListener('input', () => {
-      aplicarFiltroLocal();
-    });
+    buscadorEscalas.addEventListener('input', aplicarFiltroLocal);
 
     function setLoading(active) {
       loading.classList.toggle('d-none', !active);
@@ -599,116 +472,24 @@
       mensaje.classList.toggle('d-none', !texto);
     }
 
-    async function cargarFuenteInfografias() {
-      if (todasInfografias.length) return todasInfografias;
+    async function cargarFuenteEscalas() {
+      if (todasEscalas.length) return todasEscalas;
 
       setLoading(true);
       setMensaje('');
       try {
-        const response = await fetch('../php/infografias.php');
+        const response = await fetch('../php/escalas.php');
         const data = await response.json();
-        todasInfografias = Array.isArray(data) ? data : [];
+        todasEscalas = Array.isArray(data) ? data : [];
       } catch (error) {
         console.error(error);
-        setMensaje('No se pudieron cargar las infografías. Intenta de nuevo.');
-        todasInfografias = [];
+        setMensaje('No se pudieron cargar las escalas. Intenta de nuevo.');
+        todasEscalas = [];
       } finally {
         setLoading(false);
       }
 
-      return todasInfografias;
-    }
-
-    function guardarHistorial() {
-      state.historial.push({
-        nivel: state.nivel,
-        especialidad: state.especialidad,
-        tema: state.tema,
-        caso: state.caso
-      });
-    }
-
-    function actualizarEncabezado() {
-      const steps = [];
-
-      if (state.nivel === 'especialidades') {
-        steps.push({ key: 'especialidades', label: 'Especialidad', clickable: false });
-      }
-
-      if (['temas', 'casos', 'infografias'].includes(state.nivel) && state.especialidad) {
-        steps.push({
-          key: 'especialidades',
-          label: state.especialidad.nombre,
-          clickable: true
-        });
-      }
-
-      if (state.nivel === 'temas') {
-        steps.push({ key: 'temas', label: 'Temas', clickable: false });
-      }
-
-      if (['casos', 'infografias'].includes(state.nivel) && state.tema) {
-        steps.push({
-          key: 'temas',
-          label: state.tema.titulo,
-          clickable: true
-        });
-      }
-
-      if (state.nivel === 'casos') {
-        steps.push({ key: 'casos', label: 'Infografías', clickable: false });
-      }
-
-      if (state.nivel === 'infografias' && state.caso) {
-        steps.push({
-          key: 'casos',
-          label: state.caso.titulo,
-          clickable: true
-        });
-        steps.push({ key: 'infografias', label: 'Infografías', clickable: false });
-      }
-
-      stepbar.innerHTML = steps.map((step, index) => {
-        const active = step.key === state.nivel ? 'active' : '';
-        const separator = index > 0 ? '<span class="perlas-path-separator">/</span>' : '';
-        const item = step.clickable
-          ? `<button class="perlas-path-item clickable ${active}" type="button" data-route="${step.key}">${escapeHtml(formatRouteLabel(step.label))}</button>`
-          : `<span class="perlas-path-item ${active}">${escapeHtml(formatRouteLabel(step.label))}</span>`;
-        return `${separator}${item}`;
-      }).join('');
-
-      stepbar.querySelectorAll('[data-route]').forEach(button => {
-        button.addEventListener('click', () => irARuta(button.dataset.route));
-      });
-    }
-
-    function formatRouteLabel(label = '') {
-      return String(label).toLocaleUpperCase('es-MX');
-    }
-
-    function irARuta(route) {
-      state.historial = [];
-
-      if (route === 'especialidades') {
-        return cargarEspecialidades(false);
-      }
-
-      if (route === 'temas' && state.especialidad) {
-        state.tema = null;
-        state.caso = null;
-        return cargarTemas(state.especialidad.id);
-      }
-
-      if (route === 'casos' && state.tema) {
-        state.caso = null;
-        return cargarCasos(state.tema.id);
-      }
-    }
-
-    function resetVista() {
-      grid.innerHTML = '';
-      infografiasResultado.innerHTML = '';
-      infografiasResultado.classList.add('d-none');
+      return todasEscalas;
     }
 
     function escapeHtml(value = '') {
@@ -740,19 +521,22 @@
         item.titulo,
         item.caso,
         item.descripcion,
-        item.caso_descripcion,
         item.especialidad,
-        item.tema
+        item.tema,
+        item.proveedor
       ].filter(Boolean).join(' '));
     }
 
     function aplicarFiltroLocal() {
-      const query = normalizarBusqueda(buscadorInfografias.value);
-      const items = query
-        ? currentItems.filter(item => textoBuscable(item).includes(query))
-        : currentItems;
-
+      const query = normalizarBusqueda(buscadorEscalas.value);
+      const items = query ? currentItems.filter(item => textoBuscable(item).includes(query)) : currentItems;
       pintarCards(items, currentTipo, Boolean(query));
+    }
+
+    function resetVista() {
+      grid.innerHTML = '';
+      escalasResultado.innerHTML = '';
+      escalasResultado.classList.add('d-none');
     }
 
     function agruparPor(items, keyFn, buildFn) {
@@ -767,18 +551,64 @@
       });
 
       return Array.from(map.values()).map(item => {
-        item.total_infografias = item._items.length;
-        item.total_casos = new Set(item._items.map(info => info.id_caso)).size;
+        item.total_escalas = item._items.length;
+        item.total_casos = new Set(item._items.map(escala => escala.id_caso)).size;
         delete item._items;
         return item;
+      });
+    }
+
+    function actualizarEncabezado() {
+      const steps = [];
+
+      if (state.nivel === 'especialidades') {
+        steps.push({ key: 'especialidades', label: 'Especialidad', clickable: false });
+      }
+
+      if (['temas', 'casos', 'escalas'].includes(state.nivel) && state.especialidad) {
+        steps.push({ key: 'especialidades', label: state.especialidad.nombre, clickable: true });
+      }
+
+      if (state.nivel === 'temas') {
+        steps.push({ key: 'temas', label: 'Temas', clickable: false });
+      }
+
+      if (['casos', 'escalas'].includes(state.nivel) && state.tema) {
+        steps.push({ key: 'temas', label: state.tema.titulo, clickable: true });
+      }
+
+      if (state.nivel === 'casos') {
+        steps.push({ key: 'casos', label: 'Escalas', clickable: false });
+      }
+
+      if (state.nivel === 'escalas' && state.caso) {
+        steps.push({ key: 'casos', label: state.caso.titulo, clickable: true });
+        steps.push({ key: 'escalas', label: 'Escalas pronósticas', clickable: false });
+      }
+
+      stepbar.innerHTML = steps.map((step, index) => {
+        const active = step.key === state.nivel ? 'active' : '';
+        const separator = index > 0 ? '<span class="perlas-path-separator">/</span>' : '';
+        const item = step.clickable
+          ? `<button class="perlas-path-item clickable ${active}" type="button" data-route="${step.key}">${escapeHtml(String(step.label).toLocaleUpperCase('es-MX'))}</button>`
+          : `<span class="perlas-path-item ${active}">${escapeHtml(String(step.label).toLocaleUpperCase('es-MX'))}</span>`;
+        return `${separator}${item}`;
+      }).join('');
+
+      stepbar.querySelectorAll('[data-route]').forEach(button => {
+        button.addEventListener('click', () => {
+          if (button.dataset.route === 'especialidades') cargarEspecialidades(false);
+          if (button.dataset.route === 'temas' && state.especialidad) cargarTemas(state.especialidad.id);
+          if (button.dataset.route === 'casos' && state.tema) cargarCasos(state.tema.id);
+        });
       });
     }
 
     function renderCards(items, tipo) {
       currentItems = Array.isArray(items) ? items : [];
       currentTipo = tipo;
-      buscadorInfografias.value = '';
-      buscadorInfografiasWrap.classList.remove('d-none');
+      buscadorEscalas.value = '';
+      buscadorEscalasWrap.classList.remove('d-none');
       pintarCards(currentItems, currentTipo, false);
     }
 
@@ -786,30 +616,21 @@
       resetVista();
 
       if (!items.length) {
-        setMensaje(filtrando
-          ? 'No encontramos coincidencias en esta lista.'
-          : 'Todavia no hay elementos disponibles en esta ruta.');
+        setMensaje(filtrando ? 'No encontramos coincidencias en esta lista.' : 'Todavia no hay elementos disponibles en esta ruta.');
         return;
       }
 
       setMensaje('');
-
       grid.innerHTML = items.map(item => {
         const titulo = item.nombre || item.titulo || item.caso || 'Sin titulo';
-        const descripcion = item.descripcion || item.caso_descripcion || 'Contenido visual disponible.';
-        const totalInfografias = Number(item.total_infografias || 0);
+        const descripcion = item.descripcion || item.caso_descripcion || 'Escalas clínicas disponibles.';
+        const totalEscalas = Number(item.total_escalas || 0);
         const totalCasos = Number(item.total_casos || 0);
-        const infografiaLabel = totalInfografias === 1 ? 'infografía' : 'infografías';
-        const casoLabel = totalCasos === 1 ? 'caso con infografía' : 'casos con infografía';
-        const meta = tipo === 'casos'
-          ? `${totalInfografias} ${infografiaLabel}`
-          : `${totalCasos} ${casoLabel}`;
+        const escalaLabel = totalEscalas === 1 ? 'escala' : 'escalas';
+        const casoLabel = totalCasos === 1 ? 'caso con escala' : 'casos con escala';
+        const meta = tipo === 'casos' ? `${totalEscalas} ${escalaLabel}` : `${totalCasos} ${casoLabel}`;
         const columnClass = tipo === 'casos' ? 'col-lg-6 col-md-6' : 'col-lg-4 col-md-6';
-        const icono = tipo === 'especialidades'
-          ? (item.icono || 'local_library')
-          : tipo === 'temas'
-            ? 'topic'
-            : 'image';
+        const icono = tipo === 'especialidades' ? 'monitoring' : tipo === 'temas' ? 'topic' : 'analytics';
 
         return `
           <div class="${columnClass}">
@@ -835,7 +656,6 @@
         button.addEventListener('click', () => {
           const selected = currentItems.find(item => String(item.id) === button.dataset.id);
           if (!selected) return;
-          guardarHistorial();
 
           if (tipo === 'especialidades') {
             state.especialidad = selected;
@@ -848,50 +668,28 @@
             cargarCasos(selected.id);
           } else {
             state.caso = selected;
-            cargarInfografias(selected.id);
+            cargarEscalas(selected.id);
           }
         });
       });
     }
 
-    function rutaImagenInfografia(item = {}) {
-      return item.ruta_imagen
-        ? `../${item.ruta_imagen}`
-        : `../img/infografias/${item.identificador}.png`;
-    }
-
     function estiloPortadaCaso(caso = {}) {
       const portada = caso.portada || caso.imagen;
-
-      if (!portada) {
-        return '';
-      }
-
-      return `style="background-image:url(&quot;${escapeHtml(portada)}&quot;);"`;
+      return portada ? `style="background-image:url(&quot;${escapeHtml(portada)}&quot;);"` : '';
     }
 
-    function abrirInfografia(identificador) {
-      const item = todasInfografias.find(infografia => infografia.identificador === identificador);
-      if (!item) return;
-
-      document.getElementById('modalInfografiaTitulo').textContent = item.titulo || 'Infografía';
-      document.getElementById('modalInfografiaDescripcion').textContent = item.objetivo || item.descripcion || '';
-      document.getElementById('modalInfografiaImg').src = rutaImagenInfografia(item);
-      document.getElementById('modalInfografiaImg').alt = item.alt_text || item.titulo || 'Infografía clínica';
-      new bootstrap.Modal(document.getElementById('modalInfografiaImagen')).show();
-    }
-
-    function renderInfografias(infografias, contexto) {
+    function renderEscalas(escalas, contexto) {
       resetVista();
       currentItems = [];
       currentTipo = '';
-      buscadorInfografias.value = '';
-      buscadorInfografiasWrap.classList.add('d-none');
-      state.nivel = 'infografias';
+      buscadorEscalas.value = '';
+      buscadorEscalasWrap.classList.add('d-none');
+      state.nivel = 'escalas';
       actualizarEncabezado();
 
-      if (!infografias.length) {
-        setMensaje('Este caso todavia no tiene infografías registradas.');
+      if (!escalas.length) {
+        setMensaje('Este caso todavia no tiene escalas pronósticas registradas.');
         return;
       }
 
@@ -899,10 +697,11 @@
         `especialidad.html?id=${encodeURIComponent(contexto.id_especialidad)}` +
         `&id_tema=${encodeURIComponent(contexto.id_tema)}` +
         `&id_caso=${encodeURIComponent(contexto.id_caso)}`;
-      const infoLabel = infografias.length === 1 ? 'infografía' : 'infografías';
+      const escalaLabel = escalas.length === 1 ? 'escala' : 'escalas';
+      const primeraEscala = escalas[0];
 
-      infografiasResultado.classList.remove('d-none');
-      infografiasResultado.innerHTML = `
+      escalasResultado.classList.remove('d-none');
+      escalasResultado.innerHTML = `
         <section class="perlas-case-hero" ${estiloPortadaCaso(contexto)}>
           <div class="perlas-case-hero-content">
             <div class="perlas-case-actions">
@@ -914,69 +713,80 @@
                 <i class="material-symbols-rounded">lightbulb</i>
                 Perlas clinicas
               </a>
-              <a class="perlas-case-action" href="escalas_pronosticas.html?id_caso=${encodeURIComponent(contexto.id_caso)}">
-                <i class="material-symbols-rounded">monitoring</i>
-                Escalas pronosticas
+              <a class="perlas-case-action" href="infografias.html?id_caso=${encodeURIComponent(contexto.id_caso)}">
+                <i class="material-symbols-rounded">library_books</i>
+                Infografias
               </a>
             </div>
           </div>
         </section>
 
         <div class="mb-3">
-          <div>
-            <h4 class="mb-1">${escapeHtml(contexto.caso)}</h4>
-            <p class="text-sm text-muted mb-0">${infografias.length} ${infoLabel} asociadas al caso.</p>
-          </div>
+          <h4 class="mb-1">${escapeHtml(contexto.caso)}</h4>
+          <p class="text-sm text-muted mb-0">${escalas.length} ${escalaLabel} asociadas al caso.</p>
         </div>
-        <div class="row g-3">
-          ${infografias.map(infografia => `
+
+        <div class="row g-3 mb-4">
+          ${escalas.map(escala => `
             <div class="col-lg-6">
-              <article
-                class="infografia-item"
-                role="button"
-                tabindex="0"
-                data-open-infografia="${escapeHtml(infografia.identificador)}"
-                aria-label="Abrir infografía ${escapeHtml(infografia.titulo || 'clínica')}">
-                <img src="${escapeHtml(rutaImagenInfografia(infografia))}" alt="${escapeHtml(infografia.alt_text || infografia.titulo || 'Infografía clínica')}">
-                <div class="infografia-body">
-                  <h6 class="mb-2">${escapeHtml(infografia.titulo || 'Infografía clínica')}</h6>
-                  <p class="mb-0">${escapeHtml(infografia.descripcion || infografia.objetivo || 'Material visual complementario.')}</p>
-                </div>
+              <article class="escala-item" role="button" tabindex="0" data-open-escala="${escapeHtml(escala.id)}">
+                <h6 class="mb-2">${escapeHtml(escala.titulo || 'Escala pronóstica')}</h6>
+                <p class="text-sm text-muted mb-2">${escapeHtml(escala.descripcion || 'Calculadora clínica externa.')}</p>
+                <span class="perlas-count">${escapeHtml(escala.proveedor || new URL(escala.url).hostname)}</span>
               </article>
             </div>
           `).join('')}
         </div>
+
+        <section class="card border shadow-sm">
+          <div class="card-header pb-0 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <h5 class="mb-1" id="escalaViewerTitle">${escapeHtml(primeraEscala.titulo)}</h5>
+              <p class="text-sm text-muted mb-0" id="escalaViewerDescription">${escapeHtml(primeraEscala.descripcion || primeraEscala.url)}</p>
+            </div>
+            <a class="btn bg-gradient-success text-white mb-0" id="escalaViewerExternal" href="${escapeHtml(primeraEscala.url)}" target="_blank" rel="noopener">
+              Abrir escala
+            </a>
+          </div>
+          <div class="card-body">
+            <iframe class="escala-frame" id="escalaViewerFrame" src="${escapeHtml(primeraEscala.url)}" title="${escapeHtml(primeraEscala.titulo)}"></iframe>
+          </div>
+        </section>
       `;
 
-      infografiasResultado.querySelectorAll('[data-open-infografia]').forEach(card => {
-        card.addEventListener('click', () => abrirInfografia(card.dataset.openInfografia));
+      escalasResultado.querySelectorAll('[data-open-escala]').forEach(card => {
+        const open = () => {
+          const escala = escalas.find(item => String(item.id) === String(card.dataset.openEscala));
+          if (!escala) return;
+          document.getElementById('escalaViewerTitle').textContent = escala.titulo || 'Escala pronóstica';
+          document.getElementById('escalaViewerDescription').textContent = escala.descripcion || escala.url;
+          document.getElementById('escalaViewerExternal').href = escala.url;
+          document.getElementById('escalaViewerFrame').src = escala.url;
+          document.getElementById('escalaViewerFrame').title = escala.titulo || 'Escala pronóstica';
+        };
+        card.addEventListener('click', open);
         card.addEventListener('keydown', event => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            abrirInfografia(card.dataset.openInfografia);
+            open();
           }
         });
       });
     }
 
-    async function cargarEspecialidades(limpiarHistorial = true) {
-      if (limpiarHistorial) state.historial = [];
+    async function cargarEspecialidades(limpiar = true) {
+      if (limpiar) {
+        state.especialidad = null;
+        state.tema = null;
+        state.caso = null;
+      }
       state.nivel = 'especialidades';
-      state.especialidad = null;
-      state.tema = null;
-      state.caso = null;
       actualizarEncabezado();
-      const data = await cargarFuenteInfografias();
+      const data = await cargarFuenteEscalas();
       const especialidades = agruparPor(
         data,
         item => item.id_especialidad,
-        item => ({
-          id: item.id_especialidad,
-          nombre: item.tema,
-          descripcion: 'Contenido visual disponible.',
-          icono: 'image',
-          _items: []
-        })
+        item => ({ id: item.id_especialidad, nombre: item.especialidad, descripcion: 'Escalas clínicas disponibles.', _items: [] })
       );
       renderCards(especialidades, 'especialidades');
     }
@@ -984,16 +794,11 @@
     async function cargarTemas(idEspecialidad) {
       state.nivel = 'temas';
       actualizarEncabezado();
-      const data = await cargarFuenteInfografias();
+      const data = await cargarFuenteEscalas();
       const temas = agruparPor(
         data.filter(item => String(item.id_especialidad) === String(idEspecialidad)),
         item => item.id_tema,
-        item => ({
-          id: item.id_tema,
-          titulo: item.subtema,
-          descripcion: 'Contenido visual disponible.',
-          _items: []
-        })
+        item => ({ id: item.id_tema, titulo: item.tema, descripcion: 'Escalas clínicas disponibles.', _items: [] })
       );
       renderCards(temas, 'temas');
     }
@@ -1001,14 +806,14 @@
     async function cargarCasos(idTema) {
       state.nivel = 'casos';
       actualizarEncabezado();
-      const data = await cargarFuenteInfografias();
+      const data = await cargarFuenteEscalas();
       const casos = agruparPor(
         data.filter(item => String(item.id_tema) === String(idTema)),
         item => item.id_caso,
         item => ({
           id: item.id_caso,
-          titulo: item.patologia,
-          caso: item.patologia,
+          titulo: item.caso,
+          caso: item.caso,
           descripcion: item.caso_descripcion,
           id_especialidad: item.id_especialidad,
           id_tema: item.id_tema,
@@ -1019,48 +824,35 @@
       renderCards(casos, 'casos');
     }
 
-    async function cargarInfografias(idCaso) {
-      const data = await cargarFuenteInfografias();
-      const infografias = data
+    async function cargarEscalas(idCaso) {
+      const data = await cargarFuenteEscalas();
+      const escalas = data
         .filter(item => String(item.id_caso) === String(idCaso))
         .sort((a, b) => Number(a.orden || 0) - Number(b.orden || 0));
-      const contextoBase = infografias[0] || state.caso || {};
+      const contextoBase = escalas[0] || state.caso || {};
       const contexto = {
         id_caso: contextoBase.id_caso || idCaso,
         id_especialidad: contextoBase.id_especialidad || state.especialidad?.id || '',
         id_tema: contextoBase.id_tema || state.tema?.id || '',
-        caso: contextoBase.patologia || contextoBase.titulo || state.caso?.titulo || 'Caso clínico',
-        caso_descripcion: contextoBase.caso_descripcion || state.caso?.descripcion,
+        caso: contextoBase.caso || contextoBase.titulo || state.caso?.titulo || 'Caso clínico',
         portada: contextoBase.portada || state.caso?.portada
       };
 
       if (contextoBase.id_especialidad) {
-        state.especialidad = {
-          id: contextoBase.id_especialidad,
-          nombre: contextoBase.tema
-        };
+        state.especialidad = { id: contextoBase.id_especialidad, nombre: contextoBase.especialidad };
       }
       if (contextoBase.id_tema) {
-        state.tema = {
-          id: contextoBase.id_tema,
-          titulo: contextoBase.subtema
-        };
+        state.tema = { id: contextoBase.id_tema, titulo: contextoBase.tema };
       }
-      state.caso = {
-        id: contexto.id_caso,
-        titulo: contexto.caso,
-        descripcion: contexto.caso_descripcion,
-        portada: contexto.portada
-      };
-
-      renderInfografias(infografias, contexto);
+      state.caso = { id: contexto.id_caso, titulo: contexto.caso, portada: contexto.portada };
+      renderEscalas(escalas, contexto);
     }
 
-    const paramsInfografias = new URLSearchParams(window.location.search);
-    const idCasoInicial = paramsInfografias.get('id_caso');
+    const paramsEscalas = new URLSearchParams(window.location.search);
+    const idCasoInicial = paramsEscalas.get('id_caso');
 
     if (idCasoInicial) {
-      cargarInfografias(idCasoInicial);
+      cargarEscalas(idCasoInicial);
     } else {
       cargarEspecialidades();
     }

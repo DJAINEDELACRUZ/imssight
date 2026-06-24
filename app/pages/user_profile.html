@@ -150,27 +150,165 @@
         outline:0;
     }
 
-    .perfil-entry{
-        border:1px solid #DDDDDD;
-        border-radius:12px;
-        margin-bottom:.85rem;
-        padding:1rem;
-        background:#FFFFFF;
+    .perfil-entries-paper{
+        position:relative;
+        overflow:hidden;
+        padding:1.85rem 2rem;
+        color:#171716;
+        background:
+            linear-gradient(rgba(12,12,10,.035) 1px, transparent 1px),
+            #fbfbf8;
+        background-size:100% 31px;
+        border:1px solid rgba(20,20,18,.16);
+        border-radius:0;
+        box-shadow:
+            0 18px 34px rgba(10,12,11,.10),
+            8px 10px 0 rgba(218,217,208,.8);
     }
 
-    .perfil-entry-chip{
-        background:#F6F6F6;
-        border-radius:999px;
-        color:#285C4D;
-        display:inline-flex;
-        font-size:.72rem;
+    .perfil-entries-title{
+        color:#611232;
+        font-family:"Courier New", Courier, monospace;
+        font-size:1rem;
         font-weight:800;
-        padding:.18rem .6rem;
+        letter-spacing:.18em;
+        line-height:1.45;
+        margin:0;
         text-transform:uppercase;
     }
 
+    .perfil-entries-subtitle{
+        color:#7a766c;
+        font-family:"Courier New", Courier, monospace;
+        font-size:.88rem;
+        line-height:1.6;
+        margin:.35rem 0 0;
+    }
+
+    .perfil-entry-form{
+        margin-top:1.35rem;
+        padding-top:1rem;
+        border-top:1px dashed rgba(22,20,17,.22);
+    }
+
+    .perfil-paper-field{
+        width:100%;
+        min-height:46px;
+        border:0;
+        border-bottom:2px solid rgba(47,43,38,.58);
+        border-radius:0;
+        background:transparent;
+        color:#2f2b26;
+        font-family:"Courier New", Courier, monospace;
+        font-size:1.06rem;
+        line-height:1.55;
+        outline:none;
+        padding:.35rem .15rem;
+    }
+
+    textarea.perfil-paper-field{
+        min-height:150px;
+        resize:vertical;
+        background:
+            repeating-linear-gradient(
+                transparent 0,
+                transparent 29px,
+                rgba(47,43,38,.16) 30px,
+                rgba(47,43,38,.16) 31px
+            );
+        border-bottom:2px solid rgba(47,43,38,.58);
+    }
+
+    .perfil-paper-field:focus{
+        border-bottom-color:#611232;
+    }
+
+    .perfil-paper-field::placeholder{
+        color:#8a857a;
+        opacity:.82;
+    }
+
+    .perfil-paper-button{
+        border:1px solid #111;
+        background:#070908;
+        color:#fbfbf8;
+        font-family:"Courier New", Courier, monospace;
+        font-size:.78rem;
+        font-weight:800;
+        letter-spacing:.08em;
+        padding:.72rem 1.15rem;
+        text-transform:uppercase;
+        box-shadow:0 8px 15px rgba(10,12,11,.14);
+    }
+
+    .perfil-entry{
+        position:relative;
+        margin-bottom:1rem;
+        padding:1.05rem 1.15rem;
+        color:#2f2b26;
+        background:
+            linear-gradient(rgba(40,36,28,.035) 1px, transparent 1px),
+            rgba(251,251,248,.68);
+        background-size:100% 25px;
+        border:1px dashed rgba(47,43,38,.36);
+        border-radius:0;
+        font-family:"Courier New", Courier, monospace;
+    }
+
+    .perfil-entry::before{
+        content:"";
+        position:absolute;
+        inset:-4px;
+        pointer-events:none;
+        border:1px dashed rgba(47,43,38,.22);
+        transform:rotate(-.18deg);
+    }
+
+    .perfil-entry-chip{
+        background:transparent;
+        border-radius:0;
+        color:#611232;
+        display:inline-flex;
+        font-family:"Courier New", Courier, monospace;
+        font-size:.72rem;
+        font-weight:800;
+        letter-spacing:.14em;
+        padding:0;
+        text-transform:uppercase;
+    }
+
+    .perfil-entry-title{
+        color:#171716;
+        font-family:Georgia, "Times New Roman", serif;
+        font-size:1.15rem;
+        font-weight:700;
+        line-height:1.25;
+        margin:.35rem 0 .2rem;
+    }
+
+    .perfil-entry-date{
+        color:#817b70;
+        display:block;
+        font-family:"Courier New", Courier, monospace;
+        font-size:.78rem;
+        margin-top:.15rem;
+    }
+
     .perfil-entry p{
+        color:#3f3b34;
+        font-family:"Courier New", Courier, monospace;
+        font-size:1.03rem;
+        line-height:1.75;
+        margin-top:.75rem;
         white-space:pre-line;
+    }
+
+    .perfil-entry-empty{
+        color:#7a766c;
+        font-family:"Courier New", Courier, monospace;
+        font-size:1.02rem;
+        line-height:1.7;
+        margin:1.2rem 0 0;
     }
 
     .perfil-privacidad{
@@ -1172,7 +1310,7 @@ function fechaPerfil(fecha){
 function renderEntradasPerfil(entradas, editable){
     if(!entradas.length){
         return `
-            <p class="text-muted mb-0">
+            <p class="perfil-entry-empty">
                 Todavía no hay entradas en este perfil.
             </p>
         `;
@@ -1185,10 +1323,10 @@ function renderEntradasPerfil(entradas, editable){
                     <span class="perfil-entry-chip">${escaparTexto(entrada.tipo)}</span>
                     ${
                         entrada.titulo
-                            ? `<h6 class="mb-1 mt-2">${escaparTexto(entrada.titulo)}</h6>`
+                            ? `<h6 class="perfil-entry-title">${escaparTexto(entrada.titulo)}</h6>`
                             : ''
                     }
-                    <small class="text-muted">${fechaPerfil(entrada.fecha)}</small>
+                    <small class="perfil-entry-date">${fechaPerfil(entrada.fecha)}</small>
                 </div>
                 ${
                     editable
@@ -1202,7 +1340,7 @@ function renderEntradasPerfil(entradas, editable){
                         : ''
                 }
             </div>
-            <p class="mb-0 text-muted">${escaparTexto(entrada.contenido)}</p>
+            <p class="mb-0">${escaparTexto(entrada.contenido)}</p>
         </article>
     `).join('');
 }
@@ -1422,8 +1560,8 @@ function mostrarPerfilPublico(data){
             </div>
         </div>
         <div class="col-12">
-            <div class="perfil-publico-card">
-                <h5 class="mb-3">Entradas del perfil</h5>
+            <div class="perfil-entries-paper">
+                <h5 class="perfil-entries-title">Entradas del perfil</h5>
                 <div id="perfilEntradasLista"></div>
             </div>
         </div>
@@ -1557,16 +1695,16 @@ function renderPerfilPropio(){
             <div id="mensajeGuardadoCards"></div>
         </div>
         <div class="col-12">
-            <div class="perfil-publico-card">
+            <div class="perfil-entries-paper">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                     <div>
-                        <h5 class="mb-1">Entradas del perfil</h5>
-                        <p class="text-sm text-muted mb-0">Frases, historias, aprendizajes o reflexiones para que otros te conozcan.</p>
+                        <h5 class="perfil-entries-title">Entradas del perfil</h5>
+                        <p class="perfil-entries-subtitle">Frases, historias, aprendizajes o reflexiones para que otros te conozcan.</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row perfil-entry-form">
                     <div class="col-lg-3 mb-3">
-                        <select class="perfil-edit-field" id="perfilEntradaTipo">
+                        <select class="perfil-paper-field" id="perfilEntradaTipo">
                             <option value="reflexion">Reflexión</option>
                             <option value="frase">Frase</option>
                             <option value="historia">Historia</option>
@@ -1575,14 +1713,14 @@ function renderPerfilPropio(){
                     </div>
                     <div class="col-lg-9 mb-3">
                         <input
-                            class="perfil-edit-field"
+                            class="perfil-paper-field"
                             id="perfilEntradaTitulo"
                             maxlength="180"
                             placeholder="Título opcional">
                     </div>
                     <div class="col-12 mb-3">
                         <textarea
-                            class="perfil-edit-field"
+                            class="perfil-paper-field"
                             id="perfilEntradaContenido"
                             rows="4"
                             maxlength="2200"
@@ -1592,7 +1730,7 @@ function renderPerfilPropio(){
                         <div id="perfilEntradaMensaje"></div>
                     </div>
                     <div class="col-md-4 text-md-end">
-                        <button class="btn bg-gradient-success mb-0" type="button" onclick="publicarEntradaPerfil()">
+                        <button class="perfil-paper-button mb-0" type="button" onclick="publicarEntradaPerfil()">
                             Publicar entrada
                         </button>
                     </div>

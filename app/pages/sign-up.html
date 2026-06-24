@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Registrate
+    Regístrate
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -34,6 +34,262 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <style>
+    :root {
+      --imss-green: #235B4E;
+      --imss-deep-green: #10312B;
+      --imss-red: #9F2241;
+      --imss-neutral: #6c757d;
+    }
+
+    .auth-form .input-group-outline:focus-within .form-label + .form-control,
+    .auth-form .input-group-outline.is-focused .form-label + .form-control,
+    .auth-form .input-group-outline.is-filled .form-label + .form-control {
+      border-color: var(--imss-deep-green) !important;
+      border-top-color: transparent !important;
+      box-shadow: inset 1px 0 var(--imss-deep-green), inset -1px 0 var(--imss-deep-green), inset 0 -1px var(--imss-deep-green) !important;
+    }
+
+    .auth-form .input-group-outline:focus-within .form-label,
+    .auth-form .input-group-outline.is-focused .form-label,
+    .auth-form .input-group-outline.is-filled .form-label,
+    .auth-form .input-group-outline.is-invalid-auth .form-label,
+    .auth-form.auth-success .input-group-outline .form-label {
+      display: flex;
+      font-size: 0.6875rem !important;
+      height: 100%;
+      line-height: 1.25 !important;
+      width: 100%;
+    }
+
+    .auth-form .input-group-outline:focus-within .form-label,
+    .auth-form .input-group-outline.is-focused .form-label,
+    .auth-form .input-group-outline.is-filled .form-label {
+      color: var(--imss-deep-green) !important;
+    }
+
+    .auth-form .input-group-outline:focus-within .form-label:before,
+    .auth-form .input-group-outline:focus-within .form-label:after,
+    .auth-form .input-group-outline.is-focused .form-label:before,
+    .auth-form .input-group-outline.is-focused .form-label:after,
+    .auth-form .input-group-outline.is-filled .form-label:before,
+    .auth-form .input-group-outline.is-filled .form-label:after {
+      border-top-color: var(--imss-deep-green) !important;
+      box-shadow: inset 0 1px var(--imss-deep-green) !important;
+    }
+
+    .auth-form .input-group-outline.is-invalid-auth .form-label + .form-control {
+      border-color: var(--imss-red) !important;
+      border-top-color: transparent !important;
+      box-shadow: inset 1px 0 var(--imss-red), inset -1px 0 var(--imss-red), inset 0 -1px var(--imss-red) !important;
+    }
+
+    .auth-form .input-group-outline.is-invalid-auth .form-label,
+    .auth-form .field-feedback.is-error,
+    .auth-form.auth-error .auth-feedback,
+    .terms-check.is-invalid-auth .form-check-label {
+      color: var(--imss-red) !important;
+    }
+
+    .auth-form .input-group-outline.is-invalid-auth .form-label:before,
+    .auth-form .input-group-outline.is-invalid-auth .form-label:after {
+      border-top-color: var(--imss-red) !important;
+      box-shadow: inset 0 1px var(--imss-red) !important;
+    }
+
+    .auth-form.auth-success .input-group-outline .form-label + .form-control {
+      border-color: var(--imss-green) !important;
+      border-top-color: transparent !important;
+      box-shadow: inset 1px 0 var(--imss-green), inset -1px 0 var(--imss-green), inset 0 -1px var(--imss-green) !important;
+    }
+
+    .auth-form.auth-success .input-group-outline .form-label,
+    .auth-form.auth-success .auth-feedback {
+      color: var(--imss-green) !important;
+    }
+
+    .auth-form.auth-success .input-group-outline .form-label:before,
+    .auth-form.auth-success .input-group-outline .form-label:after {
+      border-top-color: var(--imss-green) !important;
+      box-shadow: inset 0 1px var(--imss-green) !important;
+    }
+
+    .auth-feedback,
+    .field-feedback {
+      color: var(--imss-neutral);
+      font-size: 0.72rem;
+      font-weight: 500;
+      min-height: 0.9rem;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .field-feedback {
+      margin-top: -0.65rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .auth-feedback {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .auth-feedback.is-empty,
+    .field-feedback.is-empty {
+      opacity: 0;
+    }
+
+    .auth-link,
+    .terms-link {
+      color: var(--imss-green);
+      transition: color 0.2s ease;
+    }
+
+    .auth-link:hover,
+    .auth-link:focus,
+    .terms-link:hover,
+    .terms-link:focus {
+      color: var(--imss-red);
+    }
+
+    .terms-button {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      display: inline;
+      padding: 0;
+    }
+
+    .terms-check .form-check-input:checked {
+      background-color: var(--imss-green) !important;
+      border-color: var(--imss-green) !important;
+    }
+
+    .terms-modal-title {
+      color: var(--imss-deep-green);
+    }
+
+    .terms-modal-content {
+      border: 0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .terms-modal-header {
+      background: linear-gradient(90deg, #10312B 0%, #235B4E 100%);
+      border-bottom: 0;
+      padding: 1.5rem 2rem;
+    }
+
+    .terms-modal-header .terms-modal-title {
+      color: #fff;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.45rem;
+      letter-spacing: 0;
+    }
+
+    .terms-modal-header .btn-close {
+      filter: invert(1) grayscale(1) brightness(2);
+      opacity: 0.9;
+    }
+
+    .terms-document {
+      color: #4f5654;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.8rem 2.65rem 1.2rem;
+    }
+
+    .terms-modal-body {
+      max-height: 62vh;
+      overflow-y: auto;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .terms-document p {
+      margin-bottom: 1.1rem;
+    }
+
+    .terms-lead {
+      color: #2f3936;
+      font-size: 1.06rem;
+    }
+
+    .terms-section-title {
+      color: var(--imss-deep-green);
+      font-family: Inter, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin: 1.4rem 0 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .terms-list {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 0 3.2rem;
+    }
+
+    .terms-list li {
+      border-left: 3px solid rgba(35, 91, 78, 0.18);
+      margin-bottom: 0.9rem;
+      padding: 0.15rem 0 0.15rem 1rem;
+      position: relative;
+    }
+
+    .terms-list li::before {
+      color: var(--imss-green);
+      content: counter(terms-counter, decimal-leading-zero);
+      counter-increment: terms-counter;
+      font-family: Inter, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      left: -2.85rem;
+      position: absolute;
+      top: 0.35rem;
+      width: 1.8rem;
+      text-align: right;
+    }
+
+    .terms-list {
+      counter-reset: terms-counter;
+    }
+
+    .terms-closing {
+      background: rgba(35, 91, 78, 0.08);
+      border-left: 4px solid var(--imss-green);
+      color: var(--imss-deep-green);
+      margin-top: 1.25rem;
+      padding: 1rem 1.15rem;
+    }
+
+    .terms-modal-footer {
+      border-top: 1px solid rgba(16, 49, 43, 0.12);
+      padding: 1rem 2rem 1.25rem;
+    }
+
+    .terms-scroll-note {
+      color: var(--imss-neutral);
+      font-size: 0.74rem;
+      font-weight: 600;
+      margin-right: auto;
+    }
+
+    @media (max-width: 576px) {
+      .terms-document {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+      }
+
+      .terms-list {
+        padding-left: 2.75rem;
+      }
+    }
+  </style>
 </head>
 
 <body class="">
@@ -58,43 +314,50 @@
             <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
               <div class="card card-plain">
                 <div class="card-header">
-                  <h4 class="font-weight-bolder">Registrate</h4>
-                  <p class="mb-0">Ingresa tu correo electrónico y una contraseña para registrarte</p>
+                  <h4 class="font-weight-bolder">Regístrate</h4>
+                  <p class="mb-0">Ingresa tu nombre, matrícula y una contraseña para crear tu cuenta</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" class="auth-form" id="registerForm" novalidate>
 
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control">
+                        <input type="text" id="nombre" class="form-control" autocomplete="name" aria-describedby="nombreFeedback" required>
                     </div>
+                    <div class="field-feedback is-empty" id="nombreFeedback" aria-live="polite"></div>
 
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Matrícula</label>
-                        <input type="text" id="matricula" class="form-control">
+                        <input type="text" id="matricula" class="form-control" autocomplete="username" inputmode="numeric" aria-describedby="matriculaFeedback" required>
                     </div>
+                    <div class="field-feedback is-empty" id="matriculaFeedback" aria-live="polite"></div>
 
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Contraseña</label>
-                        <input type="password" id="password" class="form-control">
+                        <input type="password" id="password" class="form-control" autocomplete="new-password" minlength="6" aria-describedby="passwordFeedback" required>
                     </div>
+                    <div class="field-feedback is-empty" id="passwordFeedback" aria-live="polite"></div>
 
-                    <div class="form-check form-check-info text-start ps-0">
-                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" checked>
+                    <div class="form-check form-check-info text-start ps-0 terms-check" id="termsCheckGroup">
+                        <input class="form-check-input" type="checkbox" id="termsAccepted" aria-describedby="termsFeedback" disabled required>
 
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Acepta los
-                            <a href="javascript:;" class="text-dark font-weight-bolder">
-                                Términos y Condiciones
-                            </a>
+                        <label class="form-check-label" for="termsAccepted">
+                            Acepto haber leído y acepto los
                         </label>
+                        <button type="button" class="terms-link terms-button font-weight-bolder" id="termsLink" aria-haspopup="dialog" aria-controls="termsModal">
+                            Términos y Condiciones
+                        </button>
                     </div>
+                    <div class="field-feedback is-empty" id="termsFeedback" aria-live="polite"></div>
+
+                    <div class="auth-feedback is-empty" id="registerFeedback" aria-live="polite"></div>
 
                     <div class="text-center">
                         <button
-                            type="button"
+                            type="submit"
+                            id="registerButton"
                             class="btn btn-lg bg-gradient-dark w-100 mt-4 mb-0"
-                            onclick="registrar()">
+                            >
 
                             Registrarme
 
@@ -106,7 +369,7 @@
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
                     Ya tienes una cuenta?
-                    <a href="../pages/sign-in.html" class="text-primary text-gradient font-weight-bold">Inicia sesión</a>
+                    <a href="../pages/sign-in.html" class="auth-link font-weight-bold">Inicia sesión</a>
                   </p>
                 </div>
               </div>
@@ -116,6 +379,41 @@
       </div>
     </section>
   </main>
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content terms-modal-content">
+        <div class="modal-header terms-modal-header">
+          <h5 class="modal-title terms-modal-title" id="termsModalLabel">Términos y Condiciones de IMSSight</h5>
+          <button type="button" class="btn-close terms-modal-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body terms-modal-body" id="termsModalBody">
+          <div class="terms-document">
+          <p class="terms-lead">
+            IMSSight es una plataforma de formación clínica interactiva orientada al aprendizaje, consulta académica y seguimiento de actividades educativas. Al crear una cuenta, aceptas usarla de forma responsable y conforme a estos términos.
+          </p>
+          <h6 class="terms-section-title">Condiciones de uso</h6>
+          <ol class="terms-list">
+            <li>La información y los contenidos de IMSSight tienen fines educativos. No sustituyen el juicio clínico, la valoración médica presencial ni los protocolos institucionales vigentes.</li>
+            <li>Debes registrar datos veraces y mantener la confidencialidad de tu matrícula, contraseña y acceso personal. No compartas tu cuenta con otras personas.</li>
+            <li>El uso de casos, materiales, infografías, simulaciones o herramientas de apoyo debe realizarse respetando la privacidad de pacientes, docentes, residentes, personal de salud e instituciones.</li>
+            <li>No está permitido cargar, publicar o transmitir datos personales sensibles, expedientes clínicos identificables, imágenes de pacientes sin autorización, contenido ofensivo, ilícito o ajeno a la finalidad educativa de la plataforma.</li>
+            <li>IMSSight puede registrar actividad básica de uso, avances, respuestas, métricas académicas y datos técnicos necesarios para operar, mejorar la experiencia y dar seguimiento educativo.</li>
+            <li>Los materiales disponibles pueden estar protegidos por derechos de autor o pertenecer a sus autores. Puedes consultarlos para aprendizaje, pero no redistribuirlos sin permiso.</li>
+            <li>La plataforma puede cambiar, suspender funciones o actualizar estos términos para mejorar seguridad, operación o cumplimiento institucional.</li>
+            <li>El incumplimiento de estos términos puede ocasionar la suspensión o cancelación del acceso.</li>
+          </ol>
+          <p class="terms-closing mb-0">
+            Al aceptar, confirmas que leíste estos términos y comprendes que IMSSight es una herramienta de apoyo educativo.
+          </p>
+          </div>
+        </div>
+        <div class="modal-footer terms-modal-footer">
+          <span class="terms-scroll-note" id="termsScrollNote">Desplázate hasta el final para aceptar.</span>
+          <button type="button" class="btn bg-gradient-dark" id="acceptTermsButton" disabled>Aceptar términos</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -136,55 +434,297 @@
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
   <script>
 
-    async function registrar(){
+const registerForm = document.getElementById('registerForm');
+const nombreInput = document.getElementById('nombre');
+const matriculaInput = document.getElementById('matricula');
+const passwordInput = document.getElementById('password');
+const termsInput = document.getElementById('termsAccepted');
+const termsLink = document.getElementById('termsLink');
+const termsCheckGroup = document.getElementById('termsCheckGroup');
+const registerButton = document.getElementById('registerButton');
+const registerFeedback = document.getElementById('registerFeedback');
+const termsModalElement = document.getElementById('termsModal');
+const termsModalBody = document.getElementById('termsModalBody');
+const termsScrollNote = document.getElementById('termsScrollNote');
+const acceptTermsButton = document.getElementById('acceptTermsButton');
+
+termsInput.checked = false;
+termsInput.disabled = true;
+acceptTermsButton.disabled = true;
+termsScrollNote.textContent = 'Desplázate hasta el final para aceptar.';
+let termsReadToEnd = false;
+
+const fields = [
+    {
+        input: nombreInput,
+        feedback: document.getElementById('nombreFeedback'),
+        message: 'Escribe tu nombre.'
+    },
+    {
+        input: matriculaInput,
+        feedback: document.getElementById('matriculaFeedback'),
+        message: 'Escribe tu matrícula.'
+    },
+    {
+        input: passwordInput,
+        feedback: document.getElementById('passwordFeedback'),
+        message: 'La contraseña debe tener al menos 6 caracteres.',
+        validate: (value) => value.length >= 6
+    }
+];
+
+function setFormState(state, message = ''){
+    registerForm.classList.remove('auth-neutral', 'auth-error', 'auth-success');
+
+    if(state){
+        registerForm.classList.add(`auth-${state}`);
+    }
+
+    registerFeedback.textContent = message;
+    registerFeedback.classList.toggle('is-empty', !message);
+}
+
+function setFieldState(field, message = ''){
+    const group = field.input.closest('.input-group-outline');
+    group.classList.toggle('is-invalid-auth', Boolean(message));
+    field.input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    field.feedback.textContent = message;
+    field.feedback.classList.toggle('is-empty', !message);
+    field.feedback.classList.toggle('is-error', Boolean(message));
+}
+
+function setTermsState(message = ''){
+    termsCheckGroup.classList.toggle('is-invalid-auth', Boolean(message));
+    termsInput.setAttribute('aria-invalid', message ? 'true' : 'false');
+    const termsFeedback = document.getElementById('termsFeedback');
+    termsFeedback.textContent = message;
+    termsFeedback.classList.toggle('is-empty', !message);
+    termsFeedback.classList.toggle('is-error', Boolean(message));
+}
+
+function validateField(field){
+    const value = field.input.value.trim();
+    const isValid = field.validate ? field.validate(value) : Boolean(value);
+    setFieldState(field, isValid ? '' : field.message);
+    return isValid;
+}
+
+function validateForm(){
+    const fieldsAreValid = fields.map(validateField).every(Boolean);
+    const termsAreValid = termsInput.checked;
+
+    setTermsState(termsAreValid ? '' : 'Debes abrir, leer hasta el final y aceptar los términos para registrarte.');
+
+    if(!fieldsAreValid || !termsAreValid){
+        setFormState('error', 'Completa todos los campos y acepta los términos.');
+        return false;
+    }
+
+    return true;
+}
+
+fields.forEach((field) => {
+    field.input.addEventListener('click', () => {
+        if(!registerForm.classList.contains('auth-error') && !registerForm.classList.contains('auth-success')){
+            setFormState('neutral', 'Completa tus datos para crear tu cuenta.');
+        }
+    });
+
+    field.input.addEventListener('input', () => {
+        if(field.feedback.textContent){
+            validateField(field);
+        }
+        setFormState('neutral', 'Completa tus datos para crear tu cuenta.');
+    });
+
+    field.input.addEventListener('blur', () => {
+        if(field.input.value.trim()){
+            validateField(field);
+        }
+    });
+});
+
+termsInput.addEventListener('change', () => {
+    setTermsState(termsInput.checked ? '' : 'Debes abrir, leer hasta el final y aceptar los términos para registrarte.');
+    setFormState('neutral', termsInput.checked ? 'Términos aceptados. Puedes registrarte.' : 'Completa tus datos para crear tu cuenta.');
+});
+
+function hasReachedTermsEnd(){
+    return termsModalBody.scrollTop + termsModalBody.clientHeight >= termsModalBody.scrollHeight - 12;
+}
+
+function resetTermsReadState(){
+    if(termsInput.checked){
+        termsReadToEnd = true;
+        acceptTermsButton.disabled = false;
+        termsScrollNote.textContent = 'Términos aceptados.';
+        return;
+    }
+
+    termsModalBody.scrollTop = 0;
+    termsReadToEnd = false;
+    acceptTermsButton.disabled = true;
+    termsScrollNote.textContent = 'Desplázate hasta el final para aceptar.';
+}
+
+function updateTermsReadState(){
+    if(hasReachedTermsEnd()){
+        termsReadToEnd = true;
+        acceptTermsButton.disabled = false;
+        termsScrollNote.textContent = 'Ya puedes aceptar los términos.';
+    }
+}
+
+function showTermsModal(){
+    if(window.bootstrap && termsModalElement){
+        bootstrap.Modal.getOrCreateInstance(termsModalElement).show();
+        setTimeout(resetTermsReadState, 0);
+        return;
+    }
+
+    termsModalElement.style.display = 'block';
+    termsModalElement.removeAttribute('aria-hidden');
+    termsModalElement.setAttribute('aria-modal', 'true');
+    termsModalElement.classList.add('show');
+    document.body.classList.add('modal-open');
+
+    if(!document.getElementById('termsBackdrop')){
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop fade show';
+        backdrop.id = 'termsBackdrop';
+        backdrop.addEventListener('click', hideTermsModal);
+        document.body.appendChild(backdrop);
+    }
+
+    setTimeout(resetTermsReadState, 0);
+}
+
+function hideTermsModal(){
+    if(window.bootstrap && termsModalElement){
+        bootstrap.Modal.getOrCreateInstance(termsModalElement).hide();
+        return;
+    }
+
+    termsModalElement.classList.remove('show');
+    termsModalElement.style.display = 'none';
+    termsModalElement.setAttribute('aria-hidden', 'true');
+    termsModalElement.removeAttribute('aria-modal');
+    document.body.classList.remove('modal-open');
+    document.getElementById('termsBackdrop')?.remove();
+}
+
+termsLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    showTermsModal();
+});
+
+termsModalBody.addEventListener('scroll', updateTermsReadState);
+
+acceptTermsButton.addEventListener('click', () => {
+    if(acceptTermsButton.disabled || !termsReadToEnd){
+        return;
+    }
+
+    termsInput.disabled = false;
+    termsInput.checked = true;
+    setTermsState('');
+    setFormState('neutral', 'Términos aceptados. Puedes registrarte.');
+    hideTermsModal();
+});
+
+document.querySelectorAll('.terms-modal-close').forEach((button) => {
+    button.addEventListener('click', hideTermsModal);
+});
+
+document.addEventListener('keydown', (event) => {
+    if(event.key === 'Escape' && termsModalElement.classList.contains('show')){
+        hideTermsModal();
+    }
+});
+
+registerForm.addEventListener('submit', registrar);
+
+async function registrar(event){
+
+        event.preventDefault();
+
+        if(!validateForm()){
+            return;
+        }
+
+        setFormState('neutral', 'Creando tu cuenta...');
+        registerButton.disabled = true;
 
         const data = {
 
             nombre:
-                document.getElementById('nombre').value,
+                nombreInput.value.trim(),
 
             matricula:
-                document.getElementById('matricula').value,
+                matriculaInput.value.trim(),
 
             password:
-                document.getElementById('password').value
+                passwordInput.value,
+
+            termsAccepted:
+                true
 
         };
 
-        const response = await fetch(
+        try {
 
-            '../php/register.php',
+            const response = await fetch(
 
-            {
+                '../php/register.php',
 
-                method:'POST',
+                {
 
-                headers:{
-                    'Content-Type':'application/json'
-                },
+                    method:'POST',
 
-                body:JSON.stringify(data)
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+
+                    body:JSON.stringify(data)
+
+                }
+
+            );
+
+            const resultado = await response.json();
+
+            if(resultado.success){
+
+                setFormState('success', 'Cuenta creada correctamente. Redirigiendo...');
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        '../pages/sign-in.html';
+
+                }, 700);
+
+                return;
 
             }
 
-        );
+            setFormState('error', resultado.message || 'No se pudo crear la cuenta.');
 
-        const resultado = await response.json();
+        } catch (error) {
 
-        if(resultado.success){
+            setFormState('error', 'No se pudo crear la cuenta. Intenta nuevamente.');
 
-            alert('Usuario registrado correctamente 😎');
+        } finally {
 
-            window.location.href =
-                '../pages/sign-in.html';
+            if(!registerForm.classList.contains('auth-success')){
 
-        }else{
+                registerButton.disabled = false;
 
-            alert(resultado.message);
+            }
 
         }
 
-    }
+}
 
   </script>
 </body>

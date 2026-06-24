@@ -4,523 +4,431 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>IMSSIGHT :: COMMAND CENTER</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<title>IMSSIGHT :: Administración</title>
 
 <link rel="stylesheet" href="../assets/css/imssight-terminal.css">
+<style>
+.document-logo{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    color:#f6f6f0;
+    background:#171917;
+    border-radius:50%;
+    font-family:var(--sans);
+    font-size:1.55rem;
+    font-weight:700;
+    margin:10px auto;
+}
+
+.admin-brief{
+    align-items:start;
+    grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);
+}
+
+.admin-actions{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:48px 18px;
+    align-items:start;
+    align-content:start;
+}
+
+.admin-action{
+    min-height:166px;
+    padding:22px 16px 14px;
+}
+
+.admin-action strong{
+    font-size:.82rem;
+}
+
+.folder-title-field{
+    font-size:.68rem;
+}
+
+.folder-title-field b{
+    font-size:.76rem;
+}
+
+.folder-lines{
+    gap:6px 18px;
+}
+
+.folder-lines span{
+    min-height:10px;
+}
+
+@media(max-width:860px){
+    .admin-actions{
+        grid-template-columns:1fr;
+    }
+}
+
+.admin-switch-panel{
+    display:grid;
+    gap:6px;
+}
+
+.admin-switch-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 11px;
+    background:transparent;
+    color:#e8e6dd;
+    font-family:var(--mono);
+    font-size:.82rem;
+    line-height:1.25;
+}
+
+.aircraft-switch{
+    --switch-accent:#9F2241;
+    position:relative;
+    width:58px;
+    height:58px;
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    padding:0;
+    border:1px solid rgba(226,220,206,.22);
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 34% 26%, rgba(255,255,255,.28), transparent 18px),
+        radial-gradient(circle at 54% 58%, #8e8a80, #4b4b45 43%, #151716 70%);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,.24),
+        inset 0 -7px 12px rgba(0,0,0,.48),
+        0 8px 16px rgba(0,0,0,.26);
+    cursor:pointer;
+    transition:opacity .18s ease, box-shadow .18s ease;
+}
+
+.aircraft-switch:focus-visible{
+    outline:2px solid #d9bf72;
+    outline-offset:3px;
+}
+
+.aircraft-switch:disabled{
+    opacity:.74;
+    cursor:wait;
+}
+
+.switch-label{
+    position:absolute;
+    bottom:-15px;
+    color:#77736a;
+    font-family:var(--mono);
+    font-size:.52rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    transition:color .18s ease, text-shadow .18s ease;
+}
+
+.switch-label-on{
+    left:0;
+}
+
+.switch-label-off{
+    right:0;
+}
+
+.switch-base{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:18px;
+    height:4px;
+    border-radius:8px;
+    background:
+        linear-gradient(90deg, #1b1c1a, #f2eee6 52%, #2a2b29);
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,.22),
+        0 2px 3px rgba(0,0,0,.34);
+    transform:translate(-50%, -50%) rotate(-45deg);
+    transition:transform .24s cubic-bezier(.2,.8,.25,1), filter .18s ease;
+}
+
+.switch-base::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 35% 30%, #fff, #9d988f 52%, #3c3d3a);
+    transform:translate(-50%, -50%);
+}
+
+.aircraft-switch[aria-checked="true"]{
+    --switch-accent:#235B4E;
+}
+
+.aircraft-switch[aria-checked="true"] .switch-label-on,
+.aircraft-switch[aria-checked="false"] .switch-label-off{
+    color:#f4efe1;
+    text-shadow:0 0 8px var(--switch-accent), 0 1px 0 #000;
+}
+
+.aircraft-switch[aria-checked="true"]{
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,.24),
+        inset 0 -7px 12px rgba(0,0,0,.48),
+        0 0 0 1px rgba(35,91,78,.35),
+        0 8px 16px rgba(0,0,0,.26);
+}
+
+.aircraft-switch[aria-checked="true"] .switch-base{
+    transform:translate(-50%, -50%) rotate(45deg);
+}
+
+.aircraft-switch.is-loading .switch-base{
+    filter:drop-shadow(0 0 6px #d9bf72);
+}
+
+.reindex-status{
+    display:block;
+    min-height:1rem;
+    padding-left:14px;
+    color:#c8c4b9;
+    font-family:var(--mono);
+    font-size:.62rem;
+    line-height:1.35;
+}
+
+.reindex-status.is-ok{
+    color:#8fc9b8;
+}
+
+.reindex-status.is-error{
+    color:#e29aa9;
+}
+</style>
+
 </head>
 
 <body>
 
-
-
-<div class="hex"></div>
-<div class="hex"></div>
-<div class="hex"></div>
-
 <div class="container">
-
   <div class="layout">
-    
-<aside class="sidebar">
 
-    <div class="sidebar-title">
+    <aside class="sidebar" aria-label="Navegación administrativa">
+      <div class="sidebar-title">Administración</div>
 
-        IMSSIGHT
-
-    </div>
-
-    <!-- DASHBOARD -->
-
-    <div class="sidebar-section">
-
-        <div class="sidebar-section-title">
-
-            DASHBOARD
-
-        </div>
-
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Inicio</div>
         <div class="sidebar-menu">
-
-            <a
-                href="profile.html"
-                class="sidebar-link">
-
-                Dashboard
-
-            </a>
-
-            <a
-                href="user_profile.html"
-                class="sidebar-link">
-
-                Mi perfil
-
-            </a>
-
+          <a href="profile.html" class="sidebar-link is-current">Panel</a>
+          <a href="user_profile.html" class="sidebar-link">Mi perfil</a>
         </div>
+      </div>
 
-    </div>
-
-    <!-- CONTENIDO -->
-
-    <div class="sidebar-section mt-40">
-
-        <div class="sidebar-section-title">
-
-            CARGAR CONTENIDO
-
-        </div>
-
+        <div class="sidebar-section mt-40">
+        <div class="sidebar-section-title">Carga clínica</div>
         <div class="sidebar-menu">
-
-            <a
-                href="admin_especialidades.html"
-                class="sidebar-link">
-
-                Especialidades
-
-            </a>
-
-            <a
-                href="admin_temas.html"
-                class="sidebar-link">
-
-                Temas
-
-            </a>
-
-            <a
-                href="admin_casos.html"
-                class="sidebar-link">
-
-                Casos
-
-            </a>
-
-            <a
-                href="admin_escenas.html"
-                class="sidebar-link">
-
-                Escenas
-
-            </a>
-
-            <a
-                href="admin_examenes.html"
-                class="sidebar-link">
-
-                Exámenes
-
-            </a>
-
-            <a
-                href="admin_perlas.html"
-                class="sidebar-link">
-
-                Perlas clínicas
-
-            </a>
-
+          <a href="admin_contenidos.html" class="sidebar-link">Contenidos</a>
         </div>
+      </div>
 
-    </div>
-
-    <!-- SISTEMA -->
-
-    <div class="sidebar-section mt-40">
-
-        <div class="sidebar-section-title">
-
-            SISTEMA
-
-        </div>
-
+      <div class="sidebar-section mt-40">
+        <div class="sidebar-section-title">Administración</div>
         <div class="sidebar-menu">
-
-            <a
-                href="metricas.html"
-                class="sidebar-link">
-
-                Métricas
-
-            </a>
-
-            <a
-                href="admin_usuarios.html"
-                class="sidebar-link">
-
-                Usuarios
-
-            </a>
-
-            <button
-                class="sidebar-link"
-                onclick="reindexarBusqueda()">
-
-                Reindexar
-
-            </button>
-
+          <a href="metricas.html" class="sidebar-link">Métricas</a>
+          <a href="admin_usuarios.html" class="sidebar-link">Usuarios</a>
+          <div class="admin-switch-panel">
+            <div class="admin-switch-row">
+              <span>Reindexar<br>búsqueda</span>
+              <button id="reindexSwitch" class="aircraft-switch" type="button" role="switch" aria-checked="false" aria-label="Reindexar búsqueda">
+                <span class="switch-label switch-label-on">ON</span>
+                <span class="switch-label switch-label-off">OFF</span>
+                <span class="switch-base" aria-hidden="true"></span>
+              </button>
+            </div>
+            <small id="reindexStatus" class="reindex-status"></small>
+          </div>
         </div>
+      </div>
+    </aside>
 
-    </div>
-
-</aside>
-
-    <!-- CONTENIDO -->
-
-    <div class="main-content">
-
-      <!-- HEADER -->
-      <div class="topbar">
-
+    <main class="main-content">
+      <header class="topbar">
         <div>
-
-            <div class="access-label">
-                INSTITUTO MEXICANO DEL SEGURO SOCIAL
-            </div>
-
-            <div class="logo">
-                IMSSIGHT
-            </div>
-
-            <div
-                class="welcome-terminal"
-                id="bienvenida">
-
-                INITIALIZING USER SESSION...
-
-            </div>
-
+          <div class="logo">Administración</div>
         </div>
 
         <div class="status">
+          <a href="/pages/index.html" class="return-btn">Regresar al inicio</a>
+        </div>
+      </header>
 
-            NIVEL DE SEGURIDAD :: DELTA-5
-            <br>
-            PROTOCOLOS CLÍNICOS :: ACTIVOS
-            <br>
-            SUPERVISIÓN DE ACTIVIDAD :: HABILITADA
-            <br>
-            VALIDACIÓN DE OPERADOR :: APROBADA
-            <br>
-            ENTORNO DE APRENDIZAJE CLÍNICO :: OPERATIVO
-            <br>
-            <a
-                href="/pages/index.html"
-                class="return-btn">
+      <section class="system" aria-labelledby="titulo-operacion">
+        <div class="line green" id="titulo-operacion">
+          Expediente administrativo abierto. Selecciona una acción para continuar.
+        </div>
 
-                ⬅ REGRESAR AL NODO PRINCIPAL
+        <div class="hud-line"></div>
 
+        <div class="admin-brief">
+          <div class="admin-actions" aria-label="Acciones principales">
+            <a class="admin-action" href="admin_contenidos.html">
+              <strong>CONTENIDOS</strong>
+              <span class="folder-title-field">Título: <b>Registro de contenidos</b></span>
+              <div class="document-logo">
+                  <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="28" height="32">
+              </div>
+              <div class="folder-lines" aria-hidden="true">
+                <span>Ruta integral</span><span></span>
+                <span></span><span></span>
+                <span></span><span></span>
+              </div>
             </a>
 
-        </div>
+            <a class="admin-action" href="metricas.html">
+              <strong>MÉTRICAS</strong>
+              <span class="folder-title-field">Título: <b>Indicadores del sistema</b></span>
+              <div class="document-logo">
+                  <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="28" height="32">
+              </div>
+              <div class="folder-lines" aria-hidden="true">
+                <span>Seguimiento</span><span></span>
+                <span></span><span></span>
+                <span></span><span></span>
+              </div>
+            </a>
 
-      </div>
-
-      <!-- PANEL -->
-      <div class="system">
-
-          <div class="line green">
-              TODOS LOS SISTEMAS FUNCIONANDO DENTRO DE LOS PARÁMETROS NORMALES
+            <a class="admin-action" href="admin_usuarios.html">
+              <strong>USUARIOS</strong>
+              <span class="folder-title-field">Título: <b>Gestión de usuarios</b></span>
+              <div class="document-logo">
+                  <img src="../assets/img/logo_imss_blanco.png" alt="Logo IMSS" width="28" height="32">
+              </div>
+              <div class="folder-lines" aria-hidden="true">
+                <span>Accesos</span><span></span>
+                <span></span><span></span>
+                <span></span><span></span>
+              </div>
+            </a>
           </div>
 
-          <div class="line">
-              CLÚSTER CENTRAL ESTABLE.
-          </div>
-
-          <div class="line warning">
-              AUTORIZACIÓN DE SEGURIDAD NIVEL DELTA 5 APROBADA.
-          </div>
-
-          <div class="hud-line"></div>
-
-         <!-- DASHBOARD -->
-
-<div class="grid">
-
-    <div class="card">
-
-        <div class="card-title">
-            Actividad académica
+          <aside class="case-file" aria-label="Ruta recomendada">
+            <div class="case-file-title">Ruta de trabajo</div>
+            <ul class="case-file-list">
+              <li>
+                <b>01 Clasifica</b>
+                Crea o elige la especialidad y el tema antes de cargar casos.
+              </li>
+              <li>
+                <b>02 Documenta</b>
+                Registra el caso y sus escenas para que el recorrido clínico sea coherente.
+              </li>
+              <li>
+                <b>03 Evalúa</b>
+                Agrega el examen, sus preguntas y las perlas para cerrar el ciclo académico.
+              </li>
+              <li>
+                <b>04 Controla</b>
+                Revisa usuarios, roles, métricas y reindexa la búsqueda cuando cambie contenido clave.
+              </li>
+            </ul>
+          </aside>
         </div>
-
-        <div class="card-desc">
-
-            Monitoreo de evaluaciones, usuarios y simulaciones clínicas.
-
-        </div>
-
-        <div class="terminal-log">
-
-            <div class="terminal-line">
-                [OK] Sistema académico operativo
-            </div>
-
-            <div class="terminal-line">
-                [OK] Banco de preguntas sincronizado
-            </div>
-
-            <div class="terminal-line warning-line">
-                [WARN] Actividad monitoreada por UEI
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-
-        <div class="card-title">
-            Estado del sistema
-        </div>
-
-        <div class="card-desc">
-
-            Estado general del motor educativo y servicios internos.
-
-        </div>
-
-        <div class="terminal-log">
-
-            <div class="terminal-line">
-                [OK] Delta-5 online
-            </div>
-
-            <div class="terminal-line">
-                [OK] Index engine ready
-            </div>
-
-            <div class="terminal-line">
-                [OK] Seguridad activa
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-
-        <div class="card-title">
-            Content Center
-        </div>
-
-        <div class="card-desc">
-
-            Acceso centralizado para gestión académica y contenido clínico.
-
-        </div>
-
-        <a
-            href="content_center.html"
-            class="btn">
-
-            Abrir módulo
-
-        </a>
-
-    </div>
-
-</div>
-
-      </div>
+      </section>
 
       <div class="footer">
-          INICIANDO AMBIENTE DE SIMULACIÓN CLINICA...
+        Archivo administrativo IMSSIGHT.
       </div>
+    </main>
 
-    </div> <!-- main-content -->
-
-  </div> <!-- layout -->
-
+  </div>
 </div>
 
 <script>
+function escaparHTML(valor){
+  return String(valor ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
 
 async function validarAccesoAdmin(){
+  try{
+    const response = await fetch('../php/auth.php');
+    const data = await response.json();
 
-    try{
-
-        const response =
-            await fetch(
-                '../php/auth.php'
-            );
-
-        const data =
-            await response.json();
-
-        /* =========================================
-        NO LOGIN
-        ========================================= */
-
-        if(!data.auth){
-
-            window.location.href =
-                '../pages/sign-in.html';
-
-            return;
-
-        }
-
-        /* =========================================
-        SI ES USUARIO NORMAL
-        ========================================= */
-
-        if(data.usuario.rol !== 'admin'){
-
-            window.location.href =
-                '../pages/user_profile.html';
-
-            return;
-
-        }
-
-        console.log(
-            'Admin autorizado'
-        );
-
-    }catch(error){
-
-        console.error(error);
-
+    if(!data.auth){
+      window.location.href = '../pages/sign-in.html';
+      return false;
     }
 
+    if(data.usuario.rol !== 'admin'){
+      window.location.href = '../pages/user_profile.html';
+      return false;
+    }
+
+    return true;
+  }catch(error){
+    console.error(error);
+    return false;
+  }
 }
+
+const REINDEX_ENDPOINT = '../php/reindexar_busqueda.php';
+
+function fijarEstadoReindexacion(activo, mensaje = '', tipo = ''){
+  const switchButton = document.getElementById('reindexSwitch');
+  const status = document.getElementById('reindexStatus');
+
+  switchButton.setAttribute('aria-checked', activo ? 'true' : 'false');
+
+  status.textContent = mensaje;
+  status.classList.toggle('is-ok', tipo === 'ok');
+  status.classList.toggle('is-error', tipo === 'error');
+}
+
+async function ejecutarReindexacionBusqueda(){
+  const switchButton = document.getElementById('reindexSwitch');
+
+  if(switchButton.disabled){
+    return;
+  }
+
+  const confirmado = window.confirm('¿Deseas reindexar la búsqueda? Esto puede tardar unos segundos.');
+
+  if(!confirmado){
+    fijarEstadoReindexacion(false);
+    return;
+  }
+
+  try{
+    switchButton.disabled = true;
+    switchButton.classList.add('is-loading');
+    fijarEstadoReindexacion(true, 'reindexando...');
+
+    const response = await fetch(REINDEX_ENDPOINT);
+
+    if(!response.ok){
+      throw new Error('No se pudo reindexar la búsqueda.');
+    }
+
+    fijarEstadoReindexacion(false, 'Búsqueda reindexada correctamente.', 'ok');
+  }catch(error){
+    console.error(error);
+    fijarEstadoReindexacion(false, 'No se pudo reindexar la búsqueda.', 'error');
+  }finally{
+    switchButton.disabled = false;
+    switchButton.classList.remove('is-loading');
+  }
+}
+
+document.getElementById('reindexSwitch').addEventListener('click', ejecutarReindexacionBusqueda);
 
 validarAccesoAdmin();
-
-</script>
-
-<script>
-
-async function verificarSesion(){
-
-    try{
-
-        const response =
-            await fetch('../php/auth.php');
-
-        const data =
-            await response.json();
-
-        if(!data.auth){
-
-            window.location.href =
-                '../pages/sign-in.html';
-
-            return;
-        }
-
-        const nombre =
-            data.usuario.nombre;
-
-        document
-        .getElementById('bienvenida')
-        .innerHTML = `
-
-            BIENVENIDO, OPERADOR <span style="color:#58f5c8;">
-            ${nombre.toUpperCase()}
-            </span>
-            <br>
-
-            ACCESO AUTORIZADO.
-            <br>
-
-            TODAS LAS ACTIVIDADES SON MONITOREADAS
-            POR LA UEI.
-
-        `;
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-verificarSesion();
-
-</script>
-
-<script>
-
-async function reindexarBusqueda(){
-
-    const boton =
-        event.target;
-
-    try{
-
-        // ESTADO INICIAL
-
-        boton.innerText =
-            'Reindexando...';
-
-        boton.disabled = true;
-
-        boton.style.opacity = '.7';
-
-        boton.style.animation =
-            'terminalPulse 1s infinite';
-
-        // EJECUTAR PHP
-
-        await fetch(
-            '../php/reindexar_busqueda.php'
-        );
-
-        // ESPERA VISUAL
-
-        await new Promise(resolve =>
-            setTimeout(resolve, 2000)
-        );
-
-        // TERMINADO
-
-        boton.innerText =
-            'Reindexar';
-
-        boton.disabled = false;
-
-        boton.style.opacity = '1';
-
-        boton.style.animation =
-            'none';
-
-    }catch(error){
-
-        console.error(error);
-
-        boton.innerText =
-            'ERROR';
-
-        boton.style.borderColor =
-            '#BC955C';
-
-        setTimeout(()=>{
-
-            boton.innerText =
-                'REINDEXAR';
-
-            boton.disabled = false;
-
-            boton.style.opacity = '1';
-
-            boton.style.animation =
-                'none';
-
-            boton.style.borderColor =
-                '';
-
-        },2000);
-
-    }
-
-}
-
 </script>
 
 </body>
