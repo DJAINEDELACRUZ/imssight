@@ -33,6 +33,10 @@ Usuarios
 Motor de búsqueda
     ↓
 Search Index
+
+Contenido audiovisual
+    ↓
+Podcast Videos / ResiTalks
 ```
 
 ---
@@ -199,6 +203,58 @@ Notas:
 - `url` guarda el enlace externo de la escala o calculadora clínica.
 - La página pública intenta mostrar el enlace embebido en `iframe`; si el proveedor bloquea embebidos, el usuario conserva un botón para abrir la escala en una pestaña nueva.
 - El endpoint administrativo es `app/php/escalas.php`; acepta `GET`, `POST application/json` y `DELETE`.
+
+---
+
+# Videos de Podcast / ResiTalks
+
+Catálogo de videos publicados en YouTube y reproducidos dentro de IMSSight. La plataforma no almacena archivos de video.
+
+```sql
+CREATE TABLE imssight.podcast_videos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    youtube_video_id VARCHAR(20) NOT NULL,
+    embed_url VARCHAR(500) NOT NULL,
+    serie VARCHAR(100) DEFAULT 'ResiTalks',
+    ponente VARCHAR(180),
+    duracion VARCHAR(30),
+    es_principal TINYINT DEFAULT 0,
+    activo TINYINT DEFAULT 1,
+    creado_por INT NULL,
+    actualizado_por INT NULL,
+    fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    INDEX idx_podcast_catalogo
+        (activo, es_principal, fecha_publicacion, id),
+
+    UNIQUE KEY uq_podcast_youtube_video
+        (youtube_video_id),
+
+    FOREIGN KEY (creado_por)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE SET NULL,
+
+    FOREIGN KEY (actualizado_por)
+    REFERENCES imssight.usuarios(id)
+    ON DELETE SET NULL
+);
+```
+
+## Reglas
+
+- Al agregar un video, el endpoint desmarca el principal anterior y publica automáticamente el nuevo como `es_principal = 1`.
+- El administrador puede editar cualquier episodio y volver a marcarlo como principal.
+- Eliminar desde la interfaz realiza una baja lógica (`activo = 0`). Si se retira el principal, se promueve el episodio activo más reciente.
+- Solo el rol `admin` puede ejecutar `POST`, `PUT` o `DELETE`; `docente` y `usuario` no reciben controles editoriales y el servidor responde `403` ante intentos de modificación.
+- Se acepta el iframe completo generado por YouTube, una URL `watch`, `youtu.be`, `shorts`, `embed` o directamente el ID del video.
+- El servidor guarda una URL canónica `youtube-nocookie.com/embed/...`; no almacena HTML arbitrario ni archivos multimedia.
+- Las miniaturas se sirven desde YouTube con `loading="lazy"` y la marca “AL AIRE” se genera con CSS para evitar imágenes pesadas.
+- El endpoint es `app/php/podcast_videos.php`. La tabla y un episodio inicial se crean automáticamente en el primer acceso.
 
 ---
 

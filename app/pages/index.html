@@ -432,6 +432,52 @@
             line-height: 1.25;
         }
 
+        .imssight-info-card {
+            overflow: hidden;
+            border: 1px solid #DDDDDD;
+            border-top: 5px solid #9D2449;
+            border-radius: 12px;
+            background: #FFFFFF;
+            box-shadow: 0 14px 34px rgba(64, 64, 65, .08);
+        }
+
+        .imssight-info-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.35rem 1.5rem 1rem;
+        }
+
+        .imssight-info-frame {
+            margin: 0 1rem 1rem;
+            text-align: center;
+        }
+
+        .imssight-info-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 16px 36px rgba(35, 91, 78, .16);
+        }
+
+        @media (max-width: 575.98px) {
+            .imssight-info-header {
+                flex-direction: column;
+                padding: 1.15rem 1rem .85rem;
+            }
+
+            .imssight-info-frame {
+                margin: 0 .5rem .5rem;
+            }
+
+            .imssight-info-image {
+                border-radius: 8px;
+            }
+        }
+
         .muro-side-feed {
             border-top: 1px solid #DDDDDD;
             margin-top: 1.25rem;
@@ -806,6 +852,27 @@
                 </div>
               </div>
             </div>
+
+            <article class="card imssight-info-card mb-4" aria-labelledby="titulo-codigo-bioetica">
+              <div class="imssight-info-header">
+                <div>
+                  <h5 class="mb-1" id="titulo-codigo-bioetica">Código de Bioética para el Personal de Salud</h5>
+                  <p class="text-sm text-muted mb-0">Principios para una atención ética, responsable y centrada en las personas.</p>
+                </div>
+                <span class="muro-chip institucional">
+                  <i class="material-symbols-rounded" style="font-size:1rem;">campaign</i>
+                  Información
+                </span>
+              </div>
+              <figure class="imssight-info-frame">
+                <img
+                  class="imssight-info-image"
+                  src="../img/infoIndex.jpeg"
+                  alt="Infografía del Código de Bioética para el Personal de Salud: un nuevo enfoque"
+                  loading="lazy"
+                  decoding="async">
+              </figure>
+            </article>
 
           </div>
 
