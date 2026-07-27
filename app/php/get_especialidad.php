@@ -3,6 +3,9 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
+
+asegurarColumnasVisibilidadContenido($pdo);
 
 try {
 
@@ -16,9 +19,10 @@ try {
             icono,
             color
 
-        FROM imssight.especialidades
+        FROM imssight.especialidades e
 
-        WHERE id = :id
+        WHERE e.id = :id
+          AND " . condicionContenidoInterno('e') . "
 
         LIMIT 1
 

@@ -3,6 +3,9 @@
 header('Content-Type: application/json; charset=utf-8');
 
 require 'conn.php';
+require 'content_visibility.php';
+
+asegurarColumnasVisibilidadContenido($pdo);
 
 function responder($data)
 {
@@ -39,7 +42,7 @@ try {
                 AND c.activo = 1
             INNER JOIN imssight.perlas_clinicas_caso p
                 ON p.id_caso = c.id
-            WHERE e.activo = 1
+            WHERE " . condicionContenidoInterno('e') . "
             GROUP BY e.id, e.nombre, e.icono, e.color
             ORDER BY e.nombre
         ";
@@ -74,12 +77,15 @@ try {
                 COUNT(DISTINCT c.id) AS total_perlas,
                 COUNT(p.id) AS total_secciones
             FROM imssight.temas t
+            INNER JOIN imssight.especialidades e
+                ON e.id = t.id_especialidad
             INNER JOIN imssight.casos_clinicos c
                 ON c.id_tema = t.id
                 AND c.activo = 1
             INNER JOIN imssight.perlas_clinicas_caso p
                 ON p.id_caso = c.id
             WHERE t.id_especialidad = :id_especialidad
+                AND " . condicionContenidoInterno('e') . "
             GROUP BY t.id, t.titulo, t.descripcion, t.imagen
             ORDER BY t.titulo
         ";
@@ -120,10 +126,13 @@ try {
             FROM imssight.casos_clinicos c
             INNER JOIN imssight.temas t
                 ON t.id = c.id_tema
+            INNER JOIN imssight.especialidades e
+                ON e.id = t.id_especialidad
             INNER JOIN imssight.perlas_clinicas_caso p
                 ON p.id_caso = c.id
             WHERE c.id_tema = :id_tema
                 AND c.activo = 1
+                AND " . condicionContenidoInterno('e') . "
             GROUP BY c.id, c.id_especialidad, t.id_especialidad, c.id_tema, c.titulo, c.descripcion, c.portada, c.dificultad
             ORDER BY c.titulo
         ";
@@ -173,6 +182,7 @@ try {
                 ON e.id = t.id_especialidad
             WHERE p.id_caso = :id_caso
                 AND c.activo = 1
+                AND " . condicionContenidoInterno('e') . "
             ORDER BY p.orden, p.id
         ";
 

@@ -3,6 +3,7 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
 
 function asegurarTablaInfografias(PDO $pdo): void
 {
@@ -50,6 +51,7 @@ function slugInfografia(string $texto): string
 
 try {
     asegurarTablaInfografias($pdo);
+    asegurarColumnasVisibilidadContenido($pdo);
 
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -73,6 +75,8 @@ try {
                 INNER JOIN imssight.especialidades e ON e.id = t.id_especialidad
                 WHERE i.id_caso = ?
                   AND i.activo = 1
+                  AND c.activo = 1
+                  AND " . condicionContenidoInterno('e') . "
                 ORDER BY i.orden ASC, i.id ASC
             ";
             $stmt = $pdo->prepare($sql);
@@ -95,6 +99,8 @@ try {
             INNER JOIN imssight.temas t ON t.id = c.id_tema
             INNER JOIN imssight.especialidades e ON e.id = t.id_especialidad
             WHERE i.activo = 1
+              AND c.activo = 1
+              AND " . condicionContenidoInterno('e') . "
             ORDER BY e.nombre ASC, t.titulo ASC, c.titulo ASC, i.orden ASC, i.id ASC
         ";
         responder($pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC));

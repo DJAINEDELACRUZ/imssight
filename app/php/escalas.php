@@ -3,6 +3,7 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
 
 function asegurarTablaEscalas(PDO $pdo): void
 {
@@ -45,6 +46,7 @@ function normalizarUrlEscala(string $url): string
 
 try {
     asegurarTablaEscalas($pdo);
+    asegurarColumnasVisibilidadContenido($pdo);
 
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -68,6 +70,8 @@ try {
                 INNER JOIN imssight.especialidades e ON e.id = t.id_especialidad
                 WHERE s.id_caso = ?
                   AND s.activo = 1
+                  AND c.activo = 1
+                  AND " . condicionContenidoInterno('e') . "
                 ORDER BY s.orden ASC, s.id ASC
             ";
             $stmt = $pdo->prepare($sql);
@@ -90,6 +94,8 @@ try {
             INNER JOIN imssight.temas t ON t.id = c.id_tema
             INNER JOIN imssight.especialidades e ON e.id = t.id_especialidad
             WHERE s.activo = 1
+              AND c.activo = 1
+              AND " . condicionContenidoInterno('e') . "
             ORDER BY e.nombre ASC, t.titulo ASC, c.titulo ASC, s.orden ASC, s.id ASC
         ";
         responder($pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC));

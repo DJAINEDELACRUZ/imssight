@@ -588,6 +588,214 @@
             height: 32px;
             border-radius: 9px;
         }
+
+        .imssight-welcome-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .imssight-tour-start {
+            display: inline-flex;
+            align-items: center;
+            gap: .38rem;
+            border: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #161918 0%, #235B4E 100%);
+            color: #FFFFFF;
+            font-size: .86rem;
+            font-weight: 700;
+            padding: .52rem .85rem;
+            box-shadow: 0 10px 20px rgba(22, 25, 24, .18);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .imssight-tour-start:hover,
+        .imssight-tour-start:focus {
+            color: #FFFFFF;
+            transform: translateY(-1px);
+            box-shadow: 0 14px 26px rgba(35, 91, 78, .24);
+        }
+
+        .imssight-tour-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1040;
+            display: none;
+            pointer-events: auto;
+        }
+
+        body.imssight-tour-active {
+            overflow: hidden;
+        }
+
+        .imssight-tour-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 12, 14, .68);
+        }
+
+        .imssight-tour-spotlight {
+            position: fixed;
+            z-index: 1042;
+            border-radius: 18px;
+            pointer-events: none;
+            box-shadow:
+                0 0 0 4px rgba(255, 255, 255, .98),
+                0 0 0 9999px rgba(8, 12, 14, .68),
+                0 0 36px rgba(255, 255, 255, .85);
+            transition: left .22s ease, top .22s ease, width .22s ease, height .22s ease;
+        }
+
+        .imssight-tour-target {
+            position: relative;
+            z-index: 1043 !important;
+            border-radius: 16px;
+        }
+
+        .imssight-tour-guide {
+            position: fixed;
+            z-index: 1044;
+            display: flex;
+            align-items: flex-start;
+            gap: .85rem;
+            max-width: min(92vw, 620px);
+            transition: left .22s ease, top .22s ease;
+        }
+
+        .imssight-tour-guide.is-left {
+            flex-direction: row-reverse;
+        }
+
+        .imssight-tour-doctor {
+            width: clamp(132px, 18vw, 230px);
+            max-height: min(48vh, 340px);
+            object-fit: contain;
+            filter: drop-shadow(0 18px 26px rgba(0, 0, 0, .4));
+            pointer-events: none;
+            transform: translate(var(--tour-doctor-x, 0px), 38px);
+        }
+
+        .imssight-tour-bubble {
+            position: relative;
+            max-width: 360px;
+            border-radius: 16px;
+            background: #FFFFFF;
+            color: #404041;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
+            margin-top: 44px;
+        }
+
+        .imssight-tour-bubble::before {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 58px;
+            width: 24px;
+            height: 24px;
+            background: #FFFFFF;
+            transform: rotate(45deg);
+            border-radius: 3px;
+        }
+
+        .imssight-tour-guide.is-left .imssight-tour-bubble::before {
+            left: auto;
+            right: -12px;
+        }
+
+        .imssight-tour-eyebrow {
+            display: block;
+            color: #9D2449;
+            font-size: .72rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: .25rem;
+        }
+
+        .imssight-tour-title {
+            font-size: 1rem;
+            line-height: 1.22;
+            margin-bottom: .35rem;
+            font-weight: 900;
+        }
+
+        .imssight-tour-text {
+            color: #6F7271;
+            font-size: .84rem;
+            line-height: 1.42;
+            margin-bottom: .85rem;
+        }
+
+        .imssight-tour-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .65rem;
+        }
+
+        .imssight-tour-next,
+        .imssight-tour-finish {
+            border: 0;
+            border-radius: 10px;
+            background: #9D2449;
+            color: #FFFFFF;
+            font-weight: 800;
+            padding: .55rem .85rem;
+        }
+
+        .imssight-tour-skip {
+            border: 0;
+            background: transparent;
+            color: #6F7271;
+            font-weight: 700;
+            padding: .45rem .15rem;
+        }
+
+        .imssight-tour-progress {
+            color: #6F7271;
+            font-size: .75rem;
+            font-weight: 800;
+        }
+
+        @media (max-width: 767.98px) {
+            .imssight-welcome-header {
+                flex-direction: column;
+            }
+
+            .imssight-tour-guide,
+            .imssight-tour-guide.is-left {
+                left: 1rem !important;
+                right: 1rem;
+                bottom: 1rem;
+                top: auto !important;
+                flex-direction: row;
+                align-items: flex-start;
+                max-width: none;
+            }
+
+            .imssight-tour-doctor {
+                width: 112px;
+                max-height: 210px;
+                transform: translate(var(--tour-doctor-x, 0px), 28px);
+            }
+
+            .imssight-tour-bubble {
+                max-width: calc(100vw - 150px);
+                padding: .9rem;
+                margin-top: 28px;
+            }
+
+            .imssight-tour-title {
+                font-size: .92rem;
+            }
+
+            .imssight-tour-text {
+                font-size: .78rem;
+            }
+        }
     </style>
 </head>
 
@@ -629,7 +837,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="busquedaGlobal">
+                id="busquedaGlobal"
+                data-tour="busqueda">
             </div>
           </div>
           <script>
@@ -759,10 +968,18 @@
     <div class="container-fluid py-2">
       <div class="row">
         <div class="col-md-12">
-            <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
-            <p class="mb-4">
-                IMSSight - Formación clínica interactiva
-            </p>
+            <div class="imssight-welcome-header mb-4">
+                <div>
+                    <h3 class="mb-0 h4 font-weight-bolder" id="bienvenida">Bienvenido a inicio</h3>
+                    <p class="mb-0">
+                        IMSSight - Formación clínica interactiva
+                    </p>
+                </div>
+                <button class="imssight-tour-start" type="button" id="btnIniciarRecorrido">
+                    <i class="material-symbols-rounded" style="font-size:1.15rem;">tour</i>
+                    Iniciar recorrido
+                </button>
+            </div>
         </div>
       </div>
       <section class="muro-imssight mb-4">
@@ -783,7 +1000,7 @@
 
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <a class="imssight-hub-card" href="especialidad.html">
+                    <a class="imssight-hub-card" href="especialidad.html" data-tour="casos">
                       <span class="imssight-hub-icon">
                         <i class="material-symbols-rounded">clinical_notes</i>
                       </span>
@@ -794,7 +1011,7 @@
                     </a>
                   </div>
                   <div class="col-md-6">
-                    <a class="imssight-hub-card" href="perlas_clinicas.html">
+                    <a class="imssight-hub-card" href="perlas_clinicas.html" data-tour="perlas">
                       <span class="imssight-hub-icon">
                         <i class="material-symbols-rounded">lightbulb</i>
                       </span>
@@ -805,7 +1022,7 @@
                     </a>
                   </div>
                   <div class="col-md-6">
-                    <a class="imssight-hub-card" href="escalas_pronosticas.html">
+                    <a class="imssight-hub-card" href="escalas_pronosticas.html" data-tour="escalas">
                       <span class="imssight-hub-icon">
                         <i class="material-symbols-rounded">monitoring</i>
                       </span>
@@ -877,7 +1094,7 @@
           </div>
 
           <div class="col-lg-4">
-            <div class="card muro-composer muro-quick-composer mb-4">
+            <div class="card muro-composer muro-quick-composer mb-4" data-tour="comunidad">
               <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                     <div>
@@ -1008,6 +1225,27 @@
     </div>
   </div>
 
+  <div class="imssight-tour-overlay" id="imssightTourOverlay" aria-hidden="true">
+    <div class="imssight-tour-backdrop"></div>
+    <div class="imssight-tour-spotlight" id="imssightTourSpotlight"></div>
+    <div class="imssight-tour-guide" id="imssightTourGuide" role="dialog" aria-live="polite" aria-label="Recorrido IMSSight">
+      <img class="imssight-tour-doctor" id="imssightTourDoctor" src="../img/quirurgico.png" alt="">
+      <div class="imssight-tour-bubble">
+        <span class="imssight-tour-eyebrow" id="imssightTourEyebrow">Recorrido</span>
+        <div class="imssight-tour-title" id="imssightTourTitle"></div>
+        <p class="imssight-tour-text" id="imssightTourText"></p>
+        <div class="imssight-tour-actions">
+          <span class="imssight-tour-progress" id="imssightTourProgress"></span>
+          <div class="d-flex align-items-center gap-2">
+            <button class="imssight-tour-skip" type="button" id="btnOmitirRecorrido">Omitir</button>
+            <button class="imssight-tour-next" type="button" id="btnSiguienteRecorrido">Siguiente</button>
+            <button class="imssight-tour-finish d-none" type="button" id="btnFinalizarRecorrido">Entiendo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="modalEditarPublicacionMuro" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -1036,6 +1274,308 @@
   </div>
   <!--   Core JS Files   -->
   <script>
+
+    const recorridoIMSSight = {
+        indice: 0,
+        activo: false,
+        visto: false,
+        pasos: [
+            {
+                selector:'[data-tour="casos"]',
+                titulo:'Hola, te damos la bienvenida a IMSSight',
+                textoHtml:'Revisa nuestro ecosistema clínico, donde encontrarás los <strong>Casos clínicos</strong> para practicar y aprender.',
+                imagen:'../img/quirurgico3.png'
+            },
+            {
+                selector:'[data-tour="perlas"]',
+                titulo:'Perlas clínicas',
+                texto:'Aquí encontrarás aprendizajes breves, muy directos y conectados con casos clínicos para repasar puntos clave sin perderte.',
+                imagen:'../img/quirurgico2.png',
+                doctorOffsetX:-405
+            },
+            {
+                selector:'[data-tour="escalas"]',
+                titulo:'Escalas pronósticas',
+                texto:'En esta sección puedes consultar herramientas de apoyo para tomar decisiones y así acompañar tu razonamiento clínico cuando estés revisando un caso.',
+                imagen:'../img/quirurgico.png'
+            },
+            {
+                selector:'[data-tour="comunidad"]',
+                titulo:'Comparte con la comunidad',
+                texto:'Este espacio es para publicar dudas, recursos o aportes académicos. Aprendamos juntos, evita el lenguaje soez.',
+                imagen:'../img/quirurgico3.png'
+            },
+            {
+                selector:'[data-tour="busqueda"]',
+                titulo:'Búsqueda global',
+                texto:'Usa este campo para encontrar casos, perlas, infografías, perfiles y otros recursos. Escribe una palabra clave y presiona Enter.',
+                imagen:'../img/quirurgico2.png'
+            }
+        ]
+    };
+
+    function obtenerElementoRecorrido(){
+
+        const paso =
+            recorridoIMSSight.pasos[recorridoIMSSight.indice];
+
+        return paso
+            ? document.querySelector(paso.selector)
+            : null;
+
+    }
+
+    function limpiarObjetivoRecorrido(){
+
+        document
+            .querySelectorAll('.imssight-tour-target')
+            .forEach(elemento =>
+                elemento.classList.remove('imssight-tour-target')
+            );
+
+    }
+
+    function posicionarRecorrido(){
+
+        if(!recorridoIMSSight.activo){
+            return;
+        }
+
+        const paso =
+            recorridoIMSSight.pasos[recorridoIMSSight.indice];
+
+        const objetivo =
+            obtenerElementoRecorrido();
+
+        if(!paso || !objetivo){
+            return;
+        }
+
+        const margen =
+            10;
+
+        const rect =
+            objetivo.getBoundingClientRect();
+
+        const spotlight =
+            document.getElementById('imssightTourSpotlight');
+
+        spotlight.style.left =
+            `${Math.max(8, rect.left - margen)}px`;
+
+        spotlight.style.top =
+            `${Math.max(8, rect.top - margen)}px`;
+
+        spotlight.style.width =
+            `${Math.min(window.innerWidth - 16, rect.width + margen * 2)}px`;
+
+        spotlight.style.height =
+            `${Math.min(window.innerHeight - 16, rect.height + margen * 2)}px`;
+
+        const guia =
+            document.getElementById('imssightTourGuide');
+
+        const preferirIzquierda =
+            rect.left > window.innerWidth * .54;
+
+        guia.classList.toggle('is-left', preferirIzquierda);
+
+        const guiaAncho =
+            Math.min(620, window.innerWidth * .92);
+
+        const xDerecha =
+            Math.min(window.innerWidth - guiaAncho - 18, rect.right + 24);
+
+        const xIzquierda =
+            Math.max(18, rect.left - guiaAncho - 24);
+
+        const x =
+            preferirIzquierda ? xIzquierda : Math.max(18, xDerecha);
+
+        const y =
+            Math.min(
+                window.innerHeight - 300,
+                Math.max(18, rect.top - 86)
+            );
+
+        guia.style.left =
+            `${x}px`;
+
+        guia.style.top =
+            `${Math.max(18, y)}px`;
+
+    }
+
+    function renderizarPasoRecorrido(){
+
+        const paso =
+            recorridoIMSSight.pasos[recorridoIMSSight.indice];
+
+        const objetivo =
+            obtenerElementoRecorrido();
+
+        if(!paso || !objetivo){
+            cerrarRecorrido(false);
+            return;
+        }
+
+        limpiarObjetivoRecorrido();
+        objetivo.classList.add('imssight-tour-target');
+        objetivo.scrollIntoView({
+            behavior:'smooth',
+            block:'center',
+            inline:'center'
+        });
+
+        const doctor =
+            document.getElementById('imssightTourDoctor');
+
+        doctor.src =
+            paso.imagen;
+
+        doctor.style.setProperty(
+            '--tour-doctor-x',
+            `${paso.doctorOffsetX || 0}px`
+        );
+
+        document.getElementById('imssightTourTitle').textContent =
+            paso.titulo;
+
+        const textoPaso =
+            document.getElementById('imssightTourText');
+
+        if(paso.textoHtml){
+            textoPaso.innerHTML =
+                paso.textoHtml;
+        } else {
+            textoPaso.textContent =
+                paso.texto;
+        }
+
+        document.getElementById('imssightTourProgress').textContent =
+            `${recorridoIMSSight.indice + 1} de ${recorridoIMSSight.pasos.length}`;
+
+        const esUltimo =
+            recorridoIMSSight.indice === recorridoIMSSight.pasos.length - 1;
+
+        document
+            .getElementById('btnSiguienteRecorrido')
+            .classList.toggle('d-none', esUltimo);
+
+        document
+            .getElementById('btnFinalizarRecorrido')
+            .classList.toggle('d-none', !esUltimo);
+
+        setTimeout(posicionarRecorrido, 260);
+
+    }
+
+    function iniciarRecorrido(manual = false){
+
+        recorridoIMSSight.indice = 0;
+        recorridoIMSSight.activo = true;
+
+        const overlay =
+            document.getElementById('imssightTourOverlay');
+
+        overlay.style.display = 'block';
+        overlay.setAttribute('aria-hidden', 'false');
+
+        document.body.classList.add('imssight-tour-active');
+
+        renderizarPasoRecorrido();
+
+        if(manual){
+            document.getElementById('btnSiguienteRecorrido').focus();
+        }
+
+    }
+
+    async function marcarRecorridoVisto(){
+
+        try{
+
+            await fetch('../php/recorrido.php', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    recorrido_index_visto:1
+                })
+            });
+
+            localStorage.setItem(
+                'imssight_recorrido_index_visto',
+                '1'
+            );
+
+            recorridoIMSSight.visto = true;
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+    function cerrarRecorrido(guardar = false){
+
+        recorridoIMSSight.activo = false;
+
+        const overlay =
+            document.getElementById('imssightTourOverlay');
+
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+
+        document.body.classList.remove('imssight-tour-active');
+        limpiarObjetivoRecorrido();
+
+        if(guardar){
+            marcarRecorridoVisto();
+        }
+
+    }
+
+    function configurarRecorrido(){
+
+        document
+            .getElementById('btnIniciarRecorrido')
+            .addEventListener('click', () => iniciarRecorrido(true));
+
+        document
+            .getElementById('btnSiguienteRecorrido')
+            .addEventListener('click', () => {
+                recorridoIMSSight.indice += 1;
+                renderizarPasoRecorrido();
+            });
+
+        document
+            .getElementById('btnFinalizarRecorrido')
+            .addEventListener('click', () => cerrarRecorrido(true));
+
+        document
+            .getElementById('btnOmitirRecorrido')
+            .addEventListener('click', () => cerrarRecorrido(false));
+
+        window.addEventListener('resize', posicionarRecorrido);
+        window.addEventListener('scroll', posicionarRecorrido, true);
+
+        document.addEventListener('keydown', event => {
+            if(!recorridoIMSSight.activo){
+                return;
+            }
+
+            if(event.key === 'Escape'){
+                cerrarRecorrido(false);
+            }
+        });
+
+    }
+
+    configurarRecorrido();
 
     async function verificarSesion(){
 
@@ -1068,6 +1608,15 @@
         ).innerHTML =
 
             `Bienvenido ${data.usuario.nombre}`;
+
+        recorridoIMSSight.visto =
+            data.usuario.recorrido_index_visto === undefined
+                ? localStorage.getItem('imssight_recorrido_index_visto') === '1'
+                : Number(data.usuario.recorrido_index_visto || 0) === 1;
+
+        if(!recorridoIMSSight.visto){
+            setTimeout(() => iniciarRecorrido(false), 650);
+        }
 
     }
 

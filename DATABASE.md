@@ -339,9 +339,13 @@ CREATE TABLE imssight.usuarios (
     matricula VARCHAR(50) UNIQUE,
     password VARCHAR(255),
     rol VARCHAR(30),
-    activo TINYINT DEFAULT 1
+    activo TINYINT DEFAULT 1,
+    recorrido_index_visto TINYINT DEFAULT 0
 );
 ```
+
+- `recorrido_index_visto = 0`: el recorrido guiado del inicio aparece automáticamente al entrar.
+- `recorrido_index_visto = 1`: el recorrido ya no aparece automáticamente, pero el usuario puede abrirlo con el botón **Iniciar recorrido**.
 
 ## Roles previstos
 

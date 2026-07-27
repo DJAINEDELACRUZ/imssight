@@ -3,6 +3,9 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
+
+asegurarColumnasVisibilidadContenido($pdo);
 
 $idTema = $_GET['id'] ?? 0;
 
@@ -11,10 +14,16 @@ try {
     $sql = "
 
         SELECT
-            id,
-            titulo
-        FROM imssight.casos_clinicos
-        WHERE id_tema = ?
+            c.id,
+            c.titulo
+        FROM imssight.casos_clinicos c
+        INNER JOIN imssight.temas t
+            ON t.id = c.id_tema
+        INNER JOIN imssight.especialidades e
+            ON e.id = t.id_especialidad
+        WHERE c.id_tema = ?
+          AND c.activo = 1
+          AND " . condicionContenidoInterno('e') . "
         LIMIT 1
 
     ";

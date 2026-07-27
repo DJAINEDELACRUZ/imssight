@@ -3,8 +3,11 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
 
 try {
+    asegurarColumnasVisibilidadContenido($pdo);
+
     $incluirInactivas =
         isset($_GET['include_inactive'])
         && $_GET['include_inactive'] === '1';
@@ -12,7 +15,7 @@ try {
     $where =
         $incluirInactivas
             ? ''
-            : 'WHERE e.activo = 1';
+            : 'WHERE ' . condicionContenidoInterno('e');
 
     $sql = "
         SELECT 
@@ -21,6 +24,8 @@ try {
             e.icono,
             e.color,
             e.activo,
+            e.visibilidad,
+            e.slug_publico,
             COUNT(DISTINCT t.id) AS total_temas,
             COUNT(DISTINCT c.id) AS total_casos
         FROM imssight.especialidades e
@@ -30,7 +35,7 @@ try {
             ON c.id_tema = t.id
             AND c.activo = 1
         $where
-        GROUP BY e.id, e.nombre, e.icono, e.color, e.activo
+        GROUP BY e.id, e.nombre, e.icono, e.color, e.activo, e.visibilidad, e.slug_publico
         ORDER BY e.activo DESC, e.nombre ASC
     ";
 

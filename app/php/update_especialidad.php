@@ -3,11 +3,17 @@
 header('Content-Type: application/json');
 
 require 'conn.php';
+require 'content_visibility.php';
+
+asegurarColumnasVisibilidadContenido($pdo);
 
 $data = json_decode(
     file_get_contents("php://input"),
     true
 );
+
+$visibilidad = normalizarVisibilidadContenido($data['visibilidad'] ?? 'interna');
+$slugPublico = normalizarSlugPublico($data['slug_publico'] ?? '');
 
 try {
 
@@ -20,7 +26,9 @@ try {
             nombre = :nombre,
             icono = :icono,
             color = :color,
-            activo = :activo
+            activo = :activo,
+            visibilidad = :visibilidad,
+            slug_publico = :slug_publico
 
         WHERE id = :id
 
@@ -34,7 +42,9 @@ try {
         ':nombre' => $data['nombre'],
         ':icono' => $data['icono'],
         ':color' => $data['color'],
-        ':activo' => $data['activo']
+        ':activo' => $data['activo'],
+        ':visibilidad' => $visibilidad,
+        ':slug_publico' => $slugPublico ?: null
 
     ]);
 

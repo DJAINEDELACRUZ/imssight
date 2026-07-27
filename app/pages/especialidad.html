@@ -217,6 +217,11 @@
       line-height: 1.25;
     }
 
+    .imssight-hub-copy.multiline {
+      line-height: 1.3;
+      white-space: normal;
+    }
+
     .clinical-status {
       border-radius: 10px;
       padding: 1rem;
@@ -240,16 +245,20 @@
 
     .case-workspace {
       display: grid;
-      grid-template-columns: minmax(220px, 290px) 1fr;
-      gap: 1rem;
+      grid-template-columns: minmax(176px, 224px) minmax(0, 1fr);
+      gap: 0;
     }
 
-    .case-stage,
     .case-timeline {
       border: 1px solid #DDDDDD;
       border-radius: 14px;
       background: #FFFFFF;
       box-shadow: 0 10px 24px rgba(64, 64, 65, .07);
+    }
+
+    .case-stage {
+      min-width: 0;
+      background: #FFFFFF;
     }
 
     .case-hero {
@@ -399,23 +408,33 @@
     }
 
     .case-timeline {
-      padding: .75rem;
+      padding: .55rem;
       position: sticky;
       top: 1rem;
       max-height: calc(100vh - 160px);
       overflow: auto;
+      border-radius: 12px 0 0 12px;
+      border-right: 0;
+    }
+
+    .case-timeline .text-sm {
+      font-size: .78rem;
+    }
+
+    .case-timeline .text-xs {
+      font-size: .68rem;
     }
 
     .case-step {
       width: 100%;
       border: 0;
-      border-radius: 12px;
+      border-radius: 10px;
       background: transparent;
       color: #404041;
       display: flex;
       align-items: flex-start;
-      gap: .7rem;
-      padding: .62rem .68rem;
+      gap: .5rem;
+      padding: .5rem .48rem;
       text-align: left;
       transition: background .15s ease, color .15s ease, transform .15s ease;
     }
@@ -432,16 +451,16 @@
     }
 
     .case-step-index {
-      width: 30px;
-      height: 30px;
-      flex: 0 0 30px;
-      border-radius: 10px;
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
+      border-radius: 9px;
       background: rgba(40, 92, 77, .12);
       color: var(--imss-green);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: .75rem;
+      font-size: .68rem;
       font-weight: 800;
     }
 
@@ -450,30 +469,34 @@
       color: #FFFFFF;
     }
 
-    .case-stage {
-      overflow: hidden;
-    }
-
     .case-step-title {
       display: block;
-      font-size: .86rem;
-      line-height: 1.18;
+      font-size: .78rem;
+      line-height: 1.13;
       font-weight: 600;
     }
 
     .case-stage-header {
-      padding: 1.1rem 1.25rem;
+      padding: .95rem 1.1rem .85rem;
       border-bottom: 1px solid #DDDDDD;
+      border-top: 1px solid #DDDDDD;
+      border-right: 1px solid #DDDDDD;
+      border-radius: 0 12px 0 0;
     }
 
     .case-scene-body {
-      padding: 1.25rem;
+      padding: 0;
       color: #404041;
       line-height: 1.7;
+      border-right: 1px solid #DDDDDD;
     }
 
-    .case-scene-body img,
-    .case-scene-body video,
+    .case-scene-body > section {
+      margin: 0;
+    }
+
+    .case-media-asset,
+    .case-media-video,
     .case-media-frame {
       max-width: 100%;
       border-radius: 14px;
@@ -493,6 +516,9 @@
       gap: .75rem;
       padding: 1rem 1.25rem;
       border-top: 1px solid #DDDDDD;
+      border-right: 1px solid #DDDDDD;
+      border-bottom: 1px solid #DDDDDD;
+      border-radius: 0 0 12px 0;
       background: #FAFAFA;
     }
 
@@ -538,6 +564,22 @@
       .case-timeline {
         position: static;
         max-height: none;
+        border-right: 1px solid #DDDDDD;
+        border-radius: 12px 12px 0 0;
+      }
+
+      .case-stage-header {
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0;
+      }
+
+      .case-scene-body {
+        border-left: 1px solid #DDDDDD;
+      }
+
+      .case-actions {
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0 0 12px 12px;
       }
     }
   </style>
@@ -1177,6 +1219,12 @@ cargarEspecialidades();
           .replace(/'/g, '&#039;');
   }
 
+  function formatearTextoMultilinea(valor, respaldo = '') {
+      return escapeHtml(valor || respaldo)
+          .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+          .replace(/\r\n|\r|\n/g, '<br>');
+  }
+
   function textoMayusculas(valor) {
       return String(valor ?? '').toUpperCase();
   }
@@ -1546,8 +1594,8 @@ cargarEspecialidades();
                           <span class="imssight-hub-title">
                               ${escapeHtml(tema.titulo)}
                           </span>
-                          <span class="imssight-hub-copy">
-                              ${escapeHtml(tema.descripcion || 'Unidad de Educación e Investigación')}
+                          <span class="imssight-hub-copy multiline">
+                              ${formatearTextoMultilinea(tema.descripcion, 'Unidad de Educación e Investigación')}
                           </span>
                       </span>
                   </a>
@@ -1649,8 +1697,8 @@ cargarEspecialidades();
                                   <span class="imssight-hub-title">
                                       ${escapeHtml(caso.titulo)}
                                   </span>
-                                  <span class="imssight-hub-copy">
-                                      ${escapeHtml(caso.descripcion || 'Caso clínico interactivo')}
+                                  <span class="imssight-hub-copy multiline">
+                                      ${formatearTextoMultilinea(caso.descripcion, 'Caso clínico interactivo')}
                                   </span>
                                   ${renderizarProgreso(caso.progreso)}
                               </span>
@@ -1700,7 +1748,7 @@ cargarEspecialidades();
       if (recurso.endsWith('.mp4') || recurso.endsWith('.webm') || recurso.endsWith('.ogg')) {
           return `
               <div class="mt-4 text-center">
-                  <video class="w-100" style="max-height:520px;" controls>
+                  <video class="case-media-video w-100" style="max-height:520px;" controls>
                       <source src="${src}">
                   </video>
               </div>
@@ -1734,7 +1782,7 @@ cargarEspecialidades();
       ) {
           return `
               <div class="mt-4 text-center">
-                  <img src="${src}" alt="Recurso de la escena">
+                  <img class="case-media-asset" src="${src}" alt="Recurso de la escena">
               </div>
           `;
       }

@@ -3,6 +3,9 @@
 header('Content-Type: application/json; charset=utf-8');
 
 require 'conn.php';
+require 'content_visibility.php';
+
+asegurarColumnasVisibilidadContenido($pdo);
 
 function tieneIndiceBusqueda($pdo){
 
@@ -116,7 +119,10 @@ function transformarUrlCasoAntigua($pdo, $url){
                 FROM imssight.casos_clinicos c
                 INNER JOIN imssight.temas t
                     ON t.id = c.id_tema
+                INNER JOIN imssight.especialidades e
+                    ON e.id = t.id_especialidad
                 WHERE c.id = ?
+                  AND " . condicionContenidoInterno('e') . "
                 LIMIT 1
             ");
 
@@ -164,19 +170,27 @@ if($booleanQuery !== '' && tieneIndiceBusqueda($pdo)){
 
     $sql = "
 
-    SELECT *,
-        MATCH(titulo, contenido, descripcion)
+    SELECT si.*,
+        MATCH(si.titulo, si.contenido, si.descripcion)
         AGAINST (? IN BOOLEAN MODE) AS relevancia
 
-    FROM search_index
+    FROM search_index si
+    LEFT JOIN imssight.especialidades e
+        ON e.id = si.id_especialidad
 
     WHERE
-        MATCH(titulo, contenido, descripcion)
+        (
+            si.id_especialidad IS NULL
+            OR " . condicionContenidoInterno('e') . "
+        )
+        AND (
+        MATCH(si.titulo, si.contenido, si.descripcion)
         AGAINST (? IN BOOLEAN MODE)
-        OR titulo LIKE ?
-        OR descripcion LIKE ?
+        OR si.titulo LIKE ?
+        OR si.descripcion LIKE ?
+        )
 
-    ORDER BY relevancia DESC, id DESC
+    ORDER BY relevancia DESC, si.id DESC
 
     LIMIT 50
 
@@ -196,17 +210,25 @@ else{
 
     $sql = "
 
-SELECT *
+SELECT si.*
 
-FROM search_index
+FROM search_index si
+LEFT JOIN imssight.especialidades e
+    ON e.id = si.id_especialidad
 
 WHERE
 
-    titulo LIKE ?
+    (
+        si.id_especialidad IS NULL
+        OR " . condicionContenidoInterno('e') . "
+    )
+    AND (
+    si.titulo LIKE ?
 
-    OR contenido LIKE ?
+    OR si.contenido LIKE ?
 
-    OR descripcion LIKE ?
+    OR si.descripcion LIKE ?
+    )
 
 LIMIT 50
 
@@ -336,6 +358,7 @@ $stmtCasos =
         INNER JOIN imssight.especialidades e
             ON e.id = t.id_especialidad
         WHERE c.activo = 1
+            AND " . condicionContenidoInterno('e') . "
             AND (
                 c.titulo LIKE ?
                 OR c.descripcion LIKE ?
@@ -389,6 +412,7 @@ $stmtPerlas =
         INNER JOIN imssight.especialidades e
             ON e.id = t.id_especialidad
         WHERE c.activo = 1
+            AND " . condicionContenidoInterno('e') . "
             AND (
                 p.seccion LIKE ?
                 OR p.contenido LIKE ?

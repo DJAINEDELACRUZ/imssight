@@ -26,10 +26,12 @@ if(
 
 require 'conn.php';
 require 'perfil_utils.php';
+require 'content_visibility.php';
 
 $pdo->exec("SET NAMES utf8mb4");
 
 asegurarColumnasPerfilPublico($pdo);
+asegurarColumnasVisibilidadContenido($pdo);
 
 function asegurarIndiceBusqueda($pdo){
 
@@ -75,9 +77,10 @@ $pdo->exec("TRUNCATE TABLE search_index");
 $sql = "
 
 SELECT
-    id,
-    nombre
-FROM especialidades
+    e.id,
+    e.nombre
+FROM imssight.especialidades e
+WHERE " . condicionContenidoInterno('e') . "
 
 ";
 
@@ -132,11 +135,14 @@ while($row = $stmt->fetch()){
 $sql = "
 
 SELECT
-    id,
-    titulo,
-    descripcion,
-    id_especialidad
-FROM temas
+    t.id,
+    t.titulo,
+    t.descripcion,
+    t.id_especialidad
+FROM imssight.temas t
+INNER JOIN imssight.especialidades e
+ON e.id = t.id_especialidad
+WHERE " . condicionContenidoInterno('e') . "
 
 ";
 
@@ -206,6 +212,12 @@ FROM casos_clinicos c
 
 LEFT JOIN temas t
 ON t.id = c.id_tema
+
+INNER JOIN imssight.especialidades e
+ON e.id = t.id_especialidad
+
+WHERE c.activo = 1
+AND " . condicionContenidoInterno('e') . "
 
 ";
 
@@ -285,7 +297,11 @@ ON c.id = p.id_caso
 INNER JOIN imssight.temas t
 ON t.id = c.id_tema
 
+INNER JOIN imssight.especialidades e
+ON e.id = t.id_especialidad
+
 WHERE c.activo = 1
+AND " . condicionContenidoInterno('e') . "
 
 ";
 
@@ -370,6 +386,12 @@ ON c.id = e.id_caso
 
 LEFT JOIN temas t
 ON t.id = c.id_tema
+
+INNER JOIN imssight.especialidades esp
+ON esp.id = t.id_especialidad
+
+WHERE c.activo = 1
+AND " . condicionContenidoInterno('esp') . "
 
 ";
 
