@@ -328,6 +328,87 @@ CREATE TABLE imssight.examen_resultados (
 
 ---
 
+# Resultados y Constancias PRONAM Público
+
+Para evaluaciones públicas PRONAM sin depender del login interno de IMSSight.
+
+```sql
+CREATE TABLE imssight.pronam_examen_resultados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_examen INT NOT NULL,
+    intento_token VARCHAR(96) NOT NULL UNIQUE,
+    nombre VARCHAR(180) NULL,
+    matricula VARCHAR(60) NULL,
+    categoria VARCHAR(150) NULL,
+    calificacion DECIMAL(5,2) NOT NULL,
+    respuestas_correctas INT NOT NULL,
+    total_preguntas INT NOT NULL,
+    respuestas_json JSON NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_examen)
+    REFERENCES imssight.examenes(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE imssight.pronam_examen_respuestas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_resultado INT NOT NULL,
+    id_examen INT NOT NULL,
+    id_pregunta INT NOT NULL,
+    orden_pregunta INT NOT NULL,
+    pregunta TEXT NOT NULL,
+    respuesta_usuario CHAR(1) NULL,
+    texto_respuesta_usuario TEXT NULL,
+    respuesta_correcta CHAR(1) NOT NULL,
+    texto_respuesta_correcta TEXT NULL,
+    es_correcta TINYINT NOT NULL DEFAULT 0,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_resultado)
+    REFERENCES imssight.pronam_examen_resultados(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_examen)
+    REFERENCES imssight.examenes(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_pregunta)
+    REFERENCES imssight.examen_preguntas(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE imssight.pronam_constancias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_resultado INT NOT NULL,
+    id_examen INT NOT NULL,
+    folio VARCHAR(96) NOT NULL UNIQUE,
+    nombre VARCHAR(180) NOT NULL,
+    matricula VARCHAR(60) NOT NULL,
+    categoria VARCHAR(150) NOT NULL,
+    calificacion DECIMAL(5,2) NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_resultado)
+    REFERENCES imssight.pronam_examen_resultados(id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (id_examen)
+    REFERENCES imssight.examenes(id)
+    ON DELETE CASCADE
+);
+```
+
+- Las tablas se crean automáticamente desde `app/php/pronam_examen_publico.php`.
+- La página pública es `app/pronam_examen.php`.
+- Las preguntas se muestran en bloques de 10; las respuestas correctas se calculan solo en servidor.
+- `pronam_examen_resultados` guarda el resumen del intento, la calificación y los datos capturados para reporte.
+- `pronam_examen_respuestas` guarda una fila por pregunta: texto de la pregunta, respuesta elegida, texto elegido, respuesta correcta, texto correcto y si fue correcta.
+- `pronam_constancias` guarda el folio formal de emisión de constancia.
+- La constancia se desbloquea con calificación mínima de `8.0` y solicita nombre, matrícula y categoría.
+
+---
+
 # Usuarios
 
 Para crear usuarios del sistema.

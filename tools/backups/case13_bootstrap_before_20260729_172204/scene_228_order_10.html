@@ -1,0 +1,134 @@
+<section class="pronam-case13-course" data-pc13-root>
+  <style>
+    .pronam-case13-course { --pc13-ink:#10312B; --pc13-green:#235B4E; --pc13-wine:#9F2241; --pc13-red:#9F2241; --pc13-cream:#F7F2E8; font-family:"Noto Sans", Arial, sans-serif; color:var(--pc13-ink); }
+    .pronam-case13-course * { box-sizing:border-box; }
+    .pc13-stage { position:relative; min-height:500px; overflow:hidden; border:1px solid #e7ddd1; border-radius:16px; background:#fff; scroll-margin-top:calc(var(--topbar-height, 86px) + 12px); }
+    .pc13-slide { display:none; min-height:500px; position:relative; padding:34px 48px 70px; isolation:isolate; }
+    .pc13-slide.is-active { display:block; }
+    .pc13-line { position:absolute; left:56px; width:calc(100% - 112px); height:4px; background:var(--pc13-wine); z-index:2; }
+    .pc13-line-top { top:24px; }
+    .pc13-line-bottom { bottom:50px; }
+    .pc13-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,320px); gap:24px; align-items:center; min-height:310px; padding-top:14px; padding-bottom:26px; position:relative; }
+    .pc13-copy { min-width:0; max-width:100%; padding-right:0; align-self:center; position:relative; z-index:3; }
+    .pc13-kicker { display:block; margin:30px 0 12px; color:var(--pc13-wine); font-size:13px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    .pc13-copy h2 { margin:12px 0 14px; max-width:none; color:var(--pc13-ink); font-size:clamp(30px,3.2vw,44px); line-height:1; font-weight:900; letter-spacing:0; }
+    .pc13-copy h3, .pc13-question, .pc13-static-pearl, .pc13-copy p, .pc13-list, .pc13-row { max-width:none; } .pc13-copy h3 { margin:10px 0 6px; color:var(--pc13-green); font-size:clamp(20px,1.7vw,24px); line-height:1.1; font-weight:900; }
+    .pc13-copy p, .pc13-list { font-size:clamp(15px,1.08vw,17px); line-height:1.24; }
+    .pc13-copy p { margin:0 0 9px; }
+    .pc13-list { margin:0 0 12px; padding-left:24px; }
+    .pc13-list li { margin:2px 0; }
+    .pc13-row { display:grid; grid-template-columns:auto 1fr; gap:14px; margin:4px 0; padding:0; border:0; border-radius:0; background:transparent; font-size:clamp(15px,1.12vw,17px); }
+    .pc13-row span:first-child { font-weight:900; color:var(--pc13-green); min-width:28px; }
+    .pc13-doctor { position:relative; right:auto; bottom:auto; width:100%; max-width:320px; max-height:none; justify-self:end; align-self:end; margin-bottom:-18px; object-fit:contain; z-index:4; filter:drop-shadow(0 20px 28px rgba(16,49,43,.18)); }
+    .pc13-actions { position:absolute; left:0; right:0; bottom:10px; display:flex; align-items:center; justify-content:center; gap:18px; z-index:6; pointer-events:none; }
+    .pc13-btn { min-width:134px; border:0; border-radius:12px; padding:12px 22px; background:var(--pc13-green); color:#fff; font-size:19px; font-weight:900; cursor:pointer; pointer-events:auto; box-shadow:0 8px 18px rgba(16,49,43,.16); }
+    .pc13-btn[disabled] { opacity:.38; cursor:not-allowed; }
+    .pc13-count { position:absolute; right:54px; bottom:20px; color:#6F7271; font-size:20px; font-weight:900; z-index:6; }
+    .pc13-options-grid { display:grid; gap:10px; max-width:820px; margin-top:14px; }
+    .pc13-option-btn { display:flex; gap:16px; align-items:flex-start; border:1px solid #10312B; border-radius:10px; padding:11px 13px; background:#10312B; color:#fff; text-align:left; font-size:clamp(15px,1.15vw,18px); line-height:1.25; cursor:pointer; box-shadow:0 8px 18px rgba(16,49,43,.12); }
+    .pc13-option-btn span { flex:0 0 auto; display:grid; margin-right:2px; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,.14); color:#fff; font-weight:900; }
+    .pc13-option-btn.is-correct { border-color:var(--pc13-green); background:var(--pc13-green); color:#fff; }
+    .pc13-option-btn.is-incorrect { border-color:var(--pc13-red); background:var(--pc13-red); color:#fff; }
+    .pc13-pearl-box, .pc13-static-pearl { margin-top:14px; padding:14px 16px; border-left:6px solid var(--pc13-green); border-radius:10px; background:#f2f7f4; font-size:clamp(14px,1.05vw,16px); line-height:1.35; }
+    .pc13-pearl-box strong, .pc13-static-pearl strong { display:block; margin-bottom:5px; color:var(--pc13-green); font-weight:900; }
+    .pc13-modal { position:absolute; inset:0; display:none; place-items:center; padding:24px; background:rgba(16,49,43,.42); z-index:10; }
+    .pc13-modal.is-open { display:grid; }
+    .pc13-modal-card { max-width:760px; width:100%; border-radius:16px; padding:24px; background:#fff; box-shadow:0 24px 60px rgba(16,49,43,.22); border-top:10px solid var(--pc13-green); }
+    .pc13-modal-card.is-incorrect { border-top-color:var(--pc13-red); }
+    .pc13-modal-card h3 { margin:0 0 10px; color:var(--pc13-green); font-size:28px; font-weight:900; }
+    .pc13-modal-card.is-incorrect h3 { color:var(--pc13-red); }
+    .pc13-modal-card p { margin:0 0 16px; font-size:17px; line-height:1.45; }
+    @media (max-width:900px) {
+      .pc13-stage, .pc13-slide { min-height:720px; }
+      .pc13-slide { padding:32px 24px 112px; }
+      .pc13-line { left:24px; width:calc(100% - 48px); }
+      .pc13-body { display:block; }
+      .pc13-copy h2 { font-size:32px; }
+      .pc13-doctor { right:8px; bottom:58px; width:130px; opacity:.9; }
+      .pc13-count { right:24px; }
+    }
+  </style>
+  <div class="pc13-stage" aria-label="Capítulo 10 Evaluación Final, Retroalimentación y Cierre del Caso Clínico">
+    <article class="pc13-slide is-active" data-pc13-slide="0">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Objetivos de la evaluación</h2>
+      <h3>Objetivos de la evaluación</h3>
+<p>Al finalizar esta evaluación el participante demostrará que es capaz de:</p>
+<ul class="pc13-list"><li>Identificar pacientes con síndrome metabólico y diabetes mellitus tipo 2.</li><li>Aplicar los criterios diagnósticos vigentes.</li><li>Seleccionar estudios complementarios apropiados.</li><li>Estratificar el riesgo cardiovascular, renal y hepático.</li><li>Elegir el tratamiento inicial basado en comorbilidades.</li><li>Individualizar metas terapéuticas.</li><li>Identificar y prevenir complicaciones crónicas.</li><li>Elaborar un plan de seguimiento integral.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article>
+    <div class="pc13-actions">
+      <button class="pc13-btn" type="button" data-pc13-prev disabled>Anterior</button>
+      <button class="pc13-btn" type="button" data-pc13-next>Continuar</button>
+    </div>
+    <div class="pc13-count" data-pc13-count>1 / 1</div>
+    <div class="pc13-modal" data-pc13-modal>
+      <div class="pc13-modal-card" data-pc13-modal-card>
+        <h3 data-pc13-modal-title>Retroalimentación</h3>
+        <p data-pc13-modal-body></p>
+        <button class="pc13-btn" type="button" data-pc13-modal-close>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.currentScript.closest('[data-pc13-root]');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+      var prev = root.querySelector('[data-pc13-prev]');
+      var next = root.querySelector('[data-pc13-next]');
+      var count = root.querySelector('[data-pc13-count]');
+      var modal = root.querySelector('[data-pc13-modal]');
+      var modalCard = root.querySelector('[data-pc13-modal-card]');
+      var modalTitle = root.querySelector('[data-pc13-modal-title]');
+      var modalBody = root.querySelector('[data-pc13-modal-body]');
+      var modalClose = root.querySelector('[data-pc13-modal-close]');
+      var current = 0;
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+        if (prev) prev.disabled = current === 0;
+        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+      }
+      function finishScene() {
+        var scene = root.closest('[data-course-section]');
+        var nextScene = scene ? scene.nextElementSibling : null;
+        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      root.addEventListener('click', function(event) {
+        var answer = event.target.closest('[data-pc13-answer]');
+        if (!answer || !root.contains(answer)) return;
+        var correct = answer.getAttribute('data-pc13-answer') === '1';
+        var slide = answer.closest('[data-pc13-slide]');
+        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+          button.classList.toggle('is-incorrect', button === answer && !correct);
+        });
+        var pearl = answer.getAttribute('data-pc13-pearl') || '';
+        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+        if (pearl && pearlBox) {
+          pearlBox.hidden = false;
+          pearlBox.innerHTML = '<strong>' + pearlTitle + '</strong>' + pearl;
+        }
+        if (modal && modalCard && modalTitle && modalBody) {
+          modal.classList.add('is-open');
+          modalCard.classList.toggle('is-incorrect', !correct);
+          modalTitle.textContent = correct ? 'Retroalimentación' : 'Retroalimentación';
+          modalBody.textContent = answer.getAttribute('data-pc13-feedback') || '';
+        }
+      });
+      if (modalClose) modalClose.addEventListener('click', function() { modal.classList.remove('is-open'); });
+      if (prev) prev.addEventListener('click', function() { show(current - 1); });
+      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+      show(0);
+    })();
+  </script>
+</section>

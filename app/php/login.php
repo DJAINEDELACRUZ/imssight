@@ -14,11 +14,51 @@ $data =
         true
     );
 
+$data =
+    is_array($data)
+        ? $data
+        : [];
+
 $matricula =
-    $data['matricula'];
+    trim((string)($data['matricula'] ?? ''));
 
 $password =
-    $data['password'];
+    (string)($data['password'] ?? '');
+
+function contieneIntentoSqlLogin(string $valor): bool
+{
+    $patrones = [
+        "/(?:'|\"|`)\\s*(?:or|and)\\s*(?:'|\"|`)?[a-z0-9_]+(?:'|\"|`)?\\s*=\\s*(?:'|\"|`)?[a-z0-9_]+/i",
+        "/\\b(?:or|and)\\b\\s+\\d+\\s*=\\s*\\d+/i",
+        "/\\b(?:or|and)\\b\\s+(?:true|false|null)\\b/i",
+        "/(?:'|\"|`)\\s*=\\s*(?:'|\"|`)/",
+        "/\\bunion\\b\\s+(?:all\\s+)?\\bselect\\b/i",
+        "/;\\s*(?:select|insert|update|delete|drop|alter|create|truncate)\\b/i",
+        "/(?:--|#|\\/\\*)/",
+        "/\\b(?:sleep|benchmark|load_file|information_schema)\\b/i"
+    ];
+
+    foreach($patrones as $patron){
+        if(preg_match($patron, $valor)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+if(
+    contieneIntentoSqlLogin($matricula) ||
+    contieneIntentoSqlLogin($password)
+){
+    echo json_encode([
+        'success' => false,
+        'security_alert' => true,
+        'message' => 'Buen intento jajajajajaa... no nací ayer.'
+    ]);
+
+    exit;
+}
 
 $sql = "
 

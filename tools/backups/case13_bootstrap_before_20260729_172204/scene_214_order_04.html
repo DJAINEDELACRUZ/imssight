@@ -1,0 +1,307 @@
+<section class="pronam-case13-course" data-pc13-root>
+  <style>
+    .pronam-case13-course { --pc13-ink:#10312B; --pc13-green:#235B4E; --pc13-wine:#9F2241; --pc13-red:#9F2241; --pc13-cream:#F7F2E8; font-family:"Noto Sans", Arial, sans-serif; color:var(--pc13-ink); }
+    .pronam-case13-course * { box-sizing:border-box; }
+    .pc13-stage { position:relative; min-height:500px; overflow:hidden; border:1px solid #e7ddd1; border-radius:16px; background:#fff; scroll-margin-top:calc(var(--topbar-height, 86px) + 12px); }
+    .pc13-slide { display:none; min-height:500px; position:relative; padding:34px 48px 70px; isolation:isolate; }
+    .pc13-slide.is-active { display:block; }
+    .pc13-line { position:absolute; left:56px; width:calc(100% - 112px); height:4px; background:var(--pc13-wine); z-index:2; }
+    .pc13-line-top { top:24px; }
+    .pc13-line-bottom { bottom:50px; }
+    .pc13-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,320px); gap:24px; align-items:center; min-height:310px; padding-top:14px; padding-bottom:26px; position:relative; }
+    .pc13-copy { min-width:0; max-width:100%; padding-right:0; align-self:center; position:relative; z-index:3; }
+    .pc13-kicker { display:block; margin:30px 0 12px; color:var(--pc13-wine); font-size:13px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    .pc13-copy h2 { margin:12px 0 14px; max-width:none; color:var(--pc13-ink); font-size:clamp(30px,3.2vw,44px); line-height:1; font-weight:900; letter-spacing:0; }
+    .pc13-copy h3, .pc13-question, .pc13-static-pearl, .pc13-copy p, .pc13-list, .pc13-row { max-width:none; } .pc13-copy h3 { margin:10px 0 6px; color:var(--pc13-green); font-size:clamp(20px,1.7vw,24px); line-height:1.1; font-weight:900; }
+    .pc13-copy p, .pc13-list { font-size:clamp(15px,1.08vw,17px); line-height:1.24; }
+    .pc13-copy p { margin:0 0 9px; }
+    .pc13-list { margin:0 0 12px; padding-left:24px; }
+    .pc13-list li { margin:2px 0; }
+    .pc13-row { display:grid; grid-template-columns:auto 1fr; gap:14px; margin:4px 0; padding:0; border:0; border-radius:0; background:transparent; font-size:clamp(15px,1.12vw,17px); }
+    .pc13-row span:first-child { font-weight:900; color:var(--pc13-green); min-width:28px; }
+    .pc13-doctor { position:relative; right:auto; bottom:auto; width:100%; max-width:320px; max-height:none; justify-self:end; align-self:end; margin-bottom:-18px; object-fit:contain; z-index:4; filter:drop-shadow(0 20px 28px rgba(16,49,43,.18)); }
+    .pc13-actions { position:absolute; left:0; right:0; bottom:10px; display:flex; align-items:center; justify-content:center; gap:18px; z-index:6; pointer-events:none; }
+    .pc13-btn { min-width:134px; border:0; border-radius:12px; padding:12px 22px; background:var(--pc13-green); color:#fff; font-size:19px; font-weight:900; cursor:pointer; pointer-events:auto; box-shadow:0 8px 18px rgba(16,49,43,.16); }
+    .pc13-btn[disabled] { opacity:.38; cursor:not-allowed; }
+    .pc13-count { position:absolute; right:54px; bottom:20px; color:#6F7271; font-size:20px; font-weight:900; z-index:6; }
+    .pc13-options-grid { display:grid; gap:10px; max-width:820px; margin-top:14px; }
+    .pc13-option-btn { display:flex; gap:16px; align-items:flex-start; border:1px solid #10312B; border-radius:10px; padding:11px 13px; background:#10312B; color:#fff; text-align:left; font-size:clamp(15px,1.15vw,18px); line-height:1.25; cursor:pointer; box-shadow:0 8px 18px rgba(16,49,43,.12); }
+    .pc13-option-btn span { flex:0 0 auto; display:grid; margin-right:2px; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,.14); color:#fff; font-weight:900; }
+    .pc13-option-btn.is-correct { border-color:var(--pc13-green); background:var(--pc13-green); color:#fff; }
+    .pc13-option-btn.is-incorrect { border-color:var(--pc13-red); background:var(--pc13-red); color:#fff; }
+    .pc13-pearl-box, .pc13-static-pearl { margin-top:14px; padding:14px 16px; border-left:6px solid var(--pc13-green); border-radius:10px; background:#f2f7f4; font-size:clamp(14px,1.05vw,16px); line-height:1.35; }
+    .pc13-pearl-box strong, .pc13-static-pearl strong { display:block; margin-bottom:5px; color:var(--pc13-green); font-weight:900; }
+    .pc13-modal { position:absolute; inset:0; display:none; place-items:center; padding:24px; background:rgba(16,49,43,.42); z-index:10; }
+    .pc13-modal.is-open { display:grid; }
+    .pc13-modal-card { max-width:760px; width:100%; border-radius:16px; padding:24px; background:#fff; box-shadow:0 24px 60px rgba(16,49,43,.22); border-top:10px solid var(--pc13-green); }
+    .pc13-modal-card.is-incorrect { border-top-color:var(--pc13-red); }
+    .pc13-modal-card h3 { margin:0 0 10px; color:var(--pc13-green); font-size:28px; font-weight:900; }
+    .pc13-modal-card.is-incorrect h3 { color:var(--pc13-red); }
+    .pc13-modal-card p { margin:0 0 16px; font-size:17px; line-height:1.45; }
+    @media (max-width:900px) {
+      .pc13-stage, .pc13-slide { min-height:720px; }
+      .pc13-slide { padding:32px 24px 112px; }
+      .pc13-line { left:24px; width:calc(100% - 48px); }
+      .pc13-body { display:block; }
+      .pc13-copy h2 { font-size:32px; }
+      .pc13-doctor { right:8px; bottom:58px; width:130px; opacity:.9; }
+      .pc13-count { right:24px; }
+    }
+  </style>
+  <div class="pc13-stage" aria-label="Capítulo 4 Estratificación integral del riesgo y selección del tratamiento inicial">
+    <article class="pc13-slide is-active" data-pc13-slide="0">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Competencias del capítulo</h2>
+      <h3>Competencias del capítulo</h3>
+<p>Al finalizar este módulo, el participante será capaz de:</p>
+<ul class="pc13-list"><li>Estratificar el riesgo cardiovascular, renal y hepático del paciente con diabetes mellitus tipo 2.</li><li>Individualizar las metas terapéuticas.</li><li>Seleccionar el tratamiento farmacológico inicial basado en comorbilidades y no únicamente en la HbA1c.</li><li>Integrar medidas no farmacológicas desde el primer contacto.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="1">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Evolución del caso</h2>
+      <h3>Evolución del caso</h3>
+<p>Con el diagnóstico confirmado de diabetes mellitus tipo 2, el médico explica al paciente la naturaleza crónica de la enfermedad y la importancia de realizar una valoración integral antes de iniciar el tratamiento.</p>
+<p>Se enfatiza que el objetivo no es únicamente disminuir la glucosa, sino reducir el riesgo de infarto, enfermedad renal, insuficiencia cardiaca y otras complicaciones.</p>
+<p>Primera decisión clínica</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="2">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 8</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál es el siguiente paso más apropiado?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Las guías actuales (ADA, EASD, CENETEC y PRONAM) recomiendan que la elección del tratamiento se base en el perfil clínico integral del paciente, considerando enfermedad cardiovascular aterosclerótica, insuficiencia cardiaca, enfermedad renal crónica, obesidad y riesgo de hipoglucemia, además del grado de hiperglucemia. Estratificación del riesgo cardiovascular El médico revisa los factores presentes: Factor	Presente Edad &gt;45 años	✅ Sexo masculino	✅ Hipertensión arterial	✅ Obesidad abdominal	✅ LDL elevado	✅ HDL bajo	✅ Triglicéridos elevados	✅ Antecedente familiar de IAM prematuro	✅ Diabetes mellitus tipo 2	✅ Interpretación El paciente presenta múltiples factores de riesgo cardiovascular, lo que lo coloca en una categoría de alto riesgo y obliga a una intervención intensiva sobre los factores modificables. Estratificación renal Parámetro	Resultado Creatinina	0.93 mg/dL eTFG	101 mL/min/1.73 m² Relación albúmina/creatinina	18 mg/g Interpretación No hay evidencia de enfermedad renal crónica al momento del diagnóstico. Sin embargo, el paciente requiere vigilancia periódica debido al riesgo inherente de progresión. Estratificación hepática Los hallazgos de obesidad, ALT y GGT elevadas sugieren MASLD." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Iniciar metformina y citar en seis meses.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Las guías actuales (ADA, EASD, CENETEC y PRONAM) recomiendan que la elección del tratamiento se base en el perfil clínico integral del paciente, considerando enfermedad cardiovascular aterosclerótica, insuficiencia cardiaca, enfermedad renal crónica, obesidad y riesgo de hipoglucemia, además del grado de hiperglucemia. Estratificación del riesgo cardiovascular El médico revisa los factores presentes: Factor	Presente Edad &gt;45 años	✅ Sexo masculino	✅ Hipertensión arterial	✅ Obesidad abdominal	✅ LDL elevado	✅ HDL bajo	✅ Triglicéridos elevados	✅ Antecedente familiar de IAM prematuro	✅ Diabetes mellitus tipo 2	✅ Interpretación El paciente presenta múltiples factores de riesgo cardiovascular, lo que lo coloca en una categoría de alto riesgo y obliga a una intervención intensiva sobre los factores modificables. Estratificación renal Parámetro	Resultado Creatinina	0.93 mg/dL eTFG	101 mL/min/1.73 m² Relación albúmina/creatinina	18 mg/g Interpretación No hay evidencia de enfermedad renal crónica al momento del diagnóstico. Sin embargo, el paciente requiere vigilancia periódica debido al riesgo inherente de progresión. Estratificación hepática Los hallazgos de obesidad, ALT y GGT elevadas sugieren MASLD." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>Iniciar insulina basal de forma inmediata.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Las guías actuales (ADA, EASD, CENETEC y PRONAM) recomiendan que la elección del tratamiento se base en el perfil clínico integral del paciente, considerando enfermedad cardiovascular aterosclerótica, insuficiencia cardiaca, enfermedad renal crónica, obesidad y riesgo de hipoglucemia, además del grado de hiperglucemia. Estratificación del riesgo cardiovascular El médico revisa los factores presentes: Factor	Presente Edad &gt;45 años	✅ Sexo masculino	✅ Hipertensión arterial	✅ Obesidad abdominal	✅ LDL elevado	✅ HDL bajo	✅ Triglicéridos elevados	✅ Antecedente familiar de IAM prematuro	✅ Diabetes mellitus tipo 2	✅ Interpretación El paciente presenta múltiples factores de riesgo cardiovascular, lo que lo coloca en una categoría de alto riesgo y obliga a una intervención intensiva sobre los factores modificables. Estratificación renal Parámetro	Resultado Creatinina	0.93 mg/dL eTFG	101 mL/min/1.73 m² Relación albúmina/creatinina	18 mg/g Interpretación No hay evidencia de enfermedad renal crónica al momento del diagnóstico. Sin embargo, el paciente requiere vigilancia periódica debido al riesgo inherente de progresión. Estratificación hepática Los hallazgos de obesidad, ALT y GGT elevadas sugieren MASLD." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Estratificar el riesgo cardiovascular, renal y hepático antes de seleccionar el tratamiento.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Las guías actuales (ADA, EASD, CENETEC y PRONAM) recomiendan que la elección del tratamiento se base en el perfil clínico integral del paciente, considerando enfermedad cardiovascular aterosclerótica, insuficiencia cardiaca, enfermedad renal crónica, obesidad y riesgo de hipoglucemia, además del grado de hiperglucemia. Estratificación del riesgo cardiovascular El médico revisa los factores presentes: Factor	Presente Edad &gt;45 años	✅ Sexo masculino	✅ Hipertensión arterial	✅ Obesidad abdominal	✅ LDL elevado	✅ HDL bajo	✅ Triglicéridos elevados	✅ Antecedente familiar de IAM prematuro	✅ Diabetes mellitus tipo 2	✅ Interpretación El paciente presenta múltiples factores de riesgo cardiovascular, lo que lo coloca en una categoría de alto riesgo y obliga a una intervención intensiva sobre los factores modificables. Estratificación renal Parámetro	Resultado Creatinina	0.93 mg/dL eTFG	101 mL/min/1.73 m² Relación albúmina/creatinina	18 mg/g Interpretación No hay evidencia de enfermedad renal crónica al momento del diagnóstico. Sin embargo, el paciente requiere vigilancia periódica debido al riesgo inherente de progresión. Estratificación hepática Los hallazgos de obesidad, ALT y GGT elevadas sugieren MASLD." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Solicitar una nueva HbA1c en un mes.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="3">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 9</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál sería el estudio de imagen inicial más apropiado?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El ultrasonido es el estudio inicial recomendado para documentar esteatosis hepática en un paciente con sospecha clínica de enfermedad hepática asociada a disfunción metabólica. Si se identifican datos sugestivos de fibrosis avanzada o existen factores de alto riesgo, se recomienda complementar con índices no invasivos (como FIB-4) y considerar elastografía o referencia a segundo nivel. Estratificación del síndrome metabólico Criterios armonizados (IDF/AHA/NHLBI) Criterio	Resultado Circunferencia abdominal aumentada	✅ Triglicéridos ≥150 mg/dL	✅ HDL bajo	✅ Presión arterial ≥130/85 mmHg o tratamiento antihipertensivo	✅ Glucosa en ayuno ≥100 mg/dL o diabetes	✅ Resultado El paciente cumple los cinco criterios, confirmando el diagnóstico de síndrome metabólico." data-pc13-pearl-title="Perla clínica 5" data-pc13-pearl="El síndrome metabólico no es únicamente una suma de factores de riesgo. Representa un estado fisiopatológico de resistencia a la insulina, inflamación crónica de bajo grado y disfunción endotelial que incrementa significativamente el riesgo de diabetes, enfermedad cardiovascular, enfermedad renal y esteatosis hepática. Individualización de metas terapéuticas Antes de iniciar tratamiento, el médico establece metas con el paciente. Parámetro	Meta HbA1c	&lt;7%* Glucosa en ayuno	80–130 mg/dL Glucosa posprandial	&lt;180 mg/dL Presión arterial	&lt;130/80 mmHg (si es tolerado) LDL-C	&lt;70 mg/dL Triglicéridos	&lt;150 mg/dL Pérdida de peso	≥5–10% en 6–12 meses Actividad física	≥150 min/semana *La meta de HbA1c debe individualizarse según edad, fragilidad, comorbilidades, expectativa de vida y riesgo de hipoglucemia. Intervenciones no farmacológicas El médico inicia un plan estructurado que incluye: Alimentación •	Déficit calórico individualizado. •	Patrón tipo mediterráneo o DASH adaptado al contexto cultural. •	Reducción de bebidas azucaradas y alimentos ultraprocesados. •	Incremento del consumo de verduras, legumbres, frutas enteras, cereales integrales y proteínas magras. Actividad física •	Al menos 150 minutos por semana de ejercicio aeróbico de intensidad moderada. •	Ejercicios de resistencia 2–3 veces por semana. •	Disminuir el tiempo sedentario. Sueño •	Promover 7–9 horas por noche. •	Valorar tamizaje para apnea obstructiva del sueño en pacientes con obesidad y síntomas sugestivos. Cese de tabaquismo y reducción del consumo de alcohol. Segunda decisión clínica"><span>A</span>Resonancia magnética hepática.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El ultrasonido es el estudio inicial recomendado para documentar esteatosis hepática en un paciente con sospecha clínica de enfermedad hepática asociada a disfunción metabólica. Si se identifican datos sugestivos de fibrosis avanzada o existen factores de alto riesgo, se recomienda complementar con índices no invasivos (como FIB-4) y considerar elastografía o referencia a segundo nivel. Estratificación del síndrome metabólico Criterios armonizados (IDF/AHA/NHLBI) Criterio	Resultado Circunferencia abdominal aumentada	✅ Triglicéridos ≥150 mg/dL	✅ HDL bajo	✅ Presión arterial ≥130/85 mmHg o tratamiento antihipertensivo	✅ Glucosa en ayuno ≥100 mg/dL o diabetes	✅ Resultado El paciente cumple los cinco criterios, confirmando el diagnóstico de síndrome metabólico." data-pc13-pearl-title="Perla clínica 5" data-pc13-pearl="El síndrome metabólico no es únicamente una suma de factores de riesgo. Representa un estado fisiopatológico de resistencia a la insulina, inflamación crónica de bajo grado y disfunción endotelial que incrementa significativamente el riesgo de diabetes, enfermedad cardiovascular, enfermedad renal y esteatosis hepática. Individualización de metas terapéuticas Antes de iniciar tratamiento, el médico establece metas con el paciente. Parámetro	Meta HbA1c	&lt;7%* Glucosa en ayuno	80–130 mg/dL Glucosa posprandial	&lt;180 mg/dL Presión arterial	&lt;130/80 mmHg (si es tolerado) LDL-C	&lt;70 mg/dL Triglicéridos	&lt;150 mg/dL Pérdida de peso	≥5–10% en 6–12 meses Actividad física	≥150 min/semana *La meta de HbA1c debe individualizarse según edad, fragilidad, comorbilidades, expectativa de vida y riesgo de hipoglucemia. Intervenciones no farmacológicas El médico inicia un plan estructurado que incluye: Alimentación •	Déficit calórico individualizado. •	Patrón tipo mediterráneo o DASH adaptado al contexto cultural. •	Reducción de bebidas azucaradas y alimentos ultraprocesados. •	Incremento del consumo de verduras, legumbres, frutas enteras, cereales integrales y proteínas magras. Actividad física •	Al menos 150 minutos por semana de ejercicio aeróbico de intensidad moderada. •	Ejercicios de resistencia 2–3 veces por semana. •	Disminuir el tiempo sedentario. Sueño •	Promover 7–9 horas por noche. •	Valorar tamizaje para apnea obstructiva del sueño en pacientes con obesidad y síntomas sugestivos. Cese de tabaquismo y reducción del consumo de alcohol. Segunda decisión clínica"><span>B</span>Tomografía computarizada.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="El ultrasonido es el estudio inicial recomendado para documentar esteatosis hepática en un paciente con sospecha clínica de enfermedad hepática asociada a disfunción metabólica. Si se identifican datos sugestivos de fibrosis avanzada o existen factores de alto riesgo, se recomienda complementar con índices no invasivos (como FIB-4) y considerar elastografía o referencia a segundo nivel. Estratificación del síndrome metabólico Criterios armonizados (IDF/AHA/NHLBI) Criterio	Resultado Circunferencia abdominal aumentada	✅ Triglicéridos ≥150 mg/dL	✅ HDL bajo	✅ Presión arterial ≥130/85 mmHg o tratamiento antihipertensivo	✅ Glucosa en ayuno ≥100 mg/dL o diabetes	✅ Resultado El paciente cumple los cinco criterios, confirmando el diagnóstico de síndrome metabólico." data-pc13-pearl-title="Perla clínica 5" data-pc13-pearl="El síndrome metabólico no es únicamente una suma de factores de riesgo. Representa un estado fisiopatológico de resistencia a la insulina, inflamación crónica de bajo grado y disfunción endotelial que incrementa significativamente el riesgo de diabetes, enfermedad cardiovascular, enfermedad renal y esteatosis hepática. Individualización de metas terapéuticas Antes de iniciar tratamiento, el médico establece metas con el paciente. Parámetro	Meta HbA1c	&lt;7%* Glucosa en ayuno	80–130 mg/dL Glucosa posprandial	&lt;180 mg/dL Presión arterial	&lt;130/80 mmHg (si es tolerado) LDL-C	&lt;70 mg/dL Triglicéridos	&lt;150 mg/dL Pérdida de peso	≥5–10% en 6–12 meses Actividad física	≥150 min/semana *La meta de HbA1c debe individualizarse según edad, fragilidad, comorbilidades, expectativa de vida y riesgo de hipoglucemia. Intervenciones no farmacológicas El médico inicia un plan estructurado que incluye: Alimentación •	Déficit calórico individualizado. •	Patrón tipo mediterráneo o DASH adaptado al contexto cultural. •	Reducción de bebidas azucaradas y alimentos ultraprocesados. •	Incremento del consumo de verduras, legumbres, frutas enteras, cereales integrales y proteínas magras. Actividad física •	Al menos 150 minutos por semana de ejercicio aeróbico de intensidad moderada. •	Ejercicios de resistencia 2–3 veces por semana. •	Disminuir el tiempo sedentario. Sueño •	Promover 7–9 horas por noche. •	Valorar tamizaje para apnea obstructiva del sueño en pacientes con obesidad y síntomas sugestivos. Cese de tabaquismo y reducción del consumo de alcohol. Segunda decisión clínica"><span>C</span>Ultrasonido hepático.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El ultrasonido es el estudio inicial recomendado para documentar esteatosis hepática en un paciente con sospecha clínica de enfermedad hepática asociada a disfunción metabólica. Si se identifican datos sugestivos de fibrosis avanzada o existen factores de alto riesgo, se recomienda complementar con índices no invasivos (como FIB-4) y considerar elastografía o referencia a segundo nivel. Estratificación del síndrome metabólico Criterios armonizados (IDF/AHA/NHLBI) Criterio	Resultado Circunferencia abdominal aumentada	✅ Triglicéridos ≥150 mg/dL	✅ HDL bajo	✅ Presión arterial ≥130/85 mmHg o tratamiento antihipertensivo	✅ Glucosa en ayuno ≥100 mg/dL o diabetes	✅ Resultado El paciente cumple los cinco criterios, confirmando el diagnóstico de síndrome metabólico." data-pc13-pearl-title="Perla clínica 5" data-pc13-pearl="El síndrome metabólico no es únicamente una suma de factores de riesgo. Representa un estado fisiopatológico de resistencia a la insulina, inflamación crónica de bajo grado y disfunción endotelial que incrementa significativamente el riesgo de diabetes, enfermedad cardiovascular, enfermedad renal y esteatosis hepática. Individualización de metas terapéuticas Antes de iniciar tratamiento, el médico establece metas con el paciente. Parámetro	Meta HbA1c	&lt;7%* Glucosa en ayuno	80–130 mg/dL Glucosa posprandial	&lt;180 mg/dL Presión arterial	&lt;130/80 mmHg (si es tolerado) LDL-C	&lt;70 mg/dL Triglicéridos	&lt;150 mg/dL Pérdida de peso	≥5–10% en 6–12 meses Actividad física	≥150 min/semana *La meta de HbA1c debe individualizarse según edad, fragilidad, comorbilidades, expectativa de vida y riesgo de hipoglucemia. Intervenciones no farmacológicas El médico inicia un plan estructurado que incluye: Alimentación •	Déficit calórico individualizado. •	Patrón tipo mediterráneo o DASH adaptado al contexto cultural. •	Reducción de bebidas azucaradas y alimentos ultraprocesados. •	Incremento del consumo de verduras, legumbres, frutas enteras, cereales integrales y proteínas magras. Actividad física •	Al menos 150 minutos por semana de ejercicio aeróbico de intensidad moderada. •	Ejercicios de resistencia 2–3 veces por semana. •	Disminuir el tiempo sedentario. Sueño •	Promover 7–9 horas por noche. •	Valorar tamizaje para apnea obstructiva del sueño en pacientes con obesidad y síntomas sugestivos. Cese de tabaquismo y reducción del consumo de alcohol. Segunda decisión clínica"><span>D</span>Colangiopancreatografía.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="4">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 10</h2>
+      
+<div class="pc13-question">
+  <p>Considerando la información disponible, ¿cuál sería el esquema farmacológico inicial más apropiado?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la metformina continúa siendo una opción válida y de bajo costo, las recomendaciones actuales priorizan la presencia de comorbilidades y el riesgo cardiovascular para decidir la incorporación temprana de un inhibidor de SGLT2 o un agonista del receptor GLP-1, especialmente cuando existe obesidad y alto riesgo cardiovascular. La decisión debe individualizarse considerando disponibilidad, contraindicaciones, función renal, costo y preferencias del paciente." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Metformina en monoterapia.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la metformina continúa siendo una opción válida y de bajo costo, las recomendaciones actuales priorizan la presencia de comorbilidades y el riesgo cardiovascular para decidir la incorporación temprana de un inhibidor de SGLT2 o un agonista del receptor GLP-1, especialmente cuando existe obesidad y alto riesgo cardiovascular. La decisión debe individualizarse considerando disponibilidad, contraindicaciones, función renal, costo y preferencias del paciente." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>Sulfonilurea en monoterapia.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Aunque la metformina continúa siendo una opción válida y de bajo costo, las recomendaciones actuales priorizan la presencia de comorbilidades y el riesgo cardiovascular para decidir la incorporación temprana de un inhibidor de SGLT2 o un agonista del receptor GLP-1, especialmente cuando existe obesidad y alto riesgo cardiovascular. La decisión debe individualizarse considerando disponibilidad, contraindicaciones, función renal, costo y preferencias del paciente." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Metformina + intervención intensiva sobre el estilo de vida; valorar tempranamente un iSGLT2 o un agonista del receptor GLP-1 por su perfil cardiometabólico.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la metformina continúa siendo una opción válida y de bajo costo, las recomendaciones actuales priorizan la presencia de comorbilidades y el riesgo cardiovascular para decidir la incorporación temprana de un inhibidor de SGLT2 o un agonista del receptor GLP-1, especialmente cuando existe obesidad y alto riesgo cardiovascular. La decisión debe individualizarse considerando disponibilidad, contraindicaciones, función renal, costo y preferencias del paciente." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Insulina basal más sulfonilurea.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="5">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Integración clínica</h2>
+      <h3>Integración clínica</h3>
+<p>El médico concluye que el paciente presenta:</p>
+<ul class="pc13-list"><li>Diabetes mellitus tipo 2 de reciente diagnóstico.</li><li>Síndrome metabólico.</li><li>Obesidad grado I con adiposidad visceral.</li><li>Hipertensión arterial no controlada.</li><li>Dislipidemia aterogénica.</li><li>Alta probabilidad de MASLD.</li><li>Alto riesgo cardiovascular.</li><li>Función renal conservada.</li></ul>
+<p>Se decide iniciar tratamiento integral, enfatizando que el éxito dependerá del control simultáneo de todos los factores de riesgo.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="6">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Perla clínica 6</h2>
+      <aside class="pc13-static-pearl"><strong>Perla clínica 6</strong><p>El mayor error en el tratamiento inicial de la diabetes mellitus tipo 2 es centrar la atención únicamente en la glucosa. La reducción del riesgo cardiovascular requiere abordar de manera simultánea la presión arterial, los lípidos, el peso corporal, el tabaquismo, la actividad física y la protección renal.</p></aside>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="7">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Algoritmo de razonamiento clínico</h2>
+      <h3>Algoritmo de razonamiento clínico</h3>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="8">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Diagnóstico confirmado de DM2</h2>
+      <h3>Diagnóstico confirmado de DM2</h3>
+<p>│</p>
+<p>▼</p>
+<p>Estratificación integral</p>
+<p>│</p>
+<p>├── Riesgo cardiovascular</p>
+<p>├── Función renal</p>
+<p>├── Estado hepático</p>
+<p>├── Peso y adiposidad</p>
+<p>└── Comorbilidades</p>
+<p>│</p>
+<p>▼</p>
+<p>Definir metas individualizadas</p>
+<p>│</p>
+<p>▼</p>
+<p>Iniciar cambios intensivos en el estilo de vida</p>
+<p>│</p>
+<p>▼</p>
+<p>Seleccionar tratamiento farmacológico</p>
+<p>basado en el perfil cardiometabólico</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="9">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Objetivos alcanzados</h2>
+      <h3>Objetivos alcanzados</h3>
+<p>Al finalizar este capítulo, el participante será capaz de:</p>
+<ul class="pc13-list"><li>Estratificar el riesgo cardiovascular, renal y hepático en un paciente con diabetes mellitus tipo 2.</li><li>Confirmar el diagnóstico de síndrome metabólico utilizando criterios armonizados.</li><li>Establecer metas terapéuticas individualizadas.</li><li>Seleccionar el tratamiento inicial conforme a las recomendaciones contemporáneas y al contexto clínico del paciente.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="10">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Bibliografía (formato Vancouver)</h2>
+      <h3>Bibliografía (formato Vancouver)</h3>
+<div class="pc13-row"><span>1.</span><span>American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes—2026. Diabetes Care. 2026.</span></div>
+<div class="pc13-row"><span>2.</span><span>Davies MJ, Aroda VR, Collins BS, et al. Management of Hyperglycemia in Type 2 Diabetes: A Consensus Report by the ADA and the EASD. Diabetes Care. Actualización vigente.</span></div>
+<div class="pc13-row"><span>3.</span><span>Secretaría de Salud. CENETEC. Guía de Práctica Clínica: Diagnóstico y tratamiento de la diabetes mellitus tipo 2 en el primer nivel de atención.</span></div>
+<div class="pc13-row"><span>4.</span><span>Asociación Latinoamericana de Diabetes (ALAD). Guías ALAD para el manejo de la diabetes mellitus tipo 2. Última edición.</span></div>
+<div class="pc13-row"><span>5.</span><span>Alberti KGMM, Eckel RH, Grundy SM, et al. Harmonizing the Metabolic Syndrome. Circulation. 2009;120:1640-1645.</span></div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="11">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Estratificación del riesgo</h2>
+      <p>Excelente. A partir de este punto comenzamos la parte medular del caso. En el PRONAM, la mayor dificultad para los médicos no suele ser establecer el diagnóstico, sino seleccionar el tratamiento más apropiado y comprender por qué un medicamento es superior a otro en un paciente determinado. Por ello, este capítulo no solo presenta el tratamiento, sino que guía el razonamiento terapéutico paso a paso.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="12">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Estratificación del riesgo</h2>
+      <p>Nota metodológica: A diferencia de algunos textos clásicos, este caso integrará las recomendaciones contemporáneas de ADA, EASD, KDIGO, ESC y ALAD, armonizadas con la práctica clínica en México (PRONAM/CENETEC). Cuando existan diferencias entre guías, se explicará el fundamento de cada una para fomentar el juicio clínico.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article>
+    <div class="pc13-actions">
+      <button class="pc13-btn" type="button" data-pc13-prev disabled>Anterior</button>
+      <button class="pc13-btn" type="button" data-pc13-next>Continuar</button>
+    </div>
+    <div class="pc13-count" data-pc13-count>1 / 13</div>
+    <div class="pc13-modal" data-pc13-modal>
+      <div class="pc13-modal-card" data-pc13-modal-card>
+        <h3 data-pc13-modal-title>Retroalimentación</h3>
+        <p data-pc13-modal-body></p>
+        <button class="pc13-btn" type="button" data-pc13-modal-close>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.currentScript.closest('[data-pc13-root]');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+      var prev = root.querySelector('[data-pc13-prev]');
+      var next = root.querySelector('[data-pc13-next]');
+      var count = root.querySelector('[data-pc13-count]');
+      var modal = root.querySelector('[data-pc13-modal]');
+      var modalCard = root.querySelector('[data-pc13-modal-card]');
+      var modalTitle = root.querySelector('[data-pc13-modal-title]');
+      var modalBody = root.querySelector('[data-pc13-modal-body]');
+      var modalClose = root.querySelector('[data-pc13-modal-close]');
+      var current = 0;
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+        if (prev) prev.disabled = current === 0;
+        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+      }
+      function finishScene() {
+        var scene = root.closest('[data-course-section]');
+        var nextScene = scene ? scene.nextElementSibling : null;
+        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      root.addEventListener('click', function(event) {
+        var answer = event.target.closest('[data-pc13-answer]');
+        if (!answer || !root.contains(answer)) return;
+        var correct = answer.getAttribute('data-pc13-answer') === '1';
+        var slide = answer.closest('[data-pc13-slide]');
+        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+          button.classList.toggle('is-incorrect', button === answer && !correct);
+        });
+        var pearl = answer.getAttribute('data-pc13-pearl') || '';
+        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+        if (pearl && pearlBox) {
+          pearlBox.hidden = false;
+          pearlBox.innerHTML = '<strong>' + pearlTitle + '</strong>' + pearl;
+        }
+        if (modal && modalCard && modalTitle && modalBody) {
+          modal.classList.add('is-open');
+          modalCard.classList.toggle('is-incorrect', !correct);
+          modalTitle.textContent = correct ? 'Retroalimentación' : 'Retroalimentación';
+          modalBody.textContent = answer.getAttribute('data-pc13-feedback') || '';
+        }
+      });
+      if (modalClose) modalClose.addEventListener('click', function() { modal.classList.remove('is-open'); });
+      if (prev) prev.addEventListener('click', function() { show(current - 1); });
+      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+      show(0);
+    })();
+  </script>
+</section>

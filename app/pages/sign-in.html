@@ -141,6 +141,30 @@
     .auth-link:focus {
       color: var(--imss-red);
     }
+
+    .security-image-overlay {
+      align-items: center;
+      background: rgba(15, 23, 42, 0.76);
+      display: none;
+      inset: 0;
+      justify-content: center;
+      padding: 1.5rem;
+      position: fixed;
+      z-index: 1080;
+    }
+
+    .security-image-overlay.is-visible {
+      display: flex;
+    }
+
+    .security-image {
+      border-radius: 8px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+      cursor: pointer;
+      max-height: min(78vh, 720px);
+      max-width: min(92vw, 720px);
+      object-fit: contain;
+    }
   </style>
 </head>
 
@@ -314,6 +338,8 @@
                                     type="text"
                                     id="matricula"
                                     autocomplete="username"
+                                    maxlength="40"
+                                    required
                                     class="form-control">
 
                             </div>
@@ -328,6 +354,8 @@
                                     type="password"
                                     id="password"
                                     autocomplete="current-password"
+                                    maxlength="120"
+                                    required
                                     class="form-control">
                                 </div>
 
@@ -416,6 +444,17 @@
       </footer>
     </div>
   </main>
+  <div
+    class="security-image-overlay"
+    id="securityAttemptImage"
+    role="dialog"
+    aria-label="Buen intento"
+    aria-hidden="true">
+    <img
+      src="../img/mono.png"
+      class="security-image"
+      alt="Buen intento jajajajajaa">
+  </div>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -441,6 +480,17 @@ const matriculaInput = document.getElementById('matricula');
 const passwordInput = document.getElementById('password');
 const authFeedback = document.getElementById('authFeedback');
 const loginButton = document.getElementById('loginButton');
+const securityAttemptImage = document.getElementById('securityAttemptImage');
+const suspiciousSqlPatterns = [
+    /(?:'|"|`)\s*(?:or|and)\s*(?:'|"|`)?[a-z0-9_]+(?:'|"|`)?\s*=\s*(?:'|"|`)?[a-z0-9_]+/i,
+    /\b(?:or|and)\b\s+\d+\s*=\s*\d+/i,
+    /\b(?:or|and)\b\s+(?:true|false|null)\b/i,
+    /(?:'|"|`)\s*=\s*(?:'|"|`)/,
+    /\bunion\b\s+(?:all\s+)?\bselect\b/i,
+    /;\s*(?:select|insert|update|delete|drop|alter|create|truncate)\b/i,
+    /(?:--|#|\/\*)/,
+    /\b(?:sleep|benchmark|load_file|information_schema)\b/i
+];
 
 function setAuthState(state, message = ''){
     loginForm.classList.remove('auth-neutral', 'auth-error', 'auth-success');
@@ -453,6 +503,22 @@ function setAuthState(state, message = ''){
     authFeedback.classList.toggle('is-empty', !message);
 }
 
+function containsSuspiciousSql(value){
+    return suspiciousSqlPatterns.some((pattern) => pattern.test(value));
+}
+
+function showSecurityAttempt(){
+    setAuthState('error', 'Buen intento jajajajajaa... no nací ayer.');
+
+    securityAttemptImage.classList.add('is-visible');
+    securityAttemptImage.setAttribute('aria-hidden', 'false');
+}
+
+function hideSecurityAttempt(){
+    securityAttemptImage.classList.remove('is-visible');
+    securityAttemptImage.setAttribute('aria-hidden', 'true');
+}
+
 [matriculaInput, passwordInput].forEach((input) => {
     input.addEventListener('click', () => {
         if(!loginForm.classList.contains('auth-error') && !loginForm.classList.contains('auth-success')){
@@ -461,6 +527,7 @@ function setAuthState(state, message = ''){
     });
 
     input.addEventListener('input', () => {
+        hideSecurityAttempt();
         setAuthState('neutral', 'Ingresa tus credenciales.');
     });
 
@@ -469,6 +536,14 @@ function setAuthState(state, message = ''){
             setAuthState('neutral', 'Ingresa tus credenciales.');
         }
     });
+});
+
+securityAttemptImage.addEventListener('click', hideSecurityAttempt);
+
+document.addEventListener('keydown', (event) => {
+    if(event.key === 'Escape'){
+        hideSecurityAttempt();
+    }
 });
 
 loginForm.addEventListener('focusin', (event) => {
@@ -497,6 +572,15 @@ async function login(event){
         password: passwordInput.value
 
     };
+
+    if(
+        containsSuspiciousSql(data.matricula) ||
+        containsSuspiciousSql(data.password)
+    ){
+        showSecurityAttempt();
+        loginButton.disabled = false;
+        return;
+    }
 
     try {
 
@@ -538,6 +622,11 @@ async function login(event){
 
             return;
 
+        }
+
+        if(resultado.security_alert){
+            showSecurityAttempt();
+            return;
         }
 
         setAuthState(

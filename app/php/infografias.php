@@ -57,6 +57,11 @@ try {
 
     if ($method === 'GET') {
         $idCaso = isset($_GET['id_caso']) ? (int) $_GET['id_caso'] : 0;
+        $esAdmin = (isset($_GET['contexto']) && $_GET['contexto'] === 'admin')
+            || (isset($_GET['admin']) && $_GET['admin'] === '1');
+        $condicionVisibilidad = $esAdmin
+            ? 'e.activo = 1'
+            : condicionContenidoInterno('e');
 
         if ($idCaso > 0) {
             $sql = "
@@ -76,7 +81,7 @@ try {
                 WHERE i.id_caso = ?
                   AND i.activo = 1
                   AND c.activo = 1
-                  AND " . condicionContenidoInterno('e') . "
+                  AND " . $condicionVisibilidad . "
                 ORDER BY i.orden ASC, i.id ASC
             ";
             $stmt = $pdo->prepare($sql);
@@ -100,7 +105,7 @@ try {
             INNER JOIN imssight.especialidades e ON e.id = t.id_especialidad
             WHERE i.activo = 1
               AND c.activo = 1
-              AND " . condicionContenidoInterno('e') . "
+              AND " . $condicionVisibilidad . "
             ORDER BY e.nombre ASC, t.titulo ASC, c.titulo ASC, i.orden ASC, i.id ASC
         ";
         responder($pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC));

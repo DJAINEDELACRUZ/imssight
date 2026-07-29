@@ -1,0 +1,395 @@
+<section class="pronam-case13-course" data-pc13-root>
+  <style>
+    .pronam-case13-course { --pc13-ink:#10312B; --pc13-green:#235B4E; --pc13-wine:#9F2241; --pc13-red:#9F2241; --pc13-cream:#F7F2E8; font-family:"Noto Sans", Arial, sans-serif; color:var(--pc13-ink); }
+    .pronam-case13-course * { box-sizing:border-box; }
+    .pc13-stage { position:relative; min-height:500px; overflow:hidden; border:1px solid #e7ddd1; border-radius:16px; background:#fff; scroll-margin-top:calc(var(--topbar-height, 86px) + 12px); }
+    .pc13-slide { display:none; min-height:500px; position:relative; padding:34px 48px 70px; isolation:isolate; }
+    .pc13-slide.is-active { display:block; }
+    .pc13-line { position:absolute; left:56px; width:calc(100% - 112px); height:4px; background:var(--pc13-wine); z-index:2; }
+    .pc13-line-top { top:24px; }
+    .pc13-line-bottom { bottom:50px; }
+    .pc13-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,320px); gap:24px; align-items:center; min-height:310px; padding-top:14px; padding-bottom:26px; position:relative; }
+    .pc13-copy { min-width:0; max-width:100%; padding-right:0; align-self:center; position:relative; z-index:3; }
+    .pc13-kicker { display:block; margin:30px 0 12px; color:var(--pc13-wine); font-size:13px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    .pc13-copy h2 { margin:12px 0 14px; max-width:none; color:var(--pc13-ink); font-size:clamp(30px,3.2vw,44px); line-height:1; font-weight:900; letter-spacing:0; }
+    .pc13-copy h3, .pc13-question, .pc13-static-pearl, .pc13-copy p, .pc13-list, .pc13-row { max-width:none; } .pc13-copy h3 { margin:10px 0 6px; color:var(--pc13-green); font-size:clamp(20px,1.7vw,24px); line-height:1.1; font-weight:900; }
+    .pc13-copy p, .pc13-list { font-size:clamp(15px,1.08vw,17px); line-height:1.24; }
+    .pc13-copy p { margin:0 0 9px; }
+    .pc13-list { margin:0 0 12px; padding-left:24px; }
+    .pc13-list li { margin:2px 0; }
+    .pc13-row { display:grid; grid-template-columns:auto 1fr; gap:14px; margin:4px 0; padding:0; border:0; border-radius:0; background:transparent; font-size:clamp(15px,1.12vw,17px); }
+    .pc13-row span:first-child { font-weight:900; color:var(--pc13-green); min-width:28px; }
+    .pc13-doctor { position:relative; right:auto; bottom:auto; width:100%; max-width:320px; max-height:none; justify-self:end; align-self:end; margin-bottom:-18px; object-fit:contain; z-index:4; filter:drop-shadow(0 20px 28px rgba(16,49,43,.18)); }
+    .pc13-actions { position:absolute; left:0; right:0; bottom:10px; display:flex; align-items:center; justify-content:center; gap:18px; z-index:6; pointer-events:none; }
+    .pc13-btn { min-width:134px; border:0; border-radius:12px; padding:12px 22px; background:var(--pc13-green); color:#fff; font-size:19px; font-weight:900; cursor:pointer; pointer-events:auto; box-shadow:0 8px 18px rgba(16,49,43,.16); }
+    .pc13-btn[disabled] { opacity:.38; cursor:not-allowed; }
+    .pc13-count { position:absolute; right:54px; bottom:20px; color:#6F7271; font-size:20px; font-weight:900; z-index:6; }
+    .pc13-options-grid { display:grid; gap:10px; max-width:820px; margin-top:14px; }
+    .pc13-option-btn { display:flex; gap:16px; align-items:flex-start; border:1px solid #10312B; border-radius:10px; padding:11px 13px; background:#10312B; color:#fff; text-align:left; font-size:clamp(15px,1.15vw,18px); line-height:1.25; cursor:pointer; box-shadow:0 8px 18px rgba(16,49,43,.12); }
+    .pc13-option-btn span { flex:0 0 auto; display:grid; margin-right:2px; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,.14); color:#fff; font-weight:900; }
+    .pc13-option-btn.is-correct { border-color:var(--pc13-green); background:var(--pc13-green); color:#fff; }
+    .pc13-option-btn.is-incorrect { border-color:var(--pc13-red); background:var(--pc13-red); color:#fff; }
+    .pc13-pearl-box, .pc13-static-pearl { margin-top:14px; padding:14px 16px; border-left:6px solid var(--pc13-green); border-radius:10px; background:#f2f7f4; font-size:clamp(14px,1.05vw,16px); line-height:1.35; }
+    .pc13-pearl-box strong, .pc13-static-pearl strong { display:block; margin-bottom:5px; color:var(--pc13-green); font-weight:900; }
+    .pc13-modal { position:absolute; inset:0; display:none; place-items:center; padding:24px; background:rgba(16,49,43,.42); z-index:10; }
+    .pc13-modal.is-open { display:grid; }
+    .pc13-modal-card { max-width:760px; width:100%; border-radius:16px; padding:24px; background:#fff; box-shadow:0 24px 60px rgba(16,49,43,.22); border-top:10px solid var(--pc13-green); }
+    .pc13-modal-card.is-incorrect { border-top-color:var(--pc13-red); }
+    .pc13-modal-card h3 { margin:0 0 10px; color:var(--pc13-green); font-size:28px; font-weight:900; }
+    .pc13-modal-card.is-incorrect h3 { color:var(--pc13-red); }
+    .pc13-modal-card p { margin:0 0 16px; font-size:17px; line-height:1.45; }
+    @media (max-width:900px) {
+      .pc13-stage, .pc13-slide { min-height:720px; }
+      .pc13-slide { padding:32px 24px 112px; }
+      .pc13-line { left:24px; width:calc(100% - 48px); }
+      .pc13-body { display:block; }
+      .pc13-copy h2 { font-size:32px; }
+      .pc13-doctor { right:8px; bottom:58px; width:130px; opacity:.9; }
+      .pc13-count { right:24px; }
+    }
+  </style>
+  <div class="pc13-stage" aria-label="Capítulo 6 Primera consulta de seguimiento (3 meses): evaluación de la respuesta terapéutica e intensificación del tratamiento">
+    <article class="pc13-slide is-active" data-pc13-slide="0">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Competencias del capítulo</h2>
+      <h3>Competencias del capítulo</h3>
+<p>Al finalizar este módulo el participante será capaz de:</p>
+<ul class="pc13-list"><li>Evaluar la respuesta clínica al tratamiento inicial.</li><li>Interpretar la HbA1c de seguimiento.</li><li>Identificar causas de mal control glucémico.</li><li>Intensificar el tratamiento conforme a las recomendaciones actuales.</li><li>Detectar barreras para la adherencia terapéutica.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="1">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Evolución del caso</h2>
+      <h3>Evolución del caso</h3>
+<p>Han transcurrido tres meses desde el diagnóstico.</p>
+<p>El paciente acude puntualmente a consulta para valoración de control.</p>
+<p>Refiere sentirse &quot;mucho mejor&quot; en comparación con la consulta inicial.</p>
+<p>Describe que:</p>
+<ul class="pc13-list"><li>La poliuria prácticamente desapareció.</li><li>Ya no presenta polidipsia intensa.</li><li>La visión borrosa ha disminuido.</li><li>Tiene mayor energía durante el día.</li></ul>
+<p>Sin embargo, comenta que ha tenido dificultades para modificar completamente sus hábitos alimentarios debido a sus horarios laborales y reuniones frecuentes.</p>
+<p>También menciona que algunos fines de semana omite la medicación porque &quot;se siente bien&quot;.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="2">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 14</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál es el aspecto más importante a evaluar en esta consulta?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El seguimiento de la diabetes no debe limitarse a revisar un valor de HbA1c. Es necesario evaluar: •	Control glucémico. •	Peso. •	Presión arterial. •	Adherencia. •	Cambios en el estilo de vida. •	Eventos adversos. •	Hipoglucemias. •	Complicaciones. •	Factores psicosociales." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Peso corporal.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El seguimiento de la diabetes no debe limitarse a revisar un valor de HbA1c. Es necesario evaluar: •	Control glucémico. •	Peso. •	Presión arterial. •	Adherencia. •	Cambios en el estilo de vida. •	Eventos adversos. •	Hipoglucemias. •	Complicaciones. •	Factores psicosociales." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>HbA1c.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El seguimiento de la diabetes no debe limitarse a revisar un valor de HbA1c. Es necesario evaluar: •	Control glucémico. •	Peso. •	Presión arterial. •	Adherencia. •	Cambios en el estilo de vida. •	Eventos adversos. •	Hipoglucemias. •	Complicaciones. •	Factores psicosociales." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Apego terapéutico.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="El seguimiento de la diabetes no debe limitarse a revisar un valor de HbA1c. Es necesario evaluar: •	Control glucémico. •	Peso. •	Presión arterial. •	Adherencia. •	Cambios en el estilo de vida. •	Eventos adversos. •	Hipoglucemias. •	Complicaciones. •	Factores psicosociales." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Todos los anteriores.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="3">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Exploración física</h2>
+      <h3>Exploración física</h3>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="4">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Signos vitales</h2>
+      <h3>Signos vitales</h3>
+<div class="pc13-row"><span>Parámetro</span><span>Inicial</span><span>3 meses</span></div>
+<div class="pc13-row"><span>TA</span><span>148/92</span><span>134/84</span></div>
+<div class="pc13-row"><span>FC</span><span>86</span><span>78</span></div>
+<div class="pc13-row"><span>FR</span><span>18</span><span>18</span></div>
+<div class="pc13-row"><span>SatO₂</span><span>97%</span><span>98%</span></div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="5">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Antropometría</h2>
+      <h3>Antropometría</h3>
+<div class="pc13-row"><span>Parámetro</span><span>Inicial</span><span>Actual</span></div>
+<div class="pc13-row"><span>Peso</span><span>102 kg</span><span>97 kg</span></div>
+<div class="pc13-row"><span>IMC</span><span>34.5</span><span>32.8</span></div>
+<div class="pc13-row"><span>Circunferencia abdominal</span><span>112 cm</span><span>107 cm</span></div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="6">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 15</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál ha sido el porcentaje aproximado de pérdida de peso?</p><p>Cálculo</p><p>Peso inicial</p><p>102 kg</p><p>Peso actual</p><p>97 kg</p><p>Pérdida</p><p>5 kg</p><p>Porcentaje</p><p>5/102 ×100 = 4.9%</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una reducción del 5% del peso corporal ya se asocia con beneficios metabólicos significativos: •	Disminución de resistencia a la insulina. •	Descenso de triglicéridos. •	Mejoría de presión arterial. •	Disminución del riesgo cardiovascular. •	Reducción de grasa hepática." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>2%</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Una reducción del 5% del peso corporal ya se asocia con beneficios metabólicos significativos: •	Disminución de resistencia a la insulina. •	Descenso de triglicéridos. •	Mejoría de presión arterial. •	Disminución del riesgo cardiovascular. •	Reducción de grasa hepática." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>5%</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una reducción del 5% del peso corporal ya se asocia con beneficios metabólicos significativos: •	Disminución de resistencia a la insulina. •	Descenso de triglicéridos. •	Mejoría de presión arterial. •	Disminución del riesgo cardiovascular. •	Reducción de grasa hepática." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>10%</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una reducción del 5% del peso corporal ya se asocia con beneficios metabólicos significativos: •	Disminución de resistencia a la insulina. •	Descenso de triglicéridos. •	Mejoría de presión arterial. •	Disminución del riesgo cardiovascular. •	Reducción de grasa hepática." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>15%</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="7">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Laboratorio de seguimiento</h2>
+      <h3>Laboratorio de seguimiento</h3>
+<p>Glucosa en ayuno</p>
+<p>126 mg/dL</p>
+<p>HbA1c</p>
+<div class="pc13-row"><span>7.</span><span>4%</span></div>
+<p>Perfil lipídico</p>
+<div class="pc13-row"><span>Parámetro</span><span>Inicial</span><span>Actual</span></div>
+<div class="pc13-row"><span>LDL</span><span>154</span><span>92</span></div>
+<div class="pc13-row"><span>HDL</span><span>37</span><span>40</span></div>
+<div class="pc13-row"><span>TG</span><span>248</span><span>180</span></div>
+<p>Función renal</p>
+<p>Normal.</p>
+<p>Albuminuria</p>
+<p>Negativa.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="8">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 16</h2>
+      
+<div class="pc13-question">
+  <p>¿La meta glucémica fue alcanzada?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Aunque existe una mejoría importante: HbA1c 8.4% ↓ 7.4% El paciente todavía no alcanza la meta individual (&lt;7%), por lo que es necesario analizar las posibles causas antes de modificar el tratamiento. Razonamiento clínico El médico analiza: ✔ Mejoría clínica. ✔ Mejoría de peso. ✔ Disminución importante de HbA1c. ✔ Sin hipoglucemias. ✔ Buena tolerancia. Pero identifica: ❌ Adherencia incompleta. ❌ Persistencia de obesidad. ❌ HbA1c arriba de meta." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Sí.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque existe una mejoría importante: HbA1c 8.4% ↓ 7.4% El paciente todavía no alcanza la meta individual (&lt;7%), por lo que es necesario analizar las posibles causas antes de modificar el tratamiento. Razonamiento clínico El médico analiza: ✔ Mejoría clínica. ✔ Mejoría de peso. ✔ Disminución importante de HbA1c. ✔ Sin hipoglucemias. ✔ Buena tolerancia. Pero identifica: ❌ Adherencia incompleta. ❌ Persistencia de obesidad. ❌ HbA1c arriba de meta." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>No.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="9">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 17</h2>
+      
+<div class="pc13-question">
+  <p>Antes de agregar otro medicamento, ¿qué debe hacerse?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una de las principales causas de aparente falla terapéutica es la falta de adherencia. Antes de modificar el tratamiento debe verificarse: •	¿Toma correctamente los medicamentos? •	¿Olvida dosis? •	¿Puede adquirirlos? •	¿Presenta efectos adversos? •	¿Comprendió el tratamiento? Entrevista motivacional El médico utiliza preguntas abiertas. Paciente refiere: &quot;Entre semana no tengo problema, pero los fines de semana casi nunca tomo la medicina.&quot; También comenta: &quot;Cuando me siento bien pienso que ya estoy curado.&quot;" data-pc13-pearl-title="Perla Clínica 9" data-pc13-pearl="La mejoría sintomática no significa control metabólico. La diabetes tipo 2 continúa progresando aun cuando el paciente se sienta clínicamente bien. Decisión terapéutica Después de reforzar la educación se decide: ✔ Continuar metformina a dosis máxima tolerada. ✔ Reforzar alimentación. ✔ Incrementar ejercicio. ✔ Mantener tratamiento antihipertensivo. ✔ Continuar estatina. ✔ Programar nueva valoración. Sin embargo... Escenario alternativo Suponga que el paciente: HbA1c = 8.2% A pesar de: •	Buena adherencia. •	Dosis máxima de metformina. •	Cambios intensivos."><span>A</span>Suspender metformina.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Una de las principales causas de aparente falla terapéutica es la falta de adherencia. Antes de modificar el tratamiento debe verificarse: •	¿Toma correctamente los medicamentos? •	¿Olvida dosis? •	¿Puede adquirirlos? •	¿Presenta efectos adversos? •	¿Comprendió el tratamiento? Entrevista motivacional El médico utiliza preguntas abiertas. Paciente refiere: &quot;Entre semana no tengo problema, pero los fines de semana casi nunca tomo la medicina.&quot; También comenta: &quot;Cuando me siento bien pienso que ya estoy curado.&quot;" data-pc13-pearl-title="Perla Clínica 9" data-pc13-pearl="La mejoría sintomática no significa control metabólico. La diabetes tipo 2 continúa progresando aun cuando el paciente se sienta clínicamente bien. Decisión terapéutica Después de reforzar la educación se decide: ✔ Continuar metformina a dosis máxima tolerada. ✔ Reforzar alimentación. ✔ Incrementar ejercicio. ✔ Mantener tratamiento antihipertensivo. ✔ Continuar estatina. ✔ Programar nueva valoración. Sin embargo... Escenario alternativo Suponga que el paciente: HbA1c = 8.2% A pesar de: •	Buena adherencia. •	Dosis máxima de metformina. •	Cambios intensivos."><span>B</span>Intensificar educación y evaluar adherencia.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una de las principales causas de aparente falla terapéutica es la falta de adherencia. Antes de modificar el tratamiento debe verificarse: •	¿Toma correctamente los medicamentos? •	¿Olvida dosis? •	¿Puede adquirirlos? •	¿Presenta efectos adversos? •	¿Comprendió el tratamiento? Entrevista motivacional El médico utiliza preguntas abiertas. Paciente refiere: &quot;Entre semana no tengo problema, pero los fines de semana casi nunca tomo la medicina.&quot; También comenta: &quot;Cuando me siento bien pienso que ya estoy curado.&quot;" data-pc13-pearl-title="Perla Clínica 9" data-pc13-pearl="La mejoría sintomática no significa control metabólico. La diabetes tipo 2 continúa progresando aun cuando el paciente se sienta clínicamente bien. Decisión terapéutica Después de reforzar la educación se decide: ✔ Continuar metformina a dosis máxima tolerada. ✔ Reforzar alimentación. ✔ Incrementar ejercicio. ✔ Mantener tratamiento antihipertensivo. ✔ Continuar estatina. ✔ Programar nueva valoración. Sin embargo... Escenario alternativo Suponga que el paciente: HbA1c = 8.2% A pesar de: •	Buena adherencia. •	Dosis máxima de metformina. •	Cambios intensivos."><span>C</span>Iniciar insulina.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Una de las principales causas de aparente falla terapéutica es la falta de adherencia. Antes de modificar el tratamiento debe verificarse: •	¿Toma correctamente los medicamentos? •	¿Olvida dosis? •	¿Puede adquirirlos? •	¿Presenta efectos adversos? •	¿Comprendió el tratamiento? Entrevista motivacional El médico utiliza preguntas abiertas. Paciente refiere: &quot;Entre semana no tengo problema, pero los fines de semana casi nunca tomo la medicina.&quot; También comenta: &quot;Cuando me siento bien pienso que ya estoy curado.&quot;" data-pc13-pearl-title="Perla Clínica 9" data-pc13-pearl="La mejoría sintomática no significa control metabólico. La diabetes tipo 2 continúa progresando aun cuando el paciente se sienta clínicamente bien. Decisión terapéutica Después de reforzar la educación se decide: ✔ Continuar metformina a dosis máxima tolerada. ✔ Reforzar alimentación. ✔ Incrementar ejercicio. ✔ Mantener tratamiento antihipertensivo. ✔ Continuar estatina. ✔ Programar nueva valoración. Sin embargo... Escenario alternativo Suponga que el paciente: HbA1c = 8.2% A pesar de: •	Buena adherencia. •	Dosis máxima de metformina. •	Cambios intensivos."><span>D</span>Solicitar TAC abdominal.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="10">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 18</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál sería la mejor estrategia?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="La intensificación del tratamiento debe individualizarse. En este paciente podrían considerarse: ✔ iSGLT2 ✔ Agonista GLP-1 Dependiendo de: •	Riesgo cardiovascular. •	Peso. •	Función renal. •	Costo. •	Disponibilidad. •	Preferencias. Seguimiento de comorbilidades Hipertensión TA 134/84 Aún ligeramente arriba de la meta ideal. Dislipidemia Excelente respuesta a estatina. LDL disminuyó: 154 ↓ 92 Obesidad Pérdida del 5%. Se establece nueva meta: 10% al año. Educación al paciente Se entrega plan escrito. Incluye: ✔ Alimentación. ✔ Ejercicio. ✔ Hipoglucemia. ✔ Cuidado de pies. ✔ Vacunas. ✔ Automonitoreo. ✔ Importancia del apego." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Agregar un segundo antihiperglucemiante con beneficio cardiovascular según el perfil del paciente.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La intensificación del tratamiento debe individualizarse. En este paciente podrían considerarse: ✔ iSGLT2 ✔ Agonista GLP-1 Dependiendo de: •	Riesgo cardiovascular. •	Peso. •	Función renal. •	Costo. •	Disponibilidad. •	Preferencias. Seguimiento de comorbilidades Hipertensión TA 134/84 Aún ligeramente arriba de la meta ideal. Dislipidemia Excelente respuesta a estatina. LDL disminuyó: 154 ↓ 92 Obesidad Pérdida del 5%. Se establece nueva meta: 10% al año. Educación al paciente Se entrega plan escrito. Incluye: ✔ Alimentación. ✔ Ejercicio. ✔ Hipoglucemia. ✔ Cuidado de pies. ✔ Vacunas. ✔ Automonitoreo. ✔ Importancia del apego." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>Suspender metformina.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La intensificación del tratamiento debe individualizarse. En este paciente podrían considerarse: ✔ iSGLT2 ✔ Agonista GLP-1 Dependiendo de: •	Riesgo cardiovascular. •	Peso. •	Función renal. •	Costo. •	Disponibilidad. •	Preferencias. Seguimiento de comorbilidades Hipertensión TA 134/84 Aún ligeramente arriba de la meta ideal. Dislipidemia Excelente respuesta a estatina. LDL disminuyó: 154 ↓ 92 Obesidad Pérdida del 5%. Se establece nueva meta: 10% al año. Educación al paciente Se entrega plan escrito. Incluye: ✔ Alimentación. ✔ Ejercicio. ✔ Hipoglucemia. ✔ Cuidado de pies. ✔ Vacunas. ✔ Automonitoreo. ✔ Importancia del apego." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Iniciar sulfonilurea como primera opción en todos los casos.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La intensificación del tratamiento debe individualizarse. En este paciente podrían considerarse: ✔ iSGLT2 ✔ Agonista GLP-1 Dependiendo de: •	Riesgo cardiovascular. •	Peso. •	Función renal. •	Costo. •	Disponibilidad. •	Preferencias. Seguimiento de comorbilidades Hipertensión TA 134/84 Aún ligeramente arriba de la meta ideal. Dislipidemia Excelente respuesta a estatina. LDL disminuyó: 154 ↓ 92 Obesidad Pérdida del 5%. Se establece nueva meta: 10% al año. Educación al paciente Se entrega plan escrito. Incluye: ✔ Alimentación. ✔ Ejercicio. ✔ Hipoglucemia. ✔ Cuidado de pies. ✔ Vacunas. ✔ Automonitoreo. ✔ Importancia del apego." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Esperar otros seis meses.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="11">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 19</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuándo debe solicitarse nuevamente la HbA1c?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="Perla Clínica 10" data-pc13-pearl="La HbA1c refleja el control glucémico de los últimos 2–3 meses; por ello, repetirla antes de ese intervalo rara vez modifica la conducta terapéutica, salvo situaciones clínicas especiales."><span>A</span>Cada semana.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="Perla Clínica 10" data-pc13-pearl="La HbA1c refleja el control glucémico de los últimos 2–3 meses; por ello, repetirla antes de ese intervalo rara vez modifica la conducta terapéutica, salvo situaciones clínicas especiales."><span>B</span>Cada mes.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="Perla Clínica 10" data-pc13-pearl="La HbA1c refleja el control glucémico de los últimos 2–3 meses; por ello, repetirla antes de ese intervalo rara vez modifica la conducta terapéutica, salvo situaciones clínicas especiales."><span>C</span>Aproximadamente cada tres meses mientras no se alcance la meta o existan cambios terapéuticos.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="Perla Clínica 10" data-pc13-pearl="La HbA1c refleja el control glucémico de los últimos 2–3 meses; por ello, repetirla antes de ese intervalo rara vez modifica la conducta terapéutica, salvo situaciones clínicas especiales."><span>D</span>Cada dos años.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="12">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Integración clínica</h2>
+      <h3>Integración clínica</h3>
+<p>Después de tres meses el paciente presenta:</p>
+<p>✔ Mejoría clínica.</p>
+<p>✔ Pérdida del 5% del peso.</p>
+<p>✔ Disminución de HbA1c.</p>
+<p>✔ Mejor control de la presión arterial.</p>
+<p>✔ Mejor perfil lipídico.</p>
+<p>Pero aún persisten:</p>
+<ul class="pc13-list"><li>Obesidad.</li><li>Riesgo cardiovascular elevado.</li><li>HbA1c ligeramente por encima de la meta.</li><li>Adherencia imperfecta.</li></ul>
+<p>La conducta más adecuada es reforzar el apego terapéutico, mantener un enfoque integral y considerar la intensificación farmacológica si la meta no se alcanza tras corregir las barreras identificadas.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="13">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Algoritmo de seguimiento</h2>
+      <h3>Algoritmo de seguimiento</h3>
+<p>Inicio de tratamiento</p>
+<p>│</p>
+<p>▼</p>
+<p>Control a 3 meses</p>
+<p>│</p>
+<p>├── Revisar HbA1c</p>
+<p>├── Revisar peso</p>
+<p>├── Revisar TA</p>
+<p>├── Revisar perfil lipídico</p>
+<p>├── Revisar función renal</p>
+<p>├── Evaluar adherencia</p>
+<p>├── Identificar efectos adversos</p>
+<p>▼</p>
+<p>¿Meta alcanzada?</p>
+<p>│</p>
+<p>┌────┴────┐</p>
+<p>│         │</p>
+<p>Sí          No</p>
+<p>│         │</p>
+<p>Continuar    Verificar adherencia</p>
+<p>│</p>
+<p>▼</p>
+<p>Intensificar tratamiento</p>
+<p>según perfil clínico</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="14">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Objetivos alcanzados</h2>
+      <h3>Objetivos alcanzados</h3>
+<p>Al finalizar este capítulo, el participante será capaz de:</p>
+<ul class="pc13-list"><li>Evaluar de forma integral la respuesta al tratamiento inicial de la diabetes mellitus tipo 2.</li><li>Interpretar los cambios en HbA1c, peso, presión arterial y perfil lipídico.</li><li>Identificar la falta de adherencia como una causa frecuente de control insuficiente.</li><li>Decidir cuándo reforzar las medidas no farmacológicas y cuándo intensificar el tratamiento farmacológico.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="15">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Bibliografía (formato Vancouver)</h2>
+      <h3>Bibliografía (formato Vancouver)</h3>
+<div class="pc13-row"><span>1.</span><span>American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes—2026. Diabetes Care. 2026.</span></div>
+<div class="pc13-row"><span>2.</span><span>Davies MJ, Aroda VR, Collins BS, et al. Management of Hyperglycemia in Type 2 Diabetes: A Consensus Report by the ADA and the EASD. Diabetes Care. Actualización vigente.</span></div>
+<div class="pc13-row"><span>3.</span><span>KDIGO. Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease. 2024.</span></div>
+<div class="pc13-row"><span>4.</span><span>Secretaría de Salud. CENETEC. Guía de Práctica Clínica: Diagnóstico y tratamiento de la diabetes mellitus tipo 2 en el primer nivel de atención.</span></div>
+<div class="pc13-row"><span>5.</span><span>Asociación Latinoamericana de Diabetes (ALAD). Guías ALAD para el manejo de la diabetes mellitus tipo 2.</span></div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article>
+    <div class="pc13-actions">
+      <button class="pc13-btn" type="button" data-pc13-prev disabled>Anterior</button>
+      <button class="pc13-btn" type="button" data-pc13-next>Continuar</button>
+    </div>
+    <div class="pc13-count" data-pc13-count>1 / 16</div>
+    <div class="pc13-modal" data-pc13-modal>
+      <div class="pc13-modal-card" data-pc13-modal-card>
+        <h3 data-pc13-modal-title>Retroalimentación</h3>
+        <p data-pc13-modal-body></p>
+        <button class="pc13-btn" type="button" data-pc13-modal-close>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.currentScript.closest('[data-pc13-root]');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+      var prev = root.querySelector('[data-pc13-prev]');
+      var next = root.querySelector('[data-pc13-next]');
+      var count = root.querySelector('[data-pc13-count]');
+      var modal = root.querySelector('[data-pc13-modal]');
+      var modalCard = root.querySelector('[data-pc13-modal-card]');
+      var modalTitle = root.querySelector('[data-pc13-modal-title]');
+      var modalBody = root.querySelector('[data-pc13-modal-body]');
+      var modalClose = root.querySelector('[data-pc13-modal-close]');
+      var current = 0;
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+        if (prev) prev.disabled = current === 0;
+        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+      }
+      function finishScene() {
+        var scene = root.closest('[data-course-section]');
+        var nextScene = scene ? scene.nextElementSibling : null;
+        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      root.addEventListener('click', function(event) {
+        var answer = event.target.closest('[data-pc13-answer]');
+        if (!answer || !root.contains(answer)) return;
+        var correct = answer.getAttribute('data-pc13-answer') === '1';
+        var slide = answer.closest('[data-pc13-slide]');
+        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+          button.classList.toggle('is-incorrect', button === answer && !correct);
+        });
+        var pearl = answer.getAttribute('data-pc13-pearl') || '';
+        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+        if (pearl && pearlBox) {
+          pearlBox.hidden = false;
+          pearlBox.innerHTML = '<strong>' + pearlTitle + '</strong>' + pearl;
+        }
+        if (modal && modalCard && modalTitle && modalBody) {
+          modal.classList.add('is-open');
+          modalCard.classList.toggle('is-incorrect', !correct);
+          modalTitle.textContent = correct ? 'Retroalimentación' : 'Retroalimentación';
+          modalBody.textContent = answer.getAttribute('data-pc13-feedback') || '';
+        }
+      });
+      if (modalClose) modalClose.addEventListener('click', function() { modal.classList.remove('is-open'); });
+      if (prev) prev.addEventListener('click', function() { show(current - 1); });
+      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+      show(0);
+    })();
+  </script>
+</section>

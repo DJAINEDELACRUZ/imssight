@@ -1,0 +1,309 @@
+<section class="pronam-case13-course" data-pc13-root>
+  <style>
+    .pronam-case13-course { --pc13-ink:#10312B; --pc13-green:#235B4E; --pc13-wine:#9F2241; --pc13-red:#9F2241; --pc13-cream:#F7F2E8; font-family:"Noto Sans", Arial, sans-serif; color:var(--pc13-ink); }
+    .pronam-case13-course * { box-sizing:border-box; }
+    .pc13-stage { position:relative; min-height:500px; overflow:hidden; border:1px solid #e7ddd1; border-radius:16px; background:#fff; scroll-margin-top:calc(var(--topbar-height, 86px) + 12px); }
+    .pc13-slide { display:none; min-height:500px; position:relative; padding:34px 48px 70px; isolation:isolate; }
+    .pc13-slide.is-active { display:block; }
+    .pc13-line { position:absolute; left:56px; width:calc(100% - 112px); height:4px; background:var(--pc13-wine); z-index:2; }
+    .pc13-line-top { top:24px; }
+    .pc13-line-bottom { bottom:50px; }
+    .pc13-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,320px); gap:24px; align-items:center; min-height:310px; padding-top:14px; padding-bottom:26px; position:relative; }
+    .pc13-copy { min-width:0; max-width:100%; padding-right:0; align-self:center; position:relative; z-index:3; }
+    .pc13-kicker { display:block; margin:30px 0 12px; color:var(--pc13-wine); font-size:13px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    .pc13-copy h2 { margin:12px 0 14px; max-width:none; color:var(--pc13-ink); font-size:clamp(30px,3.2vw,44px); line-height:1; font-weight:900; letter-spacing:0; }
+    .pc13-copy h3, .pc13-question, .pc13-static-pearl, .pc13-copy p, .pc13-list, .pc13-row { max-width:none; } .pc13-copy h3 { margin:10px 0 6px; color:var(--pc13-green); font-size:clamp(20px,1.7vw,24px); line-height:1.1; font-weight:900; }
+    .pc13-copy p, .pc13-list { font-size:clamp(15px,1.08vw,17px); line-height:1.24; }
+    .pc13-copy p { margin:0 0 9px; }
+    .pc13-list { margin:0 0 12px; padding-left:24px; }
+    .pc13-list li { margin:2px 0; }
+    .pc13-row { display:grid; grid-template-columns:auto 1fr; gap:14px; margin:4px 0; padding:0; border:0; border-radius:0; background:transparent; font-size:clamp(15px,1.12vw,17px); }
+    .pc13-row span:first-child { font-weight:900; color:var(--pc13-green); min-width:28px; }
+    .pc13-doctor { position:relative; right:auto; bottom:auto; width:100%; max-width:320px; max-height:none; justify-self:end; align-self:end; margin-bottom:-18px; object-fit:contain; z-index:4; filter:drop-shadow(0 20px 28px rgba(16,49,43,.18)); }
+    .pc13-actions { position:absolute; left:0; right:0; bottom:10px; display:flex; align-items:center; justify-content:center; gap:18px; z-index:6; pointer-events:none; }
+    .pc13-btn { min-width:134px; border:0; border-radius:12px; padding:12px 22px; background:var(--pc13-green); color:#fff; font-size:19px; font-weight:900; cursor:pointer; pointer-events:auto; box-shadow:0 8px 18px rgba(16,49,43,.16); }
+    .pc13-btn[disabled] { opacity:.38; cursor:not-allowed; }
+    .pc13-count { position:absolute; right:54px; bottom:20px; color:#6F7271; font-size:20px; font-weight:900; z-index:6; }
+    .pc13-options-grid { display:grid; gap:10px; max-width:820px; margin-top:14px; }
+    .pc13-option-btn { display:flex; gap:16px; align-items:flex-start; border:1px solid #10312B; border-radius:10px; padding:11px 13px; background:#10312B; color:#fff; text-align:left; font-size:clamp(15px,1.15vw,18px); line-height:1.25; cursor:pointer; box-shadow:0 8px 18px rgba(16,49,43,.12); }
+    .pc13-option-btn span { flex:0 0 auto; display:grid; margin-right:2px; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,.14); color:#fff; font-weight:900; }
+    .pc13-option-btn.is-correct { border-color:var(--pc13-green); background:var(--pc13-green); color:#fff; }
+    .pc13-option-btn.is-incorrect { border-color:var(--pc13-red); background:var(--pc13-red); color:#fff; }
+    .pc13-pearl-box, .pc13-static-pearl { margin-top:14px; padding:14px 16px; border-left:6px solid var(--pc13-green); border-radius:10px; background:#f2f7f4; font-size:clamp(14px,1.05vw,16px); line-height:1.35; }
+    .pc13-pearl-box strong, .pc13-static-pearl strong { display:block; margin-bottom:5px; color:var(--pc13-green); font-weight:900; }
+    .pc13-modal { position:absolute; inset:0; display:none; place-items:center; padding:24px; background:rgba(16,49,43,.42); z-index:10; }
+    .pc13-modal.is-open { display:grid; }
+    .pc13-modal-card { max-width:760px; width:100%; border-radius:16px; padding:24px; background:#fff; box-shadow:0 24px 60px rgba(16,49,43,.22); border-top:10px solid var(--pc13-green); }
+    .pc13-modal-card.is-incorrect { border-top-color:var(--pc13-red); }
+    .pc13-modal-card h3 { margin:0 0 10px; color:var(--pc13-green); font-size:28px; font-weight:900; }
+    .pc13-modal-card.is-incorrect h3 { color:var(--pc13-red); }
+    .pc13-modal-card p { margin:0 0 16px; font-size:17px; line-height:1.45; }
+    @media (max-width:900px) {
+      .pc13-stage, .pc13-slide { min-height:720px; }
+      .pc13-slide { padding:32px 24px 112px; }
+      .pc13-line { left:24px; width:calc(100% - 48px); }
+      .pc13-body { display:block; }
+      .pc13-copy h2 { font-size:32px; }
+      .pc13-doctor { right:8px; bottom:58px; width:130px; opacity:.9; }
+      .pc13-count { right:24px; }
+    }
+  </style>
+  <div class="pc13-stage" aria-label="Capítulo 5 Tratamiento inicial integral: medidas no farmacológicas y farmacológicas">
+    <article class="pc13-slide is-active" data-pc13-slide="0">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Competencias del capítulo</h2>
+      <h3>Competencias del capítulo</h3>
+<p>Al finalizar este módulo, el participante será capaz de:</p>
+<ul class="pc13-list"><li>Diseñar un plan terapéutico individualizado.</li><li>Seleccionar el tratamiento antihiperglucemiante inicial.</li><li>Justificar la elección de cada fármaco.</li><li>Identificar indicaciones y contraindicaciones de los principales grupos farmacológicos.</li><li>Establecer un plan de seguimiento basado en objetivos clínicos.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="1">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Evolución del caso</h2>
+      <h3>Evolución del caso</h3>
+<p>Tras explicar el diagnóstico, el médico dedica tiempo a resolver las dudas del paciente.</p>
+<p>Paciente: “Doctor, ¿entonces voy a necesitar insulina para siempre?”</p>
+<p>El médico aprovecha la pregunta para explicar que el tratamiento de la diabetes tipo 2 se individualiza y que la mayoría de los pacientes con un diagnóstico temprano pueden iniciar con cambios intensivos en el estilo de vida y tratamiento farmacológico oral o inyectable no insulínico, según sus características clínicas.</p>
+<p>Primera decisión terapéutica</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="2">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 11</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál es el objetivo principal del tratamiento inicial?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El control glucémico es una parte del tratamiento, pero no el único objetivo. Las estrategias actuales buscan reducir eventos cardiovasculares, insuficiencia cardiaca, progresión de enfermedad renal, pérdida funcional y mortalidad, además de mejorar la calidad de vida del paciente. Tratamiento no farmacológico El médico explica que todas las intervenciones farmacológicas serán menos efectivas si no se acompañan de cambios sostenibles en el estilo de vida." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Normalizar la glucosa en las primeras 24 horas.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El control glucémico es una parte del tratamiento, pero no el único objetivo. Las estrategias actuales buscan reducir eventos cardiovasculares, insuficiencia cardiaca, progresión de enfermedad renal, pérdida funcional y mortalidad, además de mejorar la calidad de vida del paciente. Tratamiento no farmacológico El médico explica que todas las intervenciones farmacológicas serán menos efectivas si no se acompañan de cambios sostenibles en el estilo de vida." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>Reducir únicamente la HbA1c.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="El control glucémico es una parte del tratamiento, pero no el único objetivo. Las estrategias actuales buscan reducir eventos cardiovasculares, insuficiencia cardiaca, progresión de enfermedad renal, pérdida funcional y mortalidad, además de mejorar la calidad de vida del paciente. Tratamiento no farmacológico El médico explica que todas las intervenciones farmacológicas serán menos efectivas si no se acompañan de cambios sostenibles en el estilo de vida." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Disminuir el riesgo de complicaciones microvasculares y macrovasculares mediante un control integral.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El control glucémico es una parte del tratamiento, pero no el único objetivo. Las estrategias actuales buscan reducir eventos cardiovasculares, insuficiencia cardiaca, progresión de enfermedad renal, pérdida funcional y mortalidad, además de mejorar la calidad de vida del paciente. Tratamiento no farmacológico El médico explica que todas las intervenciones farmacológicas serán menos efectivas si no se acompañan de cambios sostenibles en el estilo de vida." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Evitar el uso de medicamentos inyectables.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="3">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Plan nutricional</h2>
+      <h3>Plan nutricional</h3>
+<p>Se acuerda un plan de alimentación individualizado con los siguientes objetivos:</p>
+<ul class="pc13-list"><li>Déficit energético moderado.</li><li>Distribución equilibrada de macronutrientes.</li><li>Sustitución de bebidas azucaradas por agua simple.</li><li>Incremento de verduras, leguminosas, frutas enteras y cereales integrales.</li><li>Reducción de alimentos ultraprocesados y grasas trans.</li></ul>
+<p>Meta inicial</p>
+<p>Pérdida del 5–10% del peso corporal en los próximos 6 a 12 meses.</p>
+<p>Actividad física</p>
+<p>Se prescribe:</p>
+<ul class="pc13-list"><li>Ejercicio aeróbico moderado ≥150 minutos por semana.</li><li>Ejercicios de fuerza 2–3 veces por semana.</li><li>Disminuir el tiempo sedentario con pausas activas cada 30–60 minutos.</li></ul>
+<p>Educación terapéutica</p>
+<p>Se instruye al paciente sobre:</p>
+<ul class="pc13-list"><li>Naturaleza crónica de la enfermedad.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="4">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Tratamiento inicial</h2>
+      <ul class="pc13-list"><li>Signos y síntomas de hiperglucemia e hipoglucemia.</li><li>Adherencia al tratamiento.</li><li>Importancia del autocuidado y del seguimiento periódico.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="5">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Perla clínica 7</h2>
+      <aside class="pc13-static-pearl"><strong>Perla clínica 7</strong><p>La educación estructurada del paciente es una intervención terapéutica con impacto demostrado en el control glucémico, la adherencia, la prevención de complicaciones y la reducción de hospitalizaciones. Debe iniciarse desde el momento del diagnóstico.</p>
+<p>Tratamiento farmacológico</p></aside>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="6">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 12</h2>
+      
+<div class="pc13-question">
+  <p>El paciente presenta:</p><p>¿Cuál sería el esquema inicial más apropiado?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>1</span>HbA1c: 8.4%.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>2</span>IMC: 34.5 kg/m².</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>3</span>Función renal conservada.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>4</span>Hipertensión arterial.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>5</span>Dislipidemia.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>6</span>Alto riesgo cardiovascular.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>A</span>Metformina 850 mg cada 24 horas.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>B</span>Glibenclamida 5 mg cada 12 horas.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>C</span>Metformina + valorar tempranamente un iSGLT2 o un agonista del receptor GLP-1 por su beneficio cardiometabólico.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="La metformina continúa siendo una opción válida en muchos pacientes, especialmente cuando la función renal es adecuada. Sin embargo, las guías actuales recomiendan considerar desde el inicio un inhibidor de SGLT2 o un agonista del receptor GLP-1 en pacientes con alto riesgo cardiovascular, enfermedad cardiovascular establecida, insuficiencia cardiaca, enfermedad renal crónica u obesidad, independientemente de la HbA1c. La elección final debe individualizarse considerando disponibilidad, costo, contraindicaciones y preferencias del paciente. Prescripción inicial del caso 1. Metformina Inicio •	500 mg VO con alimentos por la noche durante 7 días. Posteriormente •	500 mg VO cada 12 horas. Meta •	Incrementar gradualmente hasta 1,000 mg cada 12 horas si existe buena tolerancia gastrointestinal y no hay contraindicaciones. Justificación •	Disminuye la producción hepática de glucosa. •	Mejora la sensibilidad a la insulina. •	Bajo riesgo de hipoglucemia. •	No favorece el aumento de peso. •	Amplia experiencia clínica. 2. Inhibidor de SGLT2 (ejemplo) Se decide valorar su incorporación temprana por el perfil cardiometabólico del paciente, explicando beneficios y posibles efectos adversos. La elección específica dependerá del contexto asistencial, disponibilidad institucional y cobertura. Beneficios esperados •	Reducción de hospitalización por insuficiencia cardiaca. •	Protección renal. •	Disminución modesta de peso. •	Descenso de la presión arterial. •	Bajo riesgo de hipoglucemia cuando se usa sin insulina ni sulfonilureas. Precauciones •	Infecciones micóticas genitales. •	Hipovolemia en pacientes susceptibles. •	Suspender temporalmente ante cirugía mayor o enfermedad aguda con riesgo de cetosis. 3. Agonista del receptor GLP-1 También se discute como alternativa, especialmente si el objetivo prioritario es la pérdida de peso o si se busca un mayor descenso de HbA1c y existe disponibilidad. Beneficios •	Pérdida de peso clínicamente significativa. •	Disminución de HbA1c. •	Beneficio cardiovascular demostrado para algunos agentes. •	Bajo riesgo de hipoglucemia. Efectos adversos más frecuentes •	Náusea. •	Saciedad temprana. •	Vómito (generalmente transitorios). Tratamiento de comorbilidades Hipertensión arterial Dado que el paciente presenta cifras persistentes de 148/92 mmHg, se confirma la necesidad de optimizar el tratamiento antihipertensivo, priorizando fármacos con beneficio cardiorrenal cuando estén indicados y no existan contraindicaciones. Dislipidemia El LDL-C de 154 mg/dL sitúa al paciente fuera de metas." data-pc13-pearl-title="" data-pc13-pearl=""><span>D</span>Insulina NPH desde el primer día.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="7">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Pregunta interactiva 13</h2>
+      
+<div class="pc13-question">
+  <p>¿Cuál es la estrategia más apropiada?</p>
+  <div class="pc13-options-grid">
+    <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="En un paciente con diabetes mellitus tipo 2 y alto riesgo cardiovascular, las estatinas constituyen la piedra angular del tratamiento para reducir el riesgo de eventos ateroscleróticos. El uso de otros hipolipemiantes dependerá de la respuesta al tratamiento y del perfil lipídico residual. Vacunación Durante la consulta se revisa el esquema de inmunizaciones. Se recomienda verificar y actualizar, según edad, comorbilidades y calendario vigente: •	Influenza anual. •	Neumococo. •	Hepatitis B en personas con riesgo o sin esquema completo. •	COVID-19 conforme a las recomendaciones nacionales. •	Herpes zóster en los grupos de edad correspondientes. Educación sobre automonitoreo El paciente pregunta si debe medirse la glucosa todos los días. El médico explica que la frecuencia del automonitoreo debe individualizarse. En pacientes que no utilizan insulina, puede ser útil durante el inicio del tratamiento, cambios terapéuticos o para evaluar síntomas, pero no todos requerirán mediciones múltiples diarias." data-pc13-pearl-title="Perla clínica 8" data-pc13-pearl="El éxito terapéutico en diabetes mellitus tipo 2 depende más de la continuidad del tratamiento, la educación y el seguimiento que de la elección de un único fármaco. La adherencia y el control integral de los factores de riesgo son determinantes para prevenir complicaciones."><span>A</span>No iniciar tratamiento hasta repetir el perfil lipídico en seis meses.</button><button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="En un paciente con diabetes mellitus tipo 2 y alto riesgo cardiovascular, las estatinas constituyen la piedra angular del tratamiento para reducir el riesgo de eventos ateroscleróticos. El uso de otros hipolipemiantes dependerá de la respuesta al tratamiento y del perfil lipídico residual. Vacunación Durante la consulta se revisa el esquema de inmunizaciones. Se recomienda verificar y actualizar, según edad, comorbilidades y calendario vigente: •	Influenza anual. •	Neumococo. •	Hepatitis B en personas con riesgo o sin esquema completo. •	COVID-19 conforme a las recomendaciones nacionales. •	Herpes zóster en los grupos de edad correspondientes. Educación sobre automonitoreo El paciente pregunta si debe medirse la glucosa todos los días. El médico explica que la frecuencia del automonitoreo debe individualizarse. En pacientes que no utilizan insulina, puede ser útil durante el inicio del tratamiento, cambios terapéuticos o para evaluar síntomas, pero no todos requerirán mediciones múltiples diarias." data-pc13-pearl-title="Perla clínica 8" data-pc13-pearl="El éxito terapéutico en diabetes mellitus tipo 2 depende más de la continuidad del tratamiento, la educación y el seguimiento que de la elección de un único fármaco. La adherencia y el control integral de los factores de riesgo son determinantes para prevenir complicaciones."><span>B</span>Iniciar una estatina de alta intensidad, acompañada de cambios en el estilo de vida.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="En un paciente con diabetes mellitus tipo 2 y alto riesgo cardiovascular, las estatinas constituyen la piedra angular del tratamiento para reducir el riesgo de eventos ateroscleróticos. El uso de otros hipolipemiantes dependerá de la respuesta al tratamiento y del perfil lipídico residual. Vacunación Durante la consulta se revisa el esquema de inmunizaciones. Se recomienda verificar y actualizar, según edad, comorbilidades y calendario vigente: •	Influenza anual. •	Neumococo. •	Hepatitis B en personas con riesgo o sin esquema completo. •	COVID-19 conforme a las recomendaciones nacionales. •	Herpes zóster en los grupos de edad correspondientes. Educación sobre automonitoreo El paciente pregunta si debe medirse la glucosa todos los días. El médico explica que la frecuencia del automonitoreo debe individualizarse. En pacientes que no utilizan insulina, puede ser útil durante el inicio del tratamiento, cambios terapéuticos o para evaluar síntomas, pero no todos requerirán mediciones múltiples diarias." data-pc13-pearl-title="Perla clínica 8" data-pc13-pearl="El éxito terapéutico en diabetes mellitus tipo 2 depende más de la continuidad del tratamiento, la educación y el seguimiento que de la elección de un único fármaco. La adherencia y el control integral de los factores de riesgo son determinantes para prevenir complicaciones."><span>C</span>Prescribir únicamente omega-3.</button><button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="En un paciente con diabetes mellitus tipo 2 y alto riesgo cardiovascular, las estatinas constituyen la piedra angular del tratamiento para reducir el riesgo de eventos ateroscleróticos. El uso de otros hipolipemiantes dependerá de la respuesta al tratamiento y del perfil lipídico residual. Vacunación Durante la consulta se revisa el esquema de inmunizaciones. Se recomienda verificar y actualizar, según edad, comorbilidades y calendario vigente: •	Influenza anual. •	Neumococo. •	Hepatitis B en personas con riesgo o sin esquema completo. •	COVID-19 conforme a las recomendaciones nacionales. •	Herpes zóster en los grupos de edad correspondientes. Educación sobre automonitoreo El paciente pregunta si debe medirse la glucosa todos los días. El médico explica que la frecuencia del automonitoreo debe individualizarse. En pacientes que no utilizan insulina, puede ser útil durante el inicio del tratamiento, cambios terapéuticos o para evaluar síntomas, pero no todos requerirán mediciones múltiples diarias." data-pc13-pearl-title="Perla clínica 8" data-pc13-pearl="El éxito terapéutico en diabetes mellitus tipo 2 depende más de la continuidad del tratamiento, la educación y el seguimiento que de la elección de un único fármaco. La adherencia y el control integral de los factores de riesgo son determinantes para prevenir complicaciones."><span>D</span>Iniciar un fibrato como monoterapia.</button>
+  </div>
+  <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+</div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="8">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Algoritmo de razonamiento terapéutico</h2>
+      <h3>Algoritmo de razonamiento terapéutico</h3>
+<p>DM2 recién diagnosticada</p>
+<p>│</p>
+<p>▼</p>
+<p>Cambios intensivos del estilo de vida</p>
+<p>│</p>
+<p>▼</p>
+<p>Evaluar:</p>
+<ul class="pc13-list"><li>Riesgo cardiovascular</li><li>Función renal</li><li>Insuficiencia cardiaca</li><li>Obesidad</li><li>Riesgo de hipoglucemia</li></ul>
+<p>│</p>
+<p>▼</p>
+<p>Iniciar metformina si no hay contraindicación</p>
+<p>│</p>
+<p>├── Considerar iSGLT2 por beneficio cardiorrenal</p>
+<p>├── Considerar agonista GLP-1 si predomina obesidad</p>
+<p>└── Individualizar según disponibilidad y preferencias</p>
+<p>│</p>
+<p>▼</p>
+<p>Control de presión arterial, lípidos, peso y hábitos de vida</p>
+<p>│</p>
+<p>▼</p>
+<p>Reevaluación en aproximadamente 3 meses</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="9">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Objetivos alcanzados</h2>
+      <h3>Objetivos alcanzados</h3>
+<p>Al finalizar este capítulo, el participante será capaz de:</p>
+<ul class="pc13-list"><li>Elaborar un plan terapéutico integral para un paciente con diabetes mellitus tipo 2.</li><li>Justificar el uso inicial de metformina y reconocer cuándo priorizar un iSGLT2 o un agonista del receptor GLP-1.</li><li>Integrar el manejo de hipertensión, dislipidemia, obesidad y prevención cardiovascular.</li><li>Reconocer la importancia de la educación terapéutica y del seguimiento estructurado.</li></ul>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="10">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Bibliografía (formato Vancouver)</h2>
+      <h3>Bibliografía (formato Vancouver)</h3>
+<div class="pc13-row"><span>1.</span><span>American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes—2026. Diabetes Care. 2026.</span></div>
+<div class="pc13-row"><span>2.</span><span>Davies MJ, Aroda VR, Collins BS, et al. Management of Hyperglycemia in Type 2 Diabetes: A Consensus Report by the ADA and the EASD. Diabetes Care. Actualización vigente.</span></div>
+<div class="pc13-row"><span>3.</span><span>KDIGO 2024 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease.</span></div>
+<div class="pc13-row"><span>4.</span><span>Secretaría de Salud. CENETEC. Guía de Práctica Clínica: Diagnóstico y tratamiento de la diabetes mellitus tipo 2 en el primer nivel de atención.</span></div>
+<div class="pc13-row"><span>5.</span><span>Asociación Latinoamericana de Diabetes (ALAD). Guías ALAD para el manejo de la diabetes mellitus tipo 2. Última edición.</span></div>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article><article class="pc13-slide" data-pc13-slide="11">
+  <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+  <div class="pc13-body">
+    <div class="pc13-copy">
+      <h2>Tratamiento inicial</h2>
+      <p>Excelente. A partir de este momento el caso entra en la fase de seguimiento clínico, que es donde verdaderamente se evalúa el razonamiento clínico del participante. En los cursos PRONAM, uno de los errores más frecuentes es que el alumno conoce las guías, pero no sabe cuándo intensificar el tratamiento, cuándo cambiarlo, cuándo sospechar falta de adherencia y cuándo buscar complicaciones.</p>
+<p>Por ello, este capítulo será completamente dinámico y con múltiples puntos de decisión.</p>
+    </div>
+    <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+  </div>
+  <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+</article>
+    <div class="pc13-actions">
+      <button class="pc13-btn" type="button" data-pc13-prev disabled>Anterior</button>
+      <button class="pc13-btn" type="button" data-pc13-next>Continuar</button>
+    </div>
+    <div class="pc13-count" data-pc13-count>1 / 12</div>
+    <div class="pc13-modal" data-pc13-modal>
+      <div class="pc13-modal-card" data-pc13-modal-card>
+        <h3 data-pc13-modal-title>Retroalimentación</h3>
+        <p data-pc13-modal-body></p>
+        <button class="pc13-btn" type="button" data-pc13-modal-close>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.currentScript.closest('[data-pc13-root]');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+      var prev = root.querySelector('[data-pc13-prev]');
+      var next = root.querySelector('[data-pc13-next]');
+      var count = root.querySelector('[data-pc13-count]');
+      var modal = root.querySelector('[data-pc13-modal]');
+      var modalCard = root.querySelector('[data-pc13-modal-card]');
+      var modalTitle = root.querySelector('[data-pc13-modal-title]');
+      var modalBody = root.querySelector('[data-pc13-modal-body]');
+      var modalClose = root.querySelector('[data-pc13-modal-close]');
+      var current = 0;
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+        if (prev) prev.disabled = current === 0;
+        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+      }
+      function finishScene() {
+        var scene = root.closest('[data-course-section]');
+        var nextScene = scene ? scene.nextElementSibling : null;
+        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      root.addEventListener('click', function(event) {
+        var answer = event.target.closest('[data-pc13-answer]');
+        if (!answer || !root.contains(answer)) return;
+        var correct = answer.getAttribute('data-pc13-answer') === '1';
+        var slide = answer.closest('[data-pc13-slide]');
+        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+          button.classList.toggle('is-incorrect', button === answer && !correct);
+        });
+        var pearl = answer.getAttribute('data-pc13-pearl') || '';
+        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+        if (pearl && pearlBox) {
+          pearlBox.hidden = false;
+          pearlBox.innerHTML = '<strong>' + pearlTitle + '</strong>' + pearl;
+        }
+        if (modal && modalCard && modalTitle && modalBody) {
+          modal.classList.add('is-open');
+          modalCard.classList.toggle('is-incorrect', !correct);
+          modalTitle.textContent = correct ? 'Retroalimentación' : 'Retroalimentación';
+          modalBody.textContent = answer.getAttribute('data-pc13-feedback') || '';
+        }
+      });
+      if (modalClose) modalClose.addEventListener('click', function() { modal.classList.remove('is-open'); });
+      if (prev) prev.addEventListener('click', function() { show(current - 1); });
+      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+      show(0);
+    })();
+  </script>
+</section>

@@ -1735,6 +1735,24 @@
 
                 <ul class="content-list" id="preguntasExamenList"></ul>
             </section>
+
+            <div class="paper-confirm" id="deletePreguntaConfirm" hidden>
+                <div class="paper-confirm-card" role="dialog" aria-modal="true" aria-labelledby="deletePreguntaTitle">
+                    <div>
+                        <div class="paper-confirm-content">
+                            <div class="paper-confirm-kicker">Papelera clínica</div>
+                            <h3 class="paper-confirm-title" id="deletePreguntaTitle">Eliminar pregunta</h3>
+                            <p class="paper-confirm-text" id="deletePreguntaText">
+                                Esta pregunta se eliminará definitivamente del examen.
+                            </p>
+                        </div>
+                        <div class="paper-confirm-actions">
+                            <button class="return-btn" type="button" id="cancelDeletePregunta">Cancelar</button>
+                            <button class="btn tree-action danger" type="button" id="confirmDeletePregunta">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <aside class="scene-editor-drawer" id="preguntaEditorDrawer" hidden aria-label="Editor de pregunta">
@@ -1852,7 +1870,9 @@ const state = {
     pendingDeleteContent: null,
     pendingDeleteScene: null,
     pendingDeleteInfografia: null,
-    pendingDeleteEscala: null
+    pendingDeleteEscala: null,
+    pendingDeletePregunta: null,
+    savingPregunta: false
 };
 
 const dificultades = ['Básico', 'Intermedio', 'Avanzado'];
@@ -2901,7 +2921,7 @@ async function abrirModalInfografias(idCaso){
 }
 
 async function cargarInfografiasCaso(){
-    const response = await fetch(`../php/infografias.php?id_caso=${encodeURIComponent(state.openCaso)}`);
+    const response = await fetch(`../php/infografias.php?id_caso=${encodeURIComponent(state.openCaso)}&contexto=admin`);
     const data = await response.json();
     state.infografias = Array.isArray(data) ? data : [];
     document.getElementById('infografiaOrden').value = state.infografias.length + 1;
@@ -3244,7 +3264,10 @@ function renderPreguntasExamen(){
                         <span>D. ${escaparHTML(pregunta.opcion_d || '')}</span>
                     </div>
                 </div>
-                <button class="btn tree-action" type="button" data-edit-pregunta="${pregunta.id}">Editar</button>
+                <div class="scene-actions">
+                    <button class="btn tree-action" type="button" data-edit-pregunta="${pregunta.id}">Editar</button>
+                    <button class="btn tree-action danger" type="button" data-delete-pregunta="${pregunta.id}">Eliminar</button>
+                </div>
             </div>
         </li>
     `).join('');
@@ -3376,16 +3399,29 @@ function validarDatosPregunta(data){
 async function guardarPreguntaExamen(event){
     event.preventDefault();
 
+    const form = event.currentTarget;
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    if(state.savingPregunta){
+        return;
+    }
+
     if(!state.openExamen){
         fijarEstado('Primero guarda el examen del caso.', true);
         return;
     }
 
-    const data = datosPreguntaDesdeFormulario(event.currentTarget);
+    const data = datosPreguntaDesdeFormulario(form);
 
     if(!validarDatosPregunta(data)){
         fijarEstado('Completa la pregunta y sus cuatro opciones.', true);
         return;
+    }
+
+    state.savingPregunta = true;
+    if(submitButton){
+        submitButton.disabled = true;
+        submitButton.textContent = 'Guardando...';
     }
 
     try{
@@ -3403,12 +3439,32 @@ async function guardarPreguntaExamen(event){
             throw new Error(result.mensaje || 'No se pudo guardar la pregunta.');
         }
 
-        event.currentTarget.reset();
-        await cargarPreguntasExamen(state.openExamen);
+        form.reset();
+
+        if(result.pregunta){
+            state.preguntas = [
+                ...state.preguntas.filter((item) => String(item.id) !== String(result.pregunta.id)),
+                result.pregunta
+            ].sort((a, b) => {
+                const ordenA = Number(a.orden_pregunta || a.id || 0);
+                const ordenB = Number(b.orden_pregunta || b.id || 0);
+                return ordenA - ordenB;
+            });
+            renderPreguntasExamen();
+        }else{
+            await cargarPreguntasExamen(state.openExamen);
+        }
+
         fijarEstado(result.mensaje || 'Pregunta guardada.');
     }catch(error){
         console.error(error);
         fijarEstado(error.message || 'No fue posible guardar la pregunta.', true);
+    }finally{
+        state.savingPregunta = false;
+        if(submitButton){
+            submitButton.disabled = false;
+            submitButton.textContent = 'Guardar pregunta';
+        }
     }
 }
 
@@ -3492,6 +3548,59 @@ async function guardarPreguntaEditada(form){
     }catch(error){
         console.error(error);
         fijarEstado(error.message || 'No fue posible actualizar la pregunta.', true);
+    }
+}
+
+function solicitarEliminarPregunta(id){
+    const pregunta = state.preguntas.find((item) => String(item.id) === String(id));
+
+    if(!pregunta){
+        return;
+    }
+
+    state.pendingDeletePregunta = id;
+    document.getElementById('deletePreguntaTitle').textContent =
+        pregunta.pregunta || 'Eliminar pregunta';
+    document.getElementById('deletePreguntaText').textContent =
+        'Esta acción eliminará definitivamente la pregunta del banco de reactivos del examen.';
+    document.getElementById('deletePreguntaConfirm').hidden = false;
+}
+
+function cerrarConfirmacionEliminarPregunta(){
+    state.pendingDeletePregunta = null;
+    document.getElementById('deletePreguntaConfirm').hidden = true;
+}
+
+async function eliminarPreguntaConfirmada(){
+    const id = state.pendingDeletePregunta;
+
+    if(!id){
+        return;
+    }
+
+    try{
+        const response = await fetch('../php/preguntas.php', {
+            method:'DELETE',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({ id })
+        });
+        const result = await response.json();
+
+        if(!result.success){
+            throw new Error(result.mensaje || 'No se pudo eliminar la pregunta.');
+        }
+
+        if(String(document.getElementById('preguntaEditForm').dataset.preguntaId) === String(id)){
+            cerrarEditorPregunta();
+        }
+
+        state.preguntas = state.preguntas.filter((item) => String(item.id) !== String(id));
+        renderPreguntasExamen();
+        cerrarConfirmacionEliminarPregunta();
+        fijarEstado(result.mensaje || 'Pregunta eliminada.');
+    }catch(error){
+        console.error(error);
+        fijarEstado(error.message || 'No fue posible eliminar la pregunta.', true);
     }
 }
 
@@ -3893,12 +4002,14 @@ document.getElementById('escalasModal').addEventListener('click', (event) => {
 document.getElementById('cerrarModalExamenes').addEventListener('click', () => {
     cerrarEditorExamen();
     cerrarEditorPregunta();
+    cerrarConfirmacionEliminarPregunta();
     document.getElementById('examenesModal').hidden = true;
 });
 document.getElementById('examenesModal').addEventListener('click', (event) => {
     if(event.target.id === 'examenesModal'){
         cerrarEditorExamen();
         cerrarEditorPregunta();
+        cerrarConfirmacionEliminarPregunta();
         event.currentTarget.hidden = true;
     }
 });
@@ -3986,6 +4097,19 @@ document.getElementById('preguntasExamenList').addEventListener('click', (event)
 
     if(editButton){
         abrirEditorPregunta(editButton.dataset.editPregunta);
+    }
+
+    const deleteButton = event.target.closest('[data-delete-pregunta]');
+
+    if(deleteButton){
+        solicitarEliminarPregunta(deleteButton.dataset.deletePregunta);
+    }
+});
+document.getElementById('cancelDeletePregunta').addEventListener('click', cerrarConfirmacionEliminarPregunta);
+document.getElementById('confirmDeletePregunta').addEventListener('click', eliminarPreguntaConfirmada);
+document.getElementById('deletePreguntaConfirm').addEventListener('click', (event) => {
+    if(event.target.id === 'deletePreguntaConfirm'){
+        cerrarConfirmacionEliminarPregunta();
     }
 });
 document.getElementById('preguntaEditForm').addEventListener('submit', (event) => {

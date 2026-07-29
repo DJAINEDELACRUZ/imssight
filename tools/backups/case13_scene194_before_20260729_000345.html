@@ -1,0 +1,383 @@
+<section class="pronam-case13-course pc13-updated" data-pc13-root aria-label="Presentación interactiva del caso clínico">
+  <style>
+    .pronam-case13-course { --pc13-ink:#10312B; --pc13-green:#235B4E; --pc13-wine:#9F2241; --pc13-maroon:#691C32; --pc13-gold:#DDC9A3; --pc13-bronze:#BC955C; --pc13-cream:#F7F2E8; --pc13-soft:#EEF4F1; --pc13-muted:#6F7271; font-family:"Noto Sans", Arial, sans-serif; color:var(--pc13-ink); }
+    .pronam-case13-course * { box-sizing:border-box; letter-spacing:0; }
+    .pc13-stage { position:relative; min-height:560px; overflow:hidden; border:1px solid #e7ddd1; border-radius:16px; background:#fff; scroll-margin-top:calc(var(--topbar-height, 86px) + 12px); }
+    .pc13-slide { display:none; min-height:560px; position:relative; padding:34px 46px 78px; isolation:isolate; }
+    .pc13-slide.is-active { display:block; }
+    .pc13-line { position:absolute; left:48px; width:calc(100% - 96px); height:4px; background:var(--pc13-wine); z-index:2; }
+    .pc13-line-top { top:28px; }
+    .pc13-line-bottom { bottom:60px; }
+    .pc13-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(210px,300px); gap:28px; align-items:center; min-height:410px; padding-top:20px; padding-bottom:28px; position:relative; z-index:2; }
+    .pc13-copy { min-width:0; align-self:center; position:relative; z-index:3; }
+    .pc13-kicker { display:inline-flex; align-items:center; gap:8px; margin:22px 0 12px; color:var(--pc13-wine); font-size:12px; font-weight:900; text-transform:uppercase; }
+    .pc13-kicker::before { content:""; width:28px; height:3px; border-radius:99px; background:var(--pc13-gold); }
+    .pc13-copy h2 { margin:8px 0 14px; color:var(--pc13-ink); font-size:clamp(30px,3.1vw,43px); line-height:1.02; font-weight:900; }
+    .pc13-copy h3 { margin:8px 0 12px; color:var(--pc13-green); font-size:clamp(19px,1.55vw,23px); line-height:1.16; font-weight:900; }
+    .pc13-copy p, .pc13-list { font-size:clamp(14px,1.03vw,16px); line-height:1.35; }
+    .pc13-copy p { margin:0 0 10px; }
+    .pc13-list { margin:0; padding-left:22px; }
+    .pc13-list li { margin:3px 0; }
+    .pc13-doctor { position:relative; width:100%; max-width:300px; justify-self:end; align-self:end; margin-bottom:-18px; object-fit:contain; z-index:4; filter:drop-shadow(0 20px 30px rgba(16,49,43,.18)); transform:translateX(24px); opacity:0; pointer-events:none; }
+    .pc13-slide.is-active .pc13-doctor { animation:pc13DoctorIn .68s cubic-bezier(.2,.8,.2,1) .08s both; }
+    @keyframes pc13DoctorIn { to { transform:translateX(0); opacity:1; } }
+    .pc13-focus-panel { width:min(100%, 960px); padding:20px 26px; border-left:7px solid var(--pc13-wine); border-radius:12px; background:linear-gradient(135deg,#fff,#F7F2E8); box-shadow:0 14px 34px rgba(16,49,43,.08); }
+    .pc13-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:16px; }
+    .pc13-card { min-height:96px; border:1px solid rgba(35,91,78,.16); border-radius:10px; padding:14px 15px; background:#fff; color:var(--pc13-ink); text-align:left; box-shadow:0 12px 24px rgba(16,49,43,.08); font:inherit; cursor:pointer; }
+    .pc13-card strong { display:block; margin-bottom:6px; color:var(--pc13-green); font-size:15px; font-weight:900; }
+    .pc13-card span { display:block; font-size:13px; line-height:1.25; }
+    .pc13-card:hover, .pc13-card:focus { transform:translateY(-2px); outline:3px solid rgba(188,149,92,.26); }
+    .pc13-flip-zone { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; width:min(100%, 920px); margin-top:18px; perspective:1200px; }
+    .pc13-flip-toggle { position:absolute; inline-size:1px; block-size:1px; opacity:0; pointer-events:none; }
+    .pc13-flip-card { display:block; min-height:360px; color:inherit; text-align:left; cursor:pointer; perspective:1200px; }
+    .pc13-flip-inner { display:block; position:relative; width:100%; min-height:360px; transform-style:preserve-3d; transition:transform .62s cubic-bezier(.2,.8,.2,1); }
+    .pc13-flip-toggle:checked + .pc13-flip-card .pc13-flip-inner { transform:rotateY(180deg); }
+    .pc13-flip-face { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:14px; border:1px solid rgba(35,91,78,.18); box-shadow:0 18px 38px rgba(16,49,43,.12); overflow:hidden; transform:translateZ(0); }
+    .pc13-flip-front { padding:30px; background:linear-gradient(135deg,#235B4E,#10312B); color:#fff; transform:rotateY(0deg) translateZ(1px); }
+    .pc13-flip-front .pc13-flip-tag { display:inline-flex; width:max-content; margin-bottom:14px; border-radius:999px; padding:7px 12px; background:rgba(221,201,163,.18); color:#DDC9A3; font-size:12px; font-weight:900; text-transform:uppercase; }
+    .pc13-flip-front strong { display:block; max-width:360px; font-size:clamp(25px,2.4vw,34px); line-height:1.02; font-weight:900; }
+    .pc13-flip-front small { display:block; margin-top:16px; color:#F7F2E8; font-size:13px; font-weight:800; }
+    .pc13-flip-back { transform:rotateY(180deg) translateZ(1px); padding:20px 24px; background:#fff; color:var(--pc13-ink); border-top:8px solid var(--pc13-wine); justify-content:flex-start; }
+    .pc13-flip-back h3 { margin:0 0 10px; font-size:clamp(18px,1.4vw,22px); color:var(--pc13-green); }
+    .pc13-flip-back .pc13-list { font-size:clamp(12px,.88vw,14px); line-height:1.22; padding-left:18px; }
+    .pc13-flip-back .pc13-route-list { margin:0; padding-left:22px; font-size:clamp(12px,.88vw,14px); line-height:1.22; }
+    .pc13-flip-back .pc13-route-list li { margin:0 0 9px; padding-left:2px; }
+    .pc13-flip-card:focus { outline:3px solid rgba(188,149,92,.36); outline-offset:4px; border-radius:14px; }
+    .pc13-slide:first-child .pc13-body { display:block; min-height:410px; }
+    .pc13-slide:first-child .pc13-copy { width:100%; padding-right:250px; }
+    .pc13-slide:first-child .pc13-copy h2 { max-width:720px; }
+    .pc13-slide:first-child .pc13-flip-zone { width:min(100%, 760px); grid-template-columns:repeat(2,minmax(240px,1fr)); }
+    .pc13-slide:first-child .pc13-doctor { position:absolute; right:42px; bottom:54px; width:min(24vw,260px); max-width:260px; }
+    .pc13-band { width:calc(100% + 92px); margin:14px 0 14px -46px; padding:18px 340px 18px 46px; background:var(--pc13-cream); }
+    .pc13-band.is-wine { background:var(--pc13-wine); color:#fff; font-weight:900; }
+    .pc13-row-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:14px; }
+    .pc13-row { display:grid; grid-template-columns:34px 1fr; gap:10px; align-items:center; min-height:56px; padding:10px 12px; border-radius:10px; background:#F7F2E8; border:1px solid rgba(188,149,92,.28); font-size:clamp(13px,1vw,15px); line-height:1.22; }
+    .pc13-row span:first-child { display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:var(--pc13-green); color:#fff; font-weight:900; }
+    .pc13-actions { position:absolute; left:0; right:0; bottom:16px; display:flex; align-items:center; justify-content:center; gap:14px; z-index:6; pointer-events:none; }
+    .pc13-btn { min-width:132px; min-height:42px; border:0; border-radius:10px; padding:8px 18px; background:linear-gradient(135deg,#235B4E,#10312B); color:#fff; font-size:16px; font-weight:900; cursor:pointer; pointer-events:auto; box-shadow:0 8px 18px rgba(16,49,43,.16); }
+    .pc13-btn[disabled] { opacity:.38; cursor:not-allowed; }
+    .pc13-btn-secondary { background:#EEF4F1; color:var(--pc13-green); border:1px solid rgba(35,91,78,.18); }
+    .pc13-count { position:absolute; right:48px; bottom:24px; color:var(--pc13-muted); font-size:18px; font-weight:900; z-index:6; }
+    .pc13-options-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; max-width:900px; margin-top:14px; }
+    .pc13-option-btn { display:flex; gap:12px; align-items:flex-start; border:1px solid #10312B; border-radius:10px; padding:11px 13px; background:#10312B; color:#fff; text-align:left; font-size:clamp(13px,1vw,15px); line-height:1.25; cursor:pointer; box-shadow:0 8px 18px rgba(16,49,43,.12); }
+    .pc13-option-btn span { flex:0 0 auto; display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,.14); color:#fff; font-weight:900; }
+    .pc13-option-btn.is-correct { border-color:var(--pc13-green); background:var(--pc13-green); color:#fff; }
+    .pc13-option-btn.is-incorrect { border-color:var(--pc13-wine); background:var(--pc13-wine); color:#fff; }
+    .pc13-pearl-box, .pc13-static-pearl { margin-top:14px; padding:13px 15px; border-left:6px solid var(--pc13-green); border-radius:10px; background:#f2f7f4; font-size:clamp(13px,1vw,15px); line-height:1.35; }
+    .pc13-pearl-box strong, .pc13-static-pearl strong { display:block; margin-bottom:5px; color:var(--pc13-green); font-weight:900; }
+    .pc13-modal { position:absolute; inset:0; display:none; place-items:center; padding:26px; background:rgba(16,49,43,.48); z-index:10; }
+    .pc13-modal.is-open { display:grid; }
+    .pc13-modal-card { max-width:780px; width:100%; border-radius:16px; padding:24px; background:#fff; box-shadow:0 24px 60px rgba(16,49,43,.22); border-top:10px solid var(--pc13-green); }
+    .pc13-modal-card.is-incorrect { border-top-color:var(--pc13-wine); }
+    .pc13-modal-card h3 { margin:0 0 10px; color:var(--pc13-green); font-size:26px; font-weight:900; }
+    .pc13-modal-card.is-incorrect h3 { color:var(--pc13-wine); }
+    .pc13-modal-card p { margin:0 0 16px; font-size:16px; line-height:1.45; }
+    @media (max-width:980px) {
+      .pc13-stage, .pc13-slide { min-height:760px; }
+      .pc13-slide { padding:32px 22px 104px; }
+      .pc13-line { left:22px; width:calc(100% - 44px); }
+      .pc13-body { display:block; }
+      .pc13-copy h2 { font-size:32px; }
+      .pc13-card-grid, .pc13-row-grid, .pc13-options-grid, .pc13-flip-zone { grid-template-columns:1fr; }
+      .pc13-flip-card, .pc13-flip-inner { min-height:380px; }
+      .pc13-slide:first-child .pc13-copy { padding-right:0; }
+      .pc13-slide:first-child .pc13-flip-zone { grid-template-columns:1fr; }
+      .pc13-slide:first-child .pc13-doctor { position:absolute; right:4px; bottom:70px; width:140px; opacity:.18; }
+      .pc13-band { width:calc(100% + 44px); margin-left:-22px; padding:16px 22px; }
+      .pc13-doctor { position:absolute; right:4px; bottom:70px; width:140px; opacity:.18; }
+      .pc13-count { right:22px; bottom:26px; }
+    }
+  </style>
+  <div class="pc13-stage" aria-label="Capítulo 1 Presentación del caso">
+    <article class="pc13-slide is-active" data-pc13-slide="0">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Inicio del recorrido</span>
+          <h2>Antes de iniciar, revise el mapa del caso</h2>
+          <div class="pc13-flip-zone" aria-label="Tarjetas de inicio del caso">
+            <input class="pc13-flip-toggle" type="checkbox" id="pc13-flip-competencias">
+            <label class="pc13-flip-card" for="pc13-flip-competencias">
+              <div class="pc13-flip-inner">
+                <div class="pc13-flip-face pc13-flip-front">
+                  <span class="pc13-flip-tag">Tarjeta 1</span>
+                  <strong>Competencias a desarrollar</strong>
+                  <small>Presione para girar la tarjeta</small>
+                </div>
+                <div class="pc13-flip-face pc13-flip-back">
+                  <h3>Al finalizar este caso clínico usted será capaz de:</h3>
+                  <ul class="pc13-list"><li>Identificar oportunamente a un paciente con síndrome metabólico</li><li>Reconocer factores de riesgo para diabetes mellitus tipo 2</li><li>Aplicar los criterios diagnósticos actuales</li><li>Solicitar e interpretar estudios de laboratorio</li><li>Estratificar el riesgo cardiovascular y renal</li><li>Seleccionar el tratamiento farmacológico de primera línea</li><li>Individualizar las metas glucémicas</li><li>Prevenir complicaciones micro y macrovasculares</li><li>Realizar seguimiento longitudinal del paciente</li></ul>
+                </div>
+              </div>
+            </label>
+            <input class="pc13-flip-toggle" type="checkbox" id="pc13-flip-ruta">
+            <label class="pc13-flip-card" for="pc13-flip-ruta">
+              <div class="pc13-flip-inner">
+                <div class="pc13-flip-face pc13-flip-front">
+                  <span class="pc13-flip-tag">Tarjeta 2</span>
+                  <strong>Ruta clínica de aprendizaje</strong>
+                  <small>Presione para girar la tarjeta</small>
+                </div>
+                <div class="pc13-flip-face pc13-flip-back">
+                  <h3>Al concluir este módulo usted podrá:</h3>
+                  <ol class="pc13-route-list">
+                    <li>Diagnosticar síndrome metabólico mediante ATP III, IDF y ALAD</li>
+                    <li>Diagnosticar diabetes utilizando criterios ADA y CENETEC</li>
+                    <li>Calcular riesgo cardiovascular</li>
+                    <li>Identificar enfermedad renal diabética temprana</li>
+                    <li>Seleccionar tratamiento basado en comorbilidades</li>
+                    <li>Ajustar tratamiento conforme evoluciona el paciente</li>
+                    <li>Prevenir complicaciones</li>
+                  </ol>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="2">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Escenario clínico</span>
+          <h2>Unidad de Medicina Familiar IMSS</h2>
+          <div class="pc13-card-grid">
+            <button class="pc13-card" type="button" data-pc13-card-title="Lugar" data-pc13-card-copy="Unidad de Medicina Familiar IMSS."><strong>Lugar</strong><span>Unidad de Medicina Familiar IMSS.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Hora" data-pc13-card-copy="08:15 horas."><strong>Hora</strong><span>08:15 horas.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Motivo de consulta" data-pc13-card-copy="&quot;Vengo porque tengo mucha sed y me siento muy cansado&quot;."><strong>Motivo de consulta</strong><span>"Vengo porque tengo mucha sed y me siento muy cansado".</span></button>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="3">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Historia inicial</span>
+          <h2>Lo que refiere el paciente</h2>
+          <div class="pc13-band"><p>Acude a consulta un hombre de 47 años, empleado administrativo, quien refiere que desde hace aproximadamente ocho meses presenta aumento progresivo de la sed, ingesta de grandes cantidades de agua durante el día y necesidad de levantarse varias veces por la noche para orinar.</p></div>
+          <p>En los últimos tres meses ha notado disminución de su rendimiento laboral debido a fatiga constante, somnolencia después de los alimentos y dificultad para concentrarse.</p>
+          <p>Comenta además visión borrosa intermitente, principalmente al finalizar la jornada laboral, así como calambres nocturnos en ambas piernas.</p>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="4">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Presentación del caso</span>
+          <h2>Evolución reciente</h2>
+          <p>En las últimas cuatro semanas ha observado pérdida de aproximadamente 4 kg de peso sin proponérselo, aunque refiere que continúa con mucho apetito.</p>
+          <div class="pc13-band is-wine">Su esposa insiste en que acuda a valoración porque "cada vez toma más refresco para quitarse la sed" y recientemente presentó una infección en la piel que tardó varias semanas en cicatrizar.</div>
+          <p>Niega fiebre, dolor abdominal, vómito o pérdida del estado de alerta.</p>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="5">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Decisión clínica</span>
+          <h2>Primer punto de decisión</h2>
+          <div class="pc13-question">
+            <h3>Con la información disponible, ¿cuál es el siguiente paso más apropiado?</h3>
+            <div class="pc13-options-grid">
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span>A</span>Iniciar metformina de manera inmediata.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span>B</span>Solicitar laboratorio completo para confirmar el diagnóstico.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span>C</span>Solicitar tomografía abdominal.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span>D</span>Prescribir antibióticos por probable infección urinaria.</button>
+            </div>
+            <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="6">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Continúa la historia</span>
+          <h2>El médico decide ampliar el interrogatorio</h2>
+          <div class="pc13-focus-panel"><p>Antes de cerrar el razonamiento diagnóstico, revise los antecedentes que modifican el riesgo cardiometabólico del paciente.</p></div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="7">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Antecedentes heredofamiliares</span>
+          <h2>Riesgo familiar</h2>
+          <div class="pc13-card-grid">
+            <button class="pc13-card" type="button" data-pc13-card-title="Padre" data-pc13-card-copy="Padre con diabetes mellitus tipo 2 diagnosticada a los 52 años; falleció por infarto agudo de miocardio a los 61 años."><strong>Padre</strong><span>Diabetes mellitus tipo 2 e infarto agudo de miocardio.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Madre" data-pc13-card-copy="Madre con hipertensión arterial sistémica y enfermedad renal crónica."><strong>Madre</strong><span>Hipertensión arterial sistémica y enfermedad renal crónica.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Otros familiares" data-pc13-card-copy="Hermano mayor con obesidad y dislipidemia. Abuelo paterno con amputación supracondílea secundaria a pie diabético."><strong>Otros familiares</strong><span>Obesidad, dislipidemia y antecedente de pie diabético.</span></button>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="8">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Antecedentes personales patológicos</span>
+          <h2>Comorbilidades conocidas</h2>
+          <ul class="pc13-list"><li>Hipertensión arterial diagnosticada hace cinco años, con apego irregular al tratamiento.</li><li>Dislipidemia conocida desde hace tres años, sin tratamiento actual.</li><li>Niega enfermedades autoinmunes, pancreatitis o uso de glucocorticoides.</li><li>Sin antecedentes de hospitalizaciones por hiperglucemia.</li></ul>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="9">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Antecedentes personales no patológicos</span>
+          <h2>Estilo de vida y contexto</h2>
+          <ul class="pc13-list"><li>Sedentarismo; no realiza actividad física programada.</li><li>Alimentación rica en carbohidratos refinados y bebidas azucaradas.</li><li>Consumo frecuente de comida rápida (4-5 veces por semana).</li><li>Exfumador (15 paquetes-año), suspendido hace cinco años.</li><li>Consumo ocasional de alcohol.</li><li>Sueño de 5-6 horas por noche debido a largas jornadas laborales.</li></ul>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="10">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Revisión por aparatos y sistemas</span>
+          <h2>Síntomas actuales</h2>
+          <p>Refiere además:</p>
+          <div class="pc13-card-grid">
+            <button class="pc13-card" type="button" data-pc13-card-title="Síntomas cardinales" data-pc13-card-copy="Poliuria, polidipsia y polifagia."><strong>Síntomas cardinales</strong><span>Poliuria, polidipsia y polifagia.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Síntomas asociados" data-pc13-card-copy="Visión borrosa intermitente, fatiga y calambres nocturnos."><strong>Síntomas asociados</strong><span>Visión borrosa, fatiga y calambres nocturnos.</span></button>
+            <button class="pc13-card" type="button" data-pc13-card-title="Síntomas negados" data-pc13-card-copy="Niega dolor torácico, disnea, edema o síntomas neurológicos focales."><strong>Síntomas negados</strong><span>Sin dolor torácico, disnea, edema o datos neurológicos focales.</span></button>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <article class="pc13-slide" data-pc13-slide="11">
+      <div class="pc13-line pc13-line-top" aria-hidden="true"></div>
+      <div class="pc13-body">
+        <div class="pc13-copy">
+          <span class="pc13-kicker">Integración de riesgo</span>
+          <h2>Segunda pregunta interactiva</h2>
+          <div class="pc13-question">
+            <h3>¿Qué factores de riesgo para diabetes mellitus tipo 2 identifica en este paciente? (Selección múltiple)</h3>
+            <div class="pc13-options-grid">
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>1</span>Edad mayor de 45 años.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>2</span>Obesidad y hábitos alimentarios inadecuados.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>3</span>Sedentarismo.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>4</span>Antecedentes familiares de primer grado.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>5</span>Hipertensión arterial.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>6</span>Dislipidemia.</button>
+              <button class="pc13-option-btn" type="button" data-pc13-answer="1" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span>7</span>Todos los anteriores.</button>
+            </div>
+            <div class="pc13-pearl-box" data-pc13-pearl-box hidden></div>
+          </div>
+        </div>
+        <img class="pc13-doctor" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+      </div>
+      <div class="pc13-line pc13-line-bottom" aria-hidden="true"></div>
+    </article>
+    <div class="pc13-actions">
+      <button class="pc13-btn pc13-btn-secondary" type="button" data-pc13-prev disabled>Anterior</button>
+      <button class="pc13-btn" type="button" data-pc13-next>Continuar</button>
+    </div>
+    <div class="pc13-count" data-pc13-count>1 / 11</div>
+    <div class="pc13-modal" data-pc13-modal aria-hidden="true">
+      <div class="pc13-modal-card" data-pc13-modal-card role="dialog" aria-modal="true" aria-label="Detalle interactivo">
+        <h3 data-pc13-modal-title>Detalle</h3>
+        <p data-pc13-modal-body></p>
+        <button class="pc13-btn" type="button" data-pc13-modal-close>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.currentScript.closest('[data-pc13-root]');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+      var prev = root.querySelector('[data-pc13-prev]');
+      var next = root.querySelector('[data-pc13-next]');
+      var count = root.querySelector('[data-pc13-count]');
+      var modal = root.querySelector('[data-pc13-modal]');
+      var modalCard = root.querySelector('[data-pc13-modal-card]');
+      var modalTitle = root.querySelector('[data-pc13-modal-title]');
+      var modalBody = root.querySelector('[data-pc13-modal-body]');
+      var modalClose = root.querySelector('[data-pc13-modal-close]');
+      var current = 0;
+      function openModal(title, body, incorrect) {
+        if (!modal || !modalCard || !modalTitle || !modalBody) return;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        modalCard.classList.toggle('is-incorrect', !!incorrect);
+        modalTitle.textContent = title || 'Detalle';
+        modalBody.textContent = body || '';
+      }
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+        if (prev) prev.disabled = current === 0;
+        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+      }
+      function finishScene() {
+        var scene = root.closest('[data-course-section]');
+        var nextScene = scene ? scene.nextElementSibling : null;
+        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      root.addEventListener('click', function(event) {
+        var infoCard = event.target.closest('[data-pc13-card-title]');
+        if (infoCard && root.contains(infoCard)) {
+          openModal(infoCard.getAttribute('data-pc13-card-title'), infoCard.getAttribute('data-pc13-card-copy'), false);
+          return;
+        }
+        var answer = event.target.closest('[data-pc13-answer]');
+        if (!answer || !root.contains(answer)) return;
+        var correct = answer.getAttribute('data-pc13-answer') === '1';
+        var slide = answer.closest('[data-pc13-slide]');
+        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+          button.classList.toggle('is-incorrect', button === answer && !correct);
+        });
+        var pearl = answer.getAttribute('data-pc13-pearl') || '';
+        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+        if (pearl && pearlBox) {
+          pearlBox.hidden = false;
+          pearlBox.innerHTML = '<strong>' + pearlTitle + '</strong>' + pearl;
+        }
+        openModal('Retroalimentación', answer.getAttribute('data-pc13-feedback') || '', !correct);
+      });
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modal) modal.addEventListener('click', function(event) { if (event.target === modal) closeModal(); });
+      root.addEventListener('keydown', function(event) { if (event.key === 'Escape') closeModal(); });
+      if (prev) prev.addEventListener('click', function() { show(current - 1); });
+      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+      show(0);
+    })();
+  </script>
+</section>

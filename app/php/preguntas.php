@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         WHERE id_examen = ?
 
-        ORDER BY id ASC
+        ORDER BY orden_pregunta ASC, id ASC
 
     ";
 
@@ -52,7 +52,52 @@ $data = json_decode(
     file_get_contents("php://input"),
     true
 
-);
+) ?: [];
+
+/*
+|--------------------------------------------------------------------------
+| ELIMINAR
+|--------------------------------------------------------------------------
+*/
+
+if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+
+    $id =
+        (int)($data['id'] ?? ($_GET['id'] ?? 0));
+
+    if($id <= 0){
+
+        echo json_encode([
+
+            'success' => false,
+            'mensaje' => 'Pregunta no válida'
+
+        ]);
+
+        exit;
+
+    }
+
+    $stmt = $pdo->prepare("
+
+        DELETE FROM examen_preguntas
+
+        WHERE id = ?
+
+    ");
+
+    $ok = $stmt->execute([$id]);
+
+    echo json_encode([
+
+        'success' => $ok,
+        'mensaje' => 'Pregunta eliminada'
+
+    ]);
+
+    exit;
+
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -132,10 +177,27 @@ if(!isset($data['id'])){
 
     ]);
 
+    $stmtPregunta = $pdo->prepare("
+
+        SELECT *
+
+        FROM examen_preguntas
+
+        WHERE id = ?
+
+    ");
+
+    $stmtPregunta->execute([
+
+        $pdo->lastInsertId()
+
+    ]);
+
     echo json_encode([
 
         'success' => $ok,
-        'mensaje' => 'Pregunta creada'
+        'mensaje' => 'Pregunta creada',
+        'pregunta' => $stmtPregunta->fetch(PDO::FETCH_ASSOC)
 
     ]);
 

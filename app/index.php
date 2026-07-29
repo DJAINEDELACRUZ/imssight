@@ -24,9 +24,21 @@ function mediaUrl($path)
         : substr($path, 1);
 }
 
+function htmlTieneContenido($html)
+{
+    $texto = html_entity_decode(strip_tags((string) ($html ?? '')), ENT_QUOTES, 'UTF-8');
+    $texto = preg_replace('/\x{00a0}/u', ' ', $texto);
+
+    return trim($texto) !== '';
+}
+
 $temas = [];
 $casos = [];
 $escenas = [];
+$perlasCaso = [];
+$infografiasCaso = [];
+$escalasCaso = [];
+$examenesCaso = [];
 $casoSeleccionado = null;
 $errorCarga = null;
 
@@ -138,6 +150,82 @@ try {
 
         $stmtEscenas->execute([(int) $casoSeleccionado['id']]);
         $escenas = $stmtEscenas->fetchAll(PDO::FETCH_ASSOC);
+
+        $idCasoSeleccionado = (int) $casoSeleccionado['id'];
+
+        $stmtPerlas = $pdo->prepare("
+            SELECT
+                id,
+                seccion,
+                contenido,
+                orden
+            FROM imssight.perlas_clinicas_caso
+            WHERE id_caso = ?
+            ORDER BY orden ASC, id ASC
+        ");
+        $stmtPerlas->execute([$idCasoSeleccionado]);
+        $perlasCaso = array_values(array_filter(
+            $stmtPerlas->fetchAll(PDO::FETCH_ASSOC),
+            static function ($perla) {
+                return htmlTieneContenido($perla['contenido'] ?? '');
+            }
+        ));
+
+        $stmtInfografias = $pdo->prepare("
+            SELECT
+                id,
+                titulo,
+                descripcion,
+                ruta_imagen,
+                alt_text,
+                orden
+            FROM imssight.infografias_caso
+            WHERE id_caso = ?
+              AND activo = 1
+            ORDER BY orden ASC, id ASC
+        ");
+        $stmtInfografias->execute([$idCasoSeleccionado]);
+        $infografiasCaso = $stmtInfografias->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmtEscalas = $pdo->prepare("
+            SELECT
+                id,
+                titulo,
+                descripcion,
+                url,
+                proveedor,
+                orden
+            FROM imssight.escalas_pronosticas_caso
+            WHERE id_caso = ?
+              AND activo = 1
+            ORDER BY orden ASC, id ASC
+        ");
+        $stmtEscalas->execute([$idCasoSeleccionado]);
+        $escalasCaso = $stmtEscalas->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmtExamenes = $pdo->prepare("
+            SELECT
+                id,
+                titulo,
+                descripcion,
+                (
+                    SELECT COUNT(*)
+                    FROM imssight.examen_preguntas p
+                    WHERE p.id_examen = imssight.examenes.id
+                ) AS total_preguntas
+            FROM imssight.examenes
+            WHERE id_caso = ?
+              AND activo = 1
+              AND EXISTS (
+                  SELECT 1
+                  FROM imssight.examen_preguntas p
+                  WHERE p.id_examen = imssight.examenes.id
+              )
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+        $stmtExamenes->execute([$idCasoSeleccionado]);
+        $examenesCaso = $stmtExamenes->fetchAll(PDO::FETCH_ASSOC);
     }
 } catch (Throwable $e) {
     $errorCarga = 'No fue posible cargar los casos PRONAM en este momento.';
@@ -156,6 +244,7 @@ try {
     <link rel="preload" as="image" href="img/inicio_sesion.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800;900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
         :root {
             --imss-green: #235B4E;
@@ -167,6 +256,57 @@ try {
             --imss-soft: #F6F3EE;
             --imss-surface: #FFFFFF;
             --topbar-height: 86px;
+            --option-card-title-size: clamp(30px, 4vw, 46px);
+            --topic-title-size: clamp(24px, 3vw, 34px);
+            --case-card-title-size: 22px;
+            --case-card-title-size-featured: 25px;
+            --case-viewer-title-size: clamp(28px, 4vw, 46px);
+            --scene-title-size: 18px;
+            --resource-card-title-size: 17px;
+        }
+
+        .pronam-page .btn-success {
+            --bs-btn-bg: var(--imss-green);
+            --bs-btn-border-color: var(--imss-green);
+            --bs-btn-hover-bg: var(--imss-green-dark);
+            --bs-btn-hover-border-color: var(--imss-green-dark);
+            --bs-btn-active-bg: var(--imss-green-dark);
+            --bs-btn-active-border-color: var(--imss-green-dark);
+            --bs-btn-disabled-bg: var(--imss-green);
+            --bs-btn-disabled-border-color: var(--imss-green);
+            background-color: var(--imss-green) !important;
+            border-color: var(--imss-green) !important;
+        }
+
+        .pronam-page .btn-success:hover,
+        .pronam-page .btn-success:focus,
+        .pronam-page .btn-success:active,
+        .pronam-page .btn-success.show {
+            background-color: var(--imss-green-dark) !important;
+            border-color: var(--imss-green-dark) !important;
+        }
+
+        .pronam-page .btn-outline-success {
+            --bs-btn-color: var(--imss-green);
+            --bs-btn-border-color: var(--imss-green);
+            --bs-btn-hover-bg: var(--imss-green);
+            --bs-btn-hover-border-color: var(--imss-green);
+            --bs-btn-active-bg: var(--imss-green-dark);
+            --bs-btn-active-border-color: var(--imss-green-dark);
+            --bs-btn-disabled-color: var(--imss-green);
+            --bs-btn-disabled-border-color: var(--imss-green);
+            background-color: transparent !important;
+            border-color: var(--imss-green) !important;
+            color: var(--imss-green) !important;
+        }
+
+        .pronam-page .btn-outline-success:hover,
+        .pronam-page .btn-outline-success:focus,
+        .pronam-page .btn-outline-success:active,
+        .pronam-page .btn-outline-success.show {
+            background-color: var(--imss-green) !important;
+            border-color: var(--imss-green) !important;
+            color: #FFFFFF !important;
         }
 
         * {
@@ -529,7 +669,7 @@ try {
         .option-card h3 {
             margin: 8px 0 14px;
             color: var(--imss-green-dark);
-            font-size: clamp(30px, 4vw, 46px);
+            font-size: var(--option-card-title-size);
             font-weight: 800;
             line-height: 1.05;
         }
@@ -584,7 +724,7 @@ try {
         .topic-head h3 {
             margin: 0;
             color: var(--imss-green-dark);
-            font-size: clamp(24px, 3vw, 34px);
+            font-size: var(--topic-title-size);
             font-weight: 800;
             line-height: 1.14;
         }
@@ -711,7 +851,7 @@ try {
         .case-card h3 {
             margin: 0;
             color: var(--imss-green-dark);
-            font-size: 22px;
+            font-size: var(--case-card-title-size);
             font-weight: 700;
             line-height: 1.32;
         }
@@ -767,7 +907,7 @@ try {
         }
 
         .topic-detail .case-card h3 {
-            font-size: 25px;
+            font-size: var(--case-card-title-size-featured);
             line-height: 1.24;
         }
 
@@ -816,7 +956,7 @@ try {
         .case-viewer-summary h2 {
             margin: 0;
             color: var(--imss-green-dark);
-            font-size: clamp(28px, 4vw, 46px);
+            font-size: var(--case-viewer-title-size);
             font-weight: 800;
             line-height: 1.08;
         }
@@ -948,13 +1088,44 @@ try {
             margin-top: 14px;
         }
 
+        .course-resource {
+            margin-top: 14px;
+        }
+
         .scene-head {
             display: flex;
             gap: 12px;
             align-items: flex-start;
+            position: relative;
             padding: 14px 16px;
             border-bottom: 1px solid var(--imss-border);
             background: #FAF8F4;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .scene-head::after {
+            content: "expand_more";
+            align-self: center;
+            margin-left: auto;
+            color: var(--imss-green-dark);
+            font-family: "Material Symbols Rounded";
+            font-size: 24px;
+            line-height: 1;
+            transition: transform .2s ease;
+        }
+
+        .scene-head:focus-visible {
+            outline: 3px solid rgba(188, 149, 92, .45);
+            outline-offset: -4px;
+        }
+
+        .scene.is-open .scene-head::after {
+            transform: rotate(180deg);
+        }
+
+        .scene.is-collapsed .scene-head {
+            border-bottom: 0;
         }
 
         .scene-number {
@@ -973,7 +1144,7 @@ try {
         .scene-title {
             margin: 0;
             color: var(--imss-green-dark);
-            font-size: 18px;
+            font-size: var(--scene-title-size);
             font-weight: 700;
             line-height: 1.25;
         }
@@ -991,6 +1162,10 @@ try {
             line-height: 1.65;
         }
 
+        .scene.is-collapsed .scene-content {
+            display: none;
+        }
+
         .scene-content img,
         .scene-content video {
             display: block;
@@ -998,6 +1173,353 @@ try {
             max-height: 520px;
             margin: 16px auto 0;
             border-radius: 4px;
+        }
+
+        .resource-list {
+            display: grid;
+            gap: 14px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .resource-card {
+            border: 1px solid rgba(35, 91, 78, .18);
+            border-radius: 8px;
+            background: #FFFFFF;
+            padding: 16px;
+        }
+
+        .resource-card h4 {
+            margin: 0 0 8px;
+            color: var(--imss-green-dark);
+            font-size: var(--resource-card-title-size);
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .resource-card p {
+            margin: 0 0 12px;
+            color: var(--imss-gray);
+            line-height: 1.6;
+        }
+
+        .resource-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .resource-card img {
+            display: block;
+            width: 100%;
+            max-height: 420px;
+            object-fit: contain;
+            border: 1px solid var(--imss-border);
+            border-radius: 4px;
+            background: #F8F8F7;
+        }
+
+        .floating-resource-dock {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            z-index: 30;
+            display: grid;
+            gap: 10px;
+            transform: translateY(-50%);
+        }
+
+        .floating-resource-label {
+            writing-mode: vertical-rl;
+            justify-self: center;
+            color: #9F2241;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .floating-resource-btn {
+            position: relative;
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(159, 34, 65, .34);
+            border-radius: 50%;
+            background: #9F2241;
+            color: #FFFFFF;
+            box-shadow: 0 12px 26px rgba(159, 34, 65, .28);
+            cursor: pointer;
+            transition: transform .18s ease, background .18s ease, color .18s ease;
+        }
+
+        .floating-resource-btn:hover,
+        .floating-resource-btn:focus-visible {
+            background: #7D1933;
+            color: #FFFFFF;
+            transform: translateX(-3px);
+            outline: none;
+        }
+
+        .floating-resource-btn .material-symbols-rounded {
+            font-size: 26px;
+        }
+
+        .floating-resource-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: calc(100% + 12px);
+            top: 50%;
+            min-width: 112px;
+            padding: 7px 10px;
+            border-radius: 6px;
+            background: #172F2A;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(6px, -50%);
+            transition: opacity .16s ease, transform .16s ease;
+            white-space: nowrap;
+        }
+
+        .floating-resource-btn:hover::after,
+        .floating-resource-btn:focus-visible::after {
+            opacity: 1;
+            transform: translate(0, -50%);
+        }
+
+        .resource-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(16, 32, 28, .48);
+        }
+
+        .resource-modal[hidden] {
+            display: none;
+        }
+
+        .resource-modal-card {
+            width: min(1180px, calc(100vw - 36px));
+            max-height: min(900px, calc(100vh - 36px));
+            overflow: auto;
+            border-radius: 8px;
+            background: #FFFFFF;
+            box-shadow: 0 28px 60px rgba(16, 32, 28, .32);
+        }
+
+        .resource-modal-head {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--imss-border);
+            background: #FFFFFF;
+        }
+
+        .resource-modal-title {
+            margin: 0;
+            color: var(--imss-green-dark);
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .resource-modal-body {
+            padding: 20px;
+        }
+
+        .resource-modal-body .resource-list {
+            gap: 18px;
+        }
+
+        .infografia-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .infografia-thumb {
+            width: 100%;
+            min-height: 178px;
+            display: grid;
+            grid-template-rows: 112px auto;
+            gap: 10px;
+            border: 1px solid rgba(35, 91, 78, .16);
+            border-radius: 8px;
+            background: #FFFFFF;
+            padding: 10px;
+            color: var(--imss-green-dark);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .infografia-thumb:hover,
+        .infografia-thumb:focus-visible,
+        .infografia-thumb.is-selected {
+            border-color: #9F2241;
+            box-shadow: 0 12px 24px rgba(159, 34, 65, .16);
+            outline: none;
+        }
+
+        .infografia-thumb img {
+            width: 100%;
+            height: 112px;
+            object-fit: cover;
+            border-radius: 5px;
+            background: #F8F8F7;
+        }
+
+        .infografia-thumb-title {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .infografia-preview {
+            position: relative;
+            margin-top: 20px;
+            border: 1px solid var(--imss-border);
+            border-radius: 8px;
+            background: #F8F8F7;
+            padding: 16px;
+        }
+
+        .infografia-preview.is-zoomed {
+            background:
+                linear-gradient(90deg, rgba(16, 61, 51, .04) 1px, transparent 1px),
+                #ECEAE4;
+            background-size: 18px 18px;
+        }
+
+        .infografia-preview[hidden] {
+            display: none;
+        }
+
+        .infografia-preview h4 {
+            margin: 0 0 12px;
+            color: var(--imss-green-dark);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .infografia-preview p {
+            margin: -4px 0 14px;
+            color: var(--imss-gray);
+            line-height: 1.6;
+        }
+
+        .infografia-preview-scroll {
+            max-height: 74vh;
+            overflow: auto;
+            border-radius: 6px;
+            background: #FFFFFF;
+        }
+
+        .infografia-preview-scroll img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 6px;
+            background: #FFFFFF;
+        }
+
+        .infografia-preview.is-zoomed .infografia-preview-scroll {
+            max-height: 76vh;
+            padding: 26px;
+        }
+
+        .infografia-preview.is-zoomed .infografia-preview-scroll img {
+            width: auto;
+            max-width: none;
+            min-width: min(794px, 100%);
+            height: auto;
+            min-height: 1123px;
+            margin: 0 auto;
+            border: 1px solid rgba(16, 61, 51, .12);
+            box-shadow: 0 18px 34px rgba(16, 32, 28, .18);
+        }
+
+        .infografia-zoom-btn {
+            position: absolute;
+            right: 26px;
+            top: 26px;
+            width: 46px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: #9F2241;
+            color: #FFFFFF;
+            box-shadow: 0 12px 24px rgba(16, 32, 28, .22);
+            cursor: pointer;
+        }
+
+        .resource-modal-close {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--imss-border);
+            border-radius: 50%;
+            background: #FFFFFF;
+            color: var(--imss-green-dark);
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .floating-resource-dock {
+                right: 14px;
+                bottom: 18px;
+                top: auto;
+                grid-auto-flow: column;
+                align-items: center;
+                transform: none;
+            }
+
+            .floating-resource-label {
+                writing-mode: initial;
+            }
+
+            .floating-resource-btn::after {
+                right: 50%;
+                top: auto;
+                bottom: calc(100% + 10px);
+                transform: translate(50%, 6px);
+            }
+
+            .floating-resource-btn:hover::after,
+            .floating-resource-btn:focus-visible::after {
+                transform: translate(50%, 0);
+            }
+
+            .infografia-gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 560px) {
+            .infografia-gallery {
+                grid-template-columns: 1fr;
+            }
         }
 
         .empty-state,
@@ -1345,6 +1867,9 @@ try {
                         $heroStyle = $portada
                             ? "--case-hero-image: url('" . h($portada) . "');"
                             : '';
+                        $mostrarExamenesCaso = $examenesCaso;
+                        $hayRecursosCaso = $perlasCaso || $infografiasCaso || $escalasCaso || $mostrarExamenesCaso;
+                        $hayContenidoCurso = $escenas || $hayRecursosCaso;
                     ?>
                     <section class="case-viewer" id="caso-seleccionado">
                         <div class="case-viewer-hero" style="<?= $heroStyle ?>" aria-label="<?= h($casoSeleccionado['titulo']) ?>"></div>
@@ -1364,31 +1889,60 @@ try {
                         </div>
 
                         <div class="case-viewer-body">
-                            <?php if (!$escenas): ?>
+                            <?php if (!$hayContenidoCurso): ?>
                                 <div class="empty-state">
-                                    Este caso todavia no tiene escenas publicadas.
+                                    Este caso todavia no tiene contenido publicado.
                                 </div>
                             <?php else: ?>
                                 <div class="course-layout">
                                     <aside class="course-nav" aria-label="Contenido del curso">
                                         <div class="course-nav-title">Contenido</div>
                                         <ol class="course-nav-list">
+                                            <?php $courseIndex = 0; ?>
                                             <?php foreach ($escenas as $index => $escena): ?>
+                                                <?php $courseIndex += 1; ?>
                                                 <li>
-                                                    <a class="course-nav-link<?= $index === 0 ? ' is-active' : '' ?>" href="#escena-<?= h($escena['id']) ?>" data-scene-link="escena-<?= h($escena['id']) ?>">
-                                                        <span class="course-nav-number"><?= $index + 1 ?></span>
+                                                    <a class="course-nav-link<?= $courseIndex === 1 ? ' is-active' : '' ?>" href="#escena-<?= h($escena['id']) ?>" data-course-link="escena-<?= h($escena['id']) ?>">
+                                                        <span class="course-nav-number"><?= $courseIndex ?></span>
                                                         <span class="course-nav-text"><?= h($escena['titulo'] ?: 'Escena clinica') ?></span>
                                                     </a>
                                                 </li>
                                             <?php endforeach; ?>
+                                            <?php if ($perlasCaso): ?>
+                                                <?php $courseIndex += 1; ?>
+                                                <li>
+                                                    <a class="course-nav-link<?= $courseIndex === 1 ? ' is-active' : '' ?>" href="#perlas-clinicas-caso" data-course-link="perlas-clinicas-caso">
+                                                        <span class="course-nav-number"><?= $courseIndex ?></span>
+                                                        <span class="course-nav-text">Perlas clinicas</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            <?php if ($mostrarExamenesCaso): ?>
+                                                <?php $courseIndex += 1; ?>
+                                                <li>
+                                                    <a class="course-nav-link<?= $courseIndex === 1 ? ' is-active' : '' ?>" href="#examen-caso" data-course-link="examen-caso">
+                                                        <span class="course-nav-number"><?= $courseIndex ?></span>
+                                                        <span class="course-nav-text">Examen</span>
+                                                    </a>
+                                                </li>
+                                                <?php $courseIndex += 1; ?>
+                                                <li>
+                                                    <a class="course-nav-link<?= $courseIndex === 1 ? ' is-active' : '' ?>" href="#constancia-caso" data-course-link="constancia-caso">
+                                                        <span class="course-nav-number"><?= $courseIndex ?></span>
+                                                        <span class="course-nav-text">Constancia</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
                                         </ol>
                                     </aside>
 
                                     <div class="course-content">
+                                        <?php $contentIndex = 0; ?>
                                         <?php foreach ($escenas as $index => $escena): ?>
-                                            <section class="scene" id="escena-<?= h($escena['id']) ?>" data-scene-section="escena-<?= h($escena['id']) ?>">
+                                            <?php $contentIndex += 1; ?>
+                                            <section class="scene" id="escena-<?= h($escena['id']) ?>" data-course-section="escena-<?= h($escena['id']) ?>">
                                                 <div class="scene-head">
-                                                    <span class="scene-number"><?= $index + 1 ?></span>
+                                                    <span class="scene-number"><?= $contentIndex ?></span>
                                                     <div>
                                                         <h3 class="scene-title"><?= h($escena['titulo'] ?: 'Escena clinica') ?></h3>
                                                         <div class="scene-type"><?= h($escena['tipo'] ?: 'contenido') ?></div>
@@ -1419,10 +1973,177 @@ try {
                                                 </div>
                                             </section>
                                         <?php endforeach; ?>
+
+                                        <?php if ($perlasCaso): ?>
+                                            <?php $contentIndex += 1; ?>
+                                            <section class="scene course-resource" id="perlas-clinicas-caso" data-course-section="perlas-clinicas-caso">
+                                                <div class="scene-head">
+                                                    <span class="scene-number"><?= $contentIndex ?></span>
+                                                    <div>
+                                                        <h3 class="scene-title">Perlas clinicas</h3>
+                                                        <div class="scene-type">Sintesis clinica del caso</div>
+                                                    </div>
+                                                </div>
+                                                <div class="scene-content">
+                                                    <ul class="resource-list">
+                                                        <?php foreach ($perlasCaso as $perla): ?>
+                                                            <li class="resource-card">
+                                                                <h4><?= h($perla['seccion'] ?: 'Perla clinica') ?></h4>
+                                                                <?= $perla['contenido'] ?: '' ?>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            </section>
+                                        <?php endif; ?>
+
+                                        <?php if ($mostrarExamenesCaso): ?>
+                                            <?php $contentIndex += 1; ?>
+                                            <section class="scene course-resource" id="examen-caso" data-course-section="examen-caso">
+                                                <div class="scene-head">
+                                                    <span class="scene-number"><?= $contentIndex ?></span>
+                                                    <div>
+                                                        <h3 class="scene-title">Examen</h3>
+                                                        <div class="scene-type">Evaluacion y preguntas del caso</div>
+                                                    </div>
+                                                </div>
+                                                <div class="scene-content">
+                                                    <ul class="resource-list">
+                                                        <?php foreach ($mostrarExamenesCaso as $examen): ?>
+                                                            <li class="resource-card">
+                                                                <h4><?= h($examen['titulo'] ?: 'Examen del caso') ?></h4>
+                                                                <?php if (!empty($examen['descripcion'])): ?>
+                                                                    <p><?= nl2br(h($examen['descripcion'])) ?></p>
+                                                                <?php endif; ?>
+                                                                <a class="case-open-btn" href="pronam_examen.php?id=<?= h($examen['id']) ?>&caso=<?= h($casoSeleccionado['id']) ?>&programa=<?= h($programaSlug) ?>">
+                                                                    <span class="material-symbols-rounded" aria-hidden="true">assignment</span>
+                                                                    Abrir examen
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            </section>
+
+                                            <?php $contentIndex += 1; ?>
+                                            <section class="scene course-resource" id="constancia-caso" data-course-section="constancia-caso">
+                                                <div class="scene-head">
+                                                    <span class="scene-number"><?= $contentIndex ?></span>
+                                                    <div>
+                                                        <h3 class="scene-title">Constancia</h3>
+                                                        <div class="scene-type">Desbloqueo posterior a evaluación aprobatoria</div>
+                                                    </div>
+                                                </div>
+                                                <div class="scene-content">
+                                                    <ul class="resource-list">
+                                                        <?php foreach ($mostrarExamenesCaso as $examen): ?>
+                                                            <li class="resource-card">
+                                                                <h4>Constancia PRONAM</h4>
+                                                                <p>La constancia se desbloquea al aprobar el cuestionario final. Al abrirla se solicitarán nombre, matrícula y categoría.</p>
+                                                                <a class="case-open-btn" href="pronam_examen.php?id=<?= h($examen['id']) ?>&caso=<?= h($casoSeleccionado['id']) ?>&programa=<?= h($programaSlug) ?>&view=constancia">
+                                                                    <span class="material-symbols-rounded" aria-hidden="true">lock</span>
+                                                                    Abrir constancia
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            </section>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
                         </div>
+
+                        <?php if ($infografiasCaso || $escalasCaso): ?>
+                            <div class="floating-resource-dock" aria-label="Recursos complementarios">
+                                <span class="floating-resource-label">Recursos</span>
+                                <?php if ($infografiasCaso): ?>
+                                    <button class="floating-resource-btn" type="button" data-resource-open="infografias" data-tooltip="Infografías" aria-label="Abrir infografías">
+                                        <span class="material-symbols-rounded" aria-hidden="true">image</span>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if ($escalasCaso): ?>
+                                    <button class="floating-resource-btn" type="button" data-resource-open="escalas" data-tooltip="Escalas" aria-label="Abrir escalas">
+                                        <span class="material-symbols-rounded" aria-hidden="true">calculate</span>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+
+                            <?php if ($infografiasCaso): ?>
+                                <div class="resource-modal" id="resourceModalInfografias" data-resource-modal="infografias" hidden>
+                                    <div class="resource-modal-card" role="dialog" aria-modal="true" aria-labelledby="resourceInfografiasTitle">
+                                        <header class="resource-modal-head">
+                                            <h3 class="resource-modal-title" id="resourceInfografiasTitle">Infografías</h3>
+                                            <button class="resource-modal-close" type="button" data-resource-close aria-label="Cerrar infografías">
+                                                <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                                            </button>
+                                        </header>
+                                        <div class="resource-modal-body">
+                                            <ul class="infografia-gallery">
+                                                <?php foreach ($infografiasCaso as $infografia): ?>
+                                                    <?php $rutaInfografia = mediaUrl($infografia['ruta_imagen'] ?? ''); ?>
+                                                    <li>
+                                                        <button
+                                                            class="infografia-thumb"
+                                                            type="button"
+                                                            data-infografia-select
+                                                            data-infografia-src="<?= h($rutaInfografia) ?>"
+                                                            data-infografia-title="<?= h($infografia['titulo'] ?: 'Infografía') ?>"
+                                                            data-infografia-description="<?= h($infografia['descripcion'] ?? '') ?>"
+                                                            data-infografia-alt="<?= h($infografia['alt_text'] ?: ($infografia['titulo'] ?: 'Infografía del caso')) ?>">
+                                                            <?php if ($rutaInfografia): ?>
+                                                                <img src="<?= h($rutaInfografia) ?>" alt="">
+                                                            <?php endif; ?>
+                                                            <span class="infografia-thumb-title"><?= h($infografia['titulo'] ?: 'Infografía') ?></span>
+                                                        </button>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                            <section class="infografia-preview" data-infografia-preview hidden>
+                                                <button class="infografia-zoom-btn" type="button" data-infografia-zoom aria-label="Ampliar infografía" aria-pressed="false">
+                                                    <span class="material-symbols-rounded" aria-hidden="true">zoom_in</span>
+                                                </button>
+                                                <h4 data-infografia-preview-title></h4>
+                                                <p data-infografia-preview-description hidden></p>
+                                                <div class="infografia-preview-scroll">
+                                                    <img data-infografia-preview-image src="" alt="">
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($escalasCaso): ?>
+                                <div class="resource-modal" id="resourceModalEscalas" data-resource-modal="escalas" hidden>
+                                    <div class="resource-modal-card" role="dialog" aria-modal="true" aria-labelledby="resourceEscalasTitle">
+                                        <header class="resource-modal-head">
+                                            <h3 class="resource-modal-title" id="resourceEscalasTitle">Escalas</h3>
+                                            <button class="resource-modal-close" type="button" data-resource-close aria-label="Cerrar escalas">
+                                                <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                                            </button>
+                                        </header>
+                                        <div class="resource-modal-body">
+                                            <ul class="resource-list">
+                                                <?php foreach ($escalasCaso as $escala): ?>
+                                                    <li class="resource-card">
+                                                        <h4><?= h($escala['titulo'] ?: 'Escala') ?></h4>
+                                                        <?php if (!empty($escala['descripcion'])): ?>
+                                                            <p><?= nl2br(h($escala['descripcion'])) ?></p>
+                                                        <?php endif; ?>
+                                                        <a class="case-open-btn" href="<?= h($escala['url']) ?>" target="_blank" rel="noopener">
+                                                            <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span>
+                                                            Abrir escala<?= !empty($escala['proveedor']) ? ' - ' . h($escala['proveedor']) : '' ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </section>
                 <?php endif; ?>
             <?php endif; ?>
@@ -1476,8 +2197,10 @@ try {
             var optionButtons = document.querySelectorAll('[data-topic-option]');
             var detailSections = document.querySelectorAll('[data-topic-detail]');
             var backButtons = document.querySelectorAll('[data-back-options]');
-            var sceneLinks = document.querySelectorAll('[data-scene-link]');
-            var sceneSections = document.querySelectorAll('[data-scene-section]');
+            var courseLinks = document.querySelectorAll('[data-course-link]');
+            var courseSections = document.querySelectorAll('[data-course-section]');
+            var resourceButtons = document.querySelectorAll('[data-resource-open]');
+            var resourceModals = document.querySelectorAll('[data-resource-modal]');
 
             if (!page || !optionSection) {
                 return;
@@ -1547,15 +2270,163 @@ try {
                 backButtons[j].addEventListener('click', showOptions);
             }
 
-            function setActiveScene(sceneId) {
-                for (var i = 0; i < sceneLinks.length; i += 1) {
-                    sceneLinks[i].classList.toggle('is-active', sceneLinks[i].getAttribute('data-scene-link') === sceneId);
+            function setActiveCourseItem(itemId) {
+                for (var i = 0; i < courseLinks.length; i += 1) {
+                    courseLinks[i].classList.toggle('is-active', courseLinks[i].getAttribute('data-course-link') === itemId);
                 }
             }
 
-            for (var k = 0; k < sceneLinks.length; k += 1) {
-                sceneLinks[k].addEventListener('click', function (event) {
-                    var targetId = this.getAttribute('data-scene-link');
+            function closeResourceModals() {
+                for (var i = 0; i < resourceModals.length; i += 1) {
+                    resourceModals[i].hidden = true;
+                }
+            }
+
+            function openResourceModal(resourceKey) {
+                closeResourceModals();
+
+                for (var i = 0; i < resourceModals.length; i += 1) {
+                    if (resourceModals[i].getAttribute('data-resource-modal') === resourceKey) {
+                        resourceModals[i].hidden = false;
+                        return;
+                    }
+                }
+            }
+
+            function selectInfografia(button) {
+                if (!button) {
+                    return;
+                }
+
+                var modal = button.closest('[data-resource-modal]');
+                var preview = modal ? modal.querySelector('[data-infografia-preview]') : null;
+                var image = preview ? preview.querySelector('[data-infografia-preview-image]') : null;
+                var title = preview ? preview.querySelector('[data-infografia-preview-title]') : null;
+                var description = preview ? preview.querySelector('[data-infografia-preview-description]') : null;
+                var src = button.getAttribute('data-infografia-src') || '';
+                var text = button.getAttribute('data-infografia-title') || 'Infografía';
+                var descriptionText = button.getAttribute('data-infografia-description') || '';
+
+                if (!preview || !image || !src) {
+                    return;
+                }
+
+                modal.querySelectorAll('[data-infografia-select]').forEach(function (item) {
+                    item.classList.toggle('is-selected', item === button);
+                });
+
+                if (title) {
+                    title.textContent = text;
+                }
+
+                if (description) {
+                    description.textContent = descriptionText;
+                    description.hidden = descriptionText.trim() === '';
+                }
+
+                image.src = src;
+                image.alt = button.getAttribute('data-infografia-alt') || text;
+                preview.classList.remove('is-zoomed');
+
+                var zoomButton = preview.querySelector('[data-infografia-zoom]');
+
+                if (zoomButton) {
+                    zoomButton.setAttribute('aria-pressed', 'false');
+                    zoomButton.querySelector('.material-symbols-rounded').textContent = 'zoom_in';
+                }
+
+                preview.hidden = false;
+                preview.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            }
+
+            function setCourseSectionOpen(section, shouldOpen) {
+                if (!section) {
+                    return;
+                }
+
+                var head = section.querySelector('.scene-head');
+
+                section.classList.toggle('is-open', shouldOpen);
+                section.classList.toggle('is-collapsed', !shouldOpen);
+                section.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+
+                if (head) {
+                    head.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                }
+            }
+
+            function closeOtherCourseSections(section) {
+                for (var i = 0; i < courseSections.length; i += 1) {
+                    if (courseSections[i] !== section) {
+                        setCourseSectionOpen(courseSections[i], false);
+                    }
+                }
+            }
+
+            function openCourseSection(section, behavior, shouldUpdateHash) {
+                if (!section) {
+                    return;
+                }
+
+                var targetId = section.getAttribute('data-course-section') || section.id;
+
+                closeOtherCourseSections(section);
+                setCourseSectionOpen(section, true);
+                setActiveCourseItem(targetId);
+
+                if (shouldUpdateHash && history.replaceState) {
+                    history.replaceState(null, '', '#' + targetId);
+                }
+
+                scrollToCourseSection(section, behavior || 'smooth');
+            }
+
+            function toggleCourseSection(section) {
+                if (!section) {
+                    return;
+                }
+
+                if (section.classList.contains('is-open')) {
+                    setCourseSectionOpen(section, false);
+                    setActiveCourseItem('');
+                    return;
+                }
+
+                openCourseSection(section, 'smooth', true);
+            }
+
+            function getCourseScrollTarget(section) {
+                if (!section) {
+                    return null;
+                }
+
+                return section.querySelector('.pc13-stage') || section;
+            }
+
+            function scrollToCourseSection(section, behavior) {
+                var scrollTarget = getCourseScrollTarget(section);
+
+                if (!scrollTarget) {
+                    return;
+                }
+
+                var topbar = document.querySelector('.topbar');
+                var topbarHeight = topbar ? topbar.getBoundingClientRect().height : 0;
+                var offset = Math.max(0, topbarHeight - 12);
+                var scrollTop = scrollTarget.getBoundingClientRect().top + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: Math.max(0, scrollTop),
+                    behavior: behavior || 'auto'
+                });
+            }
+
+            for (var k = 0; k < courseLinks.length; k += 1) {
+                courseLinks[k].addEventListener('click', function (event) {
+                    var targetId = this.getAttribute('data-course-link');
                     var target = document.getElementById(targetId);
 
                     if (!target) {
@@ -1563,19 +2434,110 @@ try {
                     }
 
                     event.preventDefault();
-                    setActiveScene(targetId);
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    openCourseSection(target, 'smooth', true);
+                });
+            }
 
-                    if (history.replaceState) {
-                        history.replaceState(null, '', '#' + targetId);
+            for (var resourceIndex = 0; resourceIndex < resourceButtons.length; resourceIndex += 1) {
+                resourceButtons[resourceIndex].addEventListener('click', function () {
+                    openResourceModal(this.getAttribute('data-resource-open'));
+                });
+            }
+
+            for (var modalIndex = 0; modalIndex < resourceModals.length; modalIndex += 1) {
+                resourceModals[modalIndex].addEventListener('click', function (event) {
+                    var infografiaButton = event.target.closest('[data-infografia-select]');
+
+                    if (infografiaButton && this.contains(infografiaButton)) {
+                        selectInfografia(infografiaButton);
+                        return;
+                    }
+
+                    if (event.target.closest('[data-infografia-zoom]')) {
+                        var preview = this.querySelector('[data-infografia-preview]');
+                        var zoomButton = event.target.closest('[data-infografia-zoom]');
+
+                        if (preview && !preview.hidden) {
+                            var isZoomed = preview.classList.toggle('is-zoomed');
+                            zoomButton.setAttribute('aria-pressed', isZoomed ? 'true' : 'false');
+                            zoomButton.querySelector('.material-symbols-rounded').textContent = isZoomed ? 'zoom_out' : 'zoom_in';
+                        }
+
+                        return;
+                    }
+
+                    if (event.target === this || event.target.closest('[data-resource-close]')) {
+                        closeResourceModals();
                     }
                 });
             }
 
-            if ('IntersectionObserver' in window && sceneSections.length) {
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeResourceModals();
+                }
+            });
+
+            for (var sectionIndex = 0; sectionIndex < courseSections.length; sectionIndex += 1) {
+                (function (section) {
+                    var head = section.querySelector('.scene-head');
+
+                    setCourseSectionOpen(section, false);
+
+                    if (!head) {
+                        return;
+                    }
+
+                    head.setAttribute('role', 'button');
+                    head.setAttribute('tabindex', '0');
+                    head.addEventListener('click', function () {
+                        toggleCourseSection(section);
+                    });
+                    head.addEventListener('keydown', function (event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            toggleCourseSection(section);
+                        }
+                    });
+                }(courseSections[sectionIndex]));
+            }
+
+            setActiveCourseItem('');
+
+            document.addEventListener('click', function (event) {
+                var nextButton = event.target.closest('[data-pc13-next]');
+
+                if (!nextButton) {
+                    return;
+                }
+
+                var section = nextButton.closest('[data-course-section]');
+                var root = nextButton.closest('[data-pc13-root]');
+                var slides = root ? root.querySelectorAll('[data-pc13-slide]') : [];
+                var activeSlide = root ? root.querySelector('[data-pc13-slide].is-active') : null;
+                var isLastSlide = slides.length > 0 && activeSlide === slides[slides.length - 1];
+
+                if (!section || !isLastSlide) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                window.setTimeout(function () {
+                    var nextSection = section.nextElementSibling;
+
+                    while (nextSection && !nextSection.matches('[data-course-section]')) {
+                        nextSection = nextSection.nextElementSibling;
+                    }
+
+                    if (nextSection) {
+                        openCourseSection(nextSection, 'smooth', true);
+                    }
+                }, 80);
+            }, true);
+
+            if ('IntersectionObserver' in window && courseSections.length) {
                 var observer = new IntersectionObserver(function (entries) {
                     var visible = entries
                         .filter(function (entry) {
@@ -1586,22 +2548,50 @@ try {
                         });
 
                     if (visible[0]) {
-                        setActiveScene(visible[0].target.getAttribute('data-scene-section'));
+                        if (visible[0].target.classList.contains('is-open')) {
+                            setActiveCourseItem(visible[0].target.getAttribute('data-course-section'));
+                        }
                     }
                 }, {
                     rootMargin: '-22% 0px -58% 0px',
                     threshold: [0.08, 0.18, 0.32]
                 });
 
-                for (var l = 0; l < sceneSections.length; l += 1) {
-                    observer.observe(sceneSections[l]);
+                for (var l = 0; l < courseSections.length; l += 1) {
+                    observer.observe(courseSections[l]);
                 }
             }
+
+            function scrollToInitialCourseHash() {
+                if (!page.classList.contains('is-case-selected')) {
+                    return;
+                }
+
+                var targetId = window.location.hash.slice(1);
+                var target = document.getElementById(targetId);
+
+                if (!target || !target.hasAttribute('data-course-section')) {
+                    if (courseSections[0]) {
+                        window.setTimeout(function () {
+                            openCourseSection(courseSections[0], 'auto', false);
+                        }, 80);
+                    }
+                    return;
+                }
+
+                setActiveCourseItem(targetId);
+                window.setTimeout(function () {
+                    openCourseSection(target, 'auto', false);
+                }, 80);
+            }
+
+            scrollToInitialCourseHash();
 
             if (!page.classList.contains('is-case-selected') && window.location.hash.indexOf('#tema-') === 0) {
                 showTopic(window.location.hash.replace('#tema-', ''), false);
             }
         }());
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
