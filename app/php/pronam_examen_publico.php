@@ -390,13 +390,13 @@ try {
     if ($method === 'POST' && $action === 'certificate') {
         $token = trim($data['token'] ?? '');
         $nombre = trim($data['nombre'] ?? '');
-        $matricula = trim($data['matricula'] ?? '');
-        $categoria = trim($data['categoria'] ?? '');
+        $matricula = trim($data['matricula'] ?? '') ?: 'N/A';
+        $categoria = trim($data['categoria'] ?? '') ?: 'N/A';
 
-        if ($token === '' || $nombre === '' || $matricula === '' || $categoria === '') {
+        if ($token === '' || $nombre === '') {
             responder([
                 'success' => false,
-                'mensaje' => 'Completa nombre, matrícula y categoría.'
+                'mensaje' => 'Completa el nombre para generar la constancia.'
             ]);
         }
 

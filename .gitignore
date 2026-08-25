@@ -4,6 +4,10 @@
 # Videos pesados
 video/
 
+# Entregas comprimidas pesadas
+output/**/*.tar.gz
+output/**/*.tar.gz.part-*
+
 # Credenciales
 #app/php/conn.php
 

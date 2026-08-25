@@ -1266,6 +1266,35 @@ try {
             font-size: 26px;
         }
 
+        .floating-resource-btn.is-pearl-resource {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        .floating-resource-btn.is-pearl-resource:hover,
+        .floating-resource-btn.is-pearl-resource:focus-visible {
+            background: transparent;
+            transform: translateX(-3px) scale(1.04);
+        }
+
+        .floating-resource-btn.is-pearl-resource img {
+            width: 110px;
+            height: auto;
+            max-width: none;
+            display: block;
+            object-fit: contain;
+            border-radius: 0;
+            transform: translateX(-1px);
+            filter: drop-shadow(0 12px 18px rgba(165, 127, 44, .28));
+        }
+
         .floating-resource-btn::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -1341,6 +1370,31 @@ try {
 
         .resource-modal-body .resource-list {
             gap: 18px;
+        }
+
+        .resource-modal-body .pearl-resource-list {
+            display: grid;
+            gap: 16px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .pearl-resource-card {
+            padding: 18px 20px;
+            border: 1px solid rgba(35, 91, 78, .16);
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: var(--imss-text);
+            box-shadow: 0 12px 28px rgba(16, 32, 28, .06);
+        }
+
+        .pearl-resource-card > :first-child {
+            margin-top: 0;
+        }
+
+        .pearl-resource-card > :last-child {
+            margin-bottom: 0;
         }
 
         .infografia-gallery {
@@ -1847,8 +1901,6 @@ try {
                                     <a class="case-card" href="?programa=<?= h($programaSlug) ?>&caso=<?= h($caso['id']) ?>#caso-seleccionado">
                                         <div class="case-card-media" style="<?= $cardStyle ?>"></div>
                                         <div class="case-card-body">
-                                            <div class="case-meta"><?= h($caso['tema']) ?> · <?= h($caso['especialidad']) ?></div>
-                                            <h3><?= h($caso['titulo']) ?></h3>
                                             <?php if (!empty($caso['descripcion'])): ?>
                                                 <p><?= nl2br(h($caso['descripcion'])) ?></p>
                                             <?php endif; ?>
@@ -1908,15 +1960,6 @@ try {
                                                     </a>
                                                 </li>
                                             <?php endforeach; ?>
-                                            <?php if ($perlasCaso): ?>
-                                                <?php $courseIndex += 1; ?>
-                                                <li>
-                                                    <a class="course-nav-link<?= $courseIndex === 1 ? ' is-active' : '' ?>" href="#perlas-clinicas-caso" data-course-link="perlas-clinicas-caso">
-                                                        <span class="course-nav-number"><?= $courseIndex ?></span>
-                                                        <span class="course-nav-text">Perlas clinicas</span>
-                                                    </a>
-                                                </li>
-                                            <?php endif; ?>
                                             <?php if ($mostrarExamenesCaso): ?>
                                                 <?php $courseIndex += 1; ?>
                                                 <li>
@@ -1973,29 +2016,6 @@ try {
                                                 </div>
                                             </section>
                                         <?php endforeach; ?>
-
-                                        <?php if ($perlasCaso): ?>
-                                            <?php $contentIndex += 1; ?>
-                                            <section class="scene course-resource" id="perlas-clinicas-caso" data-course-section="perlas-clinicas-caso">
-                                                <div class="scene-head">
-                                                    <span class="scene-number"><?= $contentIndex ?></span>
-                                                    <div>
-                                                        <h3 class="scene-title">Perlas clinicas</h3>
-                                                        <div class="scene-type">Sintesis clinica del caso</div>
-                                                    </div>
-                                                </div>
-                                                <div class="scene-content">
-                                                    <ul class="resource-list">
-                                                        <?php foreach ($perlasCaso as $perla): ?>
-                                                            <li class="resource-card">
-                                                                <h4><?= h($perla['seccion'] ?: 'Perla clinica') ?></h4>
-                                                                <?= $perla['contenido'] ?: '' ?>
-                                                            </li>
-                                                        <?php endforeach; ?>
-                                                    </ul>
-                                                </div>
-                                            </section>
-                                        <?php endif; ?>
 
                                         <?php if ($mostrarExamenesCaso): ?>
                                             <?php $contentIndex += 1; ?>
@@ -2055,7 +2075,7 @@ try {
                             <?php endif; ?>
                         </div>
 
-                        <?php if ($infografiasCaso || $escalasCaso): ?>
+                        <?php if ($infografiasCaso || $escalasCaso || $perlasCaso): ?>
                             <div class="floating-resource-dock" aria-label="Recursos complementarios">
                                 <span class="floating-resource-label">Recursos</span>
                                 <?php if ($infografiasCaso): ?>
@@ -2066,6 +2086,11 @@ try {
                                 <?php if ($escalasCaso): ?>
                                     <button class="floating-resource-btn" type="button" data-resource-open="escalas" data-tooltip="Escalas" aria-label="Abrir escalas">
                                         <span class="material-symbols-rounded" aria-hidden="true">calculate</span>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if ($perlasCaso): ?>
+                                    <button class="floating-resource-btn is-pearl-resource" type="button" data-resource-open="perlas" data-tooltip="Perlas" aria-label="Abrir perlas">
+                                        <img src="img/perla.png" alt="">
                                     </button>
                                 <?php endif; ?>
                             </div>
@@ -2136,6 +2161,28 @@ try {
                                                             <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span>
                                                             Abrir escala<?= !empty($escala['proveedor']) ? ' - ' . h($escala['proveedor']) : '' ?>
                                                         </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($perlasCaso): ?>
+                                <div class="resource-modal" id="resourceModalPerlas" data-resource-modal="perlas" hidden>
+                                    <div class="resource-modal-card" role="dialog" aria-modal="true" aria-labelledby="resourcePerlasTitle">
+                                        <header class="resource-modal-head">
+                                            <h3 class="resource-modal-title" id="resourcePerlasTitle">Perlas</h3>
+                                            <button class="resource-modal-close" type="button" data-resource-close aria-label="Cerrar perlas">
+                                                <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                                            </button>
+                                        </header>
+                                        <div class="resource-modal-body">
+                                            <ul class="pearl-resource-list">
+                                                <?php foreach ($perlasCaso as $perla): ?>
+                                                    <li class="pearl-resource-card">
+                                                        <?= $perla['contenido'] ?: '' ?>
                                                     </li>
                                                 <?php endforeach; ?>
                                             </ul>
@@ -2568,6 +2615,19 @@ try {
                 }
 
                 var targetId = window.location.hash.slice(1);
+
+                if (targetId === 'perlas-clinicas-caso') {
+                    if (courseSections[0]) {
+                        window.setTimeout(function () {
+                            openCourseSection(courseSections[0], 'auto', false);
+                            openResourceModal('perlas');
+                        }, 80);
+                    } else {
+                        openResourceModal('perlas');
+                    }
+                    return;
+                }
+
                 var target = document.getElementById(targetId);
 
                 if (!target || !target.hasAttribute('data-course-section')) {

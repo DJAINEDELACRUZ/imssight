@@ -7,13 +7,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
-    
 
 
 
 
-  
-<section class="pronam-case13-course pc13-updated pc13-bootstrap" data-pc13-root aria-label="Presentación interactiva del caso clínico"><style>
+
+
+
+ <section class="pronam-case13-course pc13-bootstrap pc13-scene213" data-pc13-root><style>
   .pronam-case13-course {
     --pc13-ink: #10312B;
     --pc13-green: #235B4E;
@@ -55,6 +56,154 @@
     object-fit: contain;
     filter: drop-shadow(0 1.25rem 1.875rem rgba(16, 49, 43, .18));
     pointer-events: none;
+  }
+
+  .pc13-lab-intro-slide .pc13-lab-intro-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    min-height: 38rem;
+  }
+
+  .pc13-lab-doctor-zone {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(16rem, 24rem) minmax(18rem, 34rem);
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    transition: transform .55s ease;
+  }
+
+  .pc13-lab-doctor {
+    width: min(23rem, 82vw);
+    max-height: 32rem;
+    transform: translateX(0) scale(1);
+    transform-origin: center bottom;
+    transition: transform .55s ease, width .55s ease, max-height .55s ease;
+  }
+
+  .pc13-doctor-bubble {
+    position: relative;
+    padding: 1.25rem 1.4rem;
+    border: 2px solid rgba(35, 91, 78, .18);
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 1rem 2rem rgba(16, 49, 43, .12);
+    color: var(--pc13-ink);
+    transition: transform .45s ease, opacity .35s ease;
+  }
+
+  .pc13-doctor-bubble::before {
+    content: "";
+    position: absolute;
+    left: -0.85rem;
+    top: 32%;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-left: 2px solid rgba(35, 91, 78, .18);
+    border-bottom: 2px solid rgba(35, 91, 78, .18);
+    background: rgba(255, 255, 255, .96);
+    transform: rotate(45deg);
+  }
+
+  .pc13-doctor-bubble h1 {
+    font-size: clamp(1.65rem, 3vw, 2.45rem);
+  }
+
+  .pc13-question-panel {
+    width: min(58rem, 100%);
+    margin: 0 auto;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateX(2rem);
+    transition: opacity .48s ease, transform .55s ease, max-height .55s ease, margin-top .55s ease;
+  }
+
+  .pc13-question-bubble {
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 1rem 1.15rem;
+    border: 2px solid rgba(35, 91, 78, .18);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 .9rem 1.8rem rgba(16, 49, 43, .12);
+  }
+
+  .pc13-question-bubble::before {
+    content: "";
+    position: absolute;
+    left: -0.72rem;
+    top: 1.5rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-left: 2px solid rgba(35, 91, 78, .18);
+    border-bottom: 2px solid rgba(35, 91, 78, .18);
+    background: rgba(255, 255, 255, .98);
+    transform: rotate(45deg);
+  }
+
+  .pc13-question-bubble h1 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+  }
+
+  .pc13-lab-intro-slide.is-question-visible .pc13-lab-intro-layout {
+    grid-template-columns: minmax(16rem, .45fr) minmax(0, .95fr);
+    align-items: center;
+  }
+
+  .pc13-lab-intro-slide.is-question-visible .pc13-lab-doctor-zone {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+    justify-items: center;
+    transform: translateX(-.5rem);
+  }
+
+  .pc13-lab-intro-slide.is-question-visible .pc13-lab-doctor {
+    width: min(20rem, 86vw);
+    max-height: 29rem;
+    transform: translateY(0) scale(1);
+  }
+
+  .pc13-lab-intro-slide.is-question-visible .pc13-doctor-bubble {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+    overflow: hidden;
+    transform: translateY(-.5rem);
+  }
+
+  .pc13-lab-intro-slide.is-question-visible [data-pc13-intro-next] {
+    display: none;
+  }
+
+  .pc13-lab-intro-slide.is-question-visible .pc13-question-panel {
+    opacity: 1;
+    max-height: 72rem;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 991.98px) {
+    .pc13-lab-doctor-zone,
+    .pc13-lab-intro-slide.is-question-visible .pc13-lab-intro-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .pc13-doctor-bubble::before {
+      left: 50%;
+      top: -0.75rem;
+      transform: translateX(-50%) rotate(135deg);
+    }
+
+    .pc13-lab-intro-slide.is-question-visible .pc13-question-panel {
+      margin-top: 1rem;
+    }
   }
 
   .pc13-flip-toggle {
@@ -156,745 +305,531 @@
       opacity: .18;
     }
   }
-  /* pc13-polish: capa visual, no cambia contenido ni estructura */
-  .pronam-case13-course .pc13-stage {
-    border-color: rgba(214, 209, 200, .85);
-    box-shadow: 0 .75rem 2rem rgba(16, 49, 43, .08) !important;
+
+
+  /* pc13-scene213: modales homologados con escena 194 */
+  .pc13-scene213 .pc13-modal-card::before,
+  .pc13-scene213 .pc13-modal-card::after,
+  .pc13-scene213 .pc13-modal-x::before,
+  .pc13-scene213 .pc13-modal-x::after {
+    content: none !important;
+    display: none !important;
   }
 
-  .pronam-case13-course .pc13-slide h1 {
-    max-width: 58rem;
-    margin-bottom: 1.35rem !important;
-    color: var(--pc13-ink) !important;
+  .pc13-scene213 .pc13-modal-x {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    text-align: center !important;
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    background: #a57f2c !important;
+    box-shadow: 0 .85rem 1.75rem rgba(165, 127, 44, .28) !important;
   }
 
-  .pronam-case13-course .pc13-slide p {
-    line-height: 1.65;
-    color: #2E3130;
+  .pc13-scene213 .pc13-modal-x:hover,
+  .pc13-scene213 .pc13-modal-x:focus {
+    background: #8f6e26 !important;
+    box-shadow: 0 0 0 .25rem rgba(165, 127, 44, .2) !important;
   }
 
-  .pronam-case13-course .pc13-slide ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .65rem 1.25rem;
-    margin: 1rem 0 0;
-    padding-left: 1.25rem;
-  }
-
-  .pronam-case13-course .pc13-slide li {
-    line-height: 1.45;
-    padding-right: .5rem;
-  }
-
-  .pronam-case13-course .pc13-flip-back ul,
-  .pronam-case13-course .modal-body ul {
-    grid-template-columns: 1fr;
-  }
-
-  .pronam-case13-course .pc13-flip-front {
-    background: linear-gradient(135deg, #6F7271, #555857) !important;
-  }
-
-  .pronam-case13-course .pc13-card {
-    border-radius: .75rem !important;
-    line-height: 1.35;
-  }
-
-  .pronam-case13-course [data-pc13-slide="7"] .d-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .85rem 1rem !important;
-    max-width: 56rem;
-    margin-inline: auto;
-  }
-
-  .pronam-case13-course [data-pc13-slide="7"] .d-grid .btn {
-    min-height: 3.25rem;
-    padding: .75rem 1rem;
-    border-radius: .65rem;
-    font-weight: 700;
-    line-height: 1.2;
-    white-space: normal;
-  }
-
-  .pronam-case13-course .pc13-options-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem !important;
-    max-width: 56rem;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .pronam-case13-course .pc13-option-btn {
-    width: 100%;
-    min-height: 0;
-    margin: 0 !important;
-    padding: .9rem 1rem !important;
-    border-radius: .75rem !important;
-    font-weight: 700;
-    line-height: 1.35;
-    white-space: normal;
-  }
-
-  .pronam-case13-course .pc13-option-btn .badge {
-    flex: 0 0 auto;
-  }
-
-  .pronam-case13-course .pc13-options-grid .pc13-option-btn:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    max-width: calc(50% - .5rem);
-  }
-
-  .pronam-case13-course .pc13-option-btn.is-correct {
-    background: var(--pc13-green);
-    border-color: var(--pc13-green);
-    color: #fff;
-  }
-
-  .pronam-case13-course .pc13-option-btn.is-incorrect,
-  .pronam-case13-course .pc13-modal-card.is-incorrect {
-    background: var(--pc13-wine);
-    border-color: var(--pc13-wine);
-    color: #fff;
-  }
-
-  .pronam-case13-course [data-pc13-modal-close] {
-    border-radius: .65rem;
-    font-weight: 700;
-  }
-
-  .pronam-case13-course .modal-content,
-  .scene-content .modal-content,
-  .pronam-case13-course .pc13-modal-card {
-    border: 0;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 4rem rgba(16, 32, 28, .22);
-  }
-
-  .scene-content .modal-dialog {
-    max-width: min(860px, calc(100vw - 2rem));
-  }
-
-  .pronam-case13-course .modal-header,
-  .scene-content .modal-header {
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    border-bottom-color: rgba(214, 209, 200, .85);
-  }
-
-  .pronam-case13-course .modal-title,
-  .scene-content .modal-title {
-    color: var(--pc13-ink, #10312B);
-    line-height: 1.1;
-  }
-
-  .scene-content .modal-body {
-    padding: 1.35rem 1.5rem;
-  }
-
-  .scene-content .modal-body h3 {
-    margin: 0 0 1rem;
-    font-size: 1.15rem;
-    font-weight: 600;
-    line-height: 1.5;
-  }
-
-  .scene-content .modal-body br {
+  .pc13-scene213 .pc13-feedback-icon {
     display: none;
-  }
-
-  .scene-content .modal-footer {
-    padding: 1rem 1.5rem;
-  }
-
-  .pronam-case13-course .btn-close,
-  .scene-content .btn-close {
-    width: 2.25rem;
-    height: 2.25rem;
-    flex: 0 0 2.25rem;
-    margin: 0;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin: 0 0 1rem;
     border-radius: 50%;
-    background: #9F2241 url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293A1 1 0 0 1 .293 14.293L6.586 8 .293 1.707A1 1 0 0 1 .293.293z'/%3e%3c/svg%3e") center / .75rem auto no-repeat !important;
-    opacity: 1;
-    box-shadow: 0 .75rem 1.5rem rgba(159, 34, 65, .24);
-  }
-
-  .pronam-case13-course .btn-close:hover,
-  .scene-content .btn-close:hover,
-  .pronam-case13-course .btn-close:focus,
-  .scene-content .btn-close:focus {
-    background-color: #691C32 !important;
-    opacity: 1;
-    box-shadow: 0 0 0 .25rem rgba(159, 34, 65, .18);
-  }
-
-  @media (max-width: 991px) {
-    .pronam-case13-course .pc13-slide ul,
-    .pronam-case13-course [data-pc13-slide="7"] .d-grid,
-    .pronam-case13-course .pc13-options-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .pronam-case13-course .pc13-options-grid .pc13-option-btn:last-child:nth-child(odd) {
-      grid-column: auto;
-      max-width: none;
-    }
-  }
-  /* pc13-inline-modal: modales internos de la escena */
-  .pronam-case13-course .pc13-modal {
-    align-items: center;
-    justify-items: center;
-    overflow: hidden;
-  }
-
-  .pronam-case13-course .pc13-modal-card {
-    position: relative;
-    width: min(820px, calc(100% - 2rem));
-    max-height: calc(100% - 2rem);
-    overflow: visible;
     background: #fff;
-    color: #212529;
-    border-radius: 1rem;
-    padding: 2rem !important;
+    box-shadow: 0 .85rem 1.6rem rgba(16, 49, 43, .12);
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
   }
 
-  .pronam-case13-course .pc13-modal-card.is-info {
-    border-top: .45rem solid var(--pc13-green);
+  .pc13-scene213 .pc13-modal-card.is-correct .pc13-feedback-icon,
+  .pc13-scene213 .pc13-modal-card.is-incorrect .pc13-feedback-icon {
+    display: grid;
   }
 
-  .pronam-case13-course .pc13-modal-card.is-incorrect {
-    background: var(--pc13-wine);
-    color: #fff;
+  .pc13-scene213 .pc13-modal-card.is-correct .pc13-feedback-icon {
+    color: #168A45;
   }
 
-  .pronam-case13-course .pc13-modal-card.is-incorrect [data-pc13-modal-title],
-  .pronam-case13-course .pc13-modal-card.is-incorrect .pc13-modal-body {
+  .pc13-scene213 .pc13-modal-card.is-incorrect .pc13-feedback-icon {
+    color: var(--pc13-wine);
+  }
+
+  .pc13-scene213 .pc13-modal-card.is-correct {
+    background: #fff !important;
+    color: #212529 !important;
+  }
+
+  .pc13-scene213 .pc13-modal-card.is-incorrect {
+    background: var(--pc13-wine) !important;
     color: #fff !important;
   }
 
-  .pronam-case13-course .pc13-modal-body {
-    max-height: min(52vh, 520px);
-    overflow: auto;
-    padding-right: .25rem;
+  .pc13-scene213 .pc13-modal-card.is-incorrect [data-pc13-modal-title],
+  .pc13-scene213 .pc13-modal-card.is-incorrect [data-pc13-modal-body],
+  .pc13-scene213 .pc13-modal-card.is-incorrect .pc13-modal-body {
+    color: #fff !important;
   }
 
-  .pronam-case13-course .pc13-modal-body h3 {
-    margin: 0 0 1rem;
-    font-size: 1.15rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: #2E3130;
+
+
+  /* pc13-scene213: fuerza visible cierre dorado */
+  .pc13-scene213 .pc13-modal-card .pc13-modal-x[data-pc13-modal-close] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    color: #fff !important;
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-indent: 0 !important;
+    background: #a57f2c !important;
   }
 
-  .pronam-case13-course .pc13-modal-body ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .55rem 1rem;
-    margin: .75rem 0 1rem;
+
+
+  /* pc13-scene213: geometria copiada de escena 194 */
+  .pc13-scene213 .pc13-modal {
+    align-items: center !important;
+    justify-items: center !important;
+    overflow: hidden !important;
   }
 
-  .pronam-case13-course .pc13-modal-x {
-    position: absolute;
-    top: -1.15rem;
-    right: -1.15rem;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border: 0;
-    border-radius: 50%;
-    background: var(--pc13-wine);
-    color: #fff;
-    font-size: 1.75rem;
-    line-height: 1;
-    box-shadow: 0 .85rem 1.75rem rgba(159, 34, 65, .28);
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card] {
+    position: relative !important;
+    width: min(820px, calc(100% - 2rem)) !important;
+    max-height: calc(100% - 2rem) !important;
+    overflow: visible !important;
+    border-radius: 1rem !important;
+    padding: 2rem !important;
   }
 
-  .pronam-case13-course .pc13-modal-x:hover,
-  .pronam-case13-course .pc13-modal-x:focus {
-    background: #691C32;
-    outline: 0;
-    box-shadow: 0 0 0 .25rem rgba(159, 34, 65, .2);
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card].is-correct {
+    background: #fff !important;
+    color: #212529 !important;
   }
 
-  .pronam-case13-course .pc13-modal-card.is-info [data-pc13-modal-action] {
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card].is-incorrect {
+    background: var(--pc13-wine) !important;
+    color: #fff !important;
+  }
+
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card].is-incorrect [data-pc13-modal-title],
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card].is-incorrect [data-pc13-modal-body],
+  .pc13-scene213 .pc13-modal-card[data-pc13-modal-card].is-incorrect .pc13-modal-body {
+    color: #fff !important;
+  }
+
+  .pc13-scene213 .pc13-feedback-icon[data-pc13-feedback-icon] {
     display: none;
+    place-items: center;
+    width: 4rem !important;
+    height: 4rem !important;
+    margin: 0 0 1rem !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 .85rem 1.6rem rgba(16, 49, 43, .12) !important;
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
   }
 
-  @media (max-width: 991px) {
-    .pronam-case13-course .pc13-modal-card {
-      width: min(100%, calc(100% - 1rem));
-      padding: 1.5rem !important;
-    }
-
-    .pronam-case13-course .pc13-modal-body ul {
-      grid-template-columns: 1fr;
-    }
+  .pc13-scene213 .pc13-modal-card.is-correct .pc13-feedback-icon[data-pc13-feedback-icon],
+  .pc13-scene213 .pc13-modal-card.is-incorrect .pc13-feedback-icon[data-pc13-feedback-icon] {
+    display: grid !important;
   }
 
-  .pc13-interrogatorio-card {
-    overflow: hidden;
-    cursor: pointer;
-    border: 1px solid rgba(35, 91, 78, 0.18);
-    border-radius: 1rem;
-    background-color: #ffffff;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+  .pc13-scene213 .pc13-modal-card.is-correct .pc13-feedback-icon[data-pc13-feedback-icon] {
+    color: #168A45 !important;
   }
 
-  .pc13-interrogatorio-card:hover,
-  .pc13-interrogatorio-card:focus-visible {
-      transform: translateY(-4px);
-      border-color: var(--pc13-green, #235B4E);
-      box-shadow: 0 1rem 2rem rgba(16, 49, 43, 0.16) !important;
+  .pc13-scene213 .pc13-modal-card.is-incorrect .pc13-feedback-icon[data-pc13-feedback-icon] {
+    color: var(--pc13-wine) !important;
   }
 
-  .pc13-interrogatorio-card:focus-visible {
-      outline: 3px solid rgba(35, 91, 78, 0.25);
-      outline-offset: 3px;
+  .pc13-scene213 .pc13-modal-card .pc13-modal-x[data-pc13-modal-close] {
+    position: absolute !important;
+    top: -1.15rem !important;
+    right: -1.15rem !important;
+    z-index: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: #a57f2c !important;
+    color: #fff !important;
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-indent: 0 !important;
+    box-shadow: 0 .85rem 1.75rem rgba(165, 127, 44, .28) !important;
   }
 
-  .pc13-interrogatorio-card .card-img-top {
-      width: 100%;
-      height: 190px;
-      padding: 0.75rem;
-      object-fit: contain;
-      background-color: #f5f8f7;
-  }
+  </style>
 
-  .pc13-interrogatorio-card .card-body {
-      min-height: 82px;
-      padding: 1rem;
-      color: #ffffff;
-      background-color: var(--pc13-green, #235B4E);
-  }
-
-  .pc13-interrogatorio-card .card-title {
-      font-weight: 700;
-      line-height: 1.2;
-  }
-
-  @media (max-width: 767.98px) {
-      .pc13-interrogatorio-card .card-img-top {
-          height: 220px;
-      }
-  }
-</style>
-  
-  <div class="pc13-stage card rounded-3 bg-white shadow-sm" aria-label="Capítulo 1 Presentación del caso">
-    <article class="pc13-slide is-active p-4 p-lg-5" data-pc13-slide="0">
-      <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
-      <div class="pc13-body container-fluid row align-items-center g-4">
-        <div class="pc13-copy col-12 col-lg-8">
-          <h1 class="pc13-case-title display-6 fw-bold text-dark lh-sm mb-3">PRESENTACIÓN DEL CASO</h1>
-          <div class="pc13-flip-zone row row-cols-1 row-cols-md-2 g-3 mt-3" aria-label="Tarjetas de inicio del caso">
-            <div class="pc13-flip-unit col">
-              <input class="pc13-flip-toggle" type="checkbox" id="pc13-flip-competencias">
-              <label class="pc13-flip-card card h-100 text-decoration-none text-reset border-0" for="pc13-flip-competencias">
-                <div class="pc13-flip-inner h-100">
-                  <div class="pc13-flip-face pc13-flip-front text-center rounded-3 shadow-sm border p-4 bg-secondary text-white align-items-center">
-                    <h3 class="fw-semibold">Competencias a desarrollar</h3>
-                    <small>Presione para girar la tarjeta</small>
-                  </div>
-                  <div class="pc13-flip-face pc13-flip-back rounded-3 shadow-sm border p-4 bg-white text-dark border-top border-4 border-dark justify-content-start">
-                    <h3 class="h3 fw-semibold text-success-emphasis lh-sm mb-3">Al finalizar este caso clínico usted será capaz de:</h3>
-                    <ul>
-                        <li>Identificar oportunamente a un paciente con síndrome metabólico</li>
-                        <li>Reconocer factores de riesgo para diabetes mellitus tipo 2</li>
-                        <li>Aplicar los criterios diagnósticos actuales</li>
-                        <li>Solicitar e interpretar estudios de laboratorio</li>
-                        <li>Estratificar el riesgo cardiovascular y renal</li>
-                        <li>Seleccionar el tratamiento farmacológico de primera línea</li>
-                        <li>Individualizar las metas glucémicas</li>
-                        <li>Prevenir complicaciones micro y macrovasculares</li>
-                        <li>Realizar seguimiento longitudinal del paciente</li>
-                    </ul>
-                  </div>
-                </div>
-              </label>
-            </div>
-            <div class="pc13-flip-unit col">
-              <input class="pc13-flip-toggle" type="checkbox" id="pc13-flip-ruta">
-              <label class="pc13-flip-card card h-100 text-decoration-none text-reset border-0" for="pc13-flip-ruta">
-                <div class="pc13-flip-inner h-100">
-                  <div class="pc13-flip-face pc13-flip-front text-center rounded-3 shadow-sm border p-4 bg-secondary text-white align-items-center">
-                    <h3 class="fw-semibold">Objetivos específicos</h3>
-                    <small>Presione para girar la tarjeta</small>
-                  </div>
-                  <div class="pc13-flip-face pc13-flip-back rounded-3 shadow-sm border p-4 bg-white text-dark border-top border-4 border-dark justify-content-start">
-                    <h3 class="h3 fw-semibold text-success-emphasis lh-sm mb-3">Al concluir este módulo usted podrá:</h3>
-                    <ul>
-                      <li>Diagnosticar síndrome metabólico mediante ATP III, IDF y ALAD</li>
-                      <li>Diagnosticar diabetes utilizando criterios ADA y CENETEC</li>
-                      <li>Calcular riesgo cardiovascular</li>
-                      <li>Identificar enfermedad renal diabética temprana</li>
-                      <li>Seleccionar tratamiento basado en comorbilidades</li>
-                      <li>Ajustar tratamiento conforme evoluciona el paciente</li>
-                      <li>Prevenir complicaciones</li>
-                    </ul>
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-        <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
-      </div>
-      <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
-    </article>
-
-
-    <article class="pc13-slide p-4 p-lg-5" data-pc13-slide="2">
-
+    <div class="pc13-stage card rounded-3 bg-white shadow-sm" aria-label="Capítulo 3 Estudios de laboratorio, integración diagnóstica y estratificación inicial del riesgo">
+      <article class="pc13-slide pc13-lab-intro-slide is-active p-4 p-lg-5" data-pc13-slide="0" data-pc13-gated="intro-question">
         <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
-
-        <div class="pc13-body container-fluid">
-
-            <h1 class="display-6 fw-bold text-dark lh-sm mb-4">
-                Escenario clínico
-            </h1>
-
-            <div class="row justify-content-center">
-
-                <div class="col-12">
-
-                    <img
-                        src="img/comic.png"
-                        class="img-fluid rounded shadow-lg mx-auto d-block"
-                        alt="Escenario clínico">
-
-                </div>
-
+        <div class="pc13-body pc13-lab-intro-layout container-fluid g-4">
+          <div class="pc13-lab-doctor-zone">
+            <img class="pc13-doctor pc13-lab-doctor img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+            <div class="pc13-doctor-bubble" role="group" aria-label="Evolución del caso">
+              <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Evolución del caso</h1>
+            <p class="mb-3">Con base en la historia clínica y la exploración física, el médico considera altamente probable la presencia de síndrome metabólico con diabetes mellitus tipo 2 no diagnosticada. Antes de iniciar tratamiento, decide solicitar estudios dirigidos para:</p>
+            <ul class="">
+              <li class="">Confirmar el diagnóstico.</li>
+              <li class="">Identificar alteraciones metabólicas asociadas.</li>
+              <li class="">Evaluar daño a órgano blanco.</li>
+              <li class="">Estratificar el riesgo cardiovascular y renal.</li>
+              <li class="">Detectar posibles causas secundarias de hiperglucemia.</li>
+            </ul>
+              <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm mt-3" type="button" data-pc13-intro-next>OK, continuar</button>
             </div>
-
-        </div>
-
-        <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
-
-    </article>
-
-
-    <article class="pc13-slide p-4 p-lg-5" data-pc13-slide="5">
-      <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
-      <div class="pc13-body container-fluid row align-items-center g-4">
-        <div class="pc13-copy col-12 col-lg-8">
-          <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Con la información disponible, ¿cuál es el siguiente paso más apropiado?</h1>
-          <div class="pc13-question">
-            <div class="pc13-options-grid row row-cols-1 row-cols-md-2 g-2 mt-3">
-              <button class="pc13-option-btn btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span class="badge text-bg-light text-success me-2">A</span>Iniciar metformina de manera inmediata.</button>
-              <button class="pc13-option-btn btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="1" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span class="badge text-bg-light text-success me-2">B</span>Solicitar laboratorio completo para confirmar el diagnóstico.</button>
-              <button class="pc13-option-btn btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span class="badge text-bg-light text-success me-2">C</span>Solicitar tomografía abdominal.</button>
-              <button class="pc13-option-btn btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Aunque la sintomatología es altamente sugestiva de hiperglucemia, el diagnóstico de diabetes mellitus debe confirmarse mediante los criterios diagnósticos establecidos (glucosa plasmática en ayuno, HbA1c, PTOG o glucosa plasmática al azar en presencia de síntomas clásicos y valores ≥200 mg/dL). Antes de iniciar tratamiento es indispensable caracterizar el estado metabólico, identificar comorbilidades y establecer una línea basal para el seguimiento." data-pc13-pearl-title="PERLA CLÍNICA No. 1" data-pc13-pearl="Hasta el 50% de los pacientes con diabetes mellitus tipo 2 presentan complicaciones microvasculares o macrovasculares al momento del diagnóstico debido al largo periodo de hiperglucemia asintomática."><span class="badge text-bg-light text-success me-2">D</span>Prescribir antibióticos por probable infección urinaria.</button>
-            </div>
-            <div class="pc13-pearl-box alert alert-success border-start border-4 mt-3" data-pc13-pearl-box hidden></div>
           </div>
-        </div>
-        <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
-      </div>
-      <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
-    </article>
-    
-    <article class="pc13-slide p-4 p-lg-5" data-pc13-slide="7">
-        <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
-        <div class="pc13-body container-fluid">
-            <h1 class="display-6 fw-bold text-dark lh-sm mb-4">
-                El médico decide ampliar el interrogatorio
-            </h1>
-            <div class="row align-items-center g-4">
-
-                <!-- Doctora -->
-                <div class="col-12 col-lg-4 text-center">
-
-                    <img
-                        class="pc13-doctor img-fluid mx-auto d-block"
-                        src="img/doctora_caso.png"
-                        alt="Doctora guía PRONAM">
-
-                </div>
-
-                <!-- Tarjetas -->
-                <div class="pc13-copy col-12 col-lg-8">
-
-                    <div class="row row-cols-1 row-cols-md-2 g-4">
-
-                        <!-- Antecedentes heredofamiliares -->
-                        <div class="col">
-
-                            <div
-                                class="card h-100 shadow-sm pc13-interrogatorio-card"
-                                role="button"
-                                tabindex="0"
-                                data-pc13-card-title="Riesgo familiar"
-                                data-pc13-card-template="pc13-modal-info-1">
-
-                                <img
-                                    src="img/antecedentesHeredofamiliares.png"
-                                    class="card-img-top"
-                                    alt="Antecedentes heredofamiliares">
-
-                                <div class="card-body d-flex align-items-center justify-content-center">
-
-                                    <h2 class="card-title h5 text-center mb-0">
-                                        Antecedentes heredofamiliares
-                                    </h2>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Antecedentes personales patológicos -->
-                        <div class="col">
-
-                            <div
-                                class="card h-100 shadow-sm pc13-interrogatorio-card"
-                                role="button"
-                                tabindex="0"
-                                data-pc13-card-title="Comorbilidades conocidas"
-                                data-pc13-card-template="pc13-modal-info-2">
-
-                                <img
-                                    src="img/antecedentesPersonalesPatologicos.png"
-                                    class="card-img-top"
-                                    alt="Antecedentes personales patológicos">
-
-                                <div class="card-body d-flex align-items-center justify-content-center">
-
-                                    <h2 class="card-title h5 text-center mb-0">
-                                        Antecedentes personales patológicos
-                                    </h2>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Antecedentes personales no patológicos -->
-                        <div class="col">
-
-                            <div
-                                class="card h-100 shadow-sm pc13-interrogatorio-card"
-                                role="button"
-                                tabindex="0"
-                                data-pc13-card-title="Estilo de vida y contexto"
-                                data-pc13-card-template="pc13-modal-info-3">
-
-                                <img
-                                    src="img/antecedentesPersonalesNoPatologicos.png"
-                                    class="card-img-top"
-                                    alt="Antecedentes personales no patológicos">
-
-                                <div class="card-body d-flex align-items-center justify-content-center">
-
-                                    <h2 class="card-title h5 text-center mb-0">
-                                        Antecedentes personales no patológicos
-                                    </h2>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Revisión por aparatos y sistemas -->
-                        <div class="col">
-
-                            <div
-                                class="card h-100 shadow-sm pc13-interrogatorio-card"
-                                role="button"
-                                tabindex="0"
-                                data-pc13-card-title="Síntomas actuales"
-                                data-pc13-card-template="pc13-modal-info-4">
-
-                                <img
-                                    src="img/revisionAparatosSistemas.png"
-                                    class="card-img-top"
-                                    alt="Revisión por aparatos y sistemas">
-
-                                <div class="card-body d-flex align-items-center justify-content-center">
-
-                                    <h2 class="card-title h5 text-center mb-0">
-                                        Revisión por aparatos y sistemas
-                                    </h2>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+          <div class="pc13-question-panel" data-pc13-intro-question aria-hidden="true">
+            <div class="pc13-question-bubble" aria-label="Pregunta de la doctora">
+              <h1 class="fw-bold text-dark lh-sm">¿Cuáles de los siguientes estudios solicitaría en la primera valoración? (Selección múltiple)</h1>
             </div>
-        </div>
-        <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
-    </article>
-   
-
-    <article class="pc13-slide p-4 p-lg-5" data-pc13-slide="11">
-      <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
-      <div class="pc13-body container-fluid row align-items-center g-4">
-        <div class="pc13-copy col-12 col-lg-8">
-          <h1 class="display-6 fw-bold text-dark lh-sm mb-3">¿Qué factores de riesgo para diabetes mellitus tipo 2 identifica en este paciente? (Selección múltiple)</h1>
-          <div class="pc13-question">
-            <div class="pc13-options-grid row row-cols-1 row-cols-md-2 g-2 mt-3">
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">A</span>Edad mayor de 45 años.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">B</span>Obesidad y hábitos alimentarios inadecuados.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">C</span>Sedentarismo.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">D</span>Antecedentes familiares de primer grado.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">E</span>Hipertensión arterial.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">F</span>Dislipidemia.</button>
-              <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="1" data-pc13-feedback="El paciente concentra múltiples factores de riesgo mayores para diabetes mellitus tipo 2 y enfermedad cardiovascular. Su perfil clínico justifica no solo la confirmación diagnóstica, sino una evaluación integral que incluya riesgo renal, hepático y cardiovascular desde el primer contacto."><span class="badge text-bg-light text-success me-2">G</span>Todos los anteriores.</button>
-            </div>
-            <div class="pc13-pearl-box alert alert-success border-start border-4 mt-3" data-pc13-pearl-box hidden></div>
-          </div>
-        </div>
-        <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
-      </div>
-      <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
-    </article>
-    <div class="pc13-actions d-flex align-items-center justify-content-center gap-3">
-      <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm" type="button" data-pc13-prev disabled>Anterior</button>
-      <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm" type="button" data-pc13-next>Continuar</button>
+            <div class="pc13-question">
+    <div class="pc13-options-grid row row-cols-1 row-cols-md-2 g-2 mt-3">
+      <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">1</span>Glucosa plasmática en ayuno.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">2</span>Hemoglobina glucosilada (HbA1c).</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">3</span>Química sanguínea (glucosa, urea, creatinina y electrolitos).</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">4</span>Perfil de lípidos en ayuno.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">5</span>Examen general de orina y relación albúmina/creatinina urinaria.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">6</span>Pruebas de función hepática.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">7</span>Biometría hemática.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">8</span>TSH.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">9</span>Electrocardiograma de 12 derivaciones.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="1" data-pc13-feedback="La evaluación inicial de un paciente con sospecha de diabetes mellitus tipo 2 debe ser integral. Además de confirmar la hiperglucemia, es indispensable valorar función renal, perfil lipídico, daño renal temprano (albuminuria), enfermedad hepática metabólica, alteraciones hematológicas y riesgo cardiovascular basal. La TSH puede ser útil en pacientes con obesidad, dislipidemia o síntomas compatibles con enfermedad tiroidea." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">10</span>Todas las anteriores.</button>
     </div>
-    <div class="pc13-count badge text-bg-light text-secondary" data-pc13-count>1 / 11</div>
-    <template id="pc13-modal-info-1">
-      <h3>Padre con diabetes mellitus tipo 2 diagnosticada a los 52 años; falleció por infarto agudo de miocardio a los 61 años.</h3>
-      <h3>Madre con hipertensión arterial sistémica y enfermedad renal crónica.</h3>
-      <h3>Hermano mayor con obesidad y dislipidemia. Abuelo paterno con amputación supracondílea secundaria a pie diabético.</h3>
-    </template>
-    <template id="pc13-modal-info-2">
-      <h3>Hipertensión arterial diagnosticada hace cinco años, con apego irregular al tratamiento.</h3>
-      <h3>Dislipidemia conocida desde hace tres años, sin tratamiento actual.</h3>
-      <h3>Niega enfermedades autoinmunes, pancreatitis o uso de glucocorticoides.</h3>
-      <h3>Sin antecedentes de hospitalizaciones por hiperglucemia.</h3>
-    </template>
-    <template id="pc13-modal-info-3">
-      <h3>Sedentarismo; no realiza actividad física programada.</h3>
-      <h3>Alimentación rica en carbohidratos refinados y bebidas azucaradas.</h3>
-      <h3>Consumo frecuente de comida rápida (4-5 veces por semana).</h3>
-      <h3>Exfumador (15 paquetes-año), suspendido hace cinco años.</h3>
-      <h3>Consumo ocasional de alcohol.</h3>
-      <h3>Sueño de 5-6 horas por noche debido a largas jornadas laborales.</h3>
-    </template>
-    <template id="pc13-modal-info-4">
-      <h3>Refiere además:</h3>
-      <ul>
-        <li><h3>Poliuria.</h3></li>
-        <li><h3>Polidipsia.</h3></li>
-        <li><h3>Polifagia.</h3></li>
-        <li><h3>Visión borrosa intermitente.</h3></li>
-        <li><h3>Fatiga.</h3></li>
-        <li><h3>Calambres nocturnos.</h3></li>
-      </ul>
-      <h3>Niega dolor torácico, disnea, edema o síntomas neurológicos focales.</h3>
-    </template>    <div class="pc13-modal" data-pc13-modal aria-hidden="true">
-      <div class="pc13-modal-card card border-0 shadow-lg p-4" data-pc13-modal-card role="dialog" aria-modal="true" aria-label="Detalle interactivo">
-        <button class="pc13-modal-x" type="button" data-pc13-modal-close aria-label="Cerrar">&times;</button>
-        <h3 data-pc13-modal-title class="h3 fw-semibold text-success-emphasis lh-sm mb-3">Detalle</h3>
-        <div data-pc13-modal-body class="pc13-modal-body mb-3"></div>
-        <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm" type="button" data-pc13-modal-close data-pc13-modal-action>Continuar</button>
-      </div>
-    </div>
+    <div class="pc13-pearl-box alert alert-success border-start border-4 mt-3" data-pc13-pearl-box hidden></div>
   </div>
-  <script>
-    (function() {
-      var root = document.currentScript.closest('[data-pc13-root]');
-      if (!root) return;
-      var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
-      var prev = root.querySelector('[data-pc13-prev]');
-      var next = root.querySelector('[data-pc13-next]');
-      var count = root.querySelector('[data-pc13-count]');
-      var modal = root.querySelector('[data-pc13-modal]');
-      var modalCard = root.querySelector('[data-pc13-modal-card]');
-      var modalTitle = root.querySelector('[data-pc13-modal-title]');
-      var modalBody = root.querySelector('[data-pc13-modal-body]');
-      var modalClose = root.querySelector('[data-pc13-modal-close]');
-      var current = 0;
-      function openModal(title, body, incorrect, options) {
-        options = options || {};
-        if (!modal || !modalCard || !modalTitle || !modalBody) return;
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        modalCard.classList.toggle('is-incorrect', !!incorrect);
-        modalCard.classList.toggle('is-info', !!options.info);
-        modalTitle.textContent = title || 'Detalle';
-        if (options.html) {
-          modalBody.innerHTML = body || '';
-        } else {
-          modalBody.textContent = body || '';
+          </div>
+        </div>
+        <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+      </article>
+
+
+  <article class="pc13-slide p-4 p-lg-5" data-pc13-slide="2">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Estudios de laboratorio solicitados</h1>
+        <p class="mb-3">Biometría hemática</p>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Estudio</span><span>Resultado</span><span>Valores de referencia</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Hemoglobina</span><span>15.6 g/dL</span><span>13.5–17.5</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Hematocrito</span><span>46 %</span><span>41–53</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Leucocitos</span><span>7,900/µL</span><span>4,500–11,000</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Plaquetas</span><span>262,000/µL</span><span>150,000–450,000</span></div>
+  <p class="mb-3">Interpretación: Sin alteraciones hematológicas relevantes.</p>
+  <p class="mb-3">Química sanguínea</p>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Parámetro</span><span>Resultado</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Glucosa en ayuno</span><span>178 mg/dL</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Urea</span><span>34 mg/dL</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Creatinina</span><span>0.93 mg/dL</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">eTFG (CKD-EPI)</span><span>101 mL/min/1.73 m²</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Sodio</span><span>139 mEq/L</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Potasio</span><span>4.2 mEq/L</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Cloro</span><span>102 mEq/L</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">Bicarbonato</span><span>24 mEq/L</span></div>
+  <p class="mb-3">Interpretación</p>
+  <p class="mb-3">Existe hiperglucemia en rango diagnóstico para diabetes mellitus. La función renal es normal y no hay alteraciones hidroelectrolíticas que sugieran una descompensación metabólica aguda.</p>
+  <p class="mb-3">Hemoglobina glucosilada (HbA1c)</p>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">8.</span><span>4 %</span></div>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="3">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">¿Qué representa la HbA1c en la práctica clínica?</h1>
+
+  <div class="pc13-question">
+    <div class="pc13-options-grid row row-cols-1 row-cols-md-2 g-2 mt-3">
+      <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La HbA1c refleja la exposición promedio de los eritrocitos a la glucosa durante su vida media (aproximadamente 120 días), con mayor influencia de las últimas 8–12 semanas. Es útil para el diagnóstico y seguimiento, aunque puede ser menos fiable en condiciones que alteran el recambio eritrocitario (anemias hemolíticas, transfusiones, hemoglobinopatías, enfermedad renal avanzada, entre otras). Perfil de lípidos Parámetro	Resultado	Meta general en DM2* Colesterol total	236 mg/dL	Individualizar LDL-C	154 mg/dL	&lt;70 mg/dL si alto riesgo CV HDL-C	37 mg/dL	&gt;40 mg/dL (hombre) Triglicéridos	248 mg/dL	&lt;150 mg/dL *Las metas dependen del riesgo cardiovascular global. Interpretación Dislipidemia aterogénica característica del síndrome metabólico: hipertrigliceridemia, HDL bajo y LDL elevado. Función hepática Estudio	Resultado AST	34 U/L ALT	58 U/L FA	88 U/L GGT	67 U/L Bilirrubinas	Normales Albúmina	4.4 g/dL" data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">A</span>La glucemia del día de la consulta.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="1" data-pc13-feedback="La HbA1c refleja la exposición promedio de los eritrocitos a la glucosa durante su vida media (aproximadamente 120 días), con mayor influencia de las últimas 8–12 semanas. Es útil para el diagnóstico y seguimiento, aunque puede ser menos fiable en condiciones que alteran el recambio eritrocitario (anemias hemolíticas, transfusiones, hemoglobinopatías, enfermedad renal avanzada, entre otras). Perfil de lípidos Parámetro	Resultado	Meta general en DM2* Colesterol total	236 mg/dL	Individualizar LDL-C	154 mg/dL	&lt;70 mg/dL si alto riesgo CV HDL-C	37 mg/dL	&gt;40 mg/dL (hombre) Triglicéridos	248 mg/dL	&lt;150 mg/dL *Las metas dependen del riesgo cardiovascular global. Interpretación Dislipidemia aterogénica característica del síndrome metabólico: hipertrigliceridemia, HDL bajo y LDL elevado. Función hepática Estudio	Resultado AST	34 U/L ALT	58 U/L FA	88 U/L GGT	67 U/L Bilirrubinas	Normales Albúmina	4.4 g/dL" data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">B</span>El promedio aproximado de glucosa de los últimos 2–3 meses.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La HbA1c refleja la exposición promedio de los eritrocitos a la glucosa durante su vida media (aproximadamente 120 días), con mayor influencia de las últimas 8–12 semanas. Es útil para el diagnóstico y seguimiento, aunque puede ser menos fiable en condiciones que alteran el recambio eritrocitario (anemias hemolíticas, transfusiones, hemoglobinopatías, enfermedad renal avanzada, entre otras). Perfil de lípidos Parámetro	Resultado	Meta general en DM2* Colesterol total	236 mg/dL	Individualizar LDL-C	154 mg/dL	&lt;70 mg/dL si alto riesgo CV HDL-C	37 mg/dL	&gt;40 mg/dL (hombre) Triglicéridos	248 mg/dL	&lt;150 mg/dL *Las metas dependen del riesgo cardiovascular global. Interpretación Dislipidemia aterogénica característica del síndrome metabólico: hipertrigliceridemia, HDL bajo y LDL elevado. Función hepática Estudio	Resultado AST	34 U/L ALT	58 U/L FA	88 U/L GGT	67 U/L Bilirrubinas	Normales Albúmina	4.4 g/dL" data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">C</span>La reserva pancreática.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="La HbA1c refleja la exposición promedio de los eritrocitos a la glucosa durante su vida media (aproximadamente 120 días), con mayor influencia de las últimas 8–12 semanas. Es útil para el diagnóstico y seguimiento, aunque puede ser menos fiable en condiciones que alteran el recambio eritrocitario (anemias hemolíticas, transfusiones, hemoglobinopatías, enfermedad renal avanzada, entre otras). Perfil de lípidos Parámetro	Resultado	Meta general en DM2* Colesterol total	236 mg/dL	Individualizar LDL-C	154 mg/dL	&lt;70 mg/dL si alto riesgo CV HDL-C	37 mg/dL	&gt;40 mg/dL (hombre) Triglicéridos	248 mg/dL	&lt;150 mg/dL *Las metas dependen del riesgo cardiovascular global. Interpretación Dislipidemia aterogénica característica del síndrome metabólico: hipertrigliceridemia, HDL bajo y LDL elevado. Función hepática Estudio	Resultado AST	34 U/L ALT	58 U/L FA	88 U/L GGT	67 U/L Bilirrubinas	Normales Albúmina	4.4 g/dL" data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">D</span>La resistencia a la insulina.</button>
+    </div>
+    <div class="pc13-pearl-box alert alert-success border-start border-4 mt-3" data-pc13-pearl-box hidden></div>
+  </div>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="4">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Integración</h1>
+        <p class="mb-3">La elevación leve de ALT y GGT, en el contexto de obesidad y resistencia a la insulina, orienta a enfermedad hepática esteatósica asociada a disfunción metabólica (MASLD). Debe confirmarse con evaluación dirigida (por ejemplo, ultrasonido hepático y cálculo de índices no invasivos de fibrosis cuando estén indicados).</p>
+  <p class="mb-3">Examen general de orina</p>
+  <ul class="pc13-list list-group list-group-flush mb-3"><li class="list-group-item px-0">Glucosuria: ++</li><li class="list-group-item px-0">Cetonas: negativas</li><li class="list-group-item px-0">Proteínas: negativas</li><li class="list-group-item px-0">Leucocitos: negativos</li><li class="list-group-item px-0">Nitritos: negativos</li></ul>
+  <p class="mb-3">Relación albúmina/creatinina urinaria</p>
+  <p class="mb-3">18 mg/g</p>
+  <p class="mb-3">Interpretación</p>
+  <p class="mb-3">No existe albuminuria en este momento (&lt;30 mg/g), lo que sugiere ausencia de nefropatía diabética detectable al diagnóstico. Este resultado servirá como línea basal para el seguimiento.</p>
+  <p class="mb-3">Electrocardiograma</p>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="5">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Laboratorio y diagnóstico</h1>
+        <ul class="pc13-list list-group list-group-flush mb-3"><li class="list-group-item px-0">Ritmo sinusal.</li><li class="list-group-item px-0">Frecuencia: 82 lpm.</li><li class="list-group-item px-0">Eje normal.</li><li class="list-group-item px-0">Sin datos de isquemia aguda.</li><li class="list-group-item px-0">Sin criterios de hipertrofia ventricular izquierda.</li></ul>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="6">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Integración de resultados</h1>
+        <p class="mb-3">Criterios diagnósticos de diabetes mellitus</p>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="7">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">¿Cuáles de los siguientes criterios cumple este paciente?</h1>
+
+  <div class="pc13-question">
+    <div class="pc13-options-grid row row-cols-1 row-cols-md-2 g-2 mt-3">
+      <button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="1" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">1</span>Glucosa plasmática en ayuno ≥126 mg/dL.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">2</span>HbA1c ≥6.5%.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">3</span>Glucosa al azar ≥200 mg/dL con síntomas clásicos documentada en esta consulta.</button><button class="pc13-option-btn col btn btn-success text-start p-3 rounded-3 shadow-sm d-flex gap-2 align-items-start" type="button" data-pc13-answer="0" data-pc13-feedback="Revisa el razonamiento clínico y continúa con el caso." data-pc13-pearl-title="" data-pc13-pearl=""><span class="badge text-bg-light text-success me-2">4</span>Prueba oral de tolerancia a la glucosa con valor a las 2 horas ≥200 mg/dL (no realizada).</button>
+    </div>
+    <div class="pc13-pearl-box alert alert-success border-start border-4 mt-3" data-pc13-pearl-box hidden></div>
+  </div>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="8">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Integración diagnóstica final</h1>
+        </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="9">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Diagnóstico principal</h1>
+
+  <ul class="pc13-list list-group list-group-flush mb-3"><li class="list-group-item px-0">Diabetes mellitus tipo 2 de nuevo diagnóstico.</li></ul>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="10">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Diagnósticos asociados</h1>
+
+  <ul class="pc13-list list-group list-group-flush mb-3"><li class="list-group-item px-0">Síndrome metabólico.</li><li class="list-group-item px-0">Obesidad grado I.</li><li class="list-group-item px-0">Obesidad abdominal.</li><li class="list-group-item px-0">Hipertensión arterial sistémica no controlada.</li><li class="list-group-item px-0">Dislipidemia mixta.</li><li class="list-group-item px-0">Alta probabilidad de MASLD.</li><li class="list-group-item px-0">Alto riesgo cardiovascular.</li></ul>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="11">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Perla clínica 4</h1>
+        <aside class="pc13-static-pearl alert alert-success border-start border-4 mt-3"><strong class="fw-semibold">Perla clínica 4</strong><p class="mb-3">El diagnóstico de diabetes mellitus tipo 2 no debe marcar el final de la evaluación, sino el inicio de una estratificación integral. En la primera consulta deben definirse el riesgo cardiovascular, la función renal, la presencia de albuminuria, el estado hepático, las comorbilidades y las complicaciones ya existentes. Estos elementos determinarán la elección del tratamiento y las metas terapéuticas.</p></aside>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="12">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Algoritmo de razonamiento clínico</h1>
+        <p class="mb-3">Paciente con sospecha de DM2</p>
+  <p class="mb-3">│</p>
+  <p class="mb-3">▼</p>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="13">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Laboratorio inicial completo</h1>
+
+  <p class="mb-3">│</p>
+  <p class="mb-3">├── Glucosa en ayuno: 178 mg/dL</p>
+  <p class="mb-3">├── HbA1c: 8.4 %</p>
+  <p class="mb-3">├── Perfil lipídico aterogénico</p>
+  <p class="mb-3">├── Función renal conservada</p>
+  <p class="mb-3">├── Albuminuria ausente</p>
+  <p class="mb-3">├── ALT/GGT elevadas</p>
+  <p class="mb-3">▼</p>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="14">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Diagnóstico de DM2 + Síndrome metabólico</h1>
+
+  <p class="mb-3">│</p>
+  <p class="mb-3">▼</p>
+  <p class="mb-3">Estratificación cardiovascular, renal y hepática</p>
+  <p class="mb-3">│</p>
+  <p class="mb-3">▼</p>
+  <p class="mb-3">Selección del tratamiento individualizado</p>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="15">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Objetivos alcanzados</h1>
+
+  <p class="mb-3">Al finalizar este capítulo, el participante será capaz de:</p>
+  <ul class="pc13-list list-group list-group-flush mb-3"><li class="list-group-item px-0">Solicitar el laboratorio inicial recomendado en un paciente con sospecha de diabetes mellitus tipo 2.</li><li class="list-group-item px-0">Interpretar correctamente los criterios diagnósticos de diabetes.</li><li class="list-group-item px-0">Reconocer la importancia de evaluar función renal, albuminuria, perfil lipídico y función hepática desde el diagnóstico.</li><li class="list-group-item px-0">Integrar un diagnóstico sindromático y establecer el perfil cardiometabólico basal.</li></ul>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso2.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article><article class="pc13-slide p-4 p-lg-5" data-pc13-slide="16">
+    <div class="pc13-line pc13-line-top rounded-pill my-3" aria-hidden="true"></div>
+    <div class="pc13-body container-fluid row align-items-center g-4">
+      <div class="pc13-copy col-12 col-lg-8">
+        <h1 class="display-6 fw-bold text-dark lh-sm mb-3">Bibliografía (formato Vancouver)</h1>
+
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">1.</span><span>American Diabetes Association Professional Practice Committee. Standards of Care in Diabetes—2026. Diabetes Care. 2026.</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">2.</span><span>Secretaría de Salud. CENETEC. Guía de Práctica Clínica: Diagnóstico y tratamiento de la diabetes mellitus tipo 2 en el primer nivel de atención.</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">3.</span><span>Asociación Latinoamericana de Diabetes (ALAD). Guías ALAD para el diagnóstico y tratamiento de la diabetes mellitus tipo 2. Última edición.</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">4.</span><span>Grundy SM, et al. Diagnosis and Management of the Metabolic Syndrome. Circulation. 2005;112:e285-e290.</span></div>
+  <div class="pc13-row col d-flex gap-3 align-items-center p-3 rounded-3 border bg-light"><span class="badge text-bg-success rounded-pill">5.</span><span>Alberti KGMM, Eckel RH, Grundy SM, et al. Harmonizing the Metabolic Syndrome. Circulation. 2009;120:1640-1645.</span></div>
+      </div>
+      <img class="pc13-doctor col-12 col-lg-4 img-fluid mx-auto d-block" src="img/doctora_caso.png" alt="Doctora guia PRONAM">
+    </div>
+    <div class="pc13-line pc13-line-bottom rounded-pill my-3" aria-hidden="true"></div>
+  </article>
+      <div class="pc13-actions d-flex align-items-center justify-content-center gap-3">
+        <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm" type="button" data-pc13-prev disabled>Anterior</button>
+        <button class="pc13-btn btn btn-success fw-semibold px-4 shadow-sm" type="button" data-pc13-next>Continuar</button>
+      </div>
+      <div class="pc13-count badge text-bg-light text-secondary" data-pc13-count>1 / 16</div>
+      <div class="pc13-modal" data-pc13-modal>
+        <div class="pc13-modal-card card border-0 shadow-lg p-4" data-pc13-modal-card>
+          <button class="pc13-modal-x" type="button" data-pc13-modal-close aria-label="Cerrar">&times;</button>
+          <div class="pc13-feedback-icon" data-pc13-feedback-icon aria-hidden="true"></div>
+          <h3 data-pc13-modal-title class="h3 fw-semibold text-success-emphasis lh-sm mb-3">Retroalimentación</h3>
+          <p data-pc13-modal-body class="mb-3"></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function() {
+        var root = document.currentScript.closest('[data-pc13-root]');
+        if (!root) return;
+        var slides = Array.prototype.slice.call(root.querySelectorAll('[data-pc13-slide]'));
+        var prev = root.querySelector('[data-pc13-prev]');
+        var next = root.querySelector('[data-pc13-next]');
+        var count = root.querySelector('[data-pc13-count]');
+        var modal = root.querySelector('[data-pc13-modal]');
+        var modalCard = root.querySelector('[data-pc13-modal-card]');
+        var modalTitle = root.querySelector('[data-pc13-modal-title]');
+        var modalBody = root.querySelector('[data-pc13-modal-body]');
+        var modalClose = root.querySelector('[data-pc13-modal-close]');
+        var modalIcon = root.querySelector('[data-pc13-feedback-icon]');
+        var current = 0;
+        function currentSlideNeedsIntroAction() {
+          return slides[current]
+            && slides[current].getAttribute('data-pc13-gated') === 'intro-question'
+            && !slides[current].classList.contains('is-question-visible');
         }
-        root.querySelectorAll('[data-pc13-modal-action]').forEach(function(action) {
-          action.hidden = !!options.hideAction;
+        function updateNavState() {
+          if (prev) prev.disabled = current === 0;
+          if (next) {
+            next.disabled = currentSlideNeedsIntroAction();
+            next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
+          }
+          if (count) count.textContent = (current + 1) + ' / ' + slides.length;
+        }
+        function show(index) {
+          current = Math.max(0, Math.min(index, slides.length - 1));
+          slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
+          updateNavState();
+        }
+        function finishScene() {
+          var scene = root.closest('[data-course-section]');
+          var nextScene = scene ? scene.nextElementSibling : null;
+          while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
+          if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+        root.addEventListener('click', function(event) {
+          var introNext = event.target.closest('[data-pc13-intro-next]');
+          if (introNext && root.contains(introNext)) {
+            var introSlide = introNext.closest('[data-pc13-slide]');
+            var questionPanel = introSlide ? introSlide.querySelector('[data-pc13-intro-question]') : null;
+            if (introSlide) introSlide.classList.add('is-question-visible');
+            if (questionPanel) questionPanel.setAttribute('aria-hidden', 'false');
+            updateNavState();
+            return;
+          }
+
+          var answer = event.target.closest('[data-pc13-answer]');
+          if (!answer || !root.contains(answer)) return;
+          var correct = answer.getAttribute('data-pc13-answer') === '1';
+          var slide = answer.closest('[data-pc13-slide]');
+          slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
+            button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
+            button.classList.toggle('is-incorrect', button === answer && !correct);
+          });
+          var pearl = answer.getAttribute('data-pc13-pearl') || '';
+          var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
+          var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
+          if (pearl && pearlBox) {
+            pearlBox.hidden = false;
+            pearlBox.innerHTML = '<strong>' + pearlTitle + '' + pearl;
+          }
+          if (modal && modalCard && modalTitle && modalBody) {
+            modal.classList.add('is-open');
+            modalCard.classList.toggle('is-correct', correct);
+            modalCard.classList.toggle('is-incorrect', !correct);
+            if (modalIcon) modalIcon.textContent = correct ? '✓' : '×';
+            modalTitle.textContent = correct ? 'Retroalimentación' : 'Retroalimentación';
+            modalBody.textContent = answer.getAttribute('data-pc13-feedback') || '';
+          }
         });
-      }
-      function closeModal() {
-        if (!modal) return;
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-      }
-      function show(index) {
-        current = Math.max(0, Math.min(index, slides.length - 1));
-        slides.forEach(function(slide, slideIndex) { slide.classList.toggle('is-active', slideIndex === current); });
-        if (prev) prev.disabled = current === 0;
-        if (next) next.textContent = current === slides.length - 1 ? 'Finalizar' : 'Continuar';
-        if (count) count.textContent = (current + 1) + ' / ' + slides.length;
-      }
-      function finishScene() {
-        var scene = root.closest('[data-course-section]');
-        var nextScene = scene ? scene.nextElementSibling : null;
-        while (nextScene && !nextScene.matches('[data-course-section]')) nextScene = nextScene.nextElementSibling;
-        if (nextScene) nextScene.scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-      root.addEventListener('click', function(event) {
-        var infoCard = event.target.closest('[data-pc13-card-title]');
-        if (infoCard && root.contains(infoCard)) {
-          var templateId = infoCard.getAttribute('data-pc13-card-template');
-          var template = templateId ? root.querySelector('#' + templateId) : null;
-          openModal(
-            infoCard.getAttribute('data-pc13-card-title'),
-            template ? template.innerHTML : infoCard.getAttribute('data-pc13-card-copy'),
-            false,
-            { html: !!template, info: true, hideAction: true }
-          );
-          return;
-        }
-        var answer = event.target.closest('[data-pc13-answer]');
-        if (!answer || !root.contains(answer)) return;
-        var correct = answer.getAttribute('data-pc13-answer') === '1';
-        var slide = answer.closest('[data-pc13-slide]');
-        slide.querySelectorAll('[data-pc13-answer]').forEach(function(button) {
-          button.classList.toggle('is-correct', button.getAttribute('data-pc13-answer') === '1');
-          button.classList.toggle('is-incorrect', button === answer && !correct);
-        });
-        var pearl = answer.getAttribute('data-pc13-pearl') || '';
-        var pearlTitle = answer.getAttribute('data-pc13-pearl-title') || 'Perla clínica';
-        var pearlBox = slide.querySelector('[data-pc13-pearl-box]');
-        if (pearl && pearlBox) {
-          pearlBox.hidden = false;
-          pearlBox.innerHTML = '<strong>' + pearlTitle + '' + pearl;
-        }
-        openModal('Retroalimentación', answer.getAttribute('data-pc13-feedback') || '', !correct, { hideAction: false });
-      });
-      root.querySelectorAll('[data-pc13-modal-close]').forEach(function(button) { button.addEventListener('click', closeModal); });
-      if (modal) modal.addEventListener('click', function(event) { if (event.target === modal) closeModal(); });
-      root.addEventListener('keydown', function(event) { if (event.key === 'Escape') closeModal(); });
-      if (prev) prev.addEventListener('click', function() { show(current - 1); });
-      if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
-      show(0);
-    })();
-  </script>
+        if (modalClose) modalClose.addEventListener('click', function() { modal.classList.remove('is-open'); });
+        if (prev) prev.addEventListener('click', function() { show(current - 1); });
+        if (next) next.addEventListener('click', function() { current === slides.length - 1 ? finishScene() : show(current + 1); });
+        show(0);
+      })();
+    </script>
 </section>
+
+
+
+
+
+
+
 
 
 

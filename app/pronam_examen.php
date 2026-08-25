@@ -407,83 +407,93 @@ $initialView = ($_GET['view'] ?? '') === 'constancia' ? 'certificate' : 'exam';
         .certificate-card {
             position: relative;
             width: min(100%, 920px);
-            aspect-ratio: 1531 / 1978;
+            aspect-ratio: 1130 / 1292;
+            display: grid;
+            align-content: center;
             margin: 0 auto;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, .12);
+            border: 1px solid rgba(35, 91, 78, .2);
             border-radius: 0;
-            background: #FFFFFF;
-            box-shadow: 0 18px 42px rgba(0, 0, 0, .12);
-            color: #787878;
-            font-family: Arial, Helvetica, sans-serif;
+            background: #FFFFFF url("assets/img/pronam_constancia_base.png") center / cover no-repeat;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, .1);
+            color: #253A35;
+            font-family: "Noto Sans", Arial, sans-serif;
             text-align: center;
         }
 
-        .certificate-template-img {
+        .certificate-content {
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            user-select: none;
+            left: 11%;
+            right: 11%;
+            top: 23%;
+            display: grid;
+            gap: 14px;
+        }
+
+        .certificate-copy {
+            margin: 0;
+            color: #253A35;
+            font-size: clamp(15px, 1.8vw, 22px);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .certificate-title {
+            margin: 0;
+            color: var(--imss-green-dark);
+            font-size: clamp(40px, 6.5vw, 76px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: .04em;
+            text-transform: uppercase;
         }
 
         .certificate-person,
-        .certificate-line,
         .certificate-course,
         .certificate-duration,
-        .certificate-issued-copy,
         .certificate-issued-date {
-            position: absolute;
-            left: 7%;
-            width: 82%;
-            z-index: 1;
+            margin: 0;
+            color: #263B36;
+            font-weight: 900;
+            line-height: 1.2;
         }
 
         .certificate-person {
-            top: 42.8%;
-            color: #777;
-            font-size: clamp(30px, 5vw, 56px);
-            font-weight: 400;
-            line-height: 1.12;
-        }
-
-        .certificate-line {
-            top: 53.7%;
-            color: #6f6f6f;
-            font-size: clamp(13px, 2vw, 24px);
-            font-weight: 800;
-            white-space: nowrap;
+            color: #691C32;
+            font-size: clamp(28px, 4.3vw, 52px);
         }
 
         .certificate-course {
-            top: 58.8%;
-            color: #777;
-            font-size: clamp(24px, 4vw, 47px);
-            font-weight: 900;
-            line-height: 1.13;
+            font-size: clamp(20px, 2.7vw, 32px);
         }
 
-        .certificate-duration {
-            top: 68.4%;
-            color: #777;
-            font-size: clamp(16px, 2.7vw, 31px);
-            font-weight: 900;
-        }
-
-        .certificate-issued-copy {
-            top: 72.4%;
-            color: #000;
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: clamp(17px, 3vw, 35px);
-            font-weight: 400;
-        }
-
+        .certificate-duration,
         .certificate-issued-date {
-            top: 76.2%;
-            color: #777;
-            font-size: clamp(17px, 2.65vw, 32px);
-            font-weight: 600;
+            font-size: clamp(16px, 2vw, 24px);
+        }
+
+        .certificate-signatures {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 34px;
+            margin: 18px auto 0;
+        }
+
+        .certificate-signature {
+            border-top: 2px solid rgba(35, 91, 78, .52);
+            padding-top: 9px;
+            color: #253A35;
+            font-size: clamp(12px, 1.4vw, 16px);
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .certificate-signature span {
+            display: block;
+            color: var(--imss-gray);
+            font-size: .85em;
+            font-weight: 700;
         }
 
         .certificate-meta {
@@ -942,19 +952,11 @@ $initialView = ($_GET['view'] ?? '') === 'constancia' ? 'certificate' : 'exam';
             $('#certificateBox').innerHTML = `
                 <form class="certificate-form" id="certificateForm">
                     <h3>Datos para constancia</h3>
-                    <p class="message">Completa la información exactamente como debe aparecer en la constancia.</p>
+                    <p class="message">Escribe el nombre exactamente como debe aparecer en la constancia.</p>
                     <div class="field-grid">
                         <div class="field">
                             <label for="certName">Nombre</label>
                             <input id="certName" name="nombre" type="text" required>
-                        </div>
-                        <div class="field">
-                            <label for="certMatricula">Matrícula</label>
-                            <input id="certMatricula" name="matricula" type="text" required>
-                        </div>
-                        <div class="field">
-                            <label for="certCategoria">Categoría</label>
-                            <input id="certCategoria" name="categoria" type="text" required>
                         </div>
                     </div>
                     <div class="panel-actions">
@@ -970,19 +972,34 @@ $initialView = ($_GET['view'] ?? '') === 'constancia' ? 'certificate' : 'exam';
             const issuedDate = formatCertificateDate(certificate.fecha);
             return `
                 <section class="certificate-card">
-                    <img class="certificate-template-img" src="assets/img/pronam_constancia_template.png" alt="">
-                    <div class="certificate-person">${escapeHtml(certificate.nombre)}</div>
-                    <div class="certificate-line">Por haber concluido satisfactoriamente el Curso a Distancia</div>
-                    <div class="certificate-course">${course}</div>
-                    <div class="certificate-duration">con una duración de 2 horas 30 minutos</div>
-                    <div class="certificate-issued-copy">Se extiende la presente constancia el:</div>
-                    <div class="certificate-issued-date">${escapeHtml(issuedDate)}</div>
+                    <div class="certificate-content">
+                        <p class="certificate-copy">La unidad de Educación e Investigación a través de IMSSight otorga la presente</p>
+                        <h1 class="certificate-title">Constancia</h1>
+                        <p class="certificate-copy">a</p>
+                        <p class="certificate-person">${escapeHtml(certificate.nombre)}</p>
+                        <p class="certificate-copy">por haber completado el</p>
+                        <p class="certificate-copy"><strong>Caso clínico</strong></p>
+                        <p class="certificate-course">${course}</p>
+                        <p class="certificate-duration">con una duración de 2 horas 30 minutos</p>
+                        <p class="certificate-copy">Se extiende la presente constancia el:</p>
+                        <p class="certificate-issued-date">${escapeHtml(issuedDate)}</p>
+                        <div class="certificate-signatures">
+                            <div class="certificate-signature">
+                                Coordinación académica
+                                <span>Unidad de Educación e Investigación</span>
+                            </div>
+                            <div class="certificate-signature">
+                                Responsable del curso
+                                <span>IMSSight</span>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <div class="certificate-meta">
-                    Folio ${escapeHtml(certificate.folio)} · Matrícula ${escapeHtml(certificate.matricula)} · Categoría ${escapeHtml(certificate.categoria)} · Calificación ${escapeHtml(certificate.calificacion)}
+                    Folio ${escapeHtml(certificate.folio)} · Calificación ${escapeHtml(certificate.calificacion)}
                 </div>
                 <div class="panel-actions">
-                    <button class="secondary-btn" type="button" onclick="window.print()">Imprimir constancia</button>
+                    <button class="secondary-btn" type="button" onclick="window.print()">Imprimir / guardar PDF</button>
                 </div>
             `;
         }
